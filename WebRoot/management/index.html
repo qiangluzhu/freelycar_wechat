@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+    <title>小易爱车后台管理系统</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" >
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/foundation-5.5.3.min.css" >
+    <link rel="stylesheet" type="text/css" href="css/app.css" >
+</head>
+<body>
+    <div class="wrap">
+      <!-- 左侧导航 -->
+            <div class="leftNav">
+        <a href="/web/dashboard" class="sys_avatar">
+            <div class="sys_thumb">
+              <img src="https://pic1-s.styd.cn/saas_default_brand_logo?imageView2/1/w/100/h/100/interlace/1" alt="">
+            </div>
+            <div title="beacon gym" class="sys_link">beacon gym</div>
+        </a>
+        <ul class="navInner">
+                    <li id="nav_plugins_member">
+                <div class="firstNav">
+                    <i class="icn icn_cube i_left"></i>
+                    <span>数据魔方</span>
+                    <em class="dot t-label t-size red tinny">new</em>
+                    <i class="arr arrow_down arrow"></i>
+                </div>
+                <ul class="subNav" style="display:none">
+                    <li>
+                        <a href="/web/plugins/member">会员概况</a>
+                    </li>
+                </ul>
+            </li>
+                                <li id="nav_appoint" >
+                <div class="firstNav">
+                    <i class="icn icn_clock i_left"></i>
+                    <span>预约签到</span>
+                    <i class="arr arrow_down arrow"></i>
+                </div>
+                <ul class="subNav" style="display:none">
+                    <li >
+                        <a href="/web/appoint/index">预约管理</a>
+                    </li>
+                    <li >
+                        <a href="/web/order/index">签到管理</a>
+                    </li>
+                </ul>
+            </li>
+
+                        <li id="nav_member" >
+                <div class="firstNav">
+                    <i class="icn icn_credit_card i_left"></i>
+                    <span>会员管理</span>
+                    <i class="arr arrow_down arrow"></i>
+                </div>
+                <ul class="subNav" style="display:none">
+                    <li >
+                        <a href="/web/manage/member">全部会员</a>
+                    </li>
+                    <li >
+                        <a href="/web/card/index">会员绑卡</a>
+                    </li>
+                    <li >
+                        <a href="/web/card/cat">设置会员卡</a>
+                    </li>
+                </ul>
+            </li>
+
+                        <li id="nav_course"  class="nav_course">
+                <div class="firstNav">
+                    <i class="icn icn_newspaper i_left"></i>
+                    <span>课程管理</span>
+                    <i class="arr arrow_down arrow"></i>
+                </div>
+                <ul class="subNav" style="display:none">
+                    <li  >
+                        <a href="/web/course/calendar?from=team&mode=week">团课管理</a>
+                    </li>
+                    <li  >
+                        <a href="/web/course/calendar?from=coach&mode=week">私教管理</a>
+                    </li>
+                    <li >
+                        <a href="/web/appoint/comments">评价管理</a>
+                    </li>
+                </ul>
+            </li>
+
+                        <li id="nav_training" >
+                <div class="firstNav">
+                    <i class="icn icn_training i_left"></i>
+                    <span>营销管理</span>
+                    <i class="arr arrow_down arrow"></i>
+                </div>
+                <ul class="subNav" style="display:none">
+                    <li >
+                        <a href="/web/plugins/training/index">活动报名</a>
+                    </li>
+                    <li >
+                        <a href="/web/market/index">场馆公告</a>
+                    </li>
+                    <li  >
+                        <a href="/web/plugins/group/index">多人拼团</a>
+                    </li>
+                    <li >
+                        <a href="/web/plugins/bargain/index">全民砍价</a>
+                    </li>
+                    <li >
+                        <a href="/web/plugins/channel">渠道推广</a>
+                    </li>
+                </ul>
+            </li>
+
+                        <li id="nav_finance"  >
+                <div class="firstNav">
+                    <i class="icn icn_finance i_left"></i>
+                    <span>财务管理</span>
+                    <i class="arr arrow_down arrow"></i>
+                </div>
+                <ul class="subNav" style="display:none">
+                    <li >
+                        <a href="/web/finance/order">订单列表</a>
+                    </li>
+                    <li >
+                        <a href="/web/finance/account">余额管理</a>
+                    </li>
+                    <li style="display: none">
+                        <a href="/web/finance/plugin">购买记录</a>
+                    </li>
+                </ul>
+            </li>
+
+                        <li  id="nav_stat"  >
+                <div class="firstNav">
+                    <i class="icn icn_bar_chart i_left"></i>
+                    <span>统计报表</span>
+                    <i class="arr arrow_down arrow"></i>
+                </div>
+                <ul class="subNav" style="display:none">
+                    <li style="display: none" >
+                        <a href="/web/stat/mall">云小店销售报表</a>
+                    </li>
+                    <li >
+                        <a href="/web/stat/sale">会籍销售报表</a>
+                    </li>
+                    <li >
+                        <a href="/web/stat/course">课程报表</a>
+                    </li>
+                    <li >
+                        <a href="/web/stat/member_card">会员卡报表</a>
+                    </li>
+                    <li >
+                        <a href="/web/stat/daily_staff">员工报表</a>
+                    </li>
+                    <li>
+                        <a href="/web/stat/salary">薪资报表</a>
+                    </li>
+                </ul>
+            </li>
+
+                        <li  id="nav_role" >
+                <div class="firstNav">
+                    <i class="icn icn_user i_left"></i>
+                    <span>员工设置</span>
+                    <i class="arr arrow_down arrow"></i>
+                </div>
+                <ul class="subNav" style="display:none">
+                    <li >
+                        <a href="/web/manage/staff">工作人员</a>
+                    </li>
+                    <li >
+                        <a href="/web/manage/coach">教练</a>
+                    </li>
+                    <li >
+                        <a href="/web/staff/schedule">员工请假</a>
+                    </li>
+                    <li>
+                        <a href="/web/staff/salary-fixed">薪资设置</a>
+                    </li>
+                </ul>
+            </li>
+
+                        <li id="nav_dian" >
+                <div class="firstNav">
+                    <i class="icn icn_mall i_left"></i>
+                    <span>云小店</span>
+                    <i class="arr arrow_down arrow"></i>
+                </div>
+                <ul class="subNav" style="display:none">
+                    <li  >
+                        <a href="/web/dian/product/list">商品管理</a>
+                    </li>
+                    <li >
+                        <a href="/web/dian/order/list">订单管理</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li id="nav_shop">
+              <div class="firstNav">
+                  <i class="icn icn_institution i_left"></i>
+                  <span>场馆设置</span>
+                  <i class="arr arrow_down arrow"></i>
+              </div>
+              <ul class="subNav" style="display:none">
+                  <li>
+                      <a href="/web/shop/index">场馆编辑</a>
+                  </li>
+                  <li>
+                      <a href="/web/album/list">场馆相册</a>
+                  </li>
+              </ul>
+            </li>
+
+            <li id="nav_plugins">
+                <a href="/web/plugins/index" class="firstNav">
+                    <i class="icn icn_plugins i_left"></i>
+                    <span>服务管理</span>
+                </a>
+            </li>
+
+                        <li id="nav_setting"  >
+                <a href="/web/setting/profile" class="firstNav">
+                    <i class="icn icn_gears i_left"></i>
+                    <span>系统设置</span>
+                </a>
+            </li>
+        </ul>
+        <div class="sys_logo">
+          <a href="http://www.styd.cn/" target="_blank">三体云动</a>
+          <span class="version">健身版</span>
+        </div>
+      </div>
+      
+      <div class="container">
+              <!-- 顶部导航 -->
+        <nav class="topNav">
+          <div class="left hide-for-large-up"><a href="javascript:void(0);" class="show_left_nav"><i class="fa fa-bars"></i></a></div>
+
+          <div class="right">
+
+            <a href="/web/notice/mail" class="sys_notice styd notice_banner">
+              <!-- <i class="red">2</i> -->
+            </a>
+            <a href="/web/notice/list" class="sys_notice public_notice">
+              <!-- <i class="orange">2</i> -->
+            </a>
+            <div class="user_avatar" data-dropdown="hover" data-options="is_hover:true; hover_timeout:2000">
+              <img src="https://pic1-s.styd.cn/no-avatar?imageView2/1/w/100/h/100/interlace/1" alt="">
+            </div>
+            <ul id="hover" class="f-dropdown" data-dropdown-content>
+              <!-- <li>
+                beacon gym              </li> -->
+                              <li>
+                    <a href="/web/user/edit">品牌设置</a>
+                </li>
+                                                        <li>
+                  <a href="/web/user/modify_password">修改密码</a>
+              </li>
+              <li>
+                  <a href="/web/user/loginout">退出</a>
+              </li>
+            </ul>
+          </div>
+          <div class="right invite_link">
+            <a href="/web/user/invite_bonus" class="t-label red">推荐红包</a>
+          </div>
+          <!-- <div class="left">
+              <div id="notice_banner_wrap" class="show-for-large-up" style="width: 500px;">
+                  <div class="large-10 large-offset-1 columns">
+                      <ul class="no-bullet line" style="height: 30px;overflow: hidden;margin-top: 25px;">
+                      </ul>
+                  </div>
+              </div>
+
+          </div> -->
+        </nav>
+                <div class="template">
+        <div class="breadCrumb">
+    <div class="titles left">
+      <h3>工作人员</h3>
+      <!--面包屑-->
+<p class="page_breadcrumbs">
+                        <a href="/web/manage/staff">员工设置</a> <i class="fa fa-fw">/</i>
+                                <span>工作人员</span>
+            </p>
+    </div>
+    <a href="/web/manage/staffset/?from=staff&id=0" class="button radius rightConner right"><i class="fa fa-plus fa-fw"></i>工作人员</a>
+</div>
+<div class="mainContent">
+  <div class="modules">
+    <div class="row filter_fix">
+        <form method="get" id="search_condition">
+            <div class="large-2 columns">
+                <select name="shop_id">
+                    <option selected="selected" value="0">全部场馆</option>
+                                                                    <option  value="67272374"  >beacon gym 1</option>
+                                                            </select>
+            </div>
+            <div class="large-2 columns">
+                <select name="role_id">
+<option value="0" selected>全部身份</option>
+<option value="1">店长</option>
+<option value="10">财务</option>
+<option value="15">销售</option>
+<option value="20">前台</option>
+<option value="99">超级管理员</option>
+<option value="109">教练/老师</option>
+</select>            </div>
+            <div class="large-2 columns">
+                <input type="text" name="staff" value="" placeholder="按电话，姓名搜索">
+            </div>
+            <div class="large-2 columns end">
+                <a href="javascript:void(0);" id="search" class="button small ran_search">搜索</a>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="large-12 columns pd-0">
+            <table role="grid" class="cus_table">
+                <thead>
+                <tr>
+                    <th><div class="fix-avatar">头像</div></th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>电话</th>
+                    <th>身份<a href="javascript:void(0);" class="icon-help" data-dropdown="tips_6" data-options="is_hover:true;align:right"></a></th>
+                    <th>排序权重<a href="javascript:void(0);" class="icon-help" data-dropdown="tips_3" data-options="is_hover:true;align:right"></a></th>
+                    <th>所属场馆<a href="javascript:void(0);" class="icon-help" data-dropdown="tips_4" data-options="is_hover:true;align:right"></a></th>
+                    <th>登录<a href="javascript:void(0);" class="icon-help" data-dropdown="tips_5" data-options="is_hover:true;align:right"></a></th>
+                    <th width="120">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                                                    <tr>
+                        <td><img src="https://pic1-s.styd.cn/no-avatar?imageView2/1/w/50/h/50/interlace/1" class="avatar" alt=""></td>
+                        <td>beacon gym</td>
+                        <td>未填</td>
+                        <td>17701635702</td>
+                        <td>
+                            超级管理员<br/>
+                        </td>
+                        <td>1</td>
+                        <td></td>
+                        <td>允许</td>
+                        <td class="action_columns">
+                            <a href="/web/manage/staffdetail?from=staff&id=3670119" data-toggle="tooltip" title="详情" class="inline-button detail"><i class="fa fa-file-text fa-fw"></i></a>
+                            <a href="/web/manage/staffset?from=staff&id=3670119" data-toggle="tooltip" title="编辑" class="inline-button edit"><i class="fa fa-pencil fa-fw"></i></a>
+                                                    </td>
+                    </tr>
+                                                </tbody>
+            </table>
+        </div>
+    </div>
+    
+<div class="row">
+	<div class="large-12 columns pageination_fix">
+		<span class="pagination_count">共1条记录 | 每页50条  </span>
+		<ul class="pagination right">
+			<li class="arrow"></li>
+															<li class="current"><a href="javascript:void(0);">1</a></li>
+												</ul>
+	</div>
+</div>
+  </div>
+</div>
+        </div>
+        <div class="footNav">
+            Copyright © 2015 <a href="http://www.styd.cn/" target="_blank">三体云动</a> | <a href="http://www.styd.cn/web/user/feedback" target="_blank">问题反馈</a> | <a href="http://www.styd.cn/default/faq" target="_blank"> 帮助中心</a> | <a href="http://bbs.styd.cn/forum.php" target="_blank"> 官方论坛</a> | 联系电话：400-962-8988        </div>
+      </div>
+    </div>
+    <!--右下角弹窗提醒-->
+    <div class="pop_window type_1" style="display: none">
+      <div class="pop_title">
+        <h3><i class="pop_icon icon_2"></i>您有新的系统消息</h3>
+      </div>
+      <a href="" class="link content" target="_blank" >
+
+      </a>
+      <input  type="hidden" id="notice_id" name="notice_id" value="0" data-type="">
+
+      <div class="pop_col">
+        <ul class="clearfix">
+                            <li class="notice_type_1">
+                    <a href="/web/notice/list?type=1" target="_blank">付费                        <span name="stat_1"></span>
+                    </a>
+                    <i class="line"></i>
+                </li>
+                            <li class="notice_type_2">
+                    <a href="/web/notice/list?type=2" target="_blank">系统                        <span name="stat_2"></span>
+                    </a>
+                    <i class="line"></i>
+                </li>
+                            <li class="notice_type_3">
+                    <a href="/web/notice/list?type=3" target="_blank">预约                        <span name="stat_3"></span>
+                    </a>
+                    <i class="line"></i>
+                </li>
+                            <li class="notice_type_4">
+                    <a href="/web/notice/list?type=4" target="_blank">签到                        <span name="stat_4"></span>
+                    </a>
+                    <i class="line"></i>
+                </li>
+                            <li class="notice_type_5">
+                    <a href="/web/notice/list?type=5" target="_blank">取消                        <span name="stat_5"></span>
+                    </a>
+                    <i class="line"></i>
+                </li>
+                    </ul>
+      </div>
+      <i class="close">关闭</i>
+    </div>
+    <!--右下角弹窗提醒-->
+
+    <input type="hidden" class="login_status" value="1">
+
+    <input type="hidden" id="trade_nouns_coach" value="教练"/>
+
+    <input type="hidden" id="ua_is_pc" value="1">
+    <!--弹出层-->
+    <div class="guide_layer" style="display: none">
+
+    </div>
+    <!--/弹出层-->
+
+  
+    </body>
+    </html>
