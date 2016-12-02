@@ -509,7 +509,7 @@ table.dataTable
 	width: 17px;
 	height: 18px;
 	margin: 19px 22px 0 0;
-	background: url("/img/web/icon_web_2x.png?ver=1479720848436") left top no-repeat;
+	background: url("../../img/icon_web.png") left top no-repeat;
 	background-size: 250px;
 	background-position: -170px -50px
 }
@@ -814,7 +814,7 @@ table.dataTable
 	height: 30px;
 	margin: 0;
 	border: 0 none;
-	background: url('/img/web/icon_web_2.png?ver=1479720848436') no-repeat right 15px;
+	background: url('../../img/icon_web.png') no-repeat right 15px;
 	cursor: pointer;
 	padding-left: 17px;
 	border-bottom-right-radius: 4px;
@@ -894,7 +894,7 @@ table.dataTable
 	width: 16px;
 	height: 16px;
 	margin-top: 12px;
-	background: url("/img/web/icon_web_2x.png?ver=1479720848436") left top no-repeat;
+	background: url("../../img/icon_web.png") left top no-repeat;
 	background-size: 250px
 }
 
@@ -975,7 +975,7 @@ table.dataTable
 	position: absolute;
 	right: 15px;
 	top: 18px;
-	background: url("/img/web/icon_web_2x.png?ver=1479720848436") left top no-repeat;
+	background: url("../../img/icon_web.png") left top no-repeat;
 	background-size: 250px;
 	background-position: 0 -50px
 }
@@ -1204,7 +1204,7 @@ table.dataTable
 	height: 24px;
 	margin: 20px auto 15px;
 	text-indent: -9999px;
-	background: url("/img/web/icon_web_2x.png?ver=1479720848436") left top no-repeat;
+	background: url("../../img/icon_web.png") left top no-repeat;
 	background-size: 250px;
 	background-position: -40px -50px
 }
@@ -1512,7 +1512,7 @@ table.dataTable
 	width: 18px;
 	height: 16px;
 	margin-left: 5px;
-	background: url("/img/web/icon_web_2x.png?ver=1479720848436") left top no-repeat;
+	background: url("../../img/icon_web.png") left top no-repeat;
 	background-size: 250px;
 	background-position: -232px -50px;
 	vertical-align: middle
@@ -2003,7 +2003,7 @@ input[type="radio"].themes_radio
 {
 	display: inline-block;
 	vertical-align: top;
-	background: url("/img/web/icon_font_2x.png?ver=1479720848436") left top no-repeat;
+	background: url("../../img/icon_web.png") left top no-repeat;
 	background-size: 250px
 }
 
@@ -2623,7 +2623,7 @@ button.rightPlugin:hover,.button.rightPlugin:hover
 	display: block;
 	width: 18px;
 	height: 18px;
-	background: url("/img/web/icon_web_2x.png?ver=1479720848436") left top no-repeat;
+	background: url("../../img/icon_web.png") left top no-repeat;
 	background-size: 250px;
 	text-indent: -9999px
 }
@@ -5440,7 +5440,7 @@ button.rightPlugin:hover,.button.rightPlugin:hover
 	display: inline-block;
 	width: 11px;
 	height: 11px;
-	background: url("/img/web/icon_web_2x.png?ver=1479720848436") left top no-repeat;
+	background: url("../../img/icon_web.png") left top no-repeat;
 	background-size: 250px;
 	background-position: -20px -50px;
 	vertical-align: baseline;
@@ -6079,7 +6079,7 @@ button.rightPlugin:hover,.button.rightPlugin:hover
 	width: 205px;
 	height: 33px;
 	border: 0 none;
-	background: url('/img/web/icon_web_2.png?ver=1479720848436') no-repeat right 15px;
+	background: url('../../img/icon_web.png') no-repeat right 15px;
 	cursor: pointer;
 	padding-left: 20px
 }
@@ -6111,7 +6111,7 @@ button.rightPlugin:hover,.button.rightPlugin:hover
 	border-top: none;
 	cursor: pointer;
 	border-radius: 0 0 3px 3px;
-	background: #f2f2f2 url('/img/web/icon_web_2.png?ver=1479720848436') no-repeat 11px 3px
+	background: #f2f2f2 url('../../img/icon_web.png') no-repeat 11px 3px
 }
 
 .fold_trigger.up
