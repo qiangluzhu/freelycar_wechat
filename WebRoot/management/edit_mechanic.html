@@ -7,18 +7,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" >
-    <link rel="stylesheet" type="text/css" href="../css/font.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link rel="stylesheet" type="text/css" href="css/foundation-5.5.3.min.css" >
-    <link rel="stylesheet" type="text/css" href="css/app.css" >
-	   <!-- Script -->
+    <link href="css/foundation-5.5.3.min.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
     <script src="js/jquery-1.12.3.min.js"></script>
-
     <script>
-    	$(document).ready(function() {
-    		$(".header").load("public.html",function() {
-  			});
-    	});
+      $(document).ready(function() {
+        $(".header").load("public.html",function() {
+        });
+      });
     </script>
 </head>
 <body>
@@ -40,108 +36,72 @@
       <div class="template">
         <div class="breadCrumb">
           <div class="titles left">
-            <h3>工作人员</h3>
+            <h3>编辑技师</h3>
             <p class="page_breadcrumbs">
-              <a href="/web/manage/staff">员工设置</a>
+              <a href="index.html">首页</a>
               <i class="fa fa-fw">/</i>
-              <span>工作人员</span>
+              <a href="mechanic.html">技师管理</a>
+              <i class="fa fa-fw">/</i>
+              <span>编辑技师</span>
             </p>
           </div>
-          <a href="/web/manage/staffset/?from=staff&id=0" class="button radius rightConner right"><i class="fa fa-plus fa-fw"></i>工作人员</a>
         </div>
-<div class="mainContent">
-  <div class="modules">
-    <div class="row filter_fix">
-        <form method="get" id="search_condition">
-            <div class="large-2 columns">
-                <select name="shop_id">
-                    <option selected="selected" value="0">全部场馆</option>
-                                                                    <option  value="67272374"  >beacon gym 1</option>
-                                                            </select>
+        <div class="mainContent shop_set">
+          <div class="row">
+            <div class="large-12 columns pd-0">
+              <div class="cus_form">
+                <div class="data_title">
+                  <b>编辑技师</b>
+                </div>
+                <div class="large-8 columns">
+                  <div class="row">
+                    <div class="large-3 columns">
+                      <label class="right inline">
+                        <b class="t-color red">*</b>姓名：
+                      </label>
+                    </div>
+                    <div class="large-8 end columns">
+                      <input type="text" class="radius" name="name" placeholder="请输入姓名" value="">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="large-3 columns">
+                      <label class="right inline">
+                        <b class="t-color red">*</b>手机号：
+                      </label>
+                    </div>
+                    <div class="large-8 end columns">
+                      <input type="text" class="radius" name="phone" placeholder="请输入手机号" value="">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="large-3 columns">
+                      <label class="right inline">
+                        <b class="t-color red">*</b>密码：
+                      </label>
+                    </div>
+                    <div class="large-8 end columns">
+                      <input type="text" class="radius" name="password" placeholder="请输入密码" value="">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="large-12 text-center columns">
+                  <a href="mechanic.html" class="button ran radius back" style="background-color:#fff; color:#2096f3">返回</a>
+                  <a href="" class="button ran radius save">修改</a>
+                </div>
+              </div>
             </div>
-            <div class="large-2 columns">
-                <select name="role_id">
-<option value="0" selected>全部身份</option>
-<option value="1">店长</option>
-<option value="10">财务</option>
-<option value="15">销售</option>
-<option value="20">前台</option>
-<option value="99">超级管理员</option>
-<option value="109">教练/老师</option>
-</select>            </div>
-            <div class="large-2 columns">
-                <input type="text" name="staff" value="" placeholder="按电话，姓名搜索">
-            </div>
-            <div class="large-2 columns end">
-                <a href="javascript:void(0);" id="search" class="button small ran_search">搜索</a>
-            </div>
-        </form>
-    </div>
-    <div class="row">
-        <div class="large-12 columns pd-0">
-            <table role="grid" class="cus_table">
-                <thead>
-                <tr>
-                    <th><div class="fix-avatar">头像</div></th>
-                    <th>姓名</th>
-                    <th>性别</th>
-                    <th>电话</th>
-                    <th>身份<a href="javascript:void(0);" class="icon-help" data-dropdown="tips_6" data-options="is_hover:true;align:right"></a></th>
-                    <th>排序权重<a href="javascript:void(0);" class="icon-help" data-dropdown="tips_3" data-options="is_hover:true;align:right"></a></th>
-                    <th>所属场馆<a href="javascript:void(0);" class="icon-help" data-dropdown="tips_4" data-options="is_hover:true;align:right"></a></th>
-                    <th>登录<a href="javascript:void(0);" class="icon-help" data-dropdown="tips_5" data-options="is_hover:true;align:right"></a></th>
-                    <th width="120">操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                                                    <tr>
-                        <td><img src="https://pic1-s.styd.cn/no-avatar?imageView2/1/w/50/h/50/interlace/1" class="avatar" alt=""></td>
-                        <td>beacon gym</td>
-                        <td>未填</td>
-                        <td>17701635702</td>
-                        <td>
-                            超级管理员<br/>
-                        </td>
-                        <td>1</td>
-                        <td></td>
-                        <td>允许</td>
-                        <td class="action_columns">
-                            <a href="/web/manage/staffdetail?from=staff&id=3670119" data-toggle="tooltip" title="详情" class="inline-button detail"><i class="fa fa-file-text fa-fw"></i></a>
-                            <a href="/web/manage/staffset?from=staff&id=3670119" data-toggle="tooltip" title="编辑" class="inline-button edit"><i class="fa fa-pencil fa-fw"></i></a>
-                                                    </td>
-                    </tr>
-                                                </tbody>
-            </table>
-        </div>
-    </div>
-
-<div class="row">
-	<div class="large-12 columns pageination_fix">
-		<span class="pagination_count">共1条记录 | 每页50条  </span>
-		<ul class="pagination right">
-			<li class="arrow"></li>
-															<li class="current"><a href="javascript:void(0);">1</a></li>
-												</ul>
-	</div>
-</div>
-  </div>
-</div>
-        </div>
-        <div class="footNav">
-            Copyright © 2015 <a href="http://www.styd.cn/" target="_blank">三体云动</a> | <a href="http://www.styd.cn/web/user/feedback" target="_blank">问题反馈</a> | <a href="http://www.styd.cn/default/faq" target="_blank"> 帮助中心</a> | <a href="http://bbs.styd.cn/forum.php" target="_blank"> 官方论坛</a> | 联系电话：400-962-8988
+          </div>
         </div>
       </div>
     </div>
-
-
-
-
-    <script src="js/tether.min.js"></script>
-    <script src="js/jquery.components.min.js"></script>
-    <script src="js/foundation.min.js"></script>
-    <script src="js/public.js"></script>
-    <script src="js/common.js"></script>
-
-
-    </body>
-    </html>
+  </div>
+  <script src="js/tether.min.js"></script>
+  <script src="js/jquery.components.min.js"></script>
+  <script src="js/foundation.min.js"></script>
+  <script src="js/public.js"></script>
+  <script src="js/common.js"></script>
+</body>
+</html>

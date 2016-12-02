@@ -7,13 +7,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" >
-    <link rel="stylesheet" type="text/css" href="../css/font.css">
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/foundation-5.5.3.min.css" >
     <link rel="stylesheet" type="text/css" href="css/app.css" >
 	   <!-- Script -->
     <script src="js/jquery-1.12.3.min.js"></script>
-
     <script>
     	$(document).ready(function() {
     		$(".header").load("public.html",function() {
@@ -40,108 +38,99 @@
       <div class="template">
         <div class="breadCrumb">
           <div class="titles left">
-            <h3>工作人员</h3>
+            <h3>预约统计</h3>
             <p class="page_breadcrumbs">
-              <a href="/web/manage/staff">员工设置</a>
+              <a href="index.html">首页</a>
               <i class="fa fa-fw">/</i>
-              <span>工作人员</span>
+              <a href="booking.html">预约服务</a>
+              <i class="fa fa-fw">/</i>
+              <span>预约统计</span>
             </p>
           </div>
-          <a href="/web/manage/staffset/?from=staff&id=0" class="button radius rightConner right"><i class="fa fa-plus fa-fw"></i>工作人员</a>
         </div>
-<div class="mainContent">
-  <div class="modules">
-    <div class="row filter_fix">
-        <form method="get" id="search_condition">
-            <div class="large-2 columns">
-                <select name="shop_id">
-                    <option selected="selected" value="0">全部场馆</option>
-                                                                    <option  value="67272374"  >beacon gym 1</option>
-                                                            </select>
+        <div class="mainContent">
+          <div class="modules">
+            <div class="row">
+              <div class="large-12 columns">
+              </div>
             </div>
-            <div class="large-2 columns">
-                <select name="role_id">
-<option value="0" selected>全部身份</option>
-<option value="1">店长</option>
-<option value="10">财务</option>
-<option value="15">销售</option>
-<option value="20">前台</option>
-<option value="99">超级管理员</option>
-<option value="109">教练/老师</option>
-</select>            </div>
-            <div class="large-2 columns">
-                <input type="text" name="staff" value="" placeholder="按电话，姓名搜索">
-            </div>
-            <div class="large-2 columns end">
-                <a href="javascript:void(0);" id="search" class="button small ran_search">搜索</a>
-            </div>
-        </form>
-    </div>
-    <div class="row">
-        <div class="large-12 columns pd-0">
-            <table role="grid" class="cus_table">
-                <thead>
-                <tr>
-                    <th><div class="fix-avatar">头像</div></th>
-                    <th>姓名</th>
-                    <th>性别</th>
-                    <th>电话</th>
-                    <th>身份<a href="javascript:void(0);" class="icon-help" data-dropdown="tips_6" data-options="is_hover:true;align:right"></a></th>
-                    <th>排序权重<a href="javascript:void(0);" class="icon-help" data-dropdown="tips_3" data-options="is_hover:true;align:right"></a></th>
-                    <th>所属场馆<a href="javascript:void(0);" class="icon-help" data-dropdown="tips_4" data-options="is_hover:true;align:right"></a></th>
-                    <th>登录<a href="javascript:void(0);" class="icon-help" data-dropdown="tips_5" data-options="is_hover:true;align:right"></a></th>
-                    <th width="120">操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                                                    <tr>
-                        <td><img src="https://pic1-s.styd.cn/no-avatar?imageView2/1/w/50/h/50/interlace/1" class="avatar" alt=""></td>
-                        <td>beacon gym</td>
-                        <td>未填</td>
-                        <td>17701635702</td>
-                        <td>
-                            超级管理员<br/>
-                        </td>
-                        <td>1</td>
-                        <td></td>
-                        <td>允许</td>
-                        <td class="action_columns">
-                            <a href="/web/manage/staffdetail?from=staff&id=3670119" data-toggle="tooltip" title="详情" class="inline-button detail"><i class="fa fa-file-text fa-fw"></i></a>
-                            <a href="/web/manage/staffset?from=staff&id=3670119" data-toggle="tooltip" title="编辑" class="inline-button edit"><i class="fa fa-pencil fa-fw"></i></a>
-                                                    </td>
-                    </tr>
-                                                </tbody>
-            </table>
-        </div>
-    </div>
-
-<div class="row">
-	<div class="large-12 columns pageination_fix">
-		<span class="pagination_count">共1条记录 | 每页50条  </span>
-		<ul class="pagination right">
-			<li class="arrow"></li>
-															<li class="current"><a href="javascript:void(0);">1</a></li>
-												</ul>
-	</div>
-</div>
-  </div>
-</div>
-        </div>
-        <div class="footNav">
-            Copyright © 2015 <a href="http://www.styd.cn/" target="_blank">三体云动</a> | <a href="http://www.styd.cn/web/user/feedback" target="_blank">问题反馈</a> | <a href="http://www.styd.cn/default/faq" target="_blank"> 帮助中心</a> | <a href="http://bbs.styd.cn/forum.php" target="_blank"> 官方论坛</a> | 联系电话：400-962-8988
+          </div>
         </div>
       </div>
     </div>
+  </div>
+  <script src="js/tether.min.js"></script>
+  <script src="js/jquery.components.min.js"></script>
+  <script src="js/foundation.min.js"></script>
+  <script src="js/public.js"></script>
+  <script src="js/common.js"></script>
+</body>
+</html>
 
+<!-- <div id="sales_money_line" style="width:100%;height:100%" data-highcharts-chart="0">
+  <div id="highcharts-zc3218p-0" class="highcharts-container " style="position: relative; overflow: hidden; width: 1069px; height: 270px; text-align: left; line-height: normal; z-index: 0; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+    <svg version="1.1" class="highcharts-root" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif;font-size:12px;" xmlns="http://www.w3.org/2000/svg" width="1069" viewBox="0 0 1069 270" height="270">
+      <defs>
+        <clipPath id="highcharts-zc3218p-1">
+          <rect x="0" y="0" width="1026" height="219" fill="none"></rect>
+        </clipPath>
+      </defs>
+      <rect fill="#ffffff" class="highcharts-background" x="0" y="0" width="1069" height="270" rx="0" ry="0"></rect>
+      <rect fill="none" class="highcharts-plot-background" x="33" y="10" width="1026" height="219"></rect>
+      <g class="highcharts-plot-lines-0">
+        <path fill="none" stroke="#808080" stroke-width="1" d="M 33 120.5 L 900 120.5" visibility="visible"></path>
+      </g>
 
-
-
-    <script src="js/tether.min.js"></script>
-    <script src="js/jquery.components.min.js"></script>
-    <script src="js/foundation.min.js"></script>
-    <script src="js/public.js"></script>
-    <script src="js/common.js"></script>
-
-
-    </body>
-    </html>
+      <g class="highcharts-grid highcharts-yaxis-grid ">
+        <path fill="none" stroke="#e6e6e6" stroke-width="1" class="highcharts-grid-line" d="M 33 120.5 L 900 120.5" opacity="1"></path>
+      </g>
+      <rect fill="none" class="highcharts-plot-border" x="33" y="10" width="1026" height="219"></rect>
+      <g class="highcharts-axis highcharts-xaxis ">
+        <path fill="none" class="highcharts-tick" stroke="#ccd6eb" stroke-width="1" d="M 42.5 229 L 42.5 239" opacity="1"></path>
+        <path fill="none" class="highcharts-tick" stroke="#ccd6eb" stroke-width="1" d="M 245.5 229 L 245.5 239" opacity="1"></path>
+        <path fill="none" class="highcharts-tick" stroke="#ccd6eb" stroke-width="1" d="M 449.5 229 L 449.5 239" opacity="1"></path>
+        <path fill="none" class="highcharts-tick" stroke="#ccd6eb" stroke-width="1" d="M 652.5 229 L 652.5 239" opacity="1"></path>
+        <path fill="none" class="highcharts-tick" stroke="#ccd6eb" stroke-width="1" d="M 856.5 229 L 856.5 239" opacity="1"></path>
+        <path fill="none" class="highcharts-axis-line" stroke="#ccd6eb" stroke-width="1" d="M 33 229.5 L 900 229.5"></path>
+      </g>
+      <g class="highcharts-axis highcharts-yaxis ">
+        <path fill="none" class="highcharts-axis-line" d="M 33 10 L 33 229"></path>
+        <g class="highcharts-series-group">
+          <g class="highcharts-series highcharts-series-0 highcharts-line-series highcharts-color-undefined " transform="translate(33,10) scale(1 1)" clip-path="url(#highcharts-zc3218p-1)" width="219" height="1026">
+            <path fill="none" d="M 10.058823529412 109.5 L 21.360872438863 109.5 L 32.662921348315 109.5 L 43.964970257766 109.5 L 55.267019167217 109.5 L 66.569068076669 109.5 L 77.87111698612 109.5 L 89.173165895572 109.5 L 100.47521480502 109.5 L 111.77726371447 109.5 L 123.07931262393 109.5 L 134.38136153338 109.5 L 145.68341044283 109.5 L 156.98545935228 109.5 L 168.28750826173 109.5 L 179.58955717118 109.5 L 190.89160608063 109.5 L 202.19365499009 109.5 L 213.49570389954 109.5 L 224.79775280899 109.5 L 236.09980171844 109.5 L 247.40185062789 109.5 L 258.70389953734 109.5 L 270.00594844679 109.5 L 281.30799735625 109.5 L 292.6100462657 109.5 L 303.91209517515 109.5 L 315.2141440846 109.5 L 326.51619299405 109.5 L 337.8182419035 109.5 L 349.12029081295 109.5 L 360.42233972241 109.5 L 371.72438863186 109.5 L 383.02643754131 109.5 L 394.32848645076 109.5 L 405.63053536021 109.5 L 416.93258426966 109.5 L 428.23463317911 109.5 L 439.53668208857 109.5 L 450.83873099802 109.5 L 462.14077990747 109.5 L 473.44282881692 109.5 L 484.74487772637 109.5 L 496.04692663582 109.5 L 507.34897554527 109.5 L 518.65102445473 109.5 L 529.95307336418 109.5 L 541.25512227363 109.5 L 552.55717118308 109.5 L 563.85922009253 109.5 L 575.16126900198 109.5 L 586.46331791143 109.5 L 597.76536682089 109.5 L 609.06741573034 109.5 L 620.36946463979 109.5 L 631.67151354924 109.5 L 642.97356245869 109.5 L 654.27561136814 109.5 L 665.57766027759 109.5 L 676.87970918705 109.5 L 688.1817580965 109.5 L 699.48380700595 109.5 L 710.7858559154 109.5 L 722.08790482485 109.5 L 733.3899537343 109.5 L 744.69200264375 109.5 L 755.99405155321 109.5 L 767.29610046266 109.5 L 778.59814937211 109.5 L 789.90019828156 109.5 L 801.20224719101 109.5 L 812.50429610046 109.5 L 823.80634500991 109.5 L 835.10839391937 109.5 L 846.41044282882 109.5 L 857.71249173827 109.5 L 869.01454064772 109.5 L 880.31658955717 109.5 L 891.61863846662 109.5 L 902.92068737607 109.5 L 914.22273628553 109.5 L 925.52478519498 109.5 L 936.82683410443 109.5 L 948.12888301388 109.5 L 959.43093192333 109.5 L 970.73298083278 109.5 L 982.03502974223 109.5 L 993.33707865169 109.5 L 1004.6391275611 109.5 L 1015.9411764706 109.5" class="highcharts-graph" stroke="#0cc3aa" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
+            <path fill="none" d="M 0.05882352941200075 109.5 L 10.058823529412 109.5 L 21.360872438863 109.5 L 32.662921348315 109.5 L 43.964970257766 109.5 L 55.267019167217 109.5 L 66.569068076669 109.5 L 77.87111698612 109.5 L 89.173165895572 109.5 L 100.47521480502 109.5 L 111.77726371447 109.5 L 123.07931262393 109.5 L 134.38136153338 109.5 L 145.68341044283 109.5 L 156.98545935228 109.5 L 168.28750826173 109.5 L 179.58955717118 109.5 L 190.89160608063 109.5 L 202.19365499009 109.5 L 213.49570389954 109.5 L 224.79775280899 109.5 L 236.09980171844 109.5 L 247.40185062789 109.5 L 258.70389953734 109.5 L 270.00594844679 109.5 L 281.30799735625 109.5 L 292.6100462657 109.5 L 303.91209517515 109.5 L 315.2141440846 109.5 L 326.51619299405 109.5 L 337.8182419035 109.5 L 349.12029081295 109.5 L 360.42233972241 109.5 L 371.72438863186 109.5 L 383.02643754131 109.5 L 394.32848645076 109.5 L 405.63053536021 109.5 L 416.93258426966 109.5 L 428.23463317911 109.5 L 439.53668208857 109.5 L 450.83873099802 109.5 L 462.14077990747 109.5 L 473.44282881692 109.5 L 484.74487772637 109.5 L 496.04692663582 109.5 L 507.34897554527 109.5 L 518.65102445473 109.5 L 529.95307336418 109.5 L 541.25512227363 109.5 L 552.55717118308 109.5 L 563.85922009253 109.5 L 575.16126900198 109.5 L 586.46331791143 109.5 L 597.76536682089 109.5 L 609.06741573034 109.5 L 620.36946463979 109.5 L 631.67151354924 109.5 L 642.97356245869 109.5 L 654.27561136814 109.5 L 665.57766027759 109.5 L 676.87970918705 109.5 L 688.1817580965 109.5 L 699.48380700595 109.5 L 710.7858559154 109.5 L 722.08790482485 109.5 L 733.3899537343 109.5 L 744.69200264375 109.5 L 755.99405155321 109.5 L 767.29610046266 109.5 L 778.59814937211 109.5 L 789.90019828156 109.5 L 801.20224719101 109.5 L 812.50429610046 109.5 L 823.80634500991 109.5 L 835.10839391937 109.5 L 846.41044282882 109.5 L 857.71249173827 109.5 L 869.01454064772 109.5 L 880.31658955717 109.5 L 891.61863846662 109.5 L 902.92068737607 109.5 L 914.22273628553 109.5 L 925.52478519498 109.5 L 936.82683410443 109.5 L 948.12888301388 109.5 L 959.43093192333 109.5 L 970.73298083278 109.5 L 982.03502974223 109.5 L 993.33707865169 109.5 L 1004.6391275611 109.5 L 1015.9411764706 109.5 L 1025.9411764706 109.5" stroke-linejoin="round" visibility="visible" stroke="rgba(192,192,192,0.0001)" stroke-width="22" class="highcharts-tracker"></path>
+          </g>
+          <g class="highcharts-markers highcharts-series-0 highcharts-line-series highcharts-color-undefined highcharts-tracker " transform="translate(33,10) scale(1 1)" clip-path="url(#highcharts-zc3218p-2)" width="219" height="1026">
+            <path fill="#0cc3aa" d="M 823 105.5 C 828.328 105.5 828.328 113.5 823 113.5 C 817.672 113.5 817.672 105.5 823 105.5 Z" class="highcharts-point " stroke-width="1"></path>
+            <path fill="#0cc3aa" d="M 620 105.5 C 625.328 105.5 625.328 113.5 620 113.5 C 614.672 113.5 614.672 105.5 620 105.5 Z" class="highcharts-point " stroke-width="1"></path>
+            <path fill="#0cc3aa" d="M 416 105.5 C 421.328 105.5 421.328 113.5 416 113.5 C 410.672 113.5 410.672 105.5 416 105.5 Z" class="highcharts-point"></path>
+            <path fill="#0cc3aa" d="M 213 105.5 C 218.328 105.5 218.328 113.5 213 113.5 C 207.672 113.5 207.672 105.5 213 105.5 Z" class="highcharts-point " stroke-width="1"></path>
+            <path fill="#0cc3aa" d="M 10 105.5 C 15.328 105.5 15.328 113.5 10 113.5 C 4.672 113.5 4.672 105.5 10 105.5 Z" class="highcharts-point"></path>
+          </g>
+        </g>
+        <g class="highcharts-axis-labels highcharts-xaxis-labels ">
+          <text x="43.05882352941177" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)" y="248" opacity="1">
+           16-11
+          </text>
+          <text x="246.49570389953732" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)" y="248" opacity="1">
+           16-12
+          </text>
+          <text x="449.93258426966287" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)" y="248" opacity="1">
+           17-1
+          </text>
+          <text x="653.3694646397885" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)" y="248" opacity="1">
+           17-2
+          </text>
+          <text x="856.806345009914" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)" y="248" opacity="1">
+           17-3
+          </text>
+        </g>
+        <g class="highcharts-axis-labels highcharts-yaxis-labels ">
+          <text x="18" style="color:#666666;cursor:default;font-size:11px;fill:#666666;width:343px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="122" opacity="1">
+            <tspan>
+              0
+            </tspan>
+          </text>
+        </g>
+      </div>
+    </div>-->

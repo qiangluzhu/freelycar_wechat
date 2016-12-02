@@ -7,18 +7,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" >
-    <link rel="stylesheet" type="text/css" href="../css/font.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link rel="stylesheet" type="text/css" href="css/foundation-5.5.3.min.css" >
-    <link rel="stylesheet" type="text/css" href="css/app.css" >
-	   <!-- Script -->
+    <link href="css/foundation-5.5.3.min.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
     <script src="js/jquery-1.12.3.min.js"></script>
-
     <script>
-    	$(document).ready(function() {
-    		$(".header").load("public.html",function() {
-  			});
-    	});
+      $(document).ready(function() {
+        $(".header").load("public.html",function() {
+        });
+      });
     </script>
 </head>
 <body>
@@ -40,108 +36,164 @@
       <div class="template">
         <div class="breadCrumb">
           <div class="titles left">
-            <h3>工作人员</h3>
+            <h3>编辑门店</h3>
             <p class="page_breadcrumbs">
-              <a href="/web/manage/staff">员工设置</a>
+              <a href="index.html">首页</a>
               <i class="fa fa-fw">/</i>
-              <span>工作人员</span>
+              <a href="store.html">门店管理</a>
+              <i class="fa fa-fw">/</i>
+              <span>编辑门店</span>
             </p>
           </div>
-          <a href="/web/manage/staffset/?from=staff&id=0" class="button radius rightConner right"><i class="fa fa-plus fa-fw"></i>工作人员</a>
         </div>
-<div class="mainContent">
-  <div class="modules">
-    <div class="row filter_fix">
-        <form method="get" id="search_condition">
-            <div class="large-2 columns">
-                <select name="shop_id">
-                    <option selected="selected" value="0">全部场馆</option>
-                                                                    <option  value="67272374"  >beacon gym 1</option>
-                                                            </select>
-            </div>
-            <div class="large-2 columns">
-                <select name="role_id">
-<option value="0" selected>全部身份</option>
-<option value="1">店长</option>
-<option value="10">财务</option>
-<option value="15">销售</option>
-<option value="20">前台</option>
-<option value="99">超级管理员</option>
-<option value="109">教练/老师</option>
-</select>            </div>
-            <div class="large-2 columns">
-                <input type="text" name="staff" value="" placeholder="按电话，姓名搜索">
-            </div>
-            <div class="large-2 columns end">
-                <a href="javascript:void(0);" id="search" class="button small ran_search">搜索</a>
-            </div>
-        </form>
-    </div>
-    <div class="row">
-        <div class="large-12 columns pd-0">
-            <table role="grid" class="cus_table">
-                <thead>
-                <tr>
-                    <th><div class="fix-avatar">头像</div></th>
-                    <th>姓名</th>
-                    <th>性别</th>
-                    <th>电话</th>
-                    <th>身份<a href="javascript:void(0);" class="icon-help" data-dropdown="tips_6" data-options="is_hover:true;align:right"></a></th>
-                    <th>排序权重<a href="javascript:void(0);" class="icon-help" data-dropdown="tips_3" data-options="is_hover:true;align:right"></a></th>
-                    <th>所属场馆<a href="javascript:void(0);" class="icon-help" data-dropdown="tips_4" data-options="is_hover:true;align:right"></a></th>
-                    <th>登录<a href="javascript:void(0);" class="icon-help" data-dropdown="tips_5" data-options="is_hover:true;align:right"></a></th>
-                    <th width="120">操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                                                    <tr>
-                        <td><img src="https://pic1-s.styd.cn/no-avatar?imageView2/1/w/50/h/50/interlace/1" class="avatar" alt=""></td>
-                        <td>beacon gym</td>
-                        <td>未填</td>
-                        <td>17701635702</td>
-                        <td>
-                            超级管理员<br/>
-                        </td>
-                        <td>1</td>
-                        <td></td>
-                        <td>允许</td>
-                        <td class="action_columns">
-                            <a href="/web/manage/staffdetail?from=staff&id=3670119" data-toggle="tooltip" title="详情" class="inline-button detail"><i class="fa fa-file-text fa-fw"></i></a>
-                            <a href="/web/manage/staffset?from=staff&id=3670119" data-toggle="tooltip" title="编辑" class="inline-button edit"><i class="fa fa-pencil fa-fw"></i></a>
-                                                    </td>
-                    </tr>
-                                                </tbody>
-            </table>
-        </div>
-    </div>
+        <div class="mainContent shop_set">
+          <div class="row">
+            <div class="large-12 columns pd-0">
+              <div class="cus_form">
+                <div class="data_title">
+                  <b>编辑门店</b>
+                </div>
+                <div class="large-8 columns">
+                  <div class="row">
+                    <div class="large-3 columns">
+                    <label class="right inline">
+                      <b class="t-color red">*</b>名称：
+                    </label>
+                  </div>
+                  <div class="large-8 end columns">
+                    <input type="text" class="radius" name="store_name" placeholder="请输入名称" value="">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="large-3 columns">
+                    <label class="right inline"><b class="t-color red">*</b>电话：</label>
+                  </div>
+                  <div class="large-8 end columns">
+                    <input type="text" class="radius" name="phone" placeholder="请输入电话" value="">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="large-3 columns">
+                    <label class="right inline"><b class="t-color red">*</b>地址：</label>
+                  </div>
+                  <div class="large-8 end columns">
+                    <div class="large-4 columns" style="padding-left:0">
+                      <select class="radius" name="province_id" >
+                        <option value="0">请选择</option>
+                          <option value="" >北京市</option>
+                          <option value="" >天津市</option>
+                          <option value="" >河北省</option>
+                          <option value="" >山西省</option>
+                          <option value="" >内蒙古自治区</option>
+                          <option value="" >辽宁省</option>
+                          <option value="" >吉林省</option>
+                          <option value="" >黑龙江省</option>
+                          <option value="" >上海市</option>
+                          <option value="" selected="selected">江苏省</option>
+                          <option value="" >浙江省</option>
+                          <option value="" >安徽省</option>
+                          <option value="" >福建省</option>
+                          <option value="" >江西省</option>
+                          <option value="" >山东省</option>
+                          <option value="" >河南省</option>
+                          <option value="" >湖北省</option>
+                          <option value="" >湖南省</option>
+                          <option value="" >广东省</option>
+                          <option value="" >广西壮族自治区</option>
+                          <option value="" >海南省</option>
+                          <option value="" >重庆市</option>
+                          <option value="" >四川省</option>
+                          <option value="" >贵州省</option>
+                          <option value="" >云南省</option>
+                          <option value="" >西藏自治区</option>
+                          <option value="" >陕西省</option>
+                          <option value="" >甘肃省</option>
+                          <option value="" >青海省</option>
+                          <option value="" >宁夏回族自治区</option>
+                          <option value="" >新疆维吾尔自治区</option>
+                          <option value="" >台湾省</option>
+                          <option value="" >香港特别行政区</option>
+                          <option value="" >澳门特别行政区</option>
+                        </select>
+                      </div>
 
-<div class="row">
-	<div class="large-12 columns pageination_fix">
-		<span class="pagination_count">共1条记录 | 每页50条  </span>
-		<ul class="pagination right">
-			<li class="arrow"></li>
-															<li class="current"><a href="javascript:void(0);">1</a></li>
-												</ul>
-	</div>
-</div>
-  </div>
-</div>
-        </div>
-        <div class="footNav">
-            Copyright © 2015 <a href="http://www.styd.cn/" target="_blank">三体云动</a> | <a href="http://www.styd.cn/web/user/feedback" target="_blank">问题反馈</a> | <a href="http://www.styd.cn/default/faq" target="_blank"> 帮助中心</a> | <a href="http://bbs.styd.cn/forum.php" target="_blank"> 官方论坛</a> | 联系电话：400-962-8988
+                      <div class="large-4 columns">
+                        <select class="radius" name="city_id" >
+                          <option value="0">请选择</option>
+                        </select>
+                      </div>
+                      <div class="large-4 end columns" style="padding-right:0">
+                        <select class="radius" name="district_id" >
+                          <option value="0">请选择</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="large-3 columns">
+                      <label for="" class="right inline"></label>
+                    </div>
+                    <div class="large-5 columns">
+                      <input type="text"  name="address" id="" class="radius" placeholder="请输入具体地址" value="">
+
+                    </div>
+                    <div class="large-3 end columns">
+                      <a href="javascript:void(0);" class="button postfix geo_bd ran-fix radius" style="border-radius: 3px;">调整定位</a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="large-8 large-offset-3 columns">
+                      <div style="height: 150px;margin: 0 0 1rem;"></div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="large-3 columns">
+                      <label class="right inline"><b class="t-color red">*</b>照片：</label>
+                    </div>
+                    <div class="large-8 end columns">
+                      <div class="thumbs_list">
+                        <form method="POST">
+                          <div class="upload_box">
+                            <i class="upload_icon"></i>
+                            <input type="file" class="upload_button" name="image_pic3[]" multiple="multiple" >
+                            <input type="hidden" value="success_staff_gallary" name="callback">
+                            <input type="hidden" value="0" name="uid">
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="large-8 large-offset-3 end columns">
+                      <label class="inline form_tips">建议正方形图片</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="large-3 columns">
+                      <label class="right inline"><b class="t-color red">*</b>简介：</label>
+                    </div>
+                    <div class="large-8 end columns">
+                      <textarea class="radius" name="intro" placeholder="请填写简介" rows="4"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="large-12 text-center columns">
+                  <a href="store.html" class="button ran radius back" style="background-color:#fff; color:#2096f3">返回</a>
+                  <a href="" class="button ran radius save">修改</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-
-
-
-
-    <script src="js/tether.min.js"></script>
-    <script src="js/jquery.components.min.js"></script>
-    <script src="js/foundation.min.js"></script>
-    <script src="js/public.js"></script>
-    <script src="js/common.js"></script>
-
-
-    </body>
-    </html>
+  </div>
+  <script src="js/tether.min.js"></script>
+  <script src="js/jquery.components.min.js"></script>
+  <script src="js/foundation.min.js"></script>
+  <script src="js/public.js"></script>
+  <script src="js/common.js"></script>
+</body>
+</html>
