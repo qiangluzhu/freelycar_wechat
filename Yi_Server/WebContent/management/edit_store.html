@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+    <title>小易爱车后台管理系统</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" >
+    <link href="css/foundation-5.5.3.min.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+    <script src="js/jquery-1.12.3.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $(".header").load("public.html",function() {
+        });
+      });
+    </script>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header"></div>
+    <div class="container">
+      <nav class="topNav">
+        <div class="right">
+          <div class="user_avatar" data-dropdown="hover" data-options="is_hover:true; ">
+            <img src="https://pic1-s.styd.cn/no-avatar?imageView2/1/w/100/h/100/interlace/1" alt="">
+          </div>
+          <ul id="hover" class="f-dropdown" data-dropdown-content>
+            <li>
+              <a href="">退出</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="template">
+        <div class="breadCrumb">
+          <div class="titles left">
+            <h3>编辑门店</h3>
+            <p class="page_breadcrumbs">
+              <a href="index.html">首页</a>
+              <i class="fa fa-fw">/</i>
+              <a href="store.html">门店管理</a>
+              <i class="fa fa-fw">/</i>
+              <span>编辑门店</span>
+            </p>
+          </div>
+        </div>
+        <div class="mainContent shop_set">
+          <div class="row">
+            <div class="large-12 columns pd-0">
+              <div class="cus_form">
+                <div class="data_title">
+                  <b>编辑门店</b>
+                </div>
+                <div class="large-8 columns">
+                  <div class="row">
+                    <div class="large-3 columns">
+                    <label class="right inline">
+                      <b class="t-color red">*</b>名称：
+                    </label>
+                  </div>
+                  <div class="large-8 end columns">
+                    <input type="text" class="radius" name="store_name" placeholder="请输入名称" value="">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="large-3 columns">
+                    <label class="right inline"><b class="t-color red">*</b>电话：</label>
+                  </div>
+                  <div class="large-8 end columns">
+                    <input type="text" class="radius" name="phone" placeholder="请输入电话" value="">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="large-3 columns">
+                    <label class="right inline"><b class="t-color red">*</b>地址：</label>
+                  </div>
+                  <div class="large-8 end columns">
+                    <div class="large-4 columns" style="padding-left:0">
+                      <select class="radius" name="province_id" >
+                        <option value="0">请选择</option>
+                          <option value="" >北京市</option>
+                          <option value="" >天津市</option>
+                          <option value="" >河北省</option>
+                          <option value="" >山西省</option>
+                          <option value="" >内蒙古自治区</option>
+                          <option value="" >辽宁省</option>
+                          <option value="" >吉林省</option>
+                          <option value="" >黑龙江省</option>
+                          <option value="" >上海市</option>
+                          <option value="" selected="selected">江苏省</option>
+                          <option value="" >浙江省</option>
+                          <option value="" >安徽省</option>
+                          <option value="" >福建省</option>
+                          <option value="" >江西省</option>
+                          <option value="" >山东省</option>
+                          <option value="" >河南省</option>
+                          <option value="" >湖北省</option>
+                          <option value="" >湖南省</option>
+                          <option value="" >广东省</option>
+                          <option value="" >广西壮族自治区</option>
+                          <option value="" >海南省</option>
+                          <option value="" >重庆市</option>
+                          <option value="" >四川省</option>
+                          <option value="" >贵州省</option>
+                          <option value="" >云南省</option>
+                          <option value="" >西藏自治区</option>
+                          <option value="" >陕西省</option>
+                          <option value="" >甘肃省</option>
+                          <option value="" >青海省</option>
+                          <option value="" >宁夏回族自治区</option>
+                          <option value="" >新疆维吾尔自治区</option>
+                          <option value="" >台湾省</option>
+                          <option value="" >香港特别行政区</option>
+                          <option value="" >澳门特别行政区</option>
+                        </select>
+                      </div>
+
+                      <div class="large-4 columns">
+                        <select class="radius" name="city_id" >
+                          <option value="0">请选择</option>
+                        </select>
+                      </div>
+                      <div class="large-4 end columns" style="padding-right:0">
+                        <select class="radius" name="district_id" >
+                          <option value="0">请选择</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="large-3 columns">
+                      <label for="" class="right inline"></label>
+                    </div>
+                    <div class="large-5 columns">
+                      <input type="text"  name="address" id="" class="radius" placeholder="请输入具体地址" value="">
+
+                    </div>
+                    <div class="large-3 end columns">
+                      <a href="javascript:void(0);" class="button postfix geo_bd ran-fix radius" style="border-radius: 3px;">调整定位</a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="large-8 large-offset-3 columns">
+                      <div style="height: 150px;margin: 0 0 1rem;"></div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="large-3 columns">
+                      <label class="right inline"><b class="t-color red">*</b>照片：</label>
+                    </div>
+                    <div class="large-8 end columns">
+                      <div class="thumbs_list">
+                        <form method="POST">
+                          <div class="upload_box">
+                            <i class="upload_icon"></i>
+                            <input type="file" class="upload_button" name="image_pic3[]" multiple="multiple" >
+                            <input type="hidden" value="success_staff_gallary" name="callback">
+                            <input type="hidden" value="0" name="uid">
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="large-8 large-offset-3 end columns">
+                      <label class="inline form_tips">建议正方形图片</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="large-3 columns">
+                      <label class="right inline"><b class="t-color red">*</b>简介：</label>
+                    </div>
+                    <div class="large-8 end columns">
+                      <textarea class="radius" name="intro" placeholder="请填写简介" rows="4"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="large-12 text-center columns">
+                  <a href="store.html" class="button ran radius back" style="background-color:#fff; color:#2096f3">返回</a>
+                  <a href="" class="button ran radius save">修改</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/tether.min.js"></script>
+  <script src="js/jquery.components.min.js"></script>
+  <script src="js/foundation.min.js"></script>
+  <script src="js/public.js"></script>
+  <script src="js/common.js"></script>
+</body>
+</html>
