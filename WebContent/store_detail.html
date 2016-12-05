@@ -16,25 +16,24 @@
 <div class="store_detail">
     <div class="mod_box store_title">
         <img src="img/banner.jpg" />
-        <h3 class="store_name">小易洗车麒麟门店</h3>
+        <h3 class="store_name" id='name'></h3>
 			<div class="similar_data_detail">		
 				<p class="store-phone">
 					<span class="contact-icon glyphicon glyphicon-earphone" aria-hidden="true"></span>
-					025-52525252
+					<span id='phone'></span>
 				</p>
 			</div>
-			<div class="similar_data_detail" onclick="window.location.href='map.html'">		
+			<div class="similar_data_detail"  id="detail_address">		
 				<p class="store-item-addr2">
 					<span class="contact-icon glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-					南京市江宁区麒麟门啦啦啦路B座地下停车场B3层
-					
+					<span id='address'></span>
 				</p>
 				<span class="contact-icon2 glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 			</div>
 	    </div>
 		<div class="mod_box ">
 			<h3 class="mod_tit">门店简介</h3>
-			<p class="feature">这个店好这个店好这个店好这个店好这个店好这个店好这个店好这个店好这个店好
+			<p class="feature" id='info'>
 			</p>                            
 		</div>	                        
 	</div>
@@ -46,10 +45,25 @@
 		
 		nativeAjax('get','api/store/getById?id='+id,function(e){
 			var data = jsonParse(getResult(e));
-			console.log(data);
+			var code = data.code;
+			if(code=='0'){
+				var obj = data.data;
+				for(var item in obj){
+					var ele = document.getElementById(item);
+					if(ele){
+						ele.innerHTML = obj[item];
+					}
+				}
+				show_map();
+			}
 			
 		});
 		
+		function show_map(){
+			$('#detail_address').click(function(){
+				window.location.href = 'map.html';
+			});
+		}
 	
 	</script>
 			
