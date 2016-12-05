@@ -19,10 +19,9 @@ public class StoreService {
 	@Autowired
 	StoreDao storeDao;
 	
-	private JSONObject resultObj;
 
 	public String add(Store c) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		boolean b = storeDao.add(c);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -36,7 +35,7 @@ public class StoreService {
 	}
 
 	public String delete(String id) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		boolean b = storeDao.delete(id);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -50,7 +49,7 @@ public class StoreService {
 	}
 
 	public String modify(Store c) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		boolean b = storeDao.modify(c);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -64,7 +63,7 @@ public class StoreService {
 	}
 
 	public String find(Store c, int start, int number) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		List<Store> list = storeDao.find(c,start,number);
 		if (list!=null&&list.size()!=0) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
