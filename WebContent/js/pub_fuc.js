@@ -156,7 +156,7 @@ var pagebutton = function(pageNums){
  * 
 */
 
-var getParameterByName = function (name, url) {
+var get_param = function (name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),

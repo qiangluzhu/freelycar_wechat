@@ -83,7 +83,7 @@ public class StoreService {
 		if (s!=null) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
 			resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
-			resultObj.put(Constants.RESPONSE_DATA_KEY, s);
+			resultObj.put(Constants.RESPONSE_DATA_KEY, new JSONObject(s));
 			return resultObj.toString();
 		}
 		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);

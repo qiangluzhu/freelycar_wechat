@@ -37,6 +37,21 @@
 			<p class="feature">这个店好这个店好这个店好这个店好这个店好这个店好这个店好这个店好这个店好
 			</p>                            
 		</div>	                        
-	</div>		
+	</div>
+		
+	<script src="js/jquery-1.11.3.min.js"></script>
+	<script src="js/pub_fuc.js"></script>
+	<script type="text/javascript">
+		var id = get_param('tid');
+		
+		nativeAjax('get','api/store/getById?id='+id,function(e){
+			var data = jsonParse(getResult(e));
+			console.log(data);
+			
+		});
+		
+	
+	</script>
+			
 </body>
 </html>
