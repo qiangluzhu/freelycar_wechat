@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.video.utils.HttpRequest;
+
 
 /**
  * 微信相关的常量
