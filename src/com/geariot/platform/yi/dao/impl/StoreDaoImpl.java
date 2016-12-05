@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.geariot.platform.house.entities.House;
 import com.geariot.platform.yi.dao.StoreDao;
 import com.geariot.platform.yi.entities.Store;
 import com.geariot.platform.yi.utils.Constants;
