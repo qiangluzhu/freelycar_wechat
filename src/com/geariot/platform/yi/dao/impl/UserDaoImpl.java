@@ -1,10 +1,22 @@
 package com.geariot.platform.yi.dao.impl;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.ConnectException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Date;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -129,8 +141,8 @@ public class UserDaoImpl implements UserDao{
 		try{
 			getSession().save(r);
 			String tOpenid=r.getOrderOpenId();
-			
-			//TODO 将预约推送给技师
+			JSONObject data = packJsonmsg(r.getRperson(),r.getPhone(),r.getOnTime(),"成功");
+			sendWechatmsgToUser(tOpenid,"L9Y9HHSN96_maQXSYUyYAbZf_fMeHB2EsR1hk2Eft0s","","",data);
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();
@@ -163,5 +175,173 @@ public class UserDaoImpl implements UserDao{
 		List<Community> hList=query0.list();
 		return hList;
 	}
+	/**
+     * @method packJsonmsg
+     * @描述: TODO(封装微信模板:订单支付成功) 
+     * @参数@param cname  客户姓名
+     * @参数@param cphone  客户电话
+     * @参数@param rtime  预约时间
+     * @参数@param result  预约结果
+     * @参数@return
+     * @返回类型：JSONObject
+     * @添加时间 2016-1-5下午03:38:54
+     * @作者：***
+     */
+    public static JSONObject packJsonmsg(String cname, String cphone, Date rtime, String result){
+        JSONObject json = new JSONObject();
+        JSONObject jsonFirst = new JSONObject();
+		jsonFirst.put("value", cname);
+		jsonFirst.put("color", "#173177");
+		json.put("first", jsonFirst);
+		JSONObject jsonOrderMoneySum = new JSONObject();
+		jsonOrderMoneySum.put("value", cphone);
+		jsonOrderMoneySum.put("color", "#173177");
+		json.put("orderMoneySum", jsonOrderMoneySum);
+		JSONObject jsonOrderProductName = new JSONObject();
+		jsonOrderProductName.put("value", rtime);
+		jsonOrderProductName.put("color", "#173177");
+		json.put("orderProductName", jsonOrderProductName);
+		JSONObject jsonRemark = new JSONObject();
+		jsonRemark.put("value", result);
+		jsonRemark.put("color", "#173177");
+		json.put("Remark", jsonRemark);
+        return json;
+    }
+    
+    /**
+     * @method sendWechatmsgToUser
+     * @描述: TODO(发送模板信息给用户) 
+     * @参数@param touser  用户的openid
+     * @参数@param templat_id  信息模板id
+     * @参数@param url  用户点击详情时跳转的url
+     * @参数@param topcolor  模板字体的颜色
+     * @参数@param data  模板详情变量 Json格式
+     * @参数@return
+     * @返回类型：String
+     * @添加时间 2016-1-5上午10:38:45
+     * @作者：***
+     */
+    public static String sendWechatmsgToUser(String touser, String templat_id, String clickurl, String topcolor, JSONObject data){
+        String tmpurl = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
+        String token = getAccess_token("","");  //微信凭证，access_token
+        String url = tmpurl.replace("ACCESS_TOKEN", token);
+        JSONObject json = new JSONObject();
+        json.put("touser", touser);
+		json.put("template_id", templat_id);
+		json.put("url", clickurl);
+		json.put("topcolor", topcolor);
+		json.put("data", data);
+        String result = httpsRequest(url, "POST", json.toString());
+        try {
+            JSONObject resultJson = new JSONObject(result);
+            String errmsg = (String) resultJson.get("errmsg");
+            if(!"ok".equals(errmsg)){  //如果为errmsg为ok，则代表发送成功，公众号推送信息给用户了。
+                return "error";
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "success";
+    }
+    
+    public static String httpsRequest(String requestUrl, String requestMethod, String outputStr){
+        try {
+            URL url = new URL(requestUrl);
+            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setUseCaches(false);
+            // 设置请求方式（GET/POST）
+            conn.setRequestMethod(requestMethod);
+            conn.setRequestProperty("content-type", "application/x-www-form-urlencoded");
+            // 当outputStr不为null时向输出流写数据
+            if (null != outputStr) {
+                OutputStream outputStream = conn.getOutputStream();
+                // 注意编码格式
+                outputStream.write(outputStr.getBytes("UTF-8"));
+                outputStream.close();
+            }
+            // 从输入流读取返回内容
+            InputStream inputStream = conn.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String str = null;
+            StringBuffer buffer = new StringBuffer();
+            while ((str = bufferedReader.readLine()) != null) {
+                buffer.append(str);
+            }
+            // 释放资源
+            bufferedReader.close();
+            inputStreamReader.close();
+            inputStream.close();
+            inputStream = null;
+            conn.disconnect();
+            return buffer.toString();
+        } catch (ConnectException ce) {
+            System.out.println("连接超时：{}");
+        } catch (Exception e) {
+            System.out.println("https请求异常：{}");
+        }
+        return null;
+    }
+    
+    public  static String getAccess_token(String appId,String appSecret) {
 
+        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="
+
+                + appId+ "&secret=" + appSecret;
+
+        String accessToken = null;
+
+        try {
+
+            URL urlGet = new URL(url);
+
+            HttpURLConnection http = (HttpURLConnection) urlGet
+
+                    .openConnection();
+
+            http.setRequestMethod("GET"); // 必须是get方式请求
+
+            http.setRequestProperty("Content-Type",
+
+                    "application/x-www-form-urlencoded");
+
+            http.setDoOutput(true);
+
+            http.setDoInput(true);
+
+            System.setProperty("sun.net.client.defaultConnectTimeout", "30000");// 连接超时30秒
+
+            System.setProperty("sun.net.client.defaultReadTimeout", "30000"); // 读取超时30秒
+
+            http.connect();
+
+            InputStream is = http.getInputStream();
+
+            int size = is.available();
+
+            byte[] jsonBytes = new byte[size];
+
+            is.read(jsonBytes);
+
+            String message = new String(jsonBytes, "UTF-8");
+
+            JSONObject demoJson = new JSONObject(message);
+
+            accessToken = demoJson.getString("access_token");
+
+            System.out.println(accessToken);
+
+            is.close();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
+        return accessToken;
+
+    }
 }
