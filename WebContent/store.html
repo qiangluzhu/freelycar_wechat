@@ -13,8 +13,8 @@
 </head>
 <body>
 <div class="ycl-container ycl-dmxz">
-    <ul class="store clearfix">
-		<li class="clearfix" onclick="window.location.href='store_detail.html'">
+    <ul class="store clearfix" id="content_body">
+		<!-- <li class="clearfix" onclick="window.location.href='store_detail.html'">
 			<div class="store-item-left">
 				<img src="img/icon.jpg"/>
             </div>
@@ -31,64 +31,63 @@
                 <i><img src="img/arrow.png"/></i>
             </div>
         </li>
-        <li class="clearfix">
-			<div class="store-item-left">
-				<img src="img/icon.jpg"/>
-            </div>
-            <div class="store-item-middle">
-                <p class="store-item-middle-title">
-                	<span class="store-item-middle-title-text">小易洗车麒麟门店</span>
-                </p>
-                <p class="store-item-addr">南京市江宁区麒麟门</p>
-                <p class="store-item-middle-start">
-                	<span class="store-phone">025-52525252</span>
-                </p>
-            </div>
-            <div class="store-item-right">
-                <i><img src="img/arrow.png"/></i>
-            </div>
-        </li>
-        <li class="clearfix">
-			<div class="store-item-left">
-				<img src="img/icon.jpg"/>
-            </div>
-            <div class="store-item-middle">
-                <p class="store-item-middle-title">
-                	<span class="store-item-middle-title-text">小易洗车麒麟门店</span>
-                </p>
-                <p class="store-item-addr">南京市江宁区麒麟门啦啦啦路B座地下停车场B3层</p>
-                <p class="store-item-middle-start">
-                	<span class="store-phone">025-52525252</span>
-                </p>
-            </div>
-            <div class="store-item-right">
-                <i><img src="img/arrow.png"/></i>
-            </div>
-        </li>
-        <li class="clearfix">
-			<div class="store-item-left">
-				<img src="img/icon.jpg"/>
-            </div>
-            <div class="store-item-middle">
-                <p class="store-item-middle-title">
-                	<span class="store-item-middle-title-text">小易洗车麒麟门店</span>
-                </p>
-                <p class="store-item-addr">南京市江宁区麒麟门啦啦啦路B座地下停车场B3层</p>
-                <p class="store-item-middle-start">
-                	<span class="store-phone">025-52525252</span>
-                </p>
-            </div>
-            <div class="store-item-right">
-                <i><img src="img/arrow.png"/></i>
-            </div>
-        </li>
+         -->
 
     </ul>
 </div>
 
 
-<script src="js/jquery.min.js"></script>
+<script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/pub_fuc.js"></script>
+<script type="text/javascript">
+$(function(){
+	load();
+	
+});
 
+function load(){
+	nativeAjax('get','api/store/find?start=0&number=10',function(e){
+		var data = jsonParse(getResult(e));
+		var arr = data.data;
+	//	console.log(arr);
+		var html = '';
+		for(var i=0,len=arr.length;i<len;i++){
+			var obj = arr[i];
+			html +='<li class="clearfix" id='+obj.id+'>'
+					+'<div class="store-item-left">'
+					+'<img src="img/icon.jpg"/>'
+					+'</div>'
+					+'<div class="store-item-middle">'
+					+'<p class="store-item-middle-title">'
+					+'<span class="store-item-middle-title-text">'+obj.name+'</span>'
+					+'</p>'
+					+'<p class="store-item-addr">'+obj.address+'</p>'
+					+'<p class="store-item-middle-start">'
+					+'<span class="store-phone">'+obj.phone+'</span>'
+					+'</p>'
+					+'</div>'
+					+'<div class="store-item-right">'
+					+'<i><img src="img/arrow.png"/></i>'
+					+'</div>'
+					+'</li>';
+		}
+		document.getElementById('content_body').innerHTML = html;
+		show_detail();
+	});
+}
+
+function show_detail(){
+	$('#content_body').on('click','li',function(e){
+		//filter phone
+		if(e.target.className!='store-phone'){
+			window.location.href = 'store_detail.html?tid='+e.currentTarget.id;
+		}
+	});
+}
+
+
+
+</script>
 
 </body>
 
