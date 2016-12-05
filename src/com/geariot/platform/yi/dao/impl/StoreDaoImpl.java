@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.geariot.platform.house.entities.House;
 import com.geariot.platform.yi.dao.StoreDao;
 import com.geariot.platform.yi.entities.Store;
 import com.geariot.platform.yi.utils.Constants;
@@ -75,6 +76,19 @@ public class StoreDaoImpl implements StoreDao{
 		query.setFirstResult(start);// 设置起始行
 		query.setMaxResults(number);// 每页条数
 		return query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Store getById(String id) {
+		String hql = "from Store where id=:id";
+		List<Store> list = getSession().createQuery(hql)
+				.setString("id", id).setCacheable(Constants.SELECT_CACHE)
+				.list();
+		if(list.size()!=0){
+			return list.get(0);
+		}
+		return null;
 	}
 	
 	

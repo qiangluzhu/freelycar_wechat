@@ -46,4 +46,9 @@ public class StoreController {
 //		s.setCity("南京");
 		return service.find(c,start,number);
 	}
+	
+	@RequestMapping(value = "/getById", method = RequestMethod.GET)
+	public String getById(String id){
+		return service.getById(id);
+	}
 }
