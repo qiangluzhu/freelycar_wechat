@@ -20,10 +20,9 @@ public class ReservationService {
 	@Autowired
 	ReservationDao reservationDao;
 	
-	private JSONObject resultObj;
 
 	public String getByPerson(Reservation r, int start, int number) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		List<Reservation> list = reservationDao.getByPerson(r,start,number);
 		if (list!=null&&list.size()!=0) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
@@ -38,7 +37,7 @@ public class ReservationService {
 	}
 
 	public String statistic() {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		HashMap<String,Integer> map = reservationDao.statistic();
 		if (map!=null&&map.size()!=0) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);

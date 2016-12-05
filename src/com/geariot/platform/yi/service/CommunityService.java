@@ -19,10 +19,9 @@ public class CommunityService {
 	@Autowired
 	CommunityDao communityDao;
 	
-	private JSONObject resultObj;
 
 	public String add(Community c) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		boolean b = communityDao.add(c);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -36,7 +35,7 @@ public class CommunityService {
 	}
 
 	public String delete(String id) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		boolean b = communityDao.delete(id);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -50,7 +49,7 @@ public class CommunityService {
 	}
 
 	public String modify(Community c) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		boolean b = communityDao.modify(c);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -64,9 +63,8 @@ public class CommunityService {
 	}
 
 	public String find(Community c, int start, int number) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		List<Community> list = communityDao.find(c,start,number);
-		System.out.println(c.getName()+" "+list.size());
 		if (list!=null&&list.size()!=0) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
 			resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());

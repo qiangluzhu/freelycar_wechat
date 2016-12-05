@@ -81,8 +81,9 @@ select{
 }
 
 .edit_icon{
-	margin-top:-40px;
+	margin-top:-42px;
 	float:right;
+	font-size:16px;
 }
 
 .description textarea{
@@ -300,7 +301,7 @@ select{
 	white-space: normal;
 	color: #666;
 	font-size:14px;
-	padding-right:30px;
+	padding-right:60px;
 }
 .store-item-addr4{ 
 	white-space: normal;
@@ -389,6 +390,16 @@ select{
 .contact-icon2{
 	margin-top:-15px;
 	float:right;
+}
+
+.contact-icon3{
+	margin-top:2px;
+	float:right;
+}
+
+.contact-icon4 {
+    margin-top: -30px;
+    float: right;
 }
 
 .feature{

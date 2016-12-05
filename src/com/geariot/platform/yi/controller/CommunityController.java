@@ -33,7 +33,7 @@ public class CommunityController {
 	public String find(Community c,int start,int number) {
 //		Community cc = new Community();
 //		cc.setName("社区");
-		return service.find(c,0,10);
+		return service.find(c,start,number);
 	}
 	
 }

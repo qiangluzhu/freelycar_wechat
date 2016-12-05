@@ -400,28 +400,7 @@ var common_ops = {
             }
         });
     },
-    noticeCount:function(){
-        $.ajax({
-            url: this.getUrlPrefix() + "/notice/count",
-            type: 'GET',
-            dataType: 'json',
-            success: function(res) {
-                if (res.code != 200) {
-                    return;
-                }
-                if (res.data.public_notice_count > 0 && res.data.public_notice_count < 100) {
-                    $(".sys_notice.public_notice").html('<i class="orange">' + res.data.public_notice_count + '</i>');
-                }else if (res.data.public_notice_count > 100) {
-                    $(".sys_notice.public_notice").html('<i class="orange">...</i>');
-                }
-                if (res.data.notice_banner_count > 0 && res.data.notice_banner_count < 100) {
-                    $(".sys_notice.notice_banner").html('<i class="red">' + res.data.notice_banner_count + '</i>');
-                }else if (res.data.notice_banner_count > 100) {
-                    $(".sys_notice.notice_banner").html('<i class="red">...</i>');
-                }
-            }
-        });
-    },
+
     noticeBanner:function(){
         if( $(".login_status").size() < 1 || parseInt( $(".login_status").val() ) != 1 ){
             return;
@@ -614,7 +593,6 @@ $(document).ready(function(){
     common_ops.eventBind();
     common_ops.leftNav();
     common_ops.renderTooltips();
-    common_ops.noticeCount();
     common_ops.func_noticeDisplay();
     common_ops.postGuideLayer();
     common_ops.tableActionBtns();

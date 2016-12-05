@@ -128,6 +128,9 @@ public class UserDaoImpl implements UserDao{
 	public boolean reserve(Reservation r) {
 		try{
 			getSession().save(r);
+			String tOpenid=r.getOrderOpenId();
+			
+			//TODO 将预约推送给技师
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();

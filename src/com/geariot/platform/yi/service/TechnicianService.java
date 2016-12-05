@@ -21,10 +21,9 @@ public class TechnicianService {
 	@Autowired
 	TechnicianDao dao;
 	
-	private JSONObject resultObj;
 
 	public String add(Technician c) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		boolean b = dao.add(c);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -38,7 +37,7 @@ public class TechnicianService {
 	}
 
 	public String delete(String id) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		boolean b = dao.delete(id);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -52,7 +51,7 @@ public class TechnicianService {
 	}
 
 	public String modify(Technician c) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		boolean b = dao.modify(c);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -66,7 +65,7 @@ public class TechnicianService {
 	}
 
 	public String find(Technician c, int start, int number) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		List<Technician> list = dao.find(c,start,number);
 		if (list!=null&&list.size()!=0) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
@@ -81,7 +80,7 @@ public class TechnicianService {
 	}
 
 	public String login(String phone, String password) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		password=MD5.compute(password);
 		Technician b = dao.login(phone,password);
 		if (b==null) {
@@ -97,7 +96,7 @@ public class TechnicianService {
 	}
 
 	public String getReservation(String tid, int start, int number) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		List<Reservation> list = dao.getReservation(tid,start,number);
 		if (list!=null&&list.size()!=0) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);

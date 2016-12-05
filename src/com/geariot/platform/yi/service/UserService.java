@@ -21,11 +21,10 @@ public class UserService {
 	@Autowired
 	UserDao dao;
 	
-	private JSONObject resultObj;
 
 	
 	public String register(String openId, String nickName) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		boolean b = dao.register(openId,nickName);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -39,7 +38,7 @@ public class UserService {
 	}
 
 	public String addAddress(UserAddress c) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		boolean b = dao.add(c);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -53,7 +52,7 @@ public class UserService {
 	}
 
 	public String delAddress(String addressId) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		boolean b = dao.delete(addressId);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -67,7 +66,7 @@ public class UserService {
 	}
 
 	public String modAddress(UserAddress c) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		boolean b = dao.modify(c);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -81,7 +80,7 @@ public class UserService {
 	}
 
 	public String getAddById(String id) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		UserAddress b = dao.getAddById(id);
 		if (b!=null) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
@@ -96,7 +95,7 @@ public class UserService {
 	}
 
 	public String getAll(String openId) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		List<UserAddress> list = dao.getAll(openId);
 		if (list!=null&&list.size()!=0) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
@@ -111,7 +110,7 @@ public class UserService {
 	}
 
 	public String reserve(Reservation r) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		boolean b = dao.reserve(r);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -126,7 +125,7 @@ public class UserService {
 	}
 
 	public String getRecord(String openId, int start, int number) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		List<Reservation> list = dao.getRecord(openId,start,number);
 		if (list!=null&&list.size()!=0) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
@@ -141,7 +140,7 @@ public class UserService {
 	}
 
 	public String getCode(int start, int number) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		List<Community> list = dao.getCode(start,number);
 		if (list!=null&&list.size()!=0) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);

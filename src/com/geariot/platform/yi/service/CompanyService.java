@@ -19,11 +19,10 @@ public class CompanyService {
 	@Autowired
 	CompanyDao companyDao;
 	
-	private JSONObject resultObj;
 
 
 	public String makeReserve(Company c) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		boolean b = companyDao.add(c);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -37,7 +36,7 @@ public class CompanyService {
 	}
 
 	public String getByName(Company c, int start, int number) {
-		resultObj = new JSONObject();
+		JSONObject resultObj=new JSONObject();
 		List<Company> list = companyDao.find(c,start,number);
 		if (list!=null&&list.size()!=0) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
