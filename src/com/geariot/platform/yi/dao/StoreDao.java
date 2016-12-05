@@ -14,4 +14,6 @@ public interface StoreDao {
 
 	public List<Store> find(Store c, int start, int number);
 
+	public Store getById(String id);
+
 }
