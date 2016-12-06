@@ -62,7 +62,57 @@
 </div>
 
 
-<script src="js/jquery.min.js"></script>
+<script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/pub_fuc.js"></script>
+<script type="text/javascript">
+$(function(){
+	load();
+	
+});
+
+function load(){
+	nativeAjax('get','api/store/find?start=0&number=10',function(e){
+		var data = jsonParse(getResult(e));
+		var arr = data.data;
+	//	console.log(arr);
+		var html = '';
+		for(var i=0,len=arr.length;i<len;i++){
+			var obj = arr[i];
+			html +='<li class="clearfix" id='+obj.id+'>'
+					+'<div class="store-item-left">'
+					+'<img src="img/icon.jpg"/>'
+					+'</div>'
+					+'<div class="store-item-middle">'
+					+'<p class="store-item-middle-title">'
+					+'<span class="store-item-middle-title-text">'+obj.name+'</span>'
+					+'</p>'
+					+'<p class="store-item-addr">'+obj.address+'</p>'
+					+'<p class="store-item-middle-start">'
+					+'<span class="store-phone">'+obj.phone+'</span>'
+					+'</p>'
+					+'</div>'
+					+'<div class="store-item-right">'
+					+'<i><img src="img/arrow.png"/></i>'
+					+'</div>'
+					+'</li>';
+		}
+		document.getElementById('content_body').innerHTML = html;
+		show_detail();
+	});
+}
+
+function show_detail(){
+	$('#content_body').on('click','li',function(e){
+		//filter phone
+		if(e.target.className!='store-phone'){
+			window.location.href = 'store_detail.html?tid='+e.currentTarget.id;
+		}
+	});
+}
+
+
+
+</script>
 
 
 </body>
