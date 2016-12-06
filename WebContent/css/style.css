@@ -1,19 +1,19 @@
 @charset "utf-8";
 
-body{ 
-	margin:0; 
-	padding:0; 
-	font-family:'微软雅黑',microsoft yahei; 
+body{
+	margin:0;
+	padding:0;
+	font-family:'微软雅黑',microsoft yahei;
 	font-size:13px;
 }
 
-ul,li{ 
-	padding:0; 
-	margin:0; 
+ul,li{
+	padding:0;
+	margin:0;
 	list-style:none;
 }
 
-em{ 
+em{
 	font-style:normal;
 }
 
@@ -159,12 +159,12 @@ select{
 }
 
 .cont select{
-	width:30%;
+	width:29%;
 	height:30px;
 	border:1px solid #d8dee3;
 	border-radius:3px;
 	padding: 0;
-	margin-right:10px;
+	margin-right:8px;
 	text-indent: 15px;
 	outline:none;
 	font-size:13px;
@@ -283,38 +283,38 @@ select{
 	color:#666;
 }
 
-.store-item-addr{  
+.store-item-addr{
 	width: 170px;
 	white-space: normal;
 	color: #999;
 	font-size:12px;
 }
 
-.store-item-addr2{ 
+.store-item-addr2{
 	white-space: normal;
 	color: #666;
 	font-size:12px;
 	padding-right:30px;
 }
 
-.store-item-addr3{ 
+.store-item-addr3{
 	white-space: normal;
 	color: #666;
 	font-size:14px;
 	padding-right:60px;
 }
-.store-item-addr4{ 
+.store-item-addr4{
 	white-space: normal;
 	color: #000;
 	font-size:16px;
 	padding-right:30px;
 }
 
-.store-item-addr5{  
+.store-item-addr5{
 	width: 200px;
 	white-space: normal;
 	color: #999;
-	font-size:12px;	
+	font-size:12px;
 }
 
 /*STORE-DETAIL*/
@@ -419,108 +419,108 @@ select{
 
 
 /* CENTER */
-.bg { 
+.bg {
 	background: #EEEEEE;
 }
 
-.center { 
+.center {
 	padding: 0px;
 }
 
-.center .center-header { 
-	padding: 1em; 
-	height: 200px; 
-	background: url(../img/hbg.png); 
+.center .center-header {
+	padding: 1em;
+	height: 200px;
+	background: url(../img/hbg.png);
 	background-size: cover;
 }
 
-.center .center-header .touxiang { 
-	width: 72px; 
-	height: 72px; 
-	margin: 0px auto; 
-	border-radius: 100%; 
+.center .center-header .touxiang {
+	width: 72px;
+	height: 72px;
+	margin: 0px auto;
+	border-radius: 100%;
 	border: 2px solid #fff;
 }
 
-.center .center-header .touxiang img { 
-	border-radius: 100%; 
+.center .center-header .touxiang img {
+	border-radius: 100%;
 	width: 100%;
 }
 
-.center .center-header .name { 
-	font-size: 1.4em; 
-	text-align: center; 
-	color: #fff; 
+.center .center-header .name {
+	font-size: 1.4em;
+	text-align: center;
+	color: #fff;
 	line-height: 2em;
 }
 
-.center .center-header .gztt { 
+.center .center-header .gztt {
 	font-size: 1em;
-	text-align: center; 
+	text-align: center;
 	color: #fff;
 	margin-top:10px;
 }
 
-.center .center-ul { 
-	background: #fff; 
-	padding: 0px; 
-	margin: 0px; 
-	border:1px solid #ccc; 
+.center .center-ul {
+	background: #fff;
+	padding: 0px;
+	margin: 0px;
+	border:1px solid #ccc;
 	border-width: 1px 0;
 }
 
-.center .center-ul li { 
-	padding: 0px 0px; 
-	overflow: auto; 
-	border-bottom:1px solid #ccc; 
+.center .center-ul li {
+	padding: 0px 0px;
+	overflow: auto;
+	border-bottom:1px solid #ccc;
 	position: relative;
 }
 
-.center .center-ul li:last-child { 
+.center .center-ul li:last-child {
 	border: 0px;
 }
 
-.center .center-ul li a { 
-	color: #666; 
-	display:block; 
-	padding: 15px 10px; 
-	height: 50px; 
-	position: relative;  
+.center .center-ul li a {
+	color: #666;
+	display:block;
+	padding: 15px 10px;
+	height: 50px;
+	position: relative;
 	width: 100%;
 }
 
-.center .center-ul li .arrow { 
-	position: absolute; 
+.center .center-ul li .arrow {
+	position: absolute;
 	right: 10px;
 }
 
-.center .center-ul li .lzz { 
+.center .center-ul li .lzz {
 	float: left;
 }
 
-.center .center-ul li .icc { 
-	float: left; 
-	padding-right: 1em; 
+.center .center-ul li .icc {
+	float: left;
+	padding-right: 1em;
 	display: block;
 }
 
-.center .center-ul li:nth-child(10n+1) .icc { 
+.center .center-ul li:nth-child(10n+1) .icc {
 	color: #00B285;
 }
 
-.center .center-ul li:nth-child(10n+2) .icc { 
+.center .center-ul li:nth-child(10n+2) .icc {
 	color: #00A1DF;
 }
 
-.center .center-ul li:nth-child(10n+3) .icc { 
+.center .center-ul li:nth-child(10n+3) .icc {
 	color: #FF8000;
 }
 
-.center .center-ul li:nth-child(10n+4) .icc { 
+.center .center-ul li:nth-child(10n+4) .icc {
 	color: #FF4D4D;
 }
 
-.center .center-ul li:nth-child(10n+5) .icc { 
+.center .center-ul li:nth-child(10n+5) .icc {
 	color: #00468C;
 }
 
