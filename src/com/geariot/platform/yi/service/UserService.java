@@ -69,7 +69,7 @@ public class UserService {
 		JSONObject resultObj=new JSONObject();
 		boolean b = dao.modify(c);
 		if (!b) {
-			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.UPDATE_ERROR);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,
 					RESCODE.UPDATE_ERROR.getMsg());
 			return resultObj.toString();

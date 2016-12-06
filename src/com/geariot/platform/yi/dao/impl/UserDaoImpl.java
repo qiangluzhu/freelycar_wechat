@@ -50,21 +50,11 @@ public class UserDaoImpl implements UserDao{
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean add(UserAddress c) {
 		try{
 			getSession().save(c);
-			String openId=c.getOpenId();
-			String hql = "from User where openId=:id";
-			List<User> user= getSession().createQuery(hql).setString("id", openId).list();
-			if(user.size()>0){
-				User u=user.get(0);
-				u.setAddressId(c.getId());
-				return true;
-			}else{
-				return false;
-			}
+			return true;
 		}catch(Exception e){
 			e.printStackTrace();
 			return false;

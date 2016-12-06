@@ -27,10 +27,9 @@ required:必选项
 		},settings);
 
 		var box_obj=this;
-		var prov_obj=box_obj.find(".prov");
-		console.log(box_obj);
-		var city_obj=box_obj.find(".city");
-		var dist_obj=box_obj.find(".dist");
+		var prov_obj=box_obj.find("select.prov");
+		var city_obj=box_obj.find("select.city");
+		var dist_obj=box_obj.find("select.dist");
 		var prov_val=settings.prov;
 		var city_val=settings.city;
 		var dist_val=settings.dist;

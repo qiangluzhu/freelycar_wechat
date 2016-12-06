@@ -16,44 +16,80 @@
             <tbody>
                 <tr><p>联系人</p></tr>
                 <tr>
-                    <input type="text" maxlength="6" value=""/></tr>
+                    <input  id='name' type="text" maxlength="6" value=""/></tr>
                 <tr><p>车牌号</p></tr>
                 <tr>
                     <div style="position:relative;">
-                        <input type="text" maxlength="7" value=""/>
+                        <input id='license' type="text" maxlength="7" value=""/>
                     </div>
                 </tr>
                 <tr><p>联系电话</p></tr>
                 <tr>
-                    <input type="tel" maxlength="11" value="" />
+                    <input id='phone' type="tel" maxlength="11" value="" />
                 </tr>
                 <tr><p>所在地区</p></tr>
-                <div>
-                   	<select>
-	                   	<option value ="">江苏</option>
-	                   	<option value ="">浙江</option>
-	                   	<option value="">上海</option>
+                <div id='city_box'>
+                   	<select id='province' class="prov">
                    	</select>
-                   	<select>
-	                   	<option value ="">南京</option>
-	                   	<option value ="">无锡</option>
-	                   	<option value="">苏州</option>
+                   	<select id='city' class="city" disabled="disabled">
                    	</select>
-                   	<select>
-	                   	<option value ="">玄武区</option>
-	                   	<option value ="">江宁区</option>
-	                   	<option value="">鼓楼区</option>
+                   	<select id='region' class="dist" disabled="disabled">
                    	</select>
                 </div>
                 <tr><p>详细地址</p></tr>
                 <tr>
-                    <input type="text" value="" />
+                    <input id='address' type="text" value="" />
                 </tr>
             </tbody>
         </table>
     </div>
     <div class="foot_button">
-        <div class="submit_button">提交</div>
+        <div class="submit_button" id='submit_button'>提交</div>
     </div>
+    
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="js/jquery.cityselect.js"></script> 
+	<script type="text/javascript" src="js/pub_fuc.js"></script>
+	<script type="text/javascript">
+	var openId  = get_param('openId');
+	$(function(){
+		$("#city_box").citySelect({  
+		    url:"js/city.min.js",  
+		    prov:'江苏', //省份 
+		    city:'南京', //城市 
+		    dist:'建邺区', //区县 
+		    nodata:"none" //当子集无数据时，隐藏select 
+		});
+	})
+	
+	
+	$('#submit_button').click(function(){
+		var arr = ['name','license','phone','province','city','region','address'];
+		var param={openId:openId};
+		for(var i=0,len=arr.length;i<len;i++){
+			var tid = arr[i];
+			var ele = document.getElementById(tid);
+			var value = ele.value;
+			if(isEmpty(value)){
+				ele.style.borderColor = 'red';
+				return;
+			}else{
+				ele.style = '';
+			}
+			param[tid] = value;
+		}
+		console.log($.param(param));
+		nativeAjax('post','api/user/addAddress',function(e){
+			var data = jsonParse(getResult(e));
+			if(data.code=='0'){
+				window.location.href ='address.html';
+			}
+			
+		},$.param(param)); 
+		
+	});
+
+	</script>
+    
     </body>
 </html>

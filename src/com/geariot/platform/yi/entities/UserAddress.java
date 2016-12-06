@@ -81,5 +81,14 @@ public class UserAddress {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	@Override
+	public String toString() {
+		return "UserAddress [id=" + id + ", openId=" + openId + ", name="
+				+ name + ", phone=" + phone + ", license=" + license
+				+ ", province=" + province + ", city=" + city + ", region="
+				+ region + ", address=" + address + "]";
+	}
 
+	
+	
 }

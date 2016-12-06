@@ -14,9 +14,9 @@
 <body >
 	<ul class="address_list" id='content_body'>
 	</ul>
-	<ul class="add_address" onclick="window.location.href='add_address.html'" >
+	<ul id='add_address' class="add_address" style="margin-bottom: 30px;">
 		<li >
-			<div class="similar_data_detail" style="margin-left:30px;">	
+			<div class="similar_data_detail" style="margin-left:30px;margin-bottom: 30px;">	
 				<p class="store-item-addr4">
 					新增地址
 				</p>
@@ -29,13 +29,14 @@
 	<script src="js/jquery-1.11.3.min.js"></script>
 <script src="js/pub_fuc.js"></script> 
 <script type="text/javascript">
+var openId = '45234';
 $(function(){
 	load();
 	
 });
 
 function load(){
-	nativeAjax('get','api/user/getAll?openId=45234',function(e){
+	nativeAjax('get','api/user/getAll?openId='+openId,function(e){
 		var data = jsonParse(getResult(e));
 		var arr = data.data;
 		//console.log(arr);
@@ -76,10 +77,21 @@ function show_detail(){
 		} 
 		
 		if(e.target.className=='glyphicon glyphicon-remove'){
-			console.log("www");
+			nativeAjax('get','api/user/delAddress?addressId='+tid,function(e1){
+				var data = jsonParse(getResult(e1));
+				if(data.code=='0'){
+					console.log(e.currentTarget);
+					e.currentTarget.outerHTML = '';
+				}
+			});
 		}
 		
 	}); 
+	  
+	  
+	 $("#add_address").click(function(){
+		 window.location.href ='add_address.html?openId='+openId;
+	 });
 }
 	</script>
 	

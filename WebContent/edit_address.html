@@ -28,23 +28,23 @@
                     <input id='phone' type="tel" maxlength="11" value="" />
                 </tr>
                 <tr><p>所在地区</p></tr>
-                <tr id='city'>
-                   	<select class="prov"> 
+                <div id='city_box'>
+                   	<select id='province' class="prov"> 
                    	</select>
-                   	<select class="city" disabled="disabled"> 
+                   	<select id='city' class="city" disabled="disabled"> 
                    	</select>
-                   	<select class="city" disabled="disabled"> 
+                   	<select id='region' class="dist" disabled="disabled"> 
                    	</select>
-                </tr>
+                </div>
                 <tr><p>详细地址</p></tr>
                 <tr>
-                    <input type="text" value="" />
+                    <input id='address' type="text" value="" />
                 </tr>
             </tbody>
         </table>
     </div>
     <div class="foot_button">
-        <div class="submit_button">修改</div>
+        <div class='submit_button' id="submit_button">修改</div>
     </div>
     
     <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
@@ -56,35 +56,51 @@
 		nativeAjax('get','api/user/getAddById?id='+id,function(e){
 			var data = jsonParse(getResult(e));
 			var code = data.code;
-			console.log(data);
 			if(code=='0'){
 				var obj = data.data;
 				for(var item in obj){
 					var ele = document.getElementById(item);
 					if(ele){
 						ele.value = obj[item];
-						
 					}
 				}
 				
 				
-				$("#city").citySelect({  
+				$("#city_box").citySelect({  
 				    url:"js/city.min.js",  
-				    prov:"湖南", //省份 
-				    city:"长沙", //城市 
-				    dist:"岳麓区", //区县 
+				    prov:obj.province, //省份 
+				    city:obj.city, //城市 
+				    dist:obj.region, //区县 
 				    nodata:"none" //当子集无数据时，隐藏select 
 				});
+				
+				submit_button(obj);
+				
 			}
 			
 		});
 		
 		
 		
-		
-		function show_map(){
-			$('#detail_address').click(function(){
-				window.location.href = 'map.html';
+		function submit_button(obj){
+			$('#submit_button').click(function(){
+				var param='';
+				for(var item in obj){
+					var ele = document.getElementById(item);
+					if(ele){
+						obj[item] = ele.value;
+					}
+				}
+				
+				nativeAjax('post','api/user/modAddress',function(e){
+					var data = jsonParse(getResult(e));
+					console.log(data)
+					if(data.code=='0'){
+						window.location.href ='address.html';
+					}
+					
+				},$.param(obj));
+				
 			});
 		}
 	
