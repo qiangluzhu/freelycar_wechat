@@ -13,8 +13,8 @@
   	<link rel="stylesheet" type="text/css" href="css/store_detail.css" />	
 </head>
 <body>       
-<div class="store_detail">
-    <div class="mod_box store_title">
+<div class="store_detail" id='content_body'>
+    <!-- <div class="mod_box store_title">
 		<div class="mod_box ">
 			<h6 class="mod_tit" onclick="window.location.href='booking_detail.html'">订单号：<a>1212121212</a></h6>
 			<span class="contact-icon4 glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
@@ -73,7 +73,54 @@
 			<p class="feature3">预&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;约&nbsp;&nbsp;&nbsp;&nbsp;人：<a>王先生</a>
 			</p>                             
 		</div>	                        
-	</div>
-</div>		
+	</div> -->
+</div>	
+
+<script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/pub_fuc.js"></script>
+<script type="text/javascript">
+$(function(){
+	load();
+});
+
+var openId ='3452345234';
+function load(){
+	nativeAjax('get','api/technician/getReservation?openId='+openId+'&start=0&number=10',function(e){
+		var data = jsonParse(getResult(e));
+		var arr = data.data;
+		var html ='';
+		for(var i=0,len=arr.length;i<len;i++){
+			var obj = arr[i];
+		console.log(obj);
+			 html += '<div class="mod_box store_title">'
+				+'<div class="mod_box ">'
+				+'<h6 class="mod_tit" onclick="window.location.href=booking_detail.html>订单号：<a>2222222</a></h6>'
+				+'<span class="contact-icon4 glyphicon glyphicon-chevron-right" aria-hidden="true"></span>'
+				+'<p class="feature3" style="margin-top:20px;">预约上门时间：<a>2016-11-18 14:30</a>'
+				+'</p>'
+				+'<p class="feature3">预&nbsp;&nbsp;约&nbsp;&nbsp;电&nbsp;&nbsp;话：<a>13585263562</a>'
+				+'</p>'
+				+'<p class="feature3">预&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;约&nbsp;&nbsp;&nbsp;&nbsp;人：<a>王先生</a>'
+				+'</p>'                             
+				+'</div>'	                        
+				+'</div>';
+		}
+		document.getElementById('content_body').innerHTML = html;
+		show_detail();
+	});
+}
+
+function show_detail(){
+	$('#content_body').on('click','li',function(e){
+		//filter phone
+		if(e.target.className!='store-phone'){
+			window.location.href = 'store_detail.html?tid='+e.currentTarget.id;
+		}
+	});
+}
+
+
+
+</script>	
 </body>
 </html>

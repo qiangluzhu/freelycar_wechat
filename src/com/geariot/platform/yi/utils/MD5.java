@@ -31,8 +31,8 @@ public class MD5 {
 	}
 	
 	public static void main(String[] args){
-		//System.out.println(compute("dayiyaMrLv"));//21232f297a57a5a743894a0e4a801fc3
-		System.out.println(compute("adminadmin"));
+		//System.out.println(compute("admin"));//21232f297a57a5a743894a0e4a801fc3
+		System.out.println(compute("admin"));
 
 	}
 	
