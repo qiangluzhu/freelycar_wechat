@@ -13,58 +13,6 @@
 </head>
 <body >
 	<ul class="address_list" id='content_body'>
-		<li >
-			<div class="similar_data_detail" >
-				
-				<p class="store-item-addr4">
-					蒋卓伟
-				</p>
-			</div>
-			<div class="similar_data_detail">		
-				<p class="store-item-addr3">
-					南京市江宁区麒麟门路B座地下
-				</p>
-			</div>
-			<span class="add_icon glyphicon glyphicon-ok" style="color:#3E95DA;" aria-hidden="true" ></span>	
-			<span class="edit_icon" >
-				<span class="glyphicon glyphicon-edit" style="color:#3E95DA;" onclick="window.location.href='edit_address.html'"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-				<span class="glyphicon glyphicon-remove" style="color:#3E95DA;"></span>
-			</span>
-		</li>
-		<li >
-			<div class="similar_data_detail" >	
-				<p class="store-item-addr4">
-					蒋卓伟
-				</p>
-			</div>
-			<div class="similar_data_detail">		
-				<p class="store-item-addr3">
-					南京市江宁区麒麟门路B座地下
-				</p>
-			</div>
-			<span class="add_icon glyphicon glyphicon-ok" style="color:#3E95DA;" aria-hidden="true" ></span>
-			<span class="edit_icon" >
-				<span class="glyphicon glyphicon-edit" style="color:#3E95DA;" onclick="window.location.href='edit_address.html'"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-				<span class="glyphicon glyphicon-remove" style="color:#3E95DA;"></span>
-			</span>	
-		</li>
-		<li>
-			<div class="similar_data_detail" >	
-				<p class="store-item-addr4">
-					蒋卓伟
-				</p>
-			</div>
-			<div class="similar_data_detail">		
-				<p class="store-item-addr3">
-					南京市江宁区麒麟门路B座地下
-				</p>
-			</div>
-			<span class="add_icon glyphicon glyphicon-ok" style="color:#3E95DA;" aria-hidden="true" ></span>
-			<span class="edit_icon" >
-				<span class="glyphicon glyphicon-edit" style="color:#3E95DA;" onclick="window.location.href='edit_address.html'"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-				<span class="glyphicon glyphicon-remove" style="color:#3E95DA;"></span>
-			</span>	
-		</li> 
 	</ul>
 	<ul class="add_address" onclick="window.location.href='add_address.html'" >
 		<li >
@@ -90,11 +38,12 @@ function load(){
 	nativeAjax('get','api/user/getAll?openId=45234',function(e){
 		var data = jsonParse(getResult(e));
 		var arr = data.data;
-		console.log(arr);
+		//console.log(arr);
 		var html = '';
 		for(var i=0,len=arr.length;i<len;i++){
 			var obj = arr[i];
-			html +='<li >'
+			
+			html +='<li id='+obj.id+' >'
 				+'<div class="similar_data_detail" >'
 				+'<p class="store-item-addr4">'
 				+obj.name
@@ -105,9 +54,9 @@ function load(){
 				+obj.address
 				+'</p>'
 				+'</div>'
-				+'<span class="add_icon glyphicon glyphicon-ok" style="color:#3E95DA;position:absolute" aria-hidden="true" ></span>'
+				+'<span class="add_icon glyphicon glyphicon-ok" style="color:#3E95DA;" aria-hidden="true" ></span>'
 				+'<span class="edit_icon" >'
-				+'<span class="glyphicon glyphicon-edit" style="color:#3E95DA;" onclick="window.location.href=edit_address.html"></span>&nbsp;&nbsp;&nbsp;&nbsp;'
+				+'<span class="glyphicon glyphicon-edit" style="color:#3E95DA;"></span>&nbsp;&nbsp;&nbsp;&nbsp;'
 				+'<span class="glyphicon glyphicon-remove" style="color:#3E95DA;"></span>'
 				+'</span>'
 				+'</li>';
@@ -119,12 +68,18 @@ function load(){
 }
 
 function show_detail(){
-	$('#content_body').on('click','li',function(e){
+	  $('#content_body').on('click','li',function(e){
 		//filter phone
-		if(e.target.className!='glyphicon glyphicon-edit'){
-			console.log("ddd");
+		var tid = e.currentTarget.id;
+		if(e.target.className=='glyphicon glyphicon-edit'){
+			window.location.href ='edit_address.html?tid='+tid;
+		} 
+		
+		if(e.target.className=='glyphicon glyphicon-remove'){
+			console.log("www");
 		}
-	});
+		
+	}); 
 }
 	</script>
 	

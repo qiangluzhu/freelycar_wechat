@@ -88,9 +88,9 @@ public class UserService {
 			resultObj.put(Constants.RESPONSE_DATA_KEY, new JSONObject(b));
 			return resultObj.toString();
 		}
-		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.NOT_FOUND);
 		resultObj.put(Constants.RESPONSE_MSG_KEY,
-				RESCODE.DELETE_ERROR.getMsg());
+				RESCODE.NOT_FOUND.getMsg());
 		return resultObj.toString();
 	}
 

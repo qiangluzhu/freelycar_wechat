@@ -99,24 +99,12 @@ public class UserDaoImpl implements UserDao{
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public UserAddress getAddById(String id) {
 		try {
-			String hql = "from User where openId=:id";
-			List<User> user= getSession().createQuery(hql).setString("id", id).list();
-			if(user.size()>0){
-				User u=user.get(0);
-				String hql1="from UserAddress where id=:addId";
-				List<UserAddress> addList= getSession().createQuery(hql1).setString("addId", u.getAddressId()).list();
-				if(addList.size()>0){
-					return addList.get(0);
-				}else{
-					return null;
-				}
-			}else{
-				return null;
-			}
+			String hql = "from UserAddress where id=:id";
+			UserAddress add= (UserAddress) getSession().createQuery(hql).setString("id", id).uniqueResult();
+			return add;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

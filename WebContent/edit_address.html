@@ -16,33 +16,24 @@
             <tbody>
                 <tr><p>联系人</p></tr>
                 <tr>
-                    <input type="text" maxlength="6" value=""/></tr>
+                    <input id='name' type="text" maxlength="6" value=""/></tr>
                 <tr><p>车牌号</p></tr>
                 <tr>
                     <div style="position:relative;">
-                        <input type="text" maxlength="7" value=""/>
+                        <input  id='license' type="text" maxlength="7" value=""/>
                     </div>
                 </tr>
                 <tr><p>联系电话</p></tr>
                 <tr>
-                    <input type="tel" maxlength="11" value="" />
+                    <input id='phone' type="tel" maxlength="11" value="" />
                 </tr>
                 <tr><p>所在地区</p></tr>
-                <tr>
-                   	<select> 
-	                   	<option value ="">江苏</option> 
-	                   	<option value ="">浙江</option> 
-	                   	<option value="">上海</option>
+                <tr id='city'>
+                   	<select class="prov"> 
                    	</select>
-                   	<select> 
-	                   	<option value ="">南京</option> 
-	                   	<option value ="">无锡</option> 
-	                   	<option value="">苏州</option>
+                   	<select class="city" disabled="disabled"> 
                    	</select>
-                   	<select> 
-	                   	<option value ="">玄武区</option> 
-	                   	<option value ="">江宁区</option> 
-	                   	<option value="">鼓楼区</option>
+                   	<select class="city" disabled="disabled"> 
                    	</select>
                 </tr>
                 <tr><p>详细地址</p></tr>
@@ -55,5 +46,49 @@
     <div class="foot_button">
         <div class="submit_button">修改</div>
     </div>
+    
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="js/jquery.cityselect.js"></script> 
+	<script type="text/javascript" src="js/pub_fuc.js"></script>
+	<script type="text/javascript">
+		var id = get_param('tid');
+		
+		nativeAjax('get','api/user/getAddById?id='+id,function(e){
+			var data = jsonParse(getResult(e));
+			var code = data.code;
+			console.log(data);
+			if(code=='0'){
+				var obj = data.data;
+				for(var item in obj){
+					var ele = document.getElementById(item);
+					if(ele){
+						ele.value = obj[item];
+						
+					}
+				}
+				
+				
+				$("#city").citySelect({  
+				    url:"js/city.min.js",  
+				    prov:"湖南", //省份 
+				    city:"长沙", //城市 
+				    dist:"岳麓区", //区县 
+				    nodata:"none" //当子集无数据时，隐藏select 
+				});
+			}
+			
+		});
+		
+		
+		
+		
+		function show_map(){
+			$('#detail_address').click(function(){
+				window.location.href = 'map.html';
+			});
+		}
+	
+	</script>
+    
     </body>
 </html>
