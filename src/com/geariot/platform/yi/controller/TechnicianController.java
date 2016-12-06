@@ -17,16 +17,6 @@ public class TechnicianController {
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String add(Technician c) {
-//		Technician t=new Technician();
-//		t.setCreateTime(new Date());
-//		t.setName("小王");
-//		t.setOpenId("qwer1234");
-//		t.setPassword("123");
-//		t.setPhone("123456");
-//		t.setSid("1");
-//		t.setPassword(MD5.compute(t.getPassword()));
-//		service.add(t);
-		
 		c.setPassword(MD5.compute(c.getPassword()));
 		return service.add(c);
 //		return null;

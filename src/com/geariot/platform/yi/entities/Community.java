@@ -38,6 +38,7 @@ public class Community {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	@Basic(fetch = FetchType.LAZY)   
 	@Type(type="text")  
 	@Column(name="intro", nullable=true)   

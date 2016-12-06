@@ -13,8 +13,8 @@
 </head>
 <body>
 <div class="ycl-container ycl-dmxz">
-    <ul class="store clearfix">
-		<li class="clearfix">
+    <ul class="store clearfix"  id='content_body'>
+		 <!-- <li class="clearfix">
 			<div class="store-item-left">
 				<img src="img/barcode.png"/>
             </div>
@@ -23,40 +23,7 @@
                 	<span class="store-item-middle-title-text">xxx法拉利社群</span>
                 </p>
                 <p class="store-item-addr5">这是一个法拉利社群，这个装的可以</p> 
-            </div>
-        </li>
-        <li class="clearfix">
-			<div class="store-item-left">
-				<img src="img/barcode.png"/>
-            </div>
-            <div class="store-item-middle2">
-                <p class="store-item-middle-title">
-                	<span class="store-item-middle-title-text">保时捷改装车社群</span>
-                </p>
-                <p class="store-item-addr5">这是一个保时捷改装车社群，有ruf ctr，好的</p> 
-            </div>
-        </li>
-        <li class="clearfix">
-			<div class="store-item-left">
-				<img src="img/barcode.png"/>
-            </div>
-            <div class="store-item-middle2">
-                <p class="store-item-middle-title">
-                	<span class="store-item-middle-title-text">xxx保时捷社群</span>
-                </p>
-                <p class="store-item-addr5">这是一个保时捷车辆社群，这也装的可以</p> 
-            </div>
-        </li>
-        <li class="clearfix">
-			<div class="store-item-left">
-				<img src="img/barcode.png"/>
-            </div>
-            <div class="store-item-middle2">
-                <p class="store-item-middle-title">
-                	<span class="store-item-middle-title-text">五菱宏光灭霸社群</span>
-                </p>
-                <p class="store-item-addr5">我们是五菱宏光社群，楼上的都可以退了</p> 
-            </div>
+            </div> -->
         </li>
     </ul>
 </div>
@@ -71,44 +38,29 @@ $(function(){
 });
 
 function load(){
-	nativeAjax('get','api/store/find?start=0&number=10',function(e){
+	nativeAjax('get','api/community/find?start=0&number=10',function(e){
 		var data = jsonParse(getResult(e));
 		var arr = data.data;
-	//	console.log(arr);
 		var html = '';
 		for(var i=0,len=arr.length;i<len;i++){
 			var obj = arr[i];
-			html +='<li class="clearfix" id='+obj.id+'>'
-					+'<div class="store-item-left">'
-					+'<img src="img/icon.jpg"/>'
-					+'</div>'
-					+'<div class="store-item-middle">'
-					+'<p class="store-item-middle-title">'
-					+'<span class="store-item-middle-title-text">'+obj.name+'</span>'
-					+'</p>'
-					+'<p class="store-item-addr">'+obj.address+'</p>'
-					+'<p class="store-item-middle-start">'
-					+'<span class="store-phone">'+obj.phone+'</span>'
-					+'</p>'
-					+'</div>'
-					+'<div class="store-item-right">'
-					+'<i><img src="img/arrow.png"/></i>'
-					+'</div>'
-					+'</li>';
+			//console.log(obj);
+			html +='<li class="clearfix">'
+				+'<div class="store-item-left">'
+				+'<img src='+obj.url+' />'
+				+'</div>'
+				+'<div class="store-item-middle2">'
+				+'<p class="store-item-middle-title">'
+				+'<span class="store-item-middle-title-text">'+obj.name+'</span>'
+				+'</p>'
+				+'<p class="store-item-addr5">'+obj.intro+'</p>'
+				+'</div>'
+				+'</li>';
 		}
 		document.getElementById('content_body').innerHTML = html;
-		show_detail();
 	});
 }
 
-function show_detail(){
-	$('#content_body').on('click','li',function(e){
-		//filter phone
-		if(e.target.className!='store-phone'){
-			window.location.href = 'store_detail.html?tid='+e.currentTarget.id;
-		}
-	});
-}
 
 
 
