@@ -154,4 +154,19 @@ public class UserService {
 		return resultObj.toString();
 	}
 
+	public String adminLogin(String username, String password) {
+		JSONObject resultObj=new JSONObject();
+		boolean b = dao.adminLogin(username,password);
+		if (!b) {
+			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+			resultObj.put(Constants.RESPONSE_MSG_KEY,
+					RESCODE.DELETE_ERROR.getMsg());
+			return resultObj.toString();
+		}
+		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
+		resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
+		resultObj.put(Constants.RESPONSE_DATA_KEY, b);
+		return resultObj.toString();
+	}
+
 }

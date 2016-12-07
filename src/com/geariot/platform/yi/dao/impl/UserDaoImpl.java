@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.geariot.platform.yi.dao.UserDao;
+import com.geariot.platform.yi.entities.Admin;
 import com.geariot.platform.yi.entities.Community;
 import com.geariot.platform.yi.entities.Reservation;
 import com.geariot.platform.yi.entities.User;
@@ -264,62 +265,49 @@ public class UserDaoImpl implements UserDao{
     }
     
     public  static String getAccess_token(String appId,String appSecret) {
-
         String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="
-
                 + appId+ "&secret=" + appSecret;
-
         String accessToken = null;
-
         try {
-
             URL urlGet = new URL(url);
-
             HttpURLConnection http = (HttpURLConnection) urlGet
-
                     .openConnection();
-
             http.setRequestMethod("GET"); // 必须是get方式请求
-
             http.setRequestProperty("Content-Type",
-
                     "application/x-www-form-urlencoded");
-
             http.setDoOutput(true);
-
             http.setDoInput(true);
-
             System.setProperty("sun.net.client.defaultConnectTimeout", "30000");// 连接超时30秒
-
             System.setProperty("sun.net.client.defaultReadTimeout", "30000"); // 读取超时30秒
-
             http.connect();
-
             InputStream is = http.getInputStream();
-
             int size = is.available();
-
             byte[] jsonBytes = new byte[size];
-
             is.read(jsonBytes);
-
             String message = new String(jsonBytes, "UTF-8");
-
             JSONObject demoJson = new JSONObject(message);
-
             accessToken = demoJson.getString("access_token");
-
             System.out.println(accessToken);
-
             is.close();
-
         } catch (Exception e) {
-
             e.printStackTrace();
-
         }
-
         return accessToken;
-
     }
+
+	@Override
+	public boolean adminLogin(String username, String password) {
+		try {
+			String hql = "from Admin where username=:username and password=:password";
+			Admin admin = (Admin) getSession().createQuery(hql).setCacheable(true).setString("username", username).setString("password", password).uniqueResult();
+			if(admin!=null){
+				return true;
+			}else{
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 }

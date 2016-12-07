@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.geariot.platform.yi.entities.Reservation;
 import com.geariot.platform.yi.entities.UserAddress;
 import com.geariot.platform.yi.service.UserService;
+import com.geariot.platform.yi.utils.MD5;
 
 @RestController
 @RequestMapping(value="/user")
@@ -78,6 +79,12 @@ public class UserController {
 	@RequestMapping(value = "/getCode", method = RequestMethod.GET)
 	public String getCode(int start,int number) {
 		return service.getCode(start,number);
+	}
+	
+	@RequestMapping(value = "/adminLogin", method = RequestMethod.POST)
+	public String adminLogin(String username,String password) {
+		password=MD5.compute(password);
+		return service.adminLogin(username,password);
 	}
 }
 

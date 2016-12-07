@@ -26,4 +26,6 @@ public interface UserDao {
 
 	List<Community> getCode(int start, int number);
 
+	boolean adminLogin(String username, String password);
+
 }
