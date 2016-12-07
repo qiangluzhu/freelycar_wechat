@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.geariot.platform.yi.entities.Community;
 import com.geariot.platform.yi.service.CommunityService;
@@ -15,8 +16,8 @@ public class CommunityController {
 	CommunityService service;
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String add(Community c) {
-		return service.add(c);
+	public String add(Community c,MultipartFile file) {
+		return service.add(c,file);
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
@@ -25,8 +26,8 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public String modify(Community c) {
-		return service.modify(c);
+	public String modify(Community c,MultipartFile file) {
+		return service.modify(c,file);
 	}
 	
 	@RequestMapping(value = "/find", method = RequestMethod.GET)

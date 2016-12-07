@@ -1,12 +1,16 @@
 package com.geariot.platform.yi.dao.impl;
 
+import java.io.File;
 import java.util.List;
+
+import javax.servlet.ServletContext;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.geariot.platform.yi.dao.StoreDao;
 import com.geariot.platform.yi.entities.Store;
@@ -18,16 +22,35 @@ import com.geariot.platform.yi.utils.query.StoreAndQueryCreator;
 public class StoreDaoImpl implements StoreDao{
 	@Autowired
 	private SessionFactory sessionFactory;
+	@Autowired
+	private ServletContext context;
 
 	private Session getSession() {
 		return sessionFactory.getCurrentSession();
 	}
 
 	@Override
-	public boolean add(Store c) {
+	public boolean add(Store c,MultipartFile mf) {
 		try{
 			getSession().save(c);
-			return true;
+			if (null != mf) {
+				String baseUrl = context.getRealPath("") + "\\upload\\store\\";
+				String fileName = mf.getOriginalFilename();
+				if (!"".equals(fileName)) {
+					// 获取后缀
+					String suffix = fileName.substring(fileName.indexOf("."),
+							fileName.length());
+					String newName=c.getId()+suffix;
+					c.setUrl(newName);
+					try {
+						mf.transferTo(new File(baseUrl + newName));
+						return true;
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
+			return false;
 		}catch(Exception e){
 			e.printStackTrace();
 			return false;
@@ -53,10 +76,28 @@ public class StoreDaoImpl implements StoreDao{
 	}
 
 	@Override
-	public boolean modify(Store c) {
+	public boolean modify(Store c,MultipartFile mf) {
 		try{
 			getSession().update(c);
-			return true;
+			//TODO
+			if (null != mf) {
+				String baseUrl = context.getRealPath("") + "\\upload\\store\\";
+				String fileName = mf.getOriginalFilename();
+				if (!"".equals(fileName)) {
+					// 获取后缀
+					String suffix = fileName.substring(fileName.indexOf("."),
+							fileName.length());
+					String newName=c.getId()+suffix;
+					c.setUrl(newName);
+					try {
+						mf.transferTo(new File(baseUrl + newName));
+						return true;
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
+			return false;
 		}catch(Exception e){
 			return false;
 		}

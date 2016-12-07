@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.geariot.platform.yi.entities.Store;
 import com.geariot.platform.yi.service.StoreService;
@@ -15,19 +16,8 @@ public class StoreController {
 	StoreService service;
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String add(Store c) {
-//		Store s=new Store();
-//		s.setAddress("青岛路22号");
-//		s.setCity("南京");
-//		s.setProvince("江苏");
-//		s.setRegion("玄武");
-//		s.setInfo("这是一个爱车的地方");
-//		s.setName("小一爱车");
-//		s.setPhone("123456788");
-//		s.setUrl("123.jpg");
-//		service.add(s);
-		
-		return service.add(c);
+	public String add(Store c,MultipartFile file) {
+		return service.add(c,file);
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
@@ -36,8 +26,8 @@ public class StoreController {
 	}
 	
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public String modify(Store c) {
-		return service.modify(c);
+	public String modify(Store c,MultipartFile file) {
+		return service.modify(c,file);
 	}
 	
 	@RequestMapping(value = "/find", method = RequestMethod.GET)
