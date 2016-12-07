@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.geariot.platform.yi.dao.StoreDao;
 import com.geariot.platform.yi.entities.Store;
@@ -20,9 +21,9 @@ public class StoreService {
 	StoreDao storeDao;
 	
 
-	public String add(Store c) {
+	public String add(Store c,MultipartFile file) {
 		JSONObject resultObj=new JSONObject();
-		boolean b = storeDao.add(c);
+		boolean b = storeDao.add(c,file);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,
@@ -48,9 +49,9 @@ public class StoreService {
 		return resultObj.toString();
 	}
 
-	public String modify(Store c) {
+	public String modify(Store c,MultipartFile file) {
 		JSONObject resultObj=new JSONObject();
-		boolean b = storeDao.modify(c);
+		boolean b = storeDao.modify(c,file);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,

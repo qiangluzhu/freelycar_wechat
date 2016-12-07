@@ -1,12 +1,16 @@
 package com.geariot.platform.yi.dao.impl;
 
+import java.io.File;
 import java.util.List;
+
+import javax.servlet.ServletContext;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.geariot.platform.yi.dao.CommunityDao;
 import com.geariot.platform.yi.entities.Community;
@@ -19,16 +23,36 @@ public class CommunityDaoImpl implements CommunityDao{
 
 	@Autowired
 	private SessionFactory sessionFactory;
+	@Autowired
+	private ServletContext context;
 
 	private Session getSession() {
 		return sessionFactory.getCurrentSession();
 	}
 	
 	@Override
-	public boolean add(Community c) {
+	public boolean add(Community c,MultipartFile mf) {
 		try{
 			getSession().save(c);
-			return true;
+			//TODO
+			if (null != mf) {
+				String baseUrl = context.getRealPath("") + "\\upload\\community\\";
+				String fileName = mf.getOriginalFilename();
+				if (!"".equals(fileName)) {
+					// 获取后缀
+					String suffix = fileName.substring(fileName.indexOf("."),
+							fileName.length());
+					String newName=c.getId()+suffix;
+					c.setUrl(newName);
+					try {
+						mf.transferTo(new File(baseUrl + newName));
+						return true;
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
+			return false;
 		}catch(Exception e){
 			e.printStackTrace();
 			return false;
@@ -54,10 +78,28 @@ public class CommunityDaoImpl implements CommunityDao{
 	}
 
 	@Override
-	public boolean modify(Community c) {
+	public boolean modify(Community c,MultipartFile mf) {
 		try{
 			getSession().update(c);
-			return true;
+			System.out.println(c.getId()+c.getName());
+			if (null != mf) {
+				String baseUrl = context.getRealPath("") + "\\upload\\community\\";
+				String fileName = mf.getOriginalFilename();
+				if (!"".equals(fileName)) {
+					// 获取后缀
+					String suffix = fileName.substring(fileName.indexOf("."),
+							fileName.length());
+					String newName=c.getId()+suffix;
+					c.setUrl(newName);
+					try {
+						mf.transferTo(new File(baseUrl + newName));
+						return true;
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
+			return false;
 		}catch(Exception e){
 			return false;
 		}

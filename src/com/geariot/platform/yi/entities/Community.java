@@ -35,7 +35,12 @@ public class Community {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
 	@Basic(fetch = FetchType.LAZY)   
 	@Type(type="text")  
 	@Column(name="intro", nullable=true)   
@@ -45,12 +50,5 @@ public class Community {
 	public void setIntro(String intro) {
 		this.intro = intro;
 	}
-	public String getUrl() {
-		return url;
-	}
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	
 	
 }

@@ -20,6 +20,7 @@ public class UserAddress {
 	private String city;	//市
 	private String region;	//区
 	private String address;	//具体地址
+	private int isSelected;	//0代表未选中，1代表选中
 	@Id
 	@Column(length = 32)
 	@GeneratedValue(generator = "system-uuid")
@@ -78,12 +79,18 @@ public class UserAddress {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	public int getIsSelected() {
+		return isSelected;
+	}
+	public void setIsSelected(int isSelected) {
+		this.isSelected = isSelected;
+	}
 	@Override
 	public String toString() {
 		return "UserAddress [id=" + id + ", openId=" + openId + ", name="
 				+ name + ", phone=" + phone + ", license=" + license
 				+ ", province=" + province + ", city=" + city + ", region="
-				+ region + ", address=" + address + "]";
+				+ region + ", address=" + address +  ", isSelected=" + isSelected+"]";
 	}
 
 	

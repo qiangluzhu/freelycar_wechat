@@ -10,7 +10,6 @@ import javax.persistence.Table;
 public class User {
 	private String openId;
 	private String nickName;
-	private String addressId;	//最近选择的地址id
 	@Id
 	@Column(length = 32)
 	public String getOpenId() {
@@ -24,12 +23,6 @@ public class User {
 	}
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
-	}
-	public String getAddressId() {
-		return addressId;
-	}
-	public void setAddressId(String addressId) {
-		this.addressId = addressId;
 	}
 
 }
