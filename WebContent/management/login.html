@@ -13,25 +13,49 @@
 	<div class="wrap">
 		<div class="user_box">
 		<img src="../img/logo.jpg" style="width: 100px; margin-left: 110px; margin-bottom: 50px;"/>
-  		<form action="" method="post" id="">
   			<ul class="user_input pd-0">
    				<li>
       				<label class="label_box user_name">用户名</label>
-      				<input type="text" class="input_box input_name" name="login_name" placeholder="请输入用户名" >
+      				<input type="text" id='username' class="input_box input_name" name="login_name" placeholder="请输入用户名" >
     			</li>
 	    		<li>
 	      			<label class="label_box user_password">密码</label>
-	      			<input type="password" class="input_box input_password" name="login_pwd" placeholder="请输入密码">
+	      			<input id='password' type="password" class="input_box input_password" name="login_pwd" placeholder="请输入密码">
 	    		</li>
   			</ul>
-		  	<div class="user_button">
+		  	<div class="user_button" id="login">
 		    	<a href="" class="btn_submit dologin">登录</a>
 		  	</div>
-		  	</form>
 		</div>
         <div class="user_footer">
           Copyright &copy; 2016 <a>小易爱车</a> | 联系电话：400-000-0000        
         </div>
     </div>
+    
+    	
+	<script src="../js/jquery-1.11.3.min.js"></script>
+	<script src="../js/pub_fuc.js"></script>
+	<script type="text/javascript">
+		var id = get_param('tid');
+		$('#login').click(function(){
+			var username = document.getElementById('username').value;
+			var password = document.getElementById('password').value;
+			
+			nativeAjax('post','../api/user/adminLogin',function(e){
+				var data = jsonParse(getResult(e));
+				//console.log(data);
+				var code = data.code;
+				if(code=='0'){
+					window.location.href = 'index.html';
+				}
+				
+			},'username='+username+'&password='+password);
+			return false;
+		});
+		
+		
+	
+	</script>
+    
 </body>
 </html>
