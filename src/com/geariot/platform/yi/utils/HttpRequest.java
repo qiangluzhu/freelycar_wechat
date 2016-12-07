@@ -12,6 +12,7 @@ import java.nio.file.StandardCopyOption;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -260,4 +261,5 @@ public class HttpRequest {
 		}
 		return entity;
 	}
+	
 }

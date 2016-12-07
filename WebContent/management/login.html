@@ -46,6 +46,7 @@
 				//console.log(data);
 				var code = data.code;
 				if(code=='0'){
+					setCookie('login_sign', data.data.username);
 					window.location.href = 'index.html';
 				}
 				

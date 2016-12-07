@@ -9,13 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" >
     <link href="css/foundation-5.5.3.min.css" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
-    <script src="js/jquery-1.12.3.min.js"></script>
-    <script>
-      $(document).ready(function() {
-        $(".header").load("public.html",function() {
-        });
-      });
-    </script>
 </head>
 <body>
   <div class="wrap">
@@ -61,7 +54,7 @@
                       </label>
                     </div>
                     <div class="large-8 end columns">
-                      <input type="text" class="radius" name="store_name" placeholder="请输入名称" value="">
+                      <input  id="name" type="text" class="radius" name="store_name" placeholder="请输入名称" value="">
                     </div>
                   </div>
                   <div class="row">
@@ -73,8 +66,7 @@
                         <form method="POST">
                           <div class="upload_box">
                             <i class="upload_icon"></i>
-                            <input type="file" class="upload_button" name="image_pic3[]" multiple="multiple" >
-                            <input type="hidden" value="success_staff_gallary" name="callback">
+                            <input type="file" class="upload_button" id='barfile' accept="image/png, image/jpeg, image/gif">
                           </div>
                         </form>
                         <div class="img_preview">
@@ -95,14 +87,14 @@
                       <label class="right inline"><b class="t-color red">*</b>简介：</label>
                     </div>
                     <div class="large-8 end columns">
-                      <textarea class="radius" name="intro" placeholder="请填写简介" rows="4"></textarea>
+                      <textarea id="intro" class="radius" name="intro" placeholder="请填写简介" rows="4"></textarea>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="large-12 text-center columns">
-                  <a href="" class="button ran radius save">添加</a>
+                  <a id='add_group' class="button ran radius save">添加</a>
                 </div>
               </div>
             </div>
@@ -111,10 +103,40 @@
       </div>
     </div>
   </div>
+   <script src="../js/jquery-1.11.3.min.js"></script>
   <script src="js/tether.min.js"></script>
   <script src="js/jquery.components.min.js"></script>
   <script src="js/foundation.min.js"></script>
   <script src="js/public.js"></script>
   <script src="js/common.js"></script>
+    <script>
+      $(function() {
+        $("div.header").load("public.html");
+        
+        
+      });
+      
+      
+      $('#add_group').click(function(){
+    	  var formData = new FormData();
+    	  formData.append('name', document.getElementById('name').value);
+    	  formData.append('intro', document.getElementById('intro').value);
+    	  formData.append('file', document.getElementById('barfile').files[0]);
+    	  
+    	  
+          $.ajax({
+              url: '../api/community/add',
+              type: 'POST',
+              data: formData,
+              cache: false,
+              contentType: false,
+              processData: false,
+              success: function (data) {
+                  console.log(data);
+              }
+          });
+          return false;
+      });
+    </script>
 </body>
 </html>

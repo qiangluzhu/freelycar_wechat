@@ -9,13 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" >
     <link href="css/foundation-5.5.3.min.css" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
-    <script src="js/jquery-1.12.3.min.js"></script>
-    <script>
-      $(document).ready(function() {
-        $(".header").load("public.html",function() {
-        });
-      });
-    </script>
 </head>
 <body>
   <div class="wrap">
@@ -61,7 +54,7 @@
                       </label>
                     </div>
                     <div class="large-8 end columns">
-                      <input type="text" class="radius" name="store_name" placeholder="请输入名称" value="">
+                      <input type="text" id='name' class="radius" name="store_name" placeholder="请输入名称" value="">
                     </div>
                   </div>
                   <div class="row">
@@ -79,7 +72,7 @@
                         </form>
                         <div class="img_preview">
 	                        <a class="img_thumbs">
-	                        	<img src="">
+	                        	<img  id='barcode' src="">
 	                        </a>
                         </div>
                       </div>
@@ -95,7 +88,7 @@
                       <label class="right inline"><b class="t-color red">*</b>简介：</label>
                     </div>
                     <div class="large-8 end columns">
-                      <textarea class="radius" name="intro" placeholder="请填写简介" rows="4"></textarea>
+                      <textarea class="radius" id='intro' name="intro" placeholder="请填写简介" rows="4"></textarea>
                     </div>
                   </div>
                 </div>
@@ -103,7 +96,7 @@
               <div class="row">
                 <div class="large-12 text-center columns">
                   <a href="group.html" class="button ran radius back" style="background-color:#fff; color:#2096f3">返回</a>
-                  <a href="" class="button ran radius save">修改</a>
+                  <a id='edit' class="button ran radius save">修改</a>
                 </div>
               </div>
             </div>
@@ -112,10 +105,59 @@
       </div>
     </div>
   </div>
+  <script src="../js/jquery-1.11.3.min.js"></script>
+  <script src="../js/pub_fuc.js"></script>
   <script src="js/tether.min.js"></script>
   <script src="js/jquery.components.min.js"></script>
   <script src="js/foundation.min.js"></script>
   <script src="js/public.js"></script>
   <script src="js/common.js"></script>
+    <script>
+      $(function() {
+         $("div.header").load("public.html");
+      });
+      
+        var id = get_param('tid');
+		nativeAjax('get','../api/community/getById?id='+id,function(e){
+			var data = jsonParse(getResult(e));
+			console.log(data);
+			var code = data.code;
+			if(code=='0'){
+				var obj = data.data;
+					var name = document.getElementById('name');
+					name.value = obj.name;
+					
+					var intro = document.getElementById('intro');
+					intro.innerHTML = obj.intro;
+					
+					var barcode = document.getElementById('barcode');
+					barcode.setAttribute('src','../'+obj.url);
+	
+					edit();
+			}
+			
+		});
+		
+		function edit(){
+			$('#edit').click(function(){
+				//nativeAjax('get','../api/community/modify	?id='+id,function(e){},param);
+				var formData = new FormData();
+				
+                $.ajax({
+                    url: $(this).attr("action"),
+                    type: 'POST',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        console.log(data);
+                    }
+                });
+                return false;
+			});
+		}
+      
+    </script>
 </body>
 </html>

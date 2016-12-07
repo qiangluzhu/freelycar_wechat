@@ -10,14 +10,6 @@
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/foundation-5.5.3.min.css" >
     <link rel="stylesheet" type="text/css" href="css/app.css" >
-	   <!-- Script -->
-    <script src="js/jquery-1.12.3.min.js"></script>
-    <script>
-    	$(document).ready(function() {
-    		$(".header").load("public.html",function() {
-  			});
-    	});
-    </script>
 </head>
 <body>
   <div class="wrap">
@@ -72,8 +64,8 @@
                       <th width="100">操作</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
+                  <tbody id='content_body'>
+                    <!-- <tr>
                       <td>1</td>
                       <td>苏宁社群</td>
                       <td>这是一个很牛b的社群哈哈哈哈哈</td>
@@ -90,7 +82,7 @@
                         <a href="edit_group.html" data-toggle="tooltip" title="编辑" class="inline-button edit"><i class="fa fa-pencil fa-fw"></i></a>
                         <a data-toggle="tooltip" title="删除" class="inline-button del"><i class="fa fa-trash fa-fw"></i></a>
                       </td>
-                    </tr>
+                    </tr> -->
                   </tbody>
                 </table>
               </div>
@@ -109,10 +101,61 @@
       </div>
     </div>
   </div>
+   <script src="../js/jquery-1.11.3.min.js"></script>
   <script src="js/tether.min.js"></script>
   <script src="js/jquery.components.min.js"></script>
   <script src="js/foundation.min.js"></script>
   <script src="js/public.js"></script>
   <script src="js/common.js"></script>
+<script src="../js/pub_fuc.js"></script>
+<script type="text/javascript">
+$(function(){
+	$(".header").load("public.html");
+	load();
+});
+
+function load(){
+	nativeAjax('get','../api/community/find?start=0&number=10',function(e){
+		var data = jsonParse(getResult(e));
+		var arr = data.data;
+		var html = '';
+		for(var i=0,len=arr.length;i<len;i++){
+			var obj = arr[i];
+			//console.log(obj);
+			html +='<tr id='+obj.id+'>'
+                +'<td>'+(i+1)+'</td>'
+                +'<td>'+obj.name+'</td>'
+                +'<td>'+obj.intro+'</td>'
+                +'<td class="action_columns">'
+                +'<a data-toggle="tooltip" title="编辑" class="inline-button edit"><i class="fa fa-pencil fa-fw"></i></a>'
+                +'<a data-toggle="tooltip" title="删除" class="inline-button del"><i class="fa fa-trash fa-fw"></i></a>'
+                +'</td>'
+                +'</tr>';
+		}
+		document.getElementById('content_body').innerHTML = html;
+		opera();
+	});
+}
+
+
+function opera(){
+	$('#content_body').on('click','tr',function(e){
+		//filter phone
+		var tid  = e.currentTarget.id;
+		//console.log(e.target.className);
+		if(e.target.className=='fa fa-pencil fa-fw'){
+			window.location.href = 'edit_group.html?tid='+tid;
+		}
+		
+		if(e.target.className=='fa fa-trash fa-fw'){
+			//window.location.href = 'store_detail.html?tid='+tid;
+		}
+	});
+}
+
+</script>
+  
+  
+  
 </body>
 </html>
