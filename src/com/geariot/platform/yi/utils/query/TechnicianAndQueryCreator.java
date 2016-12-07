@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.geariot.platform.yi.entities.Technician;
 
-public class TechnicianAndQueryCreator   extends AndQueryCreator{
+public class TechnicianAndQueryCreator   extends AndOrQueryCreator{
 	protected void init() {
 		conditionKeys = new ArrayList<ConBean>();
 		ConBean bean1 = new ConBean("name", "like");

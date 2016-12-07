@@ -2,13 +2,8 @@ package com.geariot.platform.yi.utils.query;
 
 import java.util.List;
 
-/**
- * 查询and基本类
- *
- */
-public class AndQueryCreator {
-
-	protected String[] condition ;
+public class AndOrQueryCreator {
+protected String[] condition ;
 	
 	protected List<ConBean> conditionKeys ;
 	
@@ -21,19 +16,23 @@ public class AndQueryCreator {
 		
 	}
 	
-	public AndQueryCreator(String... condition)
+	public AndOrQueryCreator(String... condition)
 	{
 		this.condition = condition;
 		this.init();
 	}
 	
-	public AndQueryCreator(Object obj)
+	public AndOrQueryCreator(Object obj)
 	{
 		this.obj = obj;
 		this.init();
 	}
 	
-	public String createStatement()
+	/**
+	 * @param signal 0代表and查询，1代表or查询
+	 * @return
+	 */
+	public String createStatement(int signal)
 	{
 		StringBuffer content = new StringBuffer("");
 		if(condition == null || condition.length == 0 )
@@ -45,8 +44,13 @@ public class AndQueryCreator {
 				continue;
 			else
 			{
-				if(i != 0 && content.length() > 0)
-					content.append(" and ");
+				if(i != 0 && content.length() > 0){
+					if(signal==0){
+						content.append(" and ");
+					}else{
+						content.append(" or ");
+					}
+				}
 				content.append(conditionKeys.get(i).toString());
 				if(conditionKeys.get(i).getOperator().equals("like"))
 				{

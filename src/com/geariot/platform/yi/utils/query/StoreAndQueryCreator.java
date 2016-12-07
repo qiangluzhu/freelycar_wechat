@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.geariot.platform.yi.entities.Store;
 
-public class StoreAndQueryCreator  extends AndQueryCreator{
+public class StoreAndQueryCreator  extends AndOrQueryCreator{
 	protected void init() {
 		conditionKeys = new ArrayList<ConBean>();
 		ConBean bean1 = new ConBean("name", "like");

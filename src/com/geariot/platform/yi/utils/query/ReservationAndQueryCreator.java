@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.geariot.platform.yi.entities.Reservation;
 
-public class ReservationAndQueryCreator extends AndQueryCreator{
+public class ReservationAndQueryCreator extends AndOrQueryCreator{
 	protected void init() {
 		conditionKeys = new ArrayList<ConBean>();
 		ConBean bean1 = new ConBean("id", "like");

@@ -34,7 +34,7 @@ public class ReservationDaoImpl implements ReservationDao {
 		StringBuffer basicQueryStr;
 		basicQueryStr = new StringBuffer("from Reservation");
 		ReservationAndQueryCreator creator = new ReservationAndQueryCreator(r);
-		String creatorStr = creator.createStatement();
+		String creatorStr = creator.createStatement(0);
 		Query query = QueryUtils.createLocalQuery(getSession(), basicQueryStr,
 				creatorStr);
 		query.setCacheable(Constants.SELECT_CACHE);

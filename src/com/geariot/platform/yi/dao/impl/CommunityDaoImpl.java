@@ -127,7 +127,7 @@ public class CommunityDaoImpl implements CommunityDao{
 		StringBuffer basicQueryStr;
 		basicQueryStr = new StringBuffer("from Community");
 		CommunityAndQueryCreator creator = new CommunityAndQueryCreator(c);
-		String creatorStr = creator.createStatement();
+		String creatorStr = creator.createStatement(0);
 		Query query = QueryUtils.createLocalQuery(getSession(), basicQueryStr,
 				creatorStr);
 		query.setCacheable(Constants.SELECT_CACHE);

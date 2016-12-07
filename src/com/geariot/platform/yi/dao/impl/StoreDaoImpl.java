@@ -34,7 +34,7 @@ public class StoreDaoImpl implements StoreDao{
 		try{
 			getSession().save(c);
 			if (null != mf) {
-				String baseUrl = context.getRealPath("") + "\\upload\\store\\";
+//				String baseUrl = context.getRealPath("") + "\\upload\\store\\";
 				String fileName = mf.getOriginalFilename();
 				if (!"".equals(fileName)) {
 					// 获取后缀
@@ -81,7 +81,7 @@ public class StoreDaoImpl implements StoreDao{
 		try{
 			getSession().update(c);
 			if (null != mf) {
-				String baseUrl = context.getRealPath("") + "\\upload\\store\\";
+//				String baseUrl = context.getRealPath("") + "\\upload\\store\\";
 				String fileName = mf.getOriginalFilename();
 				if (!"".equals(fileName)) {
 					// 获取后缀
@@ -110,7 +110,7 @@ public class StoreDaoImpl implements StoreDao{
 		StringBuffer basicQueryStr;
 		basicQueryStr = new StringBuffer("from Store");
 		StoreAndQueryCreator creator = new StoreAndQueryCreator(c);
-		String creatorStr = creator.createStatement();
+		String creatorStr = creator.createStatement(0);
 		Query query = QueryUtils.createLocalQuery(getSession(), basicQueryStr,
 				creatorStr);
 		query.setCacheable(Constants.SELECT_CACHE);
