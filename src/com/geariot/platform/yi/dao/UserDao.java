@@ -28,4 +28,6 @@ public interface UserDao {
 
 	boolean adminLogin(String username, String password);
 
+	boolean setDefaultAddress(String addId,String userId);
+
 }

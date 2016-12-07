@@ -50,24 +50,6 @@ public class UserController {
 	
 	@RequestMapping(value = "/reserve", method = RequestMethod.POST)
 	public String reserve(Reservation r) {
-//		Reservation rr=new Reservation();
-//		rr.setAddress("汉口路22号");
-//		rr.setCity("南京");
-//		rr.setCreateTime(new Date());
-//		rr.setLicense("BC4234");
-//		rr.setNickName("garfield");
-//		rr.setOnTime(new Date());
-//		rr.setOrderOpenId("asdf1234");
-//		rr.setOrderPerson("小张");
-//		rr.setOrderPhone("654321");
-//		rr.setPhone("152342363345");
-//		rr.setProvince("江苏");
-//		rr.setRegion("鼓楼");
-//		rr.setRemark("这里需要预约一个修车");
-//		rr.setRopenId("aaa123");
-//		rr.setRperson("王小明");
-//		service.reserve(rr);
-//		return null;
 		return service.reserve(r);
 	}
 	
@@ -85,6 +67,11 @@ public class UserController {
 	public String adminLogin(String username,String password) {
 		password=MD5.compute(password);
 		return service.adminLogin(username,password);
+	}
+	
+	@RequestMapping(value = "/setAddress", method = RequestMethod.GET)
+	public String setDefaultAddress(String addId,String userId) {
+		return service.setDefaultAddress(addId,userId);
 	}
 }
 

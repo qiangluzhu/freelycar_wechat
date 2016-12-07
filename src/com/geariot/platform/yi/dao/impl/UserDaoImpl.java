@@ -310,4 +310,23 @@ public class UserDaoImpl implements UserDao{
 			return false;
 		}
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean setDefaultAddress(String addId,String userId) {
+		try{
+			String hql0 = "from UserAddress where openId=:userId";
+			Query query0 = getSession().createQuery(hql0).setString("userId", userId);
+			List<UserAddress> addList=query0.list();
+			for(int i=0;i<addList.size();i++){
+				addList.get(i).setIsSelected(0);
+			}
+			String hql = "from UserAddress where id=:addId";
+			UserAddress add= (UserAddress) getSession().createQuery(hql).setString("addId", addId).uniqueResult();
+			add.setIsSelected(1);
+			return true;
+		}catch(Exception e){
+			return false;
+		}
+	}
 }

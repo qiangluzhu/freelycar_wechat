@@ -167,4 +167,19 @@ public class UserService {
 		return resultObj.toString();
 	}
 
+	public String setDefaultAddress(String addId,String userId) {
+		JSONObject resultObj=new JSONObject();
+		boolean b = dao.setDefaultAddress(addId,userId);
+		if (!b) {
+			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+			resultObj.put(Constants.RESPONSE_MSG_KEY,
+					RESCODE.CREATE_ERROR.getMsg());
+			return resultObj.toString();
+		}
+		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
+		resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
+		resultObj.put(Constants.RESPONSE_DATA_KEY, b);
+		return resultObj.toString();
+	}
+
 }
