@@ -4,12 +4,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import com.geariot.platform.yi.utils.query.AndQueryCreator;
 
 import com.geariot.platform.yi.entities.Community;
 
 
-public class CommunityAndQueryCreator extends AndQueryCreator{
+public class CommunityAndQueryCreator extends AndOrQueryCreator{
 	protected void init() {
 		conditionKeys = new ArrayList<ConBean>();
 		ConBean bean1 = new ConBean("name", "like");

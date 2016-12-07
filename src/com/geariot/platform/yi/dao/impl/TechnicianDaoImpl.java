@@ -71,7 +71,7 @@ public class TechnicianDaoImpl implements TechnicianDao{
 		StringBuffer basicQueryStr;
 		basicQueryStr = new StringBuffer("from Technician");
 		TechnicianAndQueryCreator creator = new TechnicianAndQueryCreator(c);
-		String creatorStr = creator.createStatement();
+		String creatorStr = creator.createStatement(0);
 		Query query = QueryUtils.createLocalQuery(getSession(), basicQueryStr,
 				creatorStr);
 		query.setCacheable(Constants.SELECT_CACHE);
