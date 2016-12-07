@@ -9,13 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" >
     <link href="css/foundation-5.5.3.min.css" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
-    <script src="js/jquery-1.12.3.min.js"></script>
-    <script>
-      $(document).ready(function() {
-        $(".header").load("public.html",function() {
-        });
-      });
-    </script>
 </head>
 <body>
   <div class="wrap">
@@ -53,6 +46,8 @@
                 <div class="data_title">
                   <b>添加门店</b>
                 </div>
+                <form id='store_form'>
+                
                 <div class="large-8 columns">
                   <div class="row">
                     <div class="large-3 columns">
@@ -80,40 +75,6 @@
                     <div class="large-4 columns" style="padding-left:0">
                       <select class="radius" name="province_id" >
                         <option value="0">请选择</option>
-                          <option value="" >北京市</option>
-                          <option value="" >天津市</option>
-                          <option value="" >河北省</option>
-                          <option value="" >山西省</option>
-                          <option value="" >内蒙古自治区</option>
-                          <option value="" >辽宁省</option>
-                          <option value="" >吉林省</option>
-                          <option value="" >黑龙江省</option>
-                          <option value="" >上海市</option>
-                          <option value="" selected="selected">江苏省</option>
-                          <option value="" >浙江省</option>
-                          <option value="" >安徽省</option>
-                          <option value="" >福建省</option>
-                          <option value="" >江西省</option>
-                          <option value="" >山东省</option>
-                          <option value="" >河南省</option>
-                          <option value="" >湖北省</option>
-                          <option value="" >湖南省</option>
-                          <option value="" >广东省</option>
-                          <option value="" >广西壮族自治区</option>
-                          <option value="" >海南省</option>
-                          <option value="" >重庆市</option>
-                          <option value="" >四川省</option>
-                          <option value="" >贵州省</option>
-                          <option value="" >云南省</option>
-                          <option value="" >西藏自治区</option>
-                          <option value="" >陕西省</option>
-                          <option value="" >甘肃省</option>
-                          <option value="" >青海省</option>
-                          <option value="" >宁夏回族自治区</option>
-                          <option value="" >新疆维吾尔自治区</option>
-                          <option value="" >台湾省</option>
-                          <option value="" >香港特别行政区</option>
-                          <option value="" >澳门特别行政区</option>
                         </select>
                       </div>
 
@@ -152,13 +113,10 @@
                     </div>
                     <div class="large-8 end columns">
                       <div class="thumbs_list">
-                        <form method="POST">
                           <div class="upload_box">
                             <i class="upload_icon"></i>
-                            <input type="file" class="upload_button" name="image_pic3[]" multiple="multiple" >
-                            <input type="hidden" value="success_staff_gallary" name="callback">
+                            <input type="file" class="upload_button">
                           </div>
-                        </form>
                         <div class="img_preview">
 	                        <a class="img_thumbs">
 	                        	<img src="">
@@ -181,10 +139,12 @@
                     </div>
                   </div>
                 </div>
+                
+                </form>
               </div>
               <div class="row">
                 <div class="large-12 text-center columns">
-                  <a href="" class="button ran radius save">添加</a>
+                  <a id='add_store'  class="button ran radius save">添加</a>
                 </div>
               </div>
             </div>
@@ -193,10 +153,34 @@
       </div>
     </div>
   </div>
+  <script src="../js/jquery-1.11.3.min.js"></script>
   <script src="js/tether.min.js"></script>
   <script src="js/jquery.components.min.js"></script>
   <script src="js/foundation.min.js"></script>
   <script src="js/public.js"></script>
   <script src="js/common.js"></script>
+  <script>
+      $(document).ready(function() {
+        $("div.header").load("public.html");
+      });
+      
+      $('#add_store').click(function(){
+    	  var formData = new FormData(document.getElementById('store_form'));
+          $.ajax({
+              url: '../api/store/add',
+              type: 'POST',
+              data: formData,
+              cache: false,
+              contentType: false,
+              processData: false,
+              success: function (data) {
+                  console.log(data);
+              }
+          });
+          return false;
+      });
+      
+      	
+    </script>
 </body>
 </html>

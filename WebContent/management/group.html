@@ -46,7 +46,7 @@
             <div class="row filter_fix">
               <form method="get">
                 <div class="large-2 columns">
-                  <input type="text" value="" placeholder="按社区名称搜索">
+                  <input type="text" id="search_name" value="" placeholder="按社区名称搜索">
                 </div>
                 <div class="large-2 columns end">
                   <a  id='con_search' class="button small ran_search">搜索</a>
@@ -111,12 +111,17 @@
 <script type="text/javascript">
 $(function(){
 	$(".header").load("public.html");
-	load();
+	load('');
 });
 
-function load(){
-	nativeAjax('get','../api/community/find?start=0&number=10',function(e){
+function load(name){
+	nativeAjax('get','../api/community/find?name='+name+'&start=0&number=10',function(e){
 		var data = jsonParse(getResult(e));
+		if(data.code!='0'){
+			document.getElementById('content_body').innerHTML = '';
+			return;
+		}
+		
 		var arr = data.data;
 		var html = '';
 		for(var i=0,len=arr.length;i<len;i++){
@@ -162,7 +167,8 @@ function opera(){
 
 
 $('#con_search').click(function(){
-	
+	var search_name = document.getElementById('search_name').value;
+	load(search_name);
 });
 
 </script>
