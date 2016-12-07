@@ -123,6 +123,17 @@ select{
 	margin-top:-25px
 }
 
+.icon4{
+	margin-top:23px;
+	margin-left:10px;
+}
+
+.icon5{
+	margin-top:-38px;
+	float:right;
+	margin-right:10px;
+}
+
 .cont{
 	margin:20px 22px 0 22px;
 }
