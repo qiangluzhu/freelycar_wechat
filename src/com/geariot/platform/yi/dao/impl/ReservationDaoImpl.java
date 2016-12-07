@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.geariot.platform.yi.dao.ReservationDao;
 import com.geariot.platform.yi.entities.Reservation;
+import com.geariot.platform.yi.entities.Store;
 import com.geariot.platform.yi.utils.Constants;
 import com.geariot.platform.yi.utils.query.QueryUtils;
 import com.geariot.platform.yi.utils.query.ReservationAndQueryCreator;
@@ -113,6 +114,19 @@ public class ReservationDaoImpl implements ReservationDao {
 			return map;
 		} catch (ParseException e) {
 			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Reservation getById(String id) {
+		String hql = "from Reservation where id=:id";
+		List<Reservation> list = getSession().createQuery(hql)
+				.setString("id", id).setCacheable(Constants.SELECT_CACHE)
+				.list();
+		if(list.size()!=0){
+			return list.get(0);
 		}
 		return null;
 	}

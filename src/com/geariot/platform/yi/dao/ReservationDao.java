@@ -11,4 +11,6 @@ public interface ReservationDao {
 
 	public HashMap<String, Integer> statistic();
 
+	public Reservation getById(String id);
+
 }

@@ -26,4 +26,9 @@ public class ReservationController {
 		return service.statistic();
 	}
 	
+	@RequestMapping(value = "/getById", method = RequestMethod.GET)
+	public String getById(String id) {
+		return service.getById(id);
+	}
+	
 }
