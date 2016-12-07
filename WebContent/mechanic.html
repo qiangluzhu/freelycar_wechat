@@ -91,16 +91,16 @@ function load(){
 		var html ='';
 		for(var i=0,len=arr.length;i<len;i++){
 			var obj = arr[i];
-		console.log(obj);
+			//console.log(obj);
 			 html += '<div class="mod_box store_title">'
 				+'<div class="mod_box ">'
-				+'<h6 class="mod_tit" onclick="window.location.href=booking_detail.html>订单号：<a>2222222</a></h6>'
+				+'<h6 class="mod_tit" id='+obj.id+'>订单号：<a>'+obj.id+'</a></h6>'
 				+'<span class="contact-icon4 glyphicon glyphicon-chevron-right" aria-hidden="true"></span>'
-				+'<p class="feature3" style="margin-top:20px;">预约上门时间：<a>2016-11-18 14:30</a>'
+				+'<p class="feature3" style="margin-top:20px;">预约上门时间：<a>'+obj.onTime+'</a>'
 				+'</p>'
-				+'<p class="feature3">预&nbsp;&nbsp;约&nbsp;&nbsp;电&nbsp;&nbsp;话：<a>13585263562</a>'
+				+'<p class="feature3">预&nbsp;&nbsp;约&nbsp;&nbsp;电&nbsp;&nbsp;话：<a>'+obj.phone+'</a>'
 				+'</p>'
-				+'<p class="feature3">预&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;约&nbsp;&nbsp;&nbsp;&nbsp;人：<a>王先生</a>'
+				+'<p class="feature3">预&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;约&nbsp;&nbsp;&nbsp;&nbsp;人：<a>'+obj.rperson+'</a>'
 				+'</p>'                             
 				+'</div>'	                        
 				+'</div>';
@@ -111,11 +111,8 @@ function load(){
 }
 
 function show_detail(){
-	$('#content_body').on('click','li',function(e){
-		//filter phone
-		if(e.target.className!='store-phone'){
-			window.location.href = 'store_detail.html?tid='+e.currentTarget.id;
-		}
+	$('#content_body').on('click','h6.mod_tit',function(e){
+			window.location.href='booking_detail.html?tid='+e.currentTarget.id;
 	});
 }
 
