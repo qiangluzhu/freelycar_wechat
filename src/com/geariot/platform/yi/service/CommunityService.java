@@ -50,20 +50,17 @@ public class CommunityService {
 	}
 
 	public String modify(Community c,MultipartFile file) {
-//		JSONObject resultObj=new JSONObject();
-//		boolean b = communityDao.modify(c,file);
-//		if (!b) {
-//			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
-//			resultObj.put(Constants.RESPONSE_MSG_KEY,
-//					RESCODE.UPDATE_ERROR.getMsg());
-//			return resultObj.toString();
-//		}
-//		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
-//		resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
-//		return resultObj.toString();
-		Community cc=communityDao.getById("402882ef58d7f1790158d7f1c9510000");
-		communityDao.modify(cc,file);
-		return null;
+		JSONObject resultObj=new JSONObject();
+		boolean b = communityDao.modify(c,file);
+		if (!b) {
+			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+			resultObj.put(Constants.RESPONSE_MSG_KEY,
+					RESCODE.UPDATE_ERROR.getMsg());
+			return resultObj.toString();
+		}
+		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
+		resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
+		return resultObj.toString();
 	}
 
 	public String find(Community c, int start, int number) {

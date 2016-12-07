@@ -42,8 +42,9 @@ public class StoreDaoImpl implements StoreDao{
 							fileName.length());
 					String newName=c.getId()+suffix;
 					c.setUrl(newName);
+					String testUrl="D:\\upload\\store\\";
 					try {
-						mf.transferTo(new File(baseUrl + newName));
+						mf.transferTo(new File(testUrl + newName));
 						return true;
 					}catch(Exception e){
 						e.printStackTrace();
@@ -79,7 +80,6 @@ public class StoreDaoImpl implements StoreDao{
 	public boolean modify(Store c,MultipartFile mf) {
 		try{
 			getSession().update(c);
-			//TODO
 			if (null != mf) {
 				String baseUrl = context.getRealPath("") + "\\upload\\store\\";
 				String fileName = mf.getOriginalFilename();
@@ -89,8 +89,9 @@ public class StoreDaoImpl implements StoreDao{
 							fileName.length());
 					String newName=c.getId()+suffix;
 					c.setUrl(newName);
+					String testUrl="D:\\upload\\store\\";
 					try {
-						mf.transferTo(new File(baseUrl + newName));
+						mf.transferTo(new File(testUrl + newName));
 						return true;
 					}catch(Exception e){
 						e.printStackTrace();
