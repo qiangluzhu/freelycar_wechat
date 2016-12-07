@@ -34,7 +34,6 @@ public class CommunityDaoImpl implements CommunityDao{
 	public boolean add(Community c,MultipartFile mf) {
 		try{
 			getSession().save(c);
-			//TODO
 			if (null != mf) {
 				String baseUrl = context.getRealPath("") + "\\upload\\community\\";
 				String fileName = mf.getOriginalFilename();
@@ -44,8 +43,9 @@ public class CommunityDaoImpl implements CommunityDao{
 							fileName.length());
 					String newName=c.getId()+suffix;
 					c.setUrl(newName);
+					String testUrl="D:\\upload\\community\\";
 					try {
-						mf.transferTo(new File(baseUrl + newName));
+						mf.transferTo(new File(testUrl + newName));
 						return true;
 					}catch(Exception e){
 						e.printStackTrace();
@@ -91,8 +91,9 @@ public class CommunityDaoImpl implements CommunityDao{
 							fileName.length());
 					String newName=c.getId()+suffix;
 					c.setUrl(newName);
+					String testUrl="D:\\upload\\community\\";
 					try {
-						mf.transferTo(new File(baseUrl + newName));
+						mf.transferTo(new File(testUrl + newName));
 						return true;
 					}catch(Exception e){
 						e.printStackTrace();
