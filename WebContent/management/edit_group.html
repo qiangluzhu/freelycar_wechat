@@ -66,8 +66,7 @@
                         <form method="POST">
                           <div class="upload_box">
                             <i class="upload_icon"></i>
-                            <input type="file" class="upload_button" name="image_pic3[]" multiple="multiple" >
-                            <input type="hidden" value="success_staff_gallary" name="callback">
+                            <input type="file" class="upload_button" id='barfile' accept="image/png, image/jpeg, image/gif">
                           </div>
                         </form>
                         <div class="img_preview">
@@ -115,12 +114,15 @@
     <script>
       $(function() {
          $("div.header").load("public.html");
+         $("#barfile").change(function(){
+ 		    readURL(this);
+ 		});
       });
       
         var id = get_param('tid');
 		nativeAjax('get','../api/community/getById?id='+id,function(e){
 			var data = jsonParse(getResult(e));
-			console.log(data);
+			//console.log(data);
 			var code = data.code;
 			if(code=='0'){
 				var obj = data.data;
@@ -131,20 +133,26 @@
 					intro.innerHTML = obj.intro;
 					
 					var barcode = document.getElementById('barcode');
-					barcode.setAttribute('src','../'+obj.url);
+					barcode.setAttribute('src','/freely/'+obj.url);
 	
-					edit();
+					edit(obj.url);
 			}
 			
 		});
 		
-		function edit(){
+		function edit(url){
 			$('#edit').click(function(){
 				//nativeAjax('get','../api/community/modify	?id='+id,function(e){},param);
-				var formData = new FormData();
+				 var formData = new FormData();
+		    	  formData.append('name', document.getElementById('name').value);
+		    	  formData.append('intro', document.getElementById('intro').value);
+		    	  formData.append('file', document.getElementById('barfile').files[0]);
+		    	  formData.append('id', id);
+		    	  formData.append('url', url);
+				
 				
                 $.ajax({
-                    url: $(this).attr("action"),
+                    url: '../api/community/modify',
                     type: 'POST',
                     data: formData,
                     cache: false,
@@ -157,6 +165,19 @@
                 return false;
 			});
 		}
+		
+		
+		  //上次预览
+	      function readURL(input) {
+			if (input.files && input.files[0]) {
+			    var reader = new FileReader();
+		           reader.onload = function (e) {
+			          $('#barcode').attr('src', e.target.result);
+			        }
+			        reader.readAsDataURL(input.files[0]);
+			 }
+		}
+	      
       
     </script>
 </body>

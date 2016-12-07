@@ -148,7 +148,13 @@ function opera(){
 		}
 		
 		if(e.target.className=='fa fa-trash fa-fw'){
-			//window.location.href = 'store_detail.html?tid='+tid;
+			nativeAjax('get','../api/community/delete?id='+tid,function(e1){
+				var data = jsonParse(getResult(e1));
+				//console.log(data);
+				if(data.code=='0'){
+					e.currentTarget.outerHTML ='';
+				}
+			});
 		}
 	});
 }

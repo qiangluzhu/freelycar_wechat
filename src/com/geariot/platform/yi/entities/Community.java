@@ -50,5 +50,12 @@ public class Community {
 	public void setIntro(String intro) {
 		this.intro = intro;
 	}
+	@Override
+	public String toString() {
+		return "Community [id=" + id + ", name=" + name + ", intro=" + intro
+				+ ", url=" + url + "]";
+	}
+	
+	
 	
 }

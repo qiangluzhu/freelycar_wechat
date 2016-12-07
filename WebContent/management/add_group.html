@@ -70,8 +70,8 @@
                           </div>
                         </form>
                         <div class="img_preview">
-	                        <a class="img_thumbs">
-	                        	<img src="">
+	                        <a class="img_thumbs" >
+	                        	<img src="" id='barpreview'>
 	                        </a>
                         </div>
                       </div>
@@ -104,6 +104,7 @@
     </div>
   </div>
    <script src="../js/jquery-1.11.3.min.js"></script>
+   <script src="../js/pub_fuc.js"></script>
   <script src="js/tether.min.js"></script>
   <script src="js/jquery.components.min.js"></script>
   <script src="js/foundation.min.js"></script>
@@ -113,8 +114,24 @@
       $(function() {
         $("div.header").load("public.html");
         
-        
+        $("#barfile").change(function(){
+		    readURL(this);
+		});
       });
+      
+      
+      
+      //上次预览
+      function readURL(input) {
+		if (input.files && input.files[0]) {
+		    var reader = new FileReader();
+	           reader.onload = function (e) {
+		          $('#barpreview').attr('src', e.target.result);
+		        }
+		        reader.readAsDataURL(input.files[0]);
+		 }
+	}
+      
       
       
       $('#add_group').click(function(){
@@ -132,7 +149,10 @@
               contentType: false,
               processData: false,
               success: function (data) {
-                  console.log(data);
+            	 data = jsonParse(data);
+            	 if(data.code=='0'){
+            		  window.location.href ='group.html';
+            	  } 
               }
           });
           return false;

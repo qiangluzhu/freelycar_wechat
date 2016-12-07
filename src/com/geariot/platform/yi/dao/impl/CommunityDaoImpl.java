@@ -90,10 +90,14 @@ public class CommunityDaoImpl implements CommunityDao{
 	@Override
 	public boolean modify(Community c,MultipartFile mf) {
 		try{
-			getSession().update(c);
-			System.out.println(c.getId()+c.getName());
 			if (null != mf) {
-				String baseUrl = context.getRealPath("") + "\\upload\\community\\";
+				String baseUrl="D:\\upload\\community\\";
+				//String baseUrl = context.getRealPath("") + "\\upload\\community\\";
+				
+				Path path = Paths.get(baseUrl);
+				if(Files.notExists(path)){
+					Files.createDirectories(path);
+				}
 				String fileName = mf.getOriginalFilename();
 				if (!"".equals(fileName)) {
 					// 获取后缀
@@ -101,16 +105,17 @@ public class CommunityDaoImpl implements CommunityDao{
 							fileName.length());
 					String newName=c.getId()+suffix;
 					c.setUrl(newName);
-					String testUrl="D:\\upload\\community\\";
+					
 					try {
-						mf.transferTo(new File(testUrl + newName));
-						return true;
+						mf.transferTo(new File(baseUrl + newName));
 					}catch(Exception e){
 						e.printStackTrace();
+						return false;
 					}
 				}
 			}
-			return false;
+			getSession().update(c);
+			return true;
 		}catch(Exception e){
 			return false;
 		}
