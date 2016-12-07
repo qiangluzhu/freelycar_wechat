@@ -31,9 +31,12 @@ public class CommunityController {
 	
 	@RequestMapping(value = "/find", method = RequestMethod.GET)
 	public String find(Community c,int start,int number) {
-//		Community cc = new Community();
-//		cc.setName("社区");
 		return service.find(c,start,number);
+	}
+	
+	@RequestMapping(value = "/getById", method = RequestMethod.GET)
+	public String getById(String id) {
+		return service.getById(id);
 	}
 	
 }
