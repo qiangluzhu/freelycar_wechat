@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 
 import com.geariot.platform.yi.dao.ReservationDao;
 import com.geariot.platform.yi.entities.Reservation;
-import com.geariot.platform.yi.entities.Store;
 import com.geariot.platform.yi.utils.Constants;
 import com.geariot.platform.yi.utils.query.QueryUtils;
 import com.geariot.platform.yi.utils.query.ReservationAndQueryCreator;

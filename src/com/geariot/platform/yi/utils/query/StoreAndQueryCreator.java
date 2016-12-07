@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.geariot.platform.yi.entities.Community;
 import com.geariot.platform.yi.entities.Store;
 
 public class StoreAndQueryCreator  extends AndQueryCreator{

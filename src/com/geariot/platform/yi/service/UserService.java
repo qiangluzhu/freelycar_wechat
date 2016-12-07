@@ -21,15 +21,13 @@ public class UserService {
 	@Autowired
 	UserDao dao;
 	
-
-	
 	public String register(String openId, String nickName) {
 		JSONObject resultObj=new JSONObject();
 		boolean b = dao.register(openId,nickName);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,
-					RESCODE.UPDATE_ERROR.getMsg());
+					RESCODE.CREATE_ERROR.getMsg());
 			return resultObj.toString();
 		}
 		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
@@ -115,7 +113,7 @@ public class UserService {
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,
-					RESCODE.DELETE_ERROR.getMsg());
+					RESCODE.CREATE_ERROR.getMsg());
 			return resultObj.toString();
 		}
 		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
@@ -160,7 +158,7 @@ public class UserService {
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,
-					RESCODE.DELETE_ERROR.getMsg());
+					RESCODE.NOT_FOUND.getMsg());
 			return resultObj.toString();
 		}
 		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);

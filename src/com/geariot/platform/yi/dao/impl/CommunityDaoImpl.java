@@ -78,4 +78,17 @@ public class CommunityDaoImpl implements CommunityDao{
 		return query.list();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Community getById(String id) {
+		String hql = "from Community where id=:id";
+		List<Community> list = getSession().createQuery(hql)
+				.setString("id", id).setCacheable(Constants.SELECT_CACHE)
+				.list();
+		if(list.size()!=0){
+			return list.get(0);
+		}
+		return null;
+	}
+
 }
