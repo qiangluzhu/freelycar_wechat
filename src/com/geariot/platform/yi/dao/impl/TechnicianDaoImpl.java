@@ -40,7 +40,7 @@ public class TechnicianDaoImpl implements TechnicianDao{
 	@Override
 	public boolean delete(String id) {
 		try {
-			String hql = "delete from Store where id = :id";
+			String hql = "delete from Technician where id = :id";
 			int ex = getSession().createQuery(hql).setString("id", id)
 					.executeUpdate();
 			if (ex > 0) {

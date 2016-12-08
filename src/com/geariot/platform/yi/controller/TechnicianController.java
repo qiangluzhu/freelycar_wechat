@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.geariot.platform.yi.entities.Technician;
 import com.geariot.platform.yi.service.TechnicianService;
-import com.geariot.platform.yi.utils.MD5;
 
 @RestController
 @RequestMapping(value="/technician")
@@ -17,7 +16,6 @@ public class TechnicianController {
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String add(Technician c) {
-		c.setPassword(MD5.compute(c.getPassword()));
 		return service.add(c);
 //		return null;
 	}

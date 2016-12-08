@@ -130,9 +130,6 @@ var store_phone = '';
 
 
 function load(){
-	console.log(store_name);
-	console.log(store_address);
-	console.log(store_phone);
 	nativeAjax('get','../api/store/find?name='+store_name+'&address='+store_address+'&phone='+store_phone+'&start=0&number=10',function(e){
 		var data = jsonParse(getResult(e));
 		if(data.code!='0'){

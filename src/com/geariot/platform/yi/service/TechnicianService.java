@@ -1,5 +1,6 @@
 package com.geariot.platform.yi.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -24,6 +25,8 @@ public class TechnicianService {
 
 	public String add(Technician c) {
 		JSONObject resultObj=new JSONObject();
+		c.setPassword(MD5.compute(c.getPassword()));
+		c.setCreateTime(new Date());
 		boolean b = dao.add(c);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);

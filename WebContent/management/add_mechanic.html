@@ -9,13 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" >
     <link href="css/foundation-5.5.3.min.css" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
-    <script src="js/jquery-1.12.3.min.js"></script>
-    <script>
-      $(document).ready(function() {
-        $(".header").load("public.html",function() {
-        });
-      });
-    </script>
 </head>
 <body>
   <div class="wrap">
@@ -24,7 +17,7 @@
       <nav class="topNav">
         <div class="right">
           <div class="user_avatar" data-dropdown="hover" data-options="is_hover:true; ">
-            <img src="https://pic1-s.styd.cn/no-avatar?imageView2/1/w/100/h/100/interlace/1" alt="">
+            <img src="../img/no-avatar.png" alt="">
           </div>
           <ul id="hover" class="f-dropdown" data-dropdown-content>
             <li>
@@ -61,7 +54,7 @@
                       </label>
                     </div>
                     <div class="large-8 end columns">
-                      <input type="text" class="radius" name="name" placeholder="请输入姓名" value="">
+                      <input type="text" class="radius" id="name" placeholder="请输入姓名" value="">
                     </div>
                   </div>
                   <div class="row">
@@ -71,7 +64,7 @@
                       </label>
                     </div>
                     <div class="large-8 end columns">
-                      <input type="text" class="radius" name="phone" placeholder="请输入手机号" value="">
+                      <input type="text" class="radius" id="phone" placeholder="请输入手机号" value="">
                     </div>
                   </div>
                   <div class="row">
@@ -81,14 +74,14 @@
                       </label>
                     </div>
                     <div class="large-8 end columns">
-                      <input type="text" class="radius" name="password" placeholder="请输入密码" value="">
+                      <input type="text" class="radius" id="password" placeholder="请输入密码" value="">
                     </div>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="large-12 text-center columns">
-                  <a href="" class="button ran radius save">添加</a>
+                  <a id="submit_button" class="button ran radius save">添加</a>
                 </div>
               </div>
             </div>
@@ -97,10 +90,50 @@
       </div>
     </div>
   </div>
+  	   <!-- Script -->
+   <script src="../js/jquery-1.11.3.min.js"></script>
   <script src="js/tether.min.js"></script>
   <script src="js/jquery.components.min.js"></script>
   <script src="js/foundation.min.js"></script>
   <script src="js/public.js"></script>
   <script src="js/common.js"></script>
+  <script src="../js/pub_fuc.js"></script>
+  <script type="text/javascript">
+  
+  $(function() {
+      $("div.header").load("public.html");
+  });
+	
+  var param = {};
+	$('#submit_button').click(function(){
+		var arr = ['name','phone','password'];
+		for(var i=0,len=arr.length;i<len;i++){
+			var tid = arr[i];
+			var ele = document.getElementById(tid);
+			ele.style = '';
+		}
+		
+		for(var i=0,len=arr.length;i<len;i++){
+			var tid = arr[i];
+			var ele = document.getElementById(tid);
+			var value = ele.value;
+			if(isEmpty(value)){
+				ele.style.borderColor = 'red';
+				return;
+			}
+			param[tid] = value;
+		}
+		console.log($.param(param));
+		nativeAjax('post','../api/technician/add',function(e){
+			var data = jsonParse(getResult(e));
+			if(data.code=='0'){
+				window.location.href ='mechanic.html';
+			}
+			
+		},$.param(param)); 
+		
+	});
+
+</script>
 </body>
 </html>
