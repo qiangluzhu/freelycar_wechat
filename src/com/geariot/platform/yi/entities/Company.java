@@ -2,16 +2,14 @@ package com.geariot.platform.yi.entities;
 
 import java.util.Date;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "company_oder")
@@ -55,9 +53,7 @@ public class Company {
 	public Date getCreateTime() {
 		return createTime;
 	}
-	@Basic(fetch = FetchType.LAZY)   
-	@Type(type="text")  
-	@Column(name="userRequire", nullable=true)   
+	@Lob
 	public String getUserRequire() {
 		return userRequire;
 	}

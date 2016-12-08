@@ -9,13 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" >
     <link href="css/foundation-5.5.3.min.css" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
-    <script src="js/jquery-1.12.3.min.js"></script>
-    <script>
-      $(document).ready(function() {
-        $(".header").load("public.html",function() {
-        });
-      });
-    </script>
 </head>
 <body>
   <div class="wrap">
@@ -24,7 +17,7 @@
       <nav class="topNav">
         <div class="right">
           <div class="user_avatar" data-dropdown="hover" data-options="is_hover:true; ">
-            <img src="https://pic1-s.styd.cn/no-avatar?imageView2/1/w/100/h/100/interlace/1" alt="">
+            <img src="../img/no-avatar.png" alt="">
           </div>
           <ul id="hover" class="f-dropdown" data-dropdown-content>
             <li>
@@ -61,7 +54,7 @@
                       </label>
                     </div>
                     <div class="large-8 end columns">
-                      <label class="left inline">we3234234242343x</label>
+                      <label class="left inline" id='id'></label>
                     </div>
                   </div>
                   <div class="row">
@@ -71,7 +64,7 @@
                       </label>
                     </div>
                     <div class="large-8 end columns">
-                      <label class="left inline">wonderful</label>
+                      <label class="left inline" id='nickName'>wonderful</label>
                     </div>
                   </div>
                   <div class="row">
@@ -81,7 +74,7 @@
                       </label>
                     </div>
                     <div class="large-8 end columns">
-                      <label class="left inline">蒋卓伟</label>
+                      <label class="left inline" id='rperson'></label>
                     </div>
                   </div>
                   <div class="row">
@@ -91,7 +84,7 @@
                       </label>
                     </div>
                     <div class="large-8 end columns">
-                      <label class="left inline">182343434343</label>
+                      <label class="left inline" id='phone'></label>
                     </div>
                   </div>
                   <div class="row">
@@ -101,7 +94,7 @@
                       </label>
                     </div>
                     <div class="large-8 end columns">
-                      <label class="left inline">江苏省南京市玄武区云锦路58号1200室</label>
+                      <label class="left inline" id='address'></label>
                     </div>
                   </div>
                   <div class="row">
@@ -111,7 +104,7 @@
                       </label>
                     </div>
                     <div class="large-8 end columns">
-                      <label class="left inline">2016-06-18 14:30</label>
+                      <label class="left inline" id='onTime'></label>
                     </div>
                   </div>
                   <div class="row">
@@ -121,7 +114,7 @@
                       </label>
                     </div>
                     <div class="large-8 end columns">
-                      <label class="left inline">苏AE1C67</label>
+                      <label class="left inline" id='license'></label>
                     </div>
                   </div>
                   <div class="row">
@@ -131,7 +124,7 @@
                       </label>
                     </div>
                     <div class="large-8 end columns">
-                      <label class="left inline">车门被撞了，凹下去</label>
+                      <label class="left inline" id='remark'></label>
                     </div>
                   </div>
                   <div class="row">
@@ -141,7 +134,7 @@
                       </label>
                     </div>
                     <div class="large-8 end columns">
-                      <label class="left inline">蒋老师</label>
+                      <label class="left inline" id='orderPerson'></label>
                     </div>
                   </div>
                   <div class="row">
@@ -151,7 +144,7 @@
                       </label>
                     </div>
                     <div class="large-8 end columns">
-                      <label class="left inline">159343432205</label>
+                      <label class="left inline" id='orderPhone'></label>
                     </div>
                   </div>
                 </div>
@@ -167,10 +160,37 @@
       </div>
     </div>
   </div>
+  <script src="../js/jquery-1.11.3.min.js"></script>
+  <script src="../js/pub_fuc.js"></script>
   <script src="js/tether.min.js"></script>
   <script src="js/jquery.components.min.js"></script>
   <script src="js/foundation.min.js"></script>
   <script src="js/public.js"></script>
   <script src="js/common.js"></script>
+  <script type="text/javascript">
+  $(function(){
+		$(".header").load("public.html");
+  });
+  		
+  
+	var id = get_param('tid');
+	
+	nativeAjax('get','../api/reservation/getById?id='+id,function(e){
+		var data = jsonParse(getResult(e));
+		//console.log(data);
+		var code = data.code;
+		if(code=='0'){
+			var obj = data.data;
+			for(var item in obj){
+				var ele = document.getElementById(item);
+				if(ele){
+					ele.innerHTML = obj[item];
+				}
+			}
+		}
+		
+	});
+	
+ </script>
 </body>
 </html>

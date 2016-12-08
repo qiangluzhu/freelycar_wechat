@@ -46,13 +46,13 @@
             <div class="row filter_fix">
               <form method="get" >
                 <div class="large-2 columns">
-                  <input type="text" value="" placeholder="按技师姓名搜索">
+                  <input type="text" id='me_name' value="" placeholder="按技师姓名搜索">
                 </div>
                 <div class="large-2 columns">
-                  <input type="text" value="" placeholder="按技师电话搜索">
+                  <input type="text" id='me_phone' value="" placeholder="按技师电话搜索">
                 </div>
                 <div class="large-2 columns end">
-                  <a href="javascript:void(0);"  class="button small ran_search">搜索</a>
+                  <a id='con_search' class="button small ran_search">搜索</a>
                 </div>
               </form>
             </div>
@@ -180,9 +180,8 @@ function opera(){
 
 
 $('#con_search').click(function(){
-	 store_name = document.getElementById('store_name').value;
-	 store_address = document.getElementById('store_address').value;
-	 store_phone = document.getElementById('store_phone').value;
+	me_name = document.getElementById('me_name').value;
+	me_phone = document.getElementById('me_phone').value;
 	load();
 });
 

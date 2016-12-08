@@ -10,14 +10,6 @@
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/foundation-5.5.3.min.css" >
     <link rel="stylesheet" type="text/css" href="css/app.css" >
-	   <!-- Script -->
-    <script src="js/jquery-1.12.3.min.js"></script>
-    <script>
-    	$(document).ready(function() {
-    		$(".header").load("public.html",function() {
-  			});
-    	});
-    </script>
 </head>
 <body>
   <div class="wrap">
@@ -54,13 +46,13 @@
             <div class="row filter_fix">
               <form method="get">
                 <div class="large-2 columns">
-                  <input type="text" value="" placeholder="预约人搜索">
+                  <input type="text" value="" id='re_name' placeholder="预约人搜索">
                 </div>
                 <div class="large-2 columns">
-                  <input type="text" value="" placeholder="预约号搜索">
+                  <input type="text" value="" id='re_id' placeholder="预约号搜索">
                 </div>
                 <div class="large-2 columns end">
-                  <a href="javascript:void(0);"  class="button small ran_search">搜索</a>
+                  <a id="con_search"  class="button small ran_search">搜索</a>
                 </div>
               </form>
             </div>
@@ -76,21 +68,7 @@
                       <th width="100">预约上门时间</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr onclick="window.location.href='booking_detail.html'">
-                      <td>1</td>
-                      <td>ca32010987876cxx</td>
-                      <td>蒋先生</td>
-                      <td>麒麟门啦啦啦路123号</td>
-                      <td>2016-12-1 15:00</td>
-                    </tr>
-                    <tr onclick="window.location.href='booking_detail.html'">
-                      <td>2</td>
-                      <td>pa32010987876cxx</td>
-                      <td>吴先生</td>
-                      <td>鼓楼区中山北路103号B座110</td>
-                      <td>2016-12-3 11:00</td>
-                    </tr>
+                  <tbody id='content_body'>
                   </tbody>
                 </table>
               </div>
@@ -109,10 +87,69 @@
       </div>
     </div>
   </div>
+ <!-- Script -->
+   <script src="../js/jquery-1.11.3.min.js"></script>
   <script src="js/tether.min.js"></script>
   <script src="js/jquery.components.min.js"></script>
   <script src="js/foundation.min.js"></script>
   <script src="js/public.js"></script>
   <script src="js/common.js"></script>
+  <script src="../js/pub_fuc.js"></script>
+  <script type="text/javascript">
+  
+$(function(){
+	$(".header").load("public.html");
+	load();
+});
+
+var re_name ='';
+var re_id = '';
+
+
+function load(){
+	nativeAjax('get','../api/reservation/getByPerson?rperson='+re_name+'&id='+re_id+'&start=0&number=10',function(e){
+		//console.log(getResult(e));
+		var data = jsonParse(getResult(e));
+		if(data.code!='0'){
+			document.getElementById('content_body').innerHTML = '';
+			return;
+		}
+		
+		var arr = data.data;
+		var html = '';
+		for(var i=0,len=arr.length;i<len;i++){
+			var obj = arr[i];
+			//console.log(obj);
+			html +='<tr id='+obj.id+'>'
+            +'<td>'+(i+1)+'</td>'
+            +'<td>'+obj.id+'</td>'
+            +'<td>'+obj.rperson+'</td>'
+            +'<td>'+obj.address+'</td>'
+            +'<td>'+obj.onTime+'</td>'
+            +'</tr>';
+		}
+		document.getElementById('content_body').innerHTML = html;
+		opera();
+	});
+}
+
+
+function opera(){
+	$('#content_body').on('click','tr',function(e){
+		//filter phone
+		var tid  = e.currentTarget.id;
+		window.location.href = 'booking_detail.html?tid='+tid;
+	});
+	
+}
+
+
+$('#con_search').click(function(){
+	re_name = document.getElementById('re_name').value;
+	re_id = document.getElementById('re_id').value;
+	load();
+});
+
+</script>
 </body>
 </html>

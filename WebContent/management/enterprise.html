@@ -10,14 +10,6 @@
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/foundation-5.5.3.min.css" >
     <link rel="stylesheet" type="text/css" href="css/app.css" >
-	   <!-- Script -->
-    <script src="js/jquery-1.12.3.min.js"></script>
-    <script>
-    	$(document).ready(function() {
-    		$(".header").load("public.html",function() {
-  			});
-    	});
-    </script>
 </head>
 <body>
   <div class="wrap">
@@ -26,7 +18,7 @@
       <nav class="topNav">
         <div class="right">
           <div class="user_avatar" data-dropdown="hover" data-options="is_hover:true; ">
-            <img src="https://pic1-s.styd.cn/no-avatar?imageView2/1/w/100/h/100/interlace/1" alt="">
+            <img src="../img/no-avatar.png" alt="">
           </div>
           <ul id="hover" class="f-dropdown" data-dropdown-content>
             <li>
@@ -51,10 +43,10 @@
             <div class="row filter_fix">
               <form method="get">
                 <div class="large-2 columns">
-                  <input type="text" value="" placeholder="按公司名称搜索">
+                  <input id='co_name' type="text" value="" placeholder="按公司名称搜索">
                 </div>
-                <div class="large-2 columns end">
-                  <a href="javascript:void(0);"  class="button small ran_search">搜索</a>
+                <div class="large-2 columns end" >
+                  <a id="con_search"  class="button small ran_search">搜索</a>
                 </div>
               </form>
             </div>
@@ -71,8 +63,8 @@
                       <th width="100">报名时间</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
+                  <tbody id='content_body'>
+                    <!-- <tr>
                       <td>1</td>
                       <td>小易爱车有限公司</td>
                       <td>蒋先生</td>
@@ -87,7 +79,7 @@
                       <td>12322245895</td>
                       <td>啰里啰唆团购</td>
                       <td>2016-11-19 15:47</td>
-                    </tr>
+                    </tr> -->
                   </tbody>
                 </table>
               </div>
@@ -106,10 +98,56 @@
       </div>
     </div>
   </div>
+   <!-- Script -->
+   <script src="../js/jquery-1.11.3.min.js"></script>
   <script src="js/tether.min.js"></script>
   <script src="js/jquery.components.min.js"></script>
   <script src="js/foundation.min.js"></script>
   <script src="js/public.js"></script>
   <script src="js/common.js"></script>
+  <script src="../js/pub_fuc.js"></script>
+  <script type="text/javascript">
+  
+$(function(){
+	$(".header").load("public.html");
+	load();
+});
+
+var co_name ='';
+
+
+function load(){
+	nativeAjax('get','../api/company/getByName?name='+co_name+'&start=0&number=10',function(e){
+		//console.log(getResult(e));
+		var data = jsonParse(getResult(e));
+		if(data.code!='0'){
+			document.getElementById('content_body').innerHTML = '';
+			return;
+		}
+		
+		var arr = data.data;
+		var html = '';
+		for(var i=0,len=arr.length;i<len;i++){
+			var obj = arr[i];
+			//console.log(obj);
+			html +='<tr id='+obj.id+'>'
+            +'<td>'+(i+1)+'</td>'
+            +'<td>'+obj.name+'</td>'
+            +'<td>'+obj.person+'</td>'
+            +'<td>'+obj	.phone+'</td>'
+            +'<td>'+obj.userRequire+'</td>'
+            +'<td>'+obj.createTime+'</td>'
+            +'</tr>';
+		}
+		document.getElementById('content_body').innerHTML = html;
+	});
+}
+
+$('#con_search').click(function(){
+	co_name = document.getElementById('co_name').value;
+	load();
+});
+
+</script>
 </body>
 </html>

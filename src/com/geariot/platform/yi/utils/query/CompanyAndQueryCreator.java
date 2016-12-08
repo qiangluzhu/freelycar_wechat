@@ -12,7 +12,7 @@ public class CompanyAndQueryCreator  extends AndOrQueryCreator{
 		conditionKeys = new ArrayList<ConBean>();
 		ConBean bean1 = new ConBean("name", "like");
 		ConBean bean2 = new ConBean("person", "like");
-		ConBean bean3 = new ConBean("require", "like");
+		ConBean bean3 = new ConBean("userRequire", "like");
 		ConBean bean4 = new ConBean("phone", "like");
 
 		conditionKeys.add(bean1);
