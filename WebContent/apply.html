@@ -16,21 +16,55 @@
             <tbody>
                 <tr><p>企业名称</p></tr>
                 <tr>
-                    <input type="text" maxlength="6" value=""/>
+                    <input id='name' type="text" maxlength="6" value=""/>
                 </tr>
                 <tr><p>联系电话</p></tr>
                 <tr>
-                    <input type="tel" maxlength="11" value="" />
+                    <input id='phone' type="tel" maxlength="11" value="" />
                 </tr>
                 <tr><p>需求项目</p></tr>
                 <tr>
-                    <textarea value=""></textarea>
+                    <textarea id='userRequire' value=""></textarea>
                 </tr>
             </tbody>
         </table>
     </div>
     <div class="foot_button">
-        <div class="submit_button">提交</div>
+        <div id='submit_button' class="submit_button">提交</div>
     </div>
+    
+      <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="js/jquery.cityselect.js"></script> 
+	<script type="text/javascript" src="js/pub_fuc.js"></script>
+	<script type="text/javascript">
+	$('#submit_button').click(function(){
+		var arr = ['name','phone','userRequire'];
+		var param = {'openId':'xxxdsfs','person':'小明'};
+		for(var i=0,len=arr.length;i<len;i++){
+			var tid = arr[i];
+			var ele = document.getElementById(tid);
+			var value = ele.value;
+			if(isEmpty(value)){
+				ele.style.borderColor = 'red';
+				return;
+			}else{
+				ele.style = '';
+			}
+			param[tid] = value;
+		}
+		console.log(param);
+		nativeAjax('post','api/company/makeReserve',function(e){
+			var data = jsonParse(getResult(e));
+			
+			if(data.code=='0'){
+				//window.location.href ='address.html';
+			}
+			
+		},$.param(param)); 
+		
+	});
+
+	</script>
+    
 </body>
 </html>

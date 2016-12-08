@@ -13,8 +13,8 @@
   	<link rel="stylesheet" type="text/css" href="css/store_detail.css" />	
 </head>
 <body>       
-<div class="store_detail">
-    <div class="mod_box store_title">
+<div class="store_detail" id='content_body'>
+    <!-- <div class="mod_box store_title">
 		<div class="mod_box ">
 			<h6 class="mod_tit">订单号：<a>1212121212</a></h6>
 			<p class="feature2">2016-11-18 14:30
@@ -40,7 +40,40 @@
 			<p class="feature3">热爱汽车服务使大家相遇，共同携手实现汽车后市场创新的梦想
 			</p>                             
 		</div>	                        
-	</div>
-</div>		
+	</div> -->
+</div>	
+
+<script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/pub_fuc.js"></script>
+<script type="text/javascript">
+$(function(){
+	load();
+	
+});
+
+function load(){
+	nativeAjax('get','api/technician/getReservation?openId=3452345234&start=0&number=10',function(e){
+		var data = jsonParse(getResult(e));
+		var arr = data.data;
+		//console.log(arr);
+		var html = '';
+		for(var i=0,len=arr.length;i<len;i++){
+			var obj = arr[i];
+			html +='<div class="mod_box store_title">'
+			+'<div class="mod_box ">'
+			+'<h6 class="mod_tit">订单号：<a>'+obj.id+'</a></h6>'
+			+'<p class="feature2">'+obj.onTime+'</p>'
+			+'<p class="feature3">'+obj.remark+'</p>'
+			+'</div>'	                        
+			+'</div>';
+		}
+		document.getElementById('content_body').innerHTML = html;
+	});
+}
+
+
+
+
+</script>	
 </body>
 </html>

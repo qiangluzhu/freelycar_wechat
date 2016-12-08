@@ -9,10 +9,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" >
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.min.css" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body >
-	<div class="service" onclick="window.location.href='address.html'">
+	<div class="service hidden" onclick="window.location.href='address.html'">
 		<div class="address">
 			<div class="similar_data_detail" style="margin-bottom:10px;">	
 				<span class="name">
@@ -23,7 +24,7 @@
 		<span class="icon4 glyphicon glyphicon-map-marker" aria-hidden="true" style="position:absolute"></span>
 		<span class="icon5 glyphicon glyphicon-chevron-right" ></span>
 	</div>
-	<div class="service hidden" onclick="window.location.href='address.html'">
+	<div class="service " onclick="window.location.href='address.html'">
 		<div class="address">
 			<div class="similar_data_detail" style="margin-bottom:10px;">	
 				<span class="name">
@@ -44,7 +45,7 @@
 	</div>
 	<div class="service_time" >
 		<div class="similar_data_detail" >		
-			<p class="store-item-addr3">
+			<p class="store-item-addr3 datetimepicker">
 				上门时间	
 			</p>
 			<span class="icon3 glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
@@ -61,5 +62,12 @@
 	<div class="foot_button">
         <div class="submit_button">提交</div>
     </div>
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/jquery.datetimepicker.full.min.js"></script>
+    <script type="text/javascript">
+    
+     $.datetimepicker.setLocale('ch');
+	 $(".datetimepicker").datetimepicker();
+    </script>
 </body>
 </html>
