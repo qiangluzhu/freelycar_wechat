@@ -55,6 +55,7 @@ public class TechnicianService {
 
 	public String modify(Technician c) {
 		JSONObject resultObj=new JSONObject();
+		c.setPassword(MD5.compute(c.getPassword()));
 		boolean b = dao.modify(c);
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);

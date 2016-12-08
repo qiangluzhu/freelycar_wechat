@@ -138,13 +138,13 @@ function load(){
 		var html = '';
 		for(var i=0,len=arr.length;i<len;i++){
 			var obj = arr[i];
-			console.log(obj);
+			//console.log(obj);
 			html +='<tr id='+obj.id+'>'
                 +'<td>'+(i+1)+'</td>'
                 +'<td>'+obj.name+'</td>'
                 +'<td>'+obj.phone+'</td>'
                 +'<td class="action_columns">'
-                +'<a href="edit_mechanic.html" data-toggle="tooltip" title="编辑" class="inline-button edit"><i class="fa fa-pencil fa-fw"></i></a>'
+                +'<a data-toggle="tooltip" title="编辑" class="inline-button edit"><i class="fa fa-pencil fa-fw"></i></a>'
                 +'<a data-toggle="tooltip" title="删除" class="inline-button del"><i class="fa fa-trash fa-fw"></i></a>'
                 +'</td>'
                 +'</tr>';
@@ -161,12 +161,12 @@ function opera(){
 		var tid  = e.currentTarget.id;
 		//console.log(e.target.className);
 		if(e.target.className=='fa fa-pencil fa-fw'){
-			window.location.href = 'edit_store.html?tid='+tid;
+			window.location.href = 'edit_mechanic.html?tid='+tid;
 		}
 		
 		if(e.target.className=='fa fa-trash fa-fw'){
 			nativeAjax('get','../api/technician/delete?id='+tid,function(e1){
-				console.log(getResult(e1));
+				//console.log(getResult(e1));
 				var data = jsonParse(getResult(e1));
 				//console.log(data);
 				if(data.code=='0'){
