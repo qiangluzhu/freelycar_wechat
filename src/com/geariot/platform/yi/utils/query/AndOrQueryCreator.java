@@ -63,7 +63,7 @@ protected String[] condition ;
 					content.append(Integer.parseInt(value));
 					
 				}
-				else if(conditionKeys.get(i).getOperator().equals("="))
+				else if(conditionKeys.get(i).getOperator().equals("=")||conditionKeys.get(i).getOperator().equals(">")||conditionKeys.get(i).getOperator().equals("<"))
 				{
 					content.append("'" + value + "'");
 				}

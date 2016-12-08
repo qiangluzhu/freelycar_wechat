@@ -3,6 +3,7 @@ package com.geariot.platform.yi.utils.query;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.geariot.platform.yi.entities.Reservation;
@@ -35,6 +36,8 @@ public class ReservationAndQueryCreator extends AndOrQueryCreator{
 					Object valueObj = method.invoke(stu);
 					if (valueObj instanceof Integer)
 						conditionValue = String.valueOf(valueObj);
+					else if(valueObj instanceof Date)
+						conditionValue=String.valueOf(valueObj);
 					else
 						conditionValue = (String) valueObj;
 				} catch (NoSuchMethodException e) {
