@@ -16,8 +16,6 @@ public class ReservationController {
 	
 	@RequestMapping(value = "/getByPerson", method = RequestMethod.GET)
 	public String getByPerson(Reservation r,int start,int number) {
-//		Reservation rr=new Reservation();
-//		rr.setNickName("gar");
 		return service.getByPerson(r,start,number);
 	}
 	

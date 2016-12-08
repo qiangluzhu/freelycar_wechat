@@ -11,7 +11,7 @@ public class ConBean {
 		this.key = key;
 		this.operator = operator;
 	}
-	
+
 	
 	public String getKey() {
 		return key;
