@@ -104,4 +104,18 @@ public class TechnicianDaoImpl implements TechnicianDao{
 		return rList;
 	}
 
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Technician getById(String id) {
+		String hql = "from Technician where id=:id";
+		List<Technician> list = getSession().createQuery(hql)
+				.setString("id", id).setCacheable(Constants.SELECT_CACHE)
+				.list();
+		if(list.size()!=0){
+			return list.get(0);
+		}
+		return null;
+	}
+
 }

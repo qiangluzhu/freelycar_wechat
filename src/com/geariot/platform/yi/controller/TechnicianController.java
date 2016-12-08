@@ -44,4 +44,9 @@ public class TechnicianController {
 	public String getReservation(String openId,int start,int number) {
 		return service.getReservation(openId,start,number);
 	}
+	
+	@RequestMapping(value="/getById",method=RequestMethod.GET)
+	public String getById(String id){
+		return service.getById(id);
+	}
 }
