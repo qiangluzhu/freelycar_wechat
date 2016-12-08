@@ -73,16 +73,16 @@
                   </div>
                   <div class="large-8 end columns" id='city_box'>
                     <div class="large-4 columns" style="padding-left:0">
-                      <select class="radius" name="province" >
+                      <select class="radius prov" name="province" >
                         </select>
                       </div>
 
                       <div class="large-4 columns">
-                        <select class="radius" name="city" >
+                        <select class="radius city" name="city" >
                         </select>
                       </div>
                       <div class="large-4 end columns" style="padding-right:0">
-                        <select class="radius" name="region" >
+                        <select class="radius dist" name="region" >
                         </select>
                       </div>
                     </div>
@@ -132,7 +132,7 @@
                       <label class="right inline"><b class="t-color red">*</b>简介：</label>
                     </div>
                     <div class="large-8 end columns">
-                      <textarea class="radius" name="intro" placeholder="请填写简介" rows="4"></textarea>
+                      <textarea class="radius" name="info" placeholder="请填写简介" rows="4"></textarea>
                     </div>
                   </div>
                 </div>
@@ -170,9 +170,9 @@
 		    url:"../js/city.min.js",  
 		    prov:'江苏', //省份 
 		    city:'南京', //城市 
-		    dist:'浦口', //区县 
+		    dist:'建邺区', //区县 
 		    nodata:"none" //当子集无数据时，隐藏select 
-		});
+		}); 
       
       
       
@@ -191,7 +191,9 @@
       
       $('#add_store').click(function(){
     	  var formData = new FormData(document.getElementById('store_form'));
-    	  formData.append("files", document.getElementById('barfile').files[0]);
+    	  formData.append("file", document.getElementById('barfile').files[0]);
+    	  console.log(formData);
+    	  
           $.ajax({
               url: '../api/store/add',
               type: 'POST',

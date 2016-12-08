@@ -25,7 +25,7 @@ public class StoreService {
 		JSONObject resultObj=new JSONObject();
 		boolean b = storeDao.add(c,file);
 		if (!b) {
-			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.CREATE_ERROR);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,
 					RESCODE.CREATE_ERROR.getMsg());
 			return resultObj.toString();

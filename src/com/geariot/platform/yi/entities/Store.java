@@ -85,5 +85,15 @@ public class Store {
 	public void setUrl(String url) {
 		this.url = url;
 	}
+	@Override
+	public String toString() {
+		return "Store [id=" + id + ", name=" + name + ", phone=" + phone
+				+ ", province=" + province + ", city=" + city + ", region="
+				+ region + ", address=" + address + ", info=" + info + ", url="
+				+ url + "]";
+	}
+	
+	
+	
 
 }
