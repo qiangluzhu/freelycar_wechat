@@ -90,7 +90,14 @@ public class StoreDaoImpl implements StoreDao{
 		try{
 			getSession().update(c);
 			if (null != mf) {
+				String baseUrl="D:\\upload\\store\\";
 //				String baseUrl = context.getRealPath("") + "\\upload\\store\\";
+				Path path = Paths.get(baseUrl);
+				if(Files.notExists(path)){
+					Files.createDirectories(path);
+				}
+				
+				
 				String fileName = mf.getOriginalFilename();
 				if (!"".equals(fileName)) {
 					// 获取后缀
@@ -98,16 +105,16 @@ public class StoreDaoImpl implements StoreDao{
 							fileName.length());
 					String newName=c.getId()+suffix;
 					c.setUrl(newName);
-					String testUrl="D:\\upload\\store\\";
+					
 					try {
-						mf.transferTo(new File(testUrl + newName));
-						return true;
+						mf.transferTo(new File(baseUrl + newName));
 					}catch(Exception e){
 						e.printStackTrace();
+						return false;
 					}
 				}
 			}
-			return false;
+			return true;
 		}catch(Exception e){
 			return false;
 		}

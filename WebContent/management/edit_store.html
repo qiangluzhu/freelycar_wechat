@@ -9,13 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" >
     <link href="css/foundation-5.5.3.min.css" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
-    <script src="js/jquery-1.12.3.min.js"></script>
-    <script>
-      $(document).ready(function() {
-        $(".header").load("public.html",function() {
-        });
-      });
-    </script>
 </head>
 <body>
   <div class="wrap">
@@ -24,7 +17,7 @@
       <nav class="topNav">
         <div class="right">
           <div class="user_avatar" data-dropdown="hover" data-options="is_hover:true; ">
-            <img src="https://pic1-s.styd.cn/no-avatar?imageView2/1/w/100/h/100/interlace/1" alt="">
+            <img src="../img/no-avatar.png" alt="">
           </div>
           <ul id="hover" class="f-dropdown" data-dropdown-content>
             <li>
@@ -53,6 +46,8 @@
                 <div class="data_title">
                   <b>编辑门店</b>
                 </div>
+                
+                <form id='edit_form'>
                 <div class="large-8 columns">
                   <div class="row">
                     <div class="large-3 columns">
@@ -61,7 +56,7 @@
                     </label>
                   </div>
                   <div class="large-8 end columns">
-                    <input type="text" class="radius" name="store_name" placeholder="请输入名称" value="">
+                    <input type="text" class="radius" name="name" placeholder="请输入名称" value="">
                   </div>
                 </div>
                 <div class="row">
@@ -76,55 +71,18 @@
                   <div class="large-3 columns">
                     <label class="right inline"><b class="t-color red">*</b>地址：</label>
                   </div>
-                  <div class="large-8 end columns">
+                  <div class="large-8 end columns" id='city_box'>
                     <div class="large-4 columns" style="padding-left:0">
-                      <select class="radius" name="province_id" >
-                        <option value="0">请选择</option>
-                          <option value="" >北京市</option>
-                          <option value="" >天津市</option>
-                          <option value="" >河北省</option>
-                          <option value="" >山西省</option>
-                          <option value="" >内蒙古自治区</option>
-                          <option value="" >辽宁省</option>
-                          <option value="" >吉林省</option>
-                          <option value="" >黑龙江省</option>
-                          <option value="" >上海市</option>
-                          <option value="" selected="selected">江苏省</option>
-                          <option value="" >浙江省</option>
-                          <option value="" >安徽省</option>
-                          <option value="" >福建省</option>
-                          <option value="" >江西省</option>
-                          <option value="" >山东省</option>
-                          <option value="" >河南省</option>
-                          <option value="" >湖北省</option>
-                          <option value="" >湖南省</option>
-                          <option value="" >广东省</option>
-                          <option value="" >广西壮族自治区</option>
-                          <option value="" >海南省</option>
-                          <option value="" >重庆市</option>
-                          <option value="" >四川省</option>
-                          <option value="" >贵州省</option>
-                          <option value="" >云南省</option>
-                          <option value="" >西藏自治区</option>
-                          <option value="" >陕西省</option>
-                          <option value="" >甘肃省</option>
-                          <option value="" >青海省</option>
-                          <option value="" >宁夏回族自治区</option>
-                          <option value="" >新疆维吾尔自治区</option>
-                          <option value="" >台湾省</option>
-                          <option value="" >香港特别行政区</option>
-                          <option value="" >澳门特别行政区</option>
-                        </select>
+                      <select class="radius prov"  name="province" >
+                       </select>
                       </div>
 
                       <div class="large-4 columns">
-                        <select class="radius" name="city_id" >
-                          <option value="0">请选择</option>
+                        <select class="radius city" name="city" >
                         </select>
                       </div>
                       <div class="large-4 end columns" style="padding-right:0">
-                        <select class="radius" name="district_id" >
-                          <option value="0">请选择</option>
+                        <select class="radius dist"  name="region" >
                         </select>
                       </div>
                     </div>
@@ -152,16 +110,13 @@
                     </div>
                     <div class="large-8 end columns">
                       <div class="thumbs_list">
-                        <form method="POST">
                           <div class="upload_box">
                             <i class="upload_icon"></i>
-                            <input type="file" class="upload_button" name="image_pic3[]" multiple="multiple" >
-                            <input type="hidden" value="success_staff_gallary" name="callback">
+                            <input type="file" class="upload_button" id='barfile' >
                           </div>
-                        </form>
                         <div class="img_preview">
 	                        <a class="img_thumbs">
-	                        	<img src="">
+	                        	<img src="" id='barpreview'>
 	                        </a>
                         </div>
                       </div>
@@ -177,15 +132,16 @@
                       <label class="right inline"><b class="t-color red">*</b>简介：</label>
                     </div>
                     <div class="large-8 end columns">
-                      <textarea class="radius" name="intro" placeholder="请填写简介" rows="4"></textarea>
+                      <textarea class="radius" name="info" placeholder="请填写简介" rows="4"></textarea>
                     </div>
                   </div>
                 </div>
+                </form>
               </div>
               <div class="row">
                 <div class="large-12 text-center columns">
                   <a href="store.html" class="button ran radius back" style="background-color:#fff; color:#2096f3">返回</a>
-                  <a href="" class="button ran radius save">修改</a>
+                  <a id='add_store' class="button ran radius save">修改</a>
                 </div>
               </div>
             </div>
@@ -194,10 +150,93 @@
       </div>
     </div>
   </div>
+   <script src="../js/jquery-1.11.3.min.js"></script>
+   <script src="../js/pub_fuc.js"></script>
   <script src="js/tether.min.js"></script>
   <script src="js/jquery.components.min.js"></script>
   <script src="js/foundation.min.js"></script>
   <script src="js/public.js"></script>
   <script src="js/common.js"></script>
+  <script type="text/javascript" src="../js/jquery.cityselect.js"></script> 
+  <script>
+      $(function() {
+        $("div.header").load("public.html");
+        
+        $("#barfile").change(function(){
+		    readURL(this);
+		});
+      });
+      
+      
+      var id = get_param('tid');
+		
+		nativeAjax('get','../api/store/getById?id='+id,function(e){
+			var data = jsonParse(getResult(e));
+			var code = data.code;
+			if(code=='0'){
+				var obj = data.data;
+				for(var item in obj){
+					$(":input[name="+item+"]").val(obj[item]);
+				}
+				$('#barpreview').attr('src','/freely/store/'+obj.url);
+				 $("#city_box").citySelect({  
+					    url:"../js/city.min.js",  
+					    prov:obj.province, //省份 
+					    city:obj.city, //城市 
+					    dist:obj.region, //区县 
+					    nodata:"none" //当子集无数据时，隐藏select 
+					}); 
+				 
+				 edit_store(obj.url);
+			}
+			
+		});
+      
+      
+      
+      
+      
+      //上次预览
+      function readURL(input) {
+		if (input.files && input.files[0]) {
+		    var reader = new FileReader();
+	           reader.onload = function (e) {
+		          $('#barpreview').attr('src', e.target.result);
+		        }
+		        reader.readAsDataURL(input.files[0]);
+		 }
+	}
+      
+      function edit_store(url){
+	      $('#add_store').click(function(){
+	    	  var formData = new FormData(document.getElementById('edit_form'));
+	    	  formData.append("file", document.getElementById('barfile').files[0]);
+	    	  formData.append("id", id);
+	    	  formData.append("url", url);
+	    	  
+	    	  console.log(formData);
+	    	  
+	          $.ajax({
+	              url: '../api/store/modify',
+	              type: 'POST',
+	              data: formData,
+	              cache: false,
+	              contentType: false,
+	              processData: false,
+	              success: function (data) {
+	            	  data = jsonParse(data);
+                  	if(data.code=='0'){
+                  		window.location.href = 'store.html';
+                  	}
+	              }
+	          });
+	          return false;
+	      });
+    	  
+      }
+      
+      
+      	
+    </script>
 </body>
 </html>

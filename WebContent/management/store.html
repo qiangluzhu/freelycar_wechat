@@ -44,20 +44,18 @@
         <div class="mainContent">
           <div class="modules">
             <div class="row filter_fix">
-              <form method="get">
                 <div class="large-2 columns">
-                  <input type="text" value="" placeholder="按门店名称搜索">
+                  <input type="text" value=""  id='store_name' placeholder="按门店名称搜索">
                 </div>
                 <div class="large-2 columns">
-                  <input type="text" value="" placeholder="按门店地址搜索">
+                  <input type="text" value="" id='store_address' placeholder="按门店地址搜索">
                 </div>
                 <div class="large-2 columns">
-                  <input type="text" value="" placeholder="按门店电话搜索">
+                  <input type="text" value="" id='store_phone' placeholder="按门店电话搜索">
                 </div>
                 <div class="large-2 columns end">
-                  <a href="javascript:void(0);"  class="button small ran_search">搜索</a>
+                  <a id='con_search' class="button small ran_search">搜索</a>
                 </div>
-              </form>
             </div>
             <div class="row">
               <div class="large-12 columns pd-0">
@@ -123,11 +121,19 @@
   
 $(function(){
 	$(".header").load("public.html");
-	load('');
+	load();
 });
 
-function load(name){
-	nativeAjax('get','../api/store/find?start=0&number=10',function(e){
+var store_name ='';
+var store_address ='';
+var store_phone = '';
+
+
+function load(){
+	console.log(store_name);
+	console.log(store_address);
+	console.log(store_phone);
+	nativeAjax('get','../api/store/find?name='+store_name+'&address='+store_address+'&phone='+store_phone+'&start=0&number=10',function(e){
 		var data = jsonParse(getResult(e));
 		if(data.code!='0'){
 			document.getElementById('content_body').innerHTML = '';
@@ -180,8 +186,10 @@ function opera(){
 
 
 $('#con_search').click(function(){
-	var search_name = document.getElementById('search_name').value;
-	load(search_name);
+	 store_name = document.getElementById('store_name').value;
+	 store_address = document.getElementById('store_address').value;
+	 store_phone = document.getElementById('store_phone').value;
+	load();
 });
 
 </script>

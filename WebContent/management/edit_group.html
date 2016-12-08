@@ -133,7 +133,7 @@
 					intro.innerHTML = obj.intro;
 					
 					var barcode = document.getElementById('barcode');
-					barcode.setAttribute('src','/freely/'+obj.url);
+					barcode.setAttribute('src','/freely/community/'+obj.url);
 	
 					edit(obj.url);
 			}
@@ -159,7 +159,11 @@
                     contentType: false,
                     processData: false,
                     success: function (data) {
-                        console.log(data);
+                    	data = jsonParse(data);
+                    	console.log(data);
+                    	if(data.code=='0'){
+                    		window.location.href = 'store.html';
+                    	}
                     }
                 });
                 return false;
