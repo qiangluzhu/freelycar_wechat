@@ -114,11 +114,11 @@
 $(function(){
 	$(".header").load("public.html");
 	loadData(1);
-	pagebutton();
 });
 var name = '';
+var flag = true;
 function loadData(page){
-	nativeAjax('get','../api/community/find?name='+name+'&start='+page+'&number=1',function(e){
+	nativeAjax('get','../api/community/find?name='+name+'&page='+page+'&number=1',function(e){
 		var data = jsonParse(getResult(e));
 		if(data.code!='0'){
 			document.getElementById('content_body').innerHTML = '';
@@ -142,6 +142,10 @@ function loadData(page){
 		}
 		document.getElementById('content_body').innerHTML = html;
 		opera();
+		if(flag){
+			pagebutton(data.size);
+			flag = false;					
+		}
 	});
 }
 
