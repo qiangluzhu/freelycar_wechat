@@ -17,5 +17,7 @@ public interface CommunityDao {
 	public List<Community> find(Community c, int start, int number);
 
 	public Community getById(String id);
+	
+	public int getSize(Community c);
 
 }

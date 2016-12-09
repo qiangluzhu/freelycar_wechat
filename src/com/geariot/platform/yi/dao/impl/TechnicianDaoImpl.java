@@ -118,4 +118,27 @@ public class TechnicianDaoImpl implements TechnicianDao{
 		return null;
 	}
 
+
+	@Override
+	public int gettSize(Technician c) {
+		StringBuffer basicQueryStr;
+		basicQueryStr = new StringBuffer("from Technician");
+		TechnicianAndQueryCreator creator = new TechnicianAndQueryCreator(c);
+		String creatorStr = creator.createStatement(0);
+		Query query = QueryUtils.createLocalQuery(getSession(), basicQueryStr,
+				creatorStr);
+		query.setCacheable(Constants.SELECT_CACHE);
+		return query.list().size();
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public int getrSize(String tid) {
+		String hql="from Reservation where orderOpenId=:tid";
+		Query query0 = getSession().createQuery(hql).setString("tid", tid);
+		List<Reservation> rList=query0.list();
+		return rList.size();
+	}
+
 }

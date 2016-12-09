@@ -147,6 +147,18 @@ public class StoreDaoImpl implements StoreDao{
 		}
 		return null;
 	}
+
+	@Override
+	public int getSize(Store c) {
+		StringBuffer basicQueryStr;
+		basicQueryStr = new StringBuffer("from Store");
+		StoreAndQueryCreator creator = new StoreAndQueryCreator(c);
+		String creatorStr = creator.createStatement(0);
+		Query query = QueryUtils.createLocalQuery(getSession(), basicQueryStr,
+				creatorStr);
+		query.setCacheable(Constants.SELECT_CACHE);
+		return query.list().size();
+	}
 	
 	
 }

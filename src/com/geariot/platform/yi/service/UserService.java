@@ -130,7 +130,8 @@ public class UserService {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
 			resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
 			resultObj.put(Constants.RESPONSE_DATA_KEY, list);
-			double size=Math.ceil(list.size()/(double)number);
+			int realSize=dao.getrSize(openId);
+			double size=Math.ceil(realSize/(double)number);
 			resultObj.put("size", size);
 			return resultObj.toString();
 		}
@@ -148,7 +149,8 @@ public class UserService {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
 			resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
 			resultObj.put(Constants.RESPONSE_DATA_KEY, list);
-			double size=Math.ceil(list.size()/(double)number);
+			int realSize=dao.getcSize();
+			double size=Math.ceil(realSize/(double)number);
 			resultObj.put("size", size);
 			return resultObj.toString();
 		}

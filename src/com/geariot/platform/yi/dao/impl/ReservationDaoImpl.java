@@ -130,4 +130,16 @@ public class ReservationDaoImpl implements ReservationDao {
 		return null;
 	}
 
+	@Override
+	public int getSize(Reservation c) {
+		StringBuffer basicQueryStr;
+		basicQueryStr = new StringBuffer("from Reservation");
+		ReservationAndQueryCreator creator = new ReservationAndQueryCreator(c);
+		String creatorStr = creator.createStatement(0);
+		Query query = QueryUtils.createLocalQuery(getSession(), basicQueryStr,
+				creatorStr);
+		query.setCacheable(Constants.SELECT_CACHE);
+		return query.list().size();
+	}
+
 }

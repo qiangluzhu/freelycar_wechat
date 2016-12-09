@@ -20,5 +20,9 @@ public interface TechnicianDao {
 	List<Reservation> getReservation(String tid, int start, int number);
 
 	Technician getById(String id);
+	
+	public int gettSize(Technician c);
+	
+	public int getrSize(String tid);
 
 }

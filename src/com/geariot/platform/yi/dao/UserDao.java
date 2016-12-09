@@ -29,5 +29,9 @@ public interface UserDao {
 	boolean adminLogin(String username, String password);
 
 	boolean setDefaultAddress(String addId,String userId);
+	
+	public int getrSize(String openId);
+	
+	public int getcSize();
 
 }

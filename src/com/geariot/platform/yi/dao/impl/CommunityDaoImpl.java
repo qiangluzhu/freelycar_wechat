@@ -135,6 +135,8 @@ public class CommunityDaoImpl implements CommunityDao{
 		query.setMaxResults(number);// 每页条数
 		return query.list();
 	}
+	
+	
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -147,6 +149,18 @@ public class CommunityDaoImpl implements CommunityDao{
 			return list.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public int getSize(Community c) {
+		StringBuffer basicQueryStr;
+		basicQueryStr = new StringBuffer("from Community");
+		CommunityAndQueryCreator creator = new CommunityAndQueryCreator(c);
+		String creatorStr = creator.createStatement(0);
+		Query query = QueryUtils.createLocalQuery(getSession(), basicQueryStr,
+				creatorStr);
+		query.setCacheable(Constants.SELECT_CACHE);
+		return query.list().size();
 	}
 
 }

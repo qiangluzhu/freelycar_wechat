@@ -10,4 +10,5 @@ public interface CompanyDao {
 
 	public boolean add(Company c);
 
+	public int getSize(Company c);
 }

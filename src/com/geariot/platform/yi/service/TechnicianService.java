@@ -76,7 +76,8 @@ public class TechnicianService {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
 			resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
 			resultObj.put(Constants.RESPONSE_DATA_KEY, list);
-			double size=Math.ceil(list.size()/(double)number);
+			int realSize=dao.gettSize(c);
+			double size=Math.ceil(realSize/(double)number);
 			resultObj.put("size", size);
 			return resultObj.toString();
 		}
@@ -110,7 +111,8 @@ public class TechnicianService {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
 			resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
 			resultObj.put(Constants.RESPONSE_DATA_KEY, list);
-			double size=Math.ceil(list.size()/(double)number);
+			int realSize=dao.getrSize(tid);
+			double size=Math.ceil(realSize/(double)number);
 			resultObj.put("size", size);
 			return resultObj.toString();
 		}

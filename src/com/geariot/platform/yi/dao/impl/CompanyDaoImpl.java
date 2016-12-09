@@ -51,4 +51,17 @@ public class CompanyDaoImpl implements CompanyDao{
 		}
 	}
 
+
+	@Override
+	public int getSize(Company c) {
+		StringBuffer basicQueryStr;
+		basicQueryStr = new StringBuffer("from Company");
+		CompanyAndQueryCreator creator = new CompanyAndQueryCreator(c);
+		String creatorStr = creator.createStatement(0);
+		Query query = QueryUtils.createLocalQuery(getSession(), basicQueryStr,
+				creatorStr);
+		query.setCacheable(Constants.SELECT_CACHE);
+		return query.list().size();
+	}
+
 }

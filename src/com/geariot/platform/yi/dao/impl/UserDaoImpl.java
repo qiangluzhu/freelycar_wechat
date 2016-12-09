@@ -136,7 +136,7 @@ public class UserDaoImpl implements UserDao{
 			String hql = "from Reservation where ropenId=:openId";
 			Query query0 = getSession().createQuery(hql).setString("openId", openId);
 			query0.setFirstResult(start); // 开始记录
-			query0.setMaxResults(10); // 查询多少条
+			query0.setMaxResults(number); // 查询多少条
 			List<Reservation> addList=query0.list();
 			return addList;
 		} catch (Exception e) {
@@ -328,5 +328,22 @@ public class UserDaoImpl implements UserDao{
 		}catch(Exception e){
 			return false;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public int getrSize(String openId) {
+		String hql = "from Reservation where ropenId=:openId";
+		Query query0 = getSession().createQuery(hql).setString("openId", openId);
+		List<Reservation> addList=query0.list();
+		return addList.size();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public int getcSize() {
+		Query query0 = getSession().createQuery("from Community");
+		List<Community> hList=query0.list();
+		return hList.size();
 	}
 }
