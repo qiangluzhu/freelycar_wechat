@@ -63,7 +63,8 @@ public class CommunityService {
 		return resultObj.toString();
 	}
 
-	public String find(Community c, int start, int number) {
+	public String find(Community c, int page, int number) {
+		int start = (page-1)*number;
 		JSONObject resultObj=new JSONObject();
 		List<Community> list = communityDao.find(c,start,number);
 		if (list!=null&&list.size()!=0) {

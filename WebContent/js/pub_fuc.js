@@ -127,7 +127,7 @@ var pagebutton = function(pageNums){
 	$("#mypager").click(function(e){
 		//再去查一共多少页
 		var $target = $(e.target);
-		if( $target.is("a") ) {
+		if( $target.is("li") ) {
 			if($target.hasClass("sy")){
 				curpage = 1;
 			}else if($target.hasClass("syy")){

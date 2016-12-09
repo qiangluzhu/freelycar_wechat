@@ -18,7 +18,7 @@
       <nav class="topNav">
         <div class="right">
           <div class="user_avatar" data-dropdown="hover" data-options="is_hover:true; ">
-            <img src="https://pic1-s.styd.cn/no-avatar?imageView2/1/w/100/h/100/interlace/1" alt="">
+            <img src="../img/no-avatar.png" alt="">
           </div>
           <ul id="hover" class="f-dropdown" data-dropdown-content>
             <li>
@@ -90,10 +90,12 @@
             <div class="row">
               <div class="large-12 columns pageination_fix">
                 <span class="pagination_count">共1条记录 | 每页50条  </span>
-                <ul class="pagination right">
-                  <li class="arrow"></li>
-                  <li class="current"><a href="javascript:void(0);">1</a></li>
-								</ul>
+                <ul class="pagination right" id='mypager'>
+                  <li class="current sy"><a>首页</a></li>
+                  <li class="current syy"><a>上一页</a></li>
+                  <li class="current xyy"><a>下一页</a></li>
+                  <li class="current wy"><a>尾页</a></li>
+				</ul>
               </div>
             </div>
           </div>
@@ -111,11 +113,12 @@
 <script type="text/javascript">
 $(function(){
 	$(".header").load("public.html");
-	load('');
+	loadData(1);
+	pagebutton();
 });
-
-function load(name){
-	nativeAjax('get','../api/community/find?name='+name+'&start=0&number=10',function(e){
+var name = '';
+function loadData(page){
+	nativeAjax('get','../api/community/find?name='+name+'&start='+page+'&number=1',function(e){
 		var data = jsonParse(getResult(e));
 		if(data.code!='0'){
 			document.getElementById('content_body').innerHTML = '';
@@ -167,8 +170,8 @@ function opera(){
 
 
 $('#con_search').click(function(){
-	var search_name = document.getElementById('search_name').value;
-	load(search_name);
+	name = document.getElementById('search_name').value;
+	loadData(1);
 });
 
 </script>
