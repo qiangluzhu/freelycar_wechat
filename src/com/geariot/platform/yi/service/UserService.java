@@ -122,13 +122,16 @@ public class UserService {
 		return resultObj.toString();
 	}
 
-	public String getRecord(String openId, int start, int number) {
+	public String getRecord(String openId, int page, int number) {
+		int start = (page-1)*number;
 		JSONObject resultObj=new JSONObject();
 		List<Reservation> list = dao.getRecord(openId,start,number);
 		if (list!=null&&list.size()!=0) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
 			resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
 			resultObj.put(Constants.RESPONSE_DATA_KEY, list);
+			double size=Math.ceil(list.size()/(double)number);
+			resultObj.put("size", size);
 			return resultObj.toString();
 		}
 		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -137,13 +140,16 @@ public class UserService {
 		return resultObj.toString();
 	}
 
-	public String getCode(int start, int number) {
+	public String getCode(int page, int number) {
+		int start = (page-1)*number;
 		JSONObject resultObj=new JSONObject();
 		List<Community> list = dao.getCode(start,number);
 		if (list!=null&&list.size()!=0) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
 			resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
 			resultObj.put(Constants.RESPONSE_DATA_KEY, list);
+			double size=Math.ceil(list.size()/(double)number);
+			resultObj.put("size", size);
 			return resultObj.toString();
 		}
 		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);

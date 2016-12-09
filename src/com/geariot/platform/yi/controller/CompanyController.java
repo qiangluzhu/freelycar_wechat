@@ -17,8 +17,8 @@ public class CompanyController {
 	CompanyService service;
 	
 	@RequestMapping(value = "/getByName", method = RequestMethod.GET)
-	public String getByName(Company c,int start,int number) {
-		return service.getByName(c,start,number);
+	public String getByName(Company c,int page,int number) {
+		return service.getByName(c,page,number);
 	}
 	
 	@RequestMapping(value = "/makeReserve", method = RequestMethod.POST)

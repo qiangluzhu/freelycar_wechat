@@ -31,8 +31,8 @@ public class TechnicianController {
 	}
 	
 	@RequestMapping(value = "/find", method = RequestMethod.GET)
-	public String find(Technician c,int start,int number) {
-		return service.find(c,start,number);
+	public String find(Technician c,int page,int number) {
+		return service.find(c,page,number);
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -41,8 +41,8 @@ public class TechnicianController {
 	}
 	
 	@RequestMapping(value = "/getReservation", method = RequestMethod.GET)
-	public String getReservation(String openId,int start,int number) {
-		return service.getReservation(openId,start,number);
+	public String getReservation(String openId,int page,int number) {
+		return service.getReservation(openId,page,number);
 	}
 	
 	@RequestMapping(value="/getById",method=RequestMethod.GET)

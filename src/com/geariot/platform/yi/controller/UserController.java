@@ -54,13 +54,13 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/getRecord", method = RequestMethod.GET)
-	public String getRecord(String openId,int start,int number) {
-		return service.getRecord(openId,start,number);
+	public String getRecord(String openId,int page,int number) {
+		return service.getRecord(openId,page,number);
 	}
 	
 	@RequestMapping(value = "/getCode", method = RequestMethod.GET)
-	public String getCode(int start,int number) {
-		return service.getCode(start,number);
+	public String getCode(int page,int number) {
+		return service.getCode(page,number);
 	}
 	
 	@RequestMapping(value = "/adminLogin", method = RequestMethod.POST)

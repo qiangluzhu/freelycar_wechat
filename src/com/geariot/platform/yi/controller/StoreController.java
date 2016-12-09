@@ -31,10 +31,10 @@ public class StoreController {
 	}
 	
 	@RequestMapping(value = "/find", method = RequestMethod.GET)
-	public String find(Store c,int start,int number) {
+	public String find(Store c,int page,int number) {
 //		Store s=new Store();
 //		s.setCity("南京");
-		return service.find(c,start,number);
+		return service.find(c,page,number);
 	}
 	
 	@RequestMapping(value = "/getById", method = RequestMethod.GET)

@@ -68,13 +68,16 @@ public class TechnicianService {
 		return resultObj.toString();
 	}
 
-	public String find(Technician c, int start, int number) {
+	public String find(Technician c, int page, int number) {
+		int start = (page-1)*number;
 		JSONObject resultObj=new JSONObject();
 		List<Technician> list = dao.find(c,start,number);
 		if (list!=null&&list.size()!=0) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
 			resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
 			resultObj.put(Constants.RESPONSE_DATA_KEY, list);
+			double size=Math.ceil(list.size()/(double)number);
+			resultObj.put("size", size);
 			return resultObj.toString();
 		}
 		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -99,13 +102,16 @@ public class TechnicianService {
 		return resultObj.toString();
 	}
 
-	public String getReservation(String tid, int start, int number) {
+	public String getReservation(String tid, int page, int number) {
+		int start = (page-1)*number;
 		JSONObject resultObj=new JSONObject();
 		List<Reservation> list = dao.getReservation(tid,start,number);
 		if (list!=null&&list.size()!=0) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
 			resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
 			resultObj.put(Constants.RESPONSE_DATA_KEY, list);
+			double size=Math.ceil(list.size()/(double)number);
+			resultObj.put("size", size);
 			return resultObj.toString();
 		}
 		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);

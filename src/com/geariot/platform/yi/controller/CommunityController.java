@@ -31,8 +31,8 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value = "/find", method = RequestMethod.GET)
-	public String find(Community c,int start,int number) {
-		return service.find(c,start,number);
+	public String find(Community c,int page,int number) {
+		return service.find(c,page,number);
 	}
 	
 	@RequestMapping(value = "/getById", method = RequestMethod.GET)

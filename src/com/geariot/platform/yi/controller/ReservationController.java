@@ -15,8 +15,8 @@ public class ReservationController {
 	ReservationService service;
 	
 	@RequestMapping(value = "/getByPerson", method = RequestMethod.GET)
-	public String getByPerson(Reservation r,int start,int number) {
-		return service.getByPerson(r,start,number);
+	public String getByPerson(Reservation r,int page,int number) {
+		return service.getByPerson(r,page,number);
 	}
 	
 	@RequestMapping(value = "/statistic", method = RequestMethod.GET)

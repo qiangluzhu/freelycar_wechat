@@ -21,13 +21,16 @@ public class ReservationService {
 	ReservationDao reservationDao;
 	
 
-	public String getByPerson(Reservation r, int start, int number) {
+	public String getByPerson(Reservation r, int page, int number) {
+		int start = (page-1)*number;
 		JSONObject resultObj=new JSONObject();
 		List<Reservation> list = reservationDao.getByPerson(r,start,number);
 		if (list!=null&&list.size()!=0) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
 			resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
 			resultObj.put(Constants.RESPONSE_DATA_KEY, list);
+			double size=Math.ceil(list.size()/(double)number);
+			resultObj.put("size", size);
 			return resultObj.toString();
 		}
 		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
