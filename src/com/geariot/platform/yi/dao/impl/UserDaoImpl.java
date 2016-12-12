@@ -169,21 +169,34 @@ public class UserDaoImpl implements UserDao{
     public static JSONObject packJsonmsg(String cname, String cphone, Date rtime, String result){
         JSONObject json = new JSONObject();
         JSONObject jsonFirst = new JSONObject();
-		jsonFirst.put("value", cname);
+		jsonFirst.put("value", "客户预约通知");
 		jsonFirst.put("color", "#173177");
 		json.put("first", jsonFirst);
-		JSONObject jsonOrderMoneySum = new JSONObject();
-		jsonOrderMoneySum.put("value", cphone);
-		jsonOrderMoneySum.put("color", "#173177");
-		json.put("orderMoneySum", jsonOrderMoneySum);
-		JSONObject jsonOrderProductName = new JSONObject();
-		jsonOrderProductName.put("value", rtime);
-		jsonOrderProductName.put("color", "#173177");
-		json.put("orderProductName", jsonOrderProductName);
+		
+		JSONObject jsonName = new JSONObject();
+		jsonName.put("value", cphone);
+		jsonName.put("color", "#173177");
+		json.put("客户手机", jsonName);
+		
+		JSONObject jsonPhone = new JSONObject();
+		jsonPhone.put("value", cphone);
+		jsonPhone.put("color", "#173177");
+		json.put("客户手机", jsonPhone);
+		
+		JSONObject jsonTime = new JSONObject();
+		jsonTime.put("value", rtime);
+		jsonTime.put("color", "#173177");
+		json.put("预约时间", jsonTime);
+		
+		JSONObject jsonResult = new JSONObject();
+		jsonResult.put("value", result);
+		jsonResult.put("color", "#173177");
+		json.put("预约时间", jsonResult);
+		
 		JSONObject jsonRemark = new JSONObject();
-		jsonRemark.put("value", result);
+		jsonRemark.put("value", "点击查看预约详情");
 		jsonRemark.put("color", "#173177");
-		json.put("Remark", jsonRemark);
+		json.put("预约结果", jsonRemark);
         return json;
     }
     
@@ -202,7 +215,7 @@ public class UserDaoImpl implements UserDao{
      */
     public static String sendWechatmsgToUser(String touser, String templat_id, String clickurl, String topcolor, JSONObject data){
         String tmpurl = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
-        String token = getAccess_token("","");  //微信凭证，access_token
+        String token = getAccess_token("wxfd188f8284ee297b","8e7a35d582d6b9fe771ac56462029321");  //微信凭证，access_token
         String url = tmpurl.replace("ACCESS_TOKEN", token);
         JSONObject json = new JSONObject();
         json.put("touser", touser);
