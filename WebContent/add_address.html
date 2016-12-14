@@ -78,7 +78,7 @@
 			}
 			param[tid] = value;
 		}
-		console.log($.param(param));
+		//console.log($.param(param));
 		nativeAjax('post','api/user/addAddress',function(e){
 			var data = jsonParse(getResult(e));
 			if(data.code=='0'){

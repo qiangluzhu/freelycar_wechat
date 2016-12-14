@@ -85,7 +85,7 @@ $(function(){
 
 var openId ='3452345234';
 function load(){
-	nativeAjax('get','api/technician/getReservation?openId='+openId+'&start=0&number=10',function(e){
+	nativeAjax('get','api/technician/getReservation?openId='+openId+'&page=0&number=10',function(e){
 		var data = jsonParse(getResult(e));
 		var arr = data.data;
 		var html ='';

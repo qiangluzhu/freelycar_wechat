@@ -17,18 +17,42 @@
   			<ul class="user_input pd-0">
    				<li>
       				<label class="label_box user_name">用户名</label>
-      				<input type="text" class="input_box input_name" name="login_name" placeholder="请输入用户名" >
+      				<input id='username' type="text" class="input_box input_name" placeholder="请输入用户名" >
     			</li>
 	    		<li>
 	      			<label class="label_box user_password">密码</label>
-	      			<input type="password" class="input_box input_password" name="login_pwd" placeholder="请输入密码">
+	      			<input type="password" class="input_box input_password" id="password" placeholder="请输入密码">
 	    		</li>
   			</ul>
 		  	<div class="user_button">
-		    	<a href="" class="btn_submit dologin">登录</a>
+		    	<a id='login' class="btn_submit dologin">登录</a>
 		  	</div>
 		  	</form>
 		</div>
     </div>
+    
+<script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/pub_fuc.js"></script>
+<script type="text/javascript">
+$('#login').click(function(){
+	var username = document.getElementById('username').value;
+	var password = document.getElementById('password').value;
+	
+	nativeAjax('post','api/technician/login',function(e){
+		var data = jsonParse(getResult(e));
+		//console.log(data);
+		var code = data.code;
+		if(code=='0'){
+			setCookie('login_sign', data.data.username);
+			window.location.href = 'mechanic.html';
+		}else{
+			alert('用户名或密码不正确');
+		}
+		
+	},'phone='+username+'&password='+password);
+	return false;
+});
+
+</script>
 </body>
 </html>

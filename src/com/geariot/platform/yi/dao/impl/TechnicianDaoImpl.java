@@ -83,9 +83,9 @@ public class TechnicianDaoImpl implements TechnicianDao{
 	@Override
 	public Technician login(String phone, String password) {
 		try {
+			
 			String hql = "from Technician where phone=:phone and password=:psw";
 			Technician user = (Technician) getSession().createQuery(hql).setCacheable(true).setString("phone", phone).setString("psw", password).uniqueResult();
-			System.out.println("getuserId"+user.getId());
 			return user;
 		} catch (Exception e) {
 			e.printStackTrace();

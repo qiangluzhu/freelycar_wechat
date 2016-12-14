@@ -35,7 +35,7 @@ public class TechnicianController {
 		return service.find(c,page,number);
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(String phone,String password) {
 		return service.login(phone,password);
 	}
