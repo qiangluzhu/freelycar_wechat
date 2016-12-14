@@ -117,10 +117,11 @@ $(function(){
 });
 var name = '';
 var flag = true;
+var number = 10;
 function loadData(page){
-	nativeAjax('get','../api/community/find?name='+name+'&page='+page+'&number=1',function(e){
+	nativeAjax('get','../api/community/find?name='+name+'&page='+page+'&number='+number,function(e){
 		var data = jsonParse(getResult(e));
-		console.log(data);
+		//console.log(data);
 		if(data.code!='0'){
 			document.getElementById('content_body').innerHTML = '';
 			return;
@@ -142,8 +143,8 @@ function loadData(page){
                 +'</tr>';
 		}
 		document.getElementById('content_body').innerHTML = html;
-		document.getElementById('sum_count').innerHTML = html;
-		document.getElementById('page_num').innerHTML = html;
+		document.getElementById('sum_count').innerHTML = data.num;
+		document.getElementById('page_num').innerHTML = number;
 		opera();
 		if(flag){
 			pagebutton(data.size);

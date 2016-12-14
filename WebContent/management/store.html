@@ -96,11 +96,13 @@
             </div>
             <div class="row">
               <div class="large-12 columns pageination_fix">
-                <span class="pagination_count">共1条记录 | 每页50条  </span>
-                <ul class="pagination right">
-                  <li class="arrow"></li>
-                  <li class="current"><a href="javascript:void(0);">1</a></li>
-								</ul>
+                <span class="pagination_count">共<span id='sum_count'></span>条记录 | 每页<span id='page_num'></span>条 </span>
+                <ul class="pagination right" id='mypager'>
+                  <li class="current sy"><a>首页</a></li>
+                  <li class="current syy"><a>上一页</a></li>
+                  <li class="current xyy"><a>下一页</a></li>
+                  <li class="current wy"><a>尾页</a></li>
+				</ul>
               </div>
             </div>
           </div>
@@ -121,16 +123,16 @@
   
 $(function(){
 	$(".header").load("public.html");
-	load();
+	loadData(1);
 });
 
 var store_name ='';
 var store_address ='';
 var store_phone = '';
-
-
-function load(){
-	nativeAjax('get','../api/store/find?name='+store_name+'&address='+store_address+'&phone='+store_phone+'&start=0&number=10',function(e){
+var number = 10;
+var flag = true;
+function loadData(page){
+	nativeAjax('get','../api/store/find?name='+store_name+'&address='+store_address+'&phone='+store_phone+'&page='+page+'&number='+number,function(e){
 		var data = jsonParse(getResult(e));
 		if(data.code!='0'){
 			document.getElementById('content_body').innerHTML = '';
@@ -143,7 +145,7 @@ function load(){
 			var obj = arr[i];
 			//console.log(obj);
 			html +='<tr id='+obj.id+'>'
-                +'<td>1</td>'
+                +'<td>'+(i+1)+'</td>'
                 +'<td>'+obj.name+'</td>'
                 +'<td>'+obj.phone+'</td>'
                 +'<td>'+obj.address+'</td>'
@@ -154,7 +156,13 @@ function load(){
                 +'</tr>';
 		}
 		document.getElementById('content_body').innerHTML = html;
+		document.getElementById('sum_count').innerHTML = data.num;
+		document.getElementById('page_num').innerHTML = number;
 		opera();
+		if(flag){
+			pagebutton(data.size);
+			flag = false;					
+		}
 	});
 }
 
@@ -186,7 +194,7 @@ $('#con_search').click(function(){
 	 store_name = document.getElementById('store_name').value;
 	 store_address = document.getElementById('store_address').value;
 	 store_phone = document.getElementById('store_phone').value;
-	load();
+	 loadData(1);
 });
 
 </script>

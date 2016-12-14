@@ -124,28 +124,25 @@ Date.prototype.yyyymmdd = function() {
 var curpage =1;
 var  temp = "";
 var pagebutton = function(pageNums){
-	$("#mypager").click(function(e){
+	$("#mypager").on("click","li",function(e){
 		//再去查一共多少页
-		var $target = $(e.target);
-		if( $target.is("a") ) {
-			if($target.hasClass("sy")){
-				curpage = 1;
-			}else if($target.hasClass("syy")){
-				curpage = --curpage>1?curpage:1;
-			}else if($target.hasClass("xyy")){
-				curpage = ++curpage>pageNums?pageNums:curpage;
-			}else if($target.hasClass("wy")){
-				curpage=pageNums;
-			}
-			
-			console.log(curpage+"--"+pageNums);
-			
-			if(curpage!=temp){
-				console.log(curpage);
-	 			loadData(curpage);
-	 		}
-			temp = curpage;
+		var $target = $(e.currentTarget);
+		
+		if($target.hasClass("sy")){
+			curpage = 1;
+		}else if($target.hasClass("syy")){
+			curpage = --curpage>1?curpage:1;
+		}else if($target.hasClass("xyy")){
+			curpage = ++curpage>pageNums?pageNums:curpage;
+		}else if($target.hasClass("wy")){
+			curpage=pageNums;
 		}
+		
+		if(curpage!=temp){
+			console.log(curpage);
+ 			loadData(curpage);
+ 		}
+		temp = curpage;
 			
 });
 	
