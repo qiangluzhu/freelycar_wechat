@@ -89,7 +89,7 @@
             </div>
             <div class="row">
               <div class="large-12 columns pageination_fix">
-                <span class="pagination_count">共1条记录 | 每页50条  </span>
+                <span class="pagination_count">共<span id='sum_count'></span>条记录 | 每页<span id='page_num'></span>条  </span>
                 <ul class="pagination right" id='mypager'>
                   <li class="current sy"><a>首页</a></li>
                   <li class="current syy"><a>上一页</a></li>
@@ -120,6 +120,7 @@ var flag = true;
 function loadData(page){
 	nativeAjax('get','../api/community/find?name='+name+'&page='+page+'&number=1',function(e){
 		var data = jsonParse(getResult(e));
+		console.log(data);
 		if(data.code!='0'){
 			document.getElementById('content_body').innerHTML = '';
 			return;
@@ -141,6 +142,8 @@ function loadData(page){
                 +'</tr>';
 		}
 		document.getElementById('content_body').innerHTML = html;
+		document.getElementById('sum_count').innerHTML = html;
+		document.getElementById('page_num').innerHTML = html;
 		opera();
 		if(flag){
 			pagebutton(data.size);
