@@ -133,6 +133,7 @@ public class UserService {
 			int realSize=dao.getrSize(openId);
 			double size=Math.ceil(realSize/(double)number);
 			resultObj.put("size", size);
+			resultObj.put("num", realSize);
 			return resultObj.toString();
 		}
 		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -152,6 +153,7 @@ public class UserService {
 			int realSize=dao.getcSize();
 			double size=Math.ceil(realSize/(double)number);
 			resultObj.put("size", size);
+			resultObj.put("num", realSize);
 			return resultObj.toString();
 		}
 		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);

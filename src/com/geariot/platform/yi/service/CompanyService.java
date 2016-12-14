@@ -46,6 +46,7 @@ public class CompanyService {
 			int realSize=companyDao.getSize(c);
 			double size=Math.ceil(realSize/(double)number);
 			resultObj.put("size", size);
+			resultObj.put("num", realSize);
 			return resultObj.toString();
 		}
 		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);

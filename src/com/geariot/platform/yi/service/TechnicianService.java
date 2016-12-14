@@ -79,6 +79,7 @@ public class TechnicianService {
 			int realSize=dao.gettSize(c);
 			double size=Math.ceil(realSize/(double)number);
 			resultObj.put("size", size);
+			resultObj.put("num", realSize);
 			return resultObj.toString();
 		}
 		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
@@ -114,6 +115,7 @@ public class TechnicianService {
 			int realSize=dao.getrSize(tid);
 			double size=Math.ceil(realSize/(double)number);
 			resultObj.put("size", size);
+			resultObj.put("num", realSize);
 			return resultObj.toString();
 		}
 		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
