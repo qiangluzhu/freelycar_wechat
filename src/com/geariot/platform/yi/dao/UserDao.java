@@ -34,4 +34,6 @@ public interface UserDao {
 	
 	public int getcSize();
 
+	UserAddress getAddByAddId(String id);
+
 }

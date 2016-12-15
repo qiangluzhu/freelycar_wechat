@@ -192,4 +192,19 @@ public class UserService {
 		return resultObj.toString();
 	}
 
+	public String getAddByAddId(String id) {
+		JSONObject resultObj=new JSONObject();
+		UserAddress b = dao.getAddByAddId(id);
+		if (b!=null) {
+			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
+			resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
+			resultObj.put(Constants.RESPONSE_DATA_KEY, new JSONObject(b));
+			return resultObj.toString();
+		}
+		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.NOT_FOUND);
+		resultObj.put(Constants.RESPONSE_MSG_KEY,
+				RESCODE.NOT_FOUND.getMsg());
+		return resultObj.toString();
+	}
+
 }

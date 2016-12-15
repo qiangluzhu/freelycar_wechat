@@ -108,6 +108,19 @@ public class UserDaoImpl implements UserDao{
 			return null;
 		}
 	}
+	
+
+	@Override
+	public UserAddress getAddByAddId(String id) {
+		try {
+			String hql = "from UserAddress where id=:id";
+			UserAddress add= (UserAddress) getSession().createQuery(hql).setString("id", id).uniqueResult();
+			return add;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
