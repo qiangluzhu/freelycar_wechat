@@ -39,8 +39,13 @@ public class UserController {
 	
 	//id:用户的openid
 	@RequestMapping(value = "/getAddById", method = RequestMethod.GET)
-	public String getAddById(String id) {
+	public String getAddByOpenId(String id) {
 		return service.getAddById(id);
+	}
+	
+	@RequestMapping(value = "/getAddByAddId", method = RequestMethod.GET)
+	public String getAddById(String id) {
+		return service.getAddByAddId(id);
 	}
 	
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
