@@ -54,6 +54,13 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public boolean add(UserAddress c) {
 		try{
+			String openId=c.getOpenId();
+			UserAddress u = getAddById(openId);
+			if(u==null){
+				c.setIsSelected(1);
+			}else{
+				c.setIsSelected(0);
+			}
 			getSession().save(c);
 			return true;
 		}catch(Exception e){
@@ -93,7 +100,7 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public UserAddress getAddById(String id) {
 		try {
-			String hql = "from UserAddress where id=:id";
+			String hql = "from UserAddress where openId=:id and isSelected=1";
 			UserAddress add= (UserAddress) getSession().createQuery(hql).setString("id", id).uniqueResult();
 			return add;
 		} catch (Exception e) {

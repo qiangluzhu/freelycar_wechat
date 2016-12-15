@@ -37,6 +37,7 @@ public class UserController {
 		return service.modAddress(c);
 	}
 	
+	//id:用户的openid
 	@RequestMapping(value = "/getAddById", method = RequestMethod.GET)
 	public String getAddById(String id) {
 		return service.getAddById(id);
