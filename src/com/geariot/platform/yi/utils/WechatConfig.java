@@ -15,19 +15,19 @@ import org.json.JSONObject;
  *
  */
 public class WechatConfig {
-
-	
-	///http://www.dayiya.com.cn/album/api/user/wechatLogin/userzone
-	//https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3d0a8de6b9ec1dcf&redirect_uri=http%3a%2f%2fwww.geariot.com%2falbum%2fapi%2fuser%2fwechatLogin%2fuserzone&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
+	//http://www.geariot.com/freelycar/api/wechat/center
+	//http%3a%2f%2fwww.geariot.com%2ffreelycar%2fapi%2fwechat%2fcenter
+	//https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd188f8284ee297b&redirect_uri=http%3a%2f%2fwww.geariot.com%2ffreelycar%2fapi%2fwechat%2fcenter&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
+	//https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd188f8284ee297b&redirect_uri=http%3a%2f%2fwww.geariot.com%2ffreelycar%2fapi%2fwechat%2fservice&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
 	private static Logger log = Logger.getLogger(WechatConfig.class);
 	
 	//自定义的token
 	public static String token = "album8264";
 	
-	public static String appId = "wx3d0a8de6b9ec1dcf";
+	public static String appId = "wxfd188f8284ee297b";
 	//public static String mchId = "1380202002";    //商户号，微信商户平台里面获取
 	//public static String secret = "da188683eaeacf8cde241aee8df3cb30";
-	public static String secret = "ab533e50cb12807e527382a2813d1010";
+	public static String secret = "8e7a35d582d6b9fe771ac56462029321";
 
 	//public static String key = "zimerwechatcreatetimeymd20160816"; //签名秘钥，在微信商户平台里面设置
 
