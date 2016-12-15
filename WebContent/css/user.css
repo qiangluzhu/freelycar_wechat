@@ -489,7 +489,7 @@ body {
 	width: 17px;
 	height: 18px;
 	margin: 0 6px 0 12px;
-	background: url("../../img/www/v2/common_icon_onlinehelp.png?ver=1464938052") left top no-repeat;
+	background: url("../../img/www/v2/common_icon_onlinehelp.png") left top no-repeat;
 	background-position: 0 0;
 	vertical-align: text-bottom
 }
@@ -521,7 +521,7 @@ body {
 	top: -11px;
 	width: 9px;
 	height: 9px;
-	background: url("../../img/www/v2/common_icon_onlinehelp.png?ver=1464938052") left top no-repeat;
+	background: url("../../img/www/v2/common_icon_onlinehelp.png") left top no-repeat;
 	background-position: 0 -54px
 }
 
@@ -545,7 +545,7 @@ body {
 	width: 18px;
 	height: 20px;
 	margin: 13px 0 0 14px;
-	background: url("../../img/www/v2/common_icon_onlinehelp.png?ver=1464938052") left top no-repeat;
+	background: url("../../img/www/v2/common_icon_onlinehelp.png") left top no-repeat;
 	background-position: 0 -26px
 }
 
@@ -861,7 +861,7 @@ input:-webkit-autofill,textarea:-webkit-autofill {
 	height: 50px;
 	margin: 0 auto 50px;
 	text-indent: -9999px;
-	background: url("../../img/icon_new.png?ver=1464938052") top left no-repeat;
+	background: url("../img/icon_new.png") top left no-repeat;
 	background-position: 0 -100px
 }
 
@@ -888,7 +888,7 @@ input:-webkit-autofill,textarea:-webkit-autofill {
 }
 
 .user_box .user_input li .label_box.user_name {
-	background: url("../../img/icon_new.png?ver=1464938052") top left no-repeat;
+	background: url("../img/icon_new.png") top left no-repeat;
 	background-position: -100px -200px
 }
 
@@ -897,7 +897,7 @@ input:-webkit-autofill,textarea:-webkit-autofill {
 }
 
 .user_box .user_input li .label_box.user_mobile {
-	background: url("../../img/icon_new.png?ver=1464938052") top left no-repeat;
+	background: url("../img/icon_new.png") top left no-repeat;
 	background-position: -200px -200px
 }
 
@@ -906,7 +906,7 @@ input:-webkit-autofill,textarea:-webkit-autofill {
 }
 
 .user_box .user_input li .label_box.user_captcha {
-	background: url("../../img/icon_new.png?ver=1464938052") top left no-repeat;
+	background: url("../img/icon_new.png") top left no-repeat;
 	background-position: 0 -200px
 }
 
@@ -915,7 +915,7 @@ input:-webkit-autofill,textarea:-webkit-autofill {
 }
 
 .user_box .user_input li .label_box.user_brand {
-	background: url("../../img/icon_new.png?ver=1464938052") top left no-repeat;
+	background: url("../img/icon_new.png") top left no-repeat;
 	background-position: -300px -200px
 }
 
@@ -924,7 +924,7 @@ input:-webkit-autofill,textarea:-webkit-autofill {
 }
 
 .user_box .user_input li .label_box.user_password {
-	background: url("../../img/icon_new.png?ver=1464938052") top left no-repeat;
+	background: url("../img/icon_new.png") top left no-repeat;
 	background-position: -400px -200px
 }
 
