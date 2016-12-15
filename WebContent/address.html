@@ -54,7 +54,7 @@ function load(){
 				+obj.address
 				+'</p>'
 				+'</div>'
-				+'<span class="add_icon glyphicon glyphicon-ok" style="color:#3E95DA;" aria-hidden="true" ></span>'
+				+'<span class="add_icon glyphicon glyphicon-ok '+(obj.isSelected==0?'hidden':'')+'" style="color:#3E95DA;" aria-hidden="true" ></span>'
 				+'<span class="edit_icon" >'
 				+'<span class="glyphicon glyphicon-edit" style="color:#3E95DA;"></span>&nbsp;&nbsp;&nbsp;&nbsp;'
 				+'<span class="glyphicon glyphicon-remove" style="color:#3E95DA;"></span>'
@@ -71,11 +71,12 @@ function show_detail(){
 	  $('#content_body').on('click','li',function(e){
 		//filter phone
 		var tid = e.currentTarget.id;
-		if(e.target.className=='glyphicon glyphicon-edit'){
+		var className = e.target.className;
+		if(className=='glyphicon glyphicon-edit'){
 			window.location.href ='edit_address.html?tid='+tid;
-		} 
+		} else
 		
-		if(e.target.className=='glyphicon glyphicon-remove'){
+		if(className=='glyphicon glyphicon-remove'){
 			nativeAjax('get','api/user/delAddress?addressId='+tid,function(e1){
 				var data = jsonParse(getResult(e1));
 				if(data.code=='0'){
@@ -83,6 +84,8 @@ function show_detail(){
 					e.currentTarget.outerHTML = '';
 				}
 			});
+		} else {
+			alert('zzz')
 		}
 		
 	}); 

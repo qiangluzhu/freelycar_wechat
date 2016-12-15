@@ -52,10 +52,9 @@
 	<script type="text/javascript" src="js/pub_fuc.js"></script>
 	<script type="text/javascript">
 		var id = get_param('tid');
-		nativeAjax('get','api/user/getAddById?id='+id,function(e){
+		nativeAjax('get','api/user/getAddByAddId?id='+id,function(e){
 			var data = jsonParse(getResult(e));
 			var code = data.code;
-			alert(JSON.stringify(data, null, 4));
 			if(code=='0'){
 				var obj = data.data;
 				for(var item in obj){
