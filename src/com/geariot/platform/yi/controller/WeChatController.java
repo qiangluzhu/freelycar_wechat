@@ -7,15 +7,20 @@ import java.net.URLEncoder;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.geariot.platform.yi.service.UserService;
 import com.geariot.platform.yi.utils.WechatLoginUse;
 
 
 @Controller
 @RequestMapping(value="/wechat")
 public class WeChatController {
+	
+	@Autowired
+	UserService service;
 	
 	private Logger log = Logger.getLogger(UserController.class);
 
@@ -44,7 +49,7 @@ public class WeChatController {
 				String nickname = resultJson.getString("nickname");
 				nickname = URLEncoder.encode(nickname,"utf-8");
 				String headimgurl = resultJson.getString("headimgurl");
-				
+				service.register(openid,nickname);
 				return "redirect:../../"+htmlPage+".html?openid=" + openid+"&nickname="+nickname+"&headimg="+headimgurl;
 				
 			}else{
