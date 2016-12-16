@@ -52,10 +52,12 @@ $(function(){
 });
 var openId =  getCookie('openid');
 function load(){
-	nativeAjax('get','api/technician/getReservation?openId='+openId+'&page=0&number=10',function(e){
+	nativeAjax('get','api/user/getRecord?openId='+openId+'&page=0&number=10',function(e){
+		//alert(getResult(e));
 		var data = jsonParse(getResult(e));
 		var arr = data.data;
 		//console.log(arr);
+		
 		var html = '';
 		for(var i=0,len=arr.length;i<len;i++){
 			var obj = arr[i];
