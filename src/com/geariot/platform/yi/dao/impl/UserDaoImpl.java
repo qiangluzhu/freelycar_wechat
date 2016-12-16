@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -29,6 +30,8 @@ import com.geariot.platform.yi.entities.UserAddress;
 
 @Repository
 public class UserDaoImpl implements UserDao{
+	
+	private static final Logger log = Logger.getLogger(UserDaoImpl.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -45,6 +48,7 @@ public class UserDaoImpl implements UserDao{
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();
+			log.error(e.getMessage());
 			return false;
 		}
 	}
@@ -63,6 +67,7 @@ public class UserDaoImpl implements UserDao{
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();
+			log.error(e.getMessage());
 			return false;
 		}
 	}
@@ -81,6 +86,7 @@ public class UserDaoImpl implements UserDao{
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.error(e.getMessage());
 			return false;
 		}
 	}
@@ -91,6 +97,7 @@ public class UserDaoImpl implements UserDao{
 			getSession().update(c);
 			return true;
 		}catch(Exception e){
+			log.error(e.getMessage());
 			return false;
 		}
 	}
@@ -103,6 +110,7 @@ public class UserDaoImpl implements UserDao{
 			return add;
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.error(e.getMessage());
 			return null;
 		}
 	}
@@ -116,6 +124,7 @@ public class UserDaoImpl implements UserDao{
 			return add;
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.error(e.getMessage());
 			return null;
 		}
 	}
@@ -129,6 +138,7 @@ public class UserDaoImpl implements UserDao{
 			return addList;
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.error(e.getMessage());
 			return null;
 		}
 	}
@@ -166,6 +176,7 @@ public class UserDaoImpl implements UserDao{
 			return addList;
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.error(e.getMessage());
 			return null;
 		}
 	}
@@ -328,6 +339,7 @@ public class UserDaoImpl implements UserDao{
             System.out.println(accessToken);
             is.close();
         } catch (Exception e) {
+        	log.error(e.getMessage());
             e.printStackTrace();
         }
         return accessToken;
@@ -345,6 +357,7 @@ public class UserDaoImpl implements UserDao{
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.error(e.getMessage());
 			return false;
 		}
 	}
@@ -364,6 +377,7 @@ public class UserDaoImpl implements UserDao{
 			add.setIsSelected(1);
 			return true;
 		}catch(Exception e){
+			log.error(e.getMessage());
 			return false;
 		}
 	}

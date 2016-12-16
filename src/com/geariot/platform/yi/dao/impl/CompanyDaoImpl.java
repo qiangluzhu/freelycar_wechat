@@ -2,6 +2,7 @@ package com.geariot.platform.yi.dao.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,6 +17,8 @@ import com.geariot.platform.yi.utils.query.QueryUtils;
 
 @Repository
 public class CompanyDaoImpl implements CompanyDao{
+	
+	private static final Logger log = Logger.getLogger(CompanyDaoImpl.class);
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -47,6 +50,7 @@ public class CompanyDaoImpl implements CompanyDao{
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();
+			log.error(e.getMessage());
 			return false;
 		}
 	}

@@ -2,6 +2,7 @@ package com.geariot.platform.yi.dao.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,6 +19,8 @@ import com.geariot.platform.yi.utils.query.TechnicianAndQueryCreator;
 @Repository
 public class TechnicianDaoImpl implements TechnicianDao{
 
+	private static final Logger log = Logger.getLogger(TechnicianDaoImpl.class);
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -33,6 +36,7 @@ public class TechnicianDaoImpl implements TechnicianDao{
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();
+			log.error(e.getMessage());
 			return false;
 		}
 	}
@@ -51,6 +55,7 @@ public class TechnicianDaoImpl implements TechnicianDao{
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.error(e.getMessage());
 			return false;
 		}
 	}
@@ -89,6 +94,7 @@ public class TechnicianDaoImpl implements TechnicianDao{
 			return user;
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.error(e.getMessage());
 			return null;
 		}
 	}

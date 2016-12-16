@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -21,6 +22,9 @@ import com.geariot.platform.yi.utils.query.ReservationAndQueryCreator;
 
 @Repository
 public class ReservationDaoImpl implements ReservationDao {
+	
+	private static final Logger log = Logger.getLogger(ReservationDaoImpl.class);
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -112,6 +116,7 @@ public class ReservationDaoImpl implements ReservationDao {
 			}
 			return map;
 		} catch (ParseException e) {
+			log.error(e.getMessage());
 			e.printStackTrace();
 		}
 		return null;

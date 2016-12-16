@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,6 +24,9 @@ import com.geariot.platform.yi.utils.query.StoreAndQueryCreator;
 
 @Repository
 public class StoreDaoImpl implements StoreDao{
+	
+	private static final Logger log = Logger.getLogger(StoreDaoImpl.class);
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 	@Autowired
@@ -63,6 +67,7 @@ public class StoreDaoImpl implements StoreDao{
 			return false;
 		}catch(Exception e){
 			e.printStackTrace();
+			log.error(e.getMessage());
 			return false;
 		}
 	}
@@ -81,6 +86,7 @@ public class StoreDaoImpl implements StoreDao{
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.error(e.getMessage());
 			return false;
 		}
 	}
@@ -116,6 +122,7 @@ public class StoreDaoImpl implements StoreDao{
 			}
 			return true;
 		}catch(Exception e){
+			log.error(e.getMessage());
 			return false;
 		}
 	}

@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,6 +24,8 @@ import com.geariot.platform.yi.utils.query.QueryUtils;
 
 @Repository
 public class CommunityDaoImpl implements CommunityDao{
+	
+	private static final Logger log = Logger.getLogger(CommunityDaoImpl.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -59,12 +62,14 @@ public class CommunityDaoImpl implements CommunityDao{
 						return true;
 					}catch(Exception e){
 						e.printStackTrace();
+						log.error(e.getMessage());
 					}
 				}
 			}
 			return false;
 		}catch(Exception e){
 			e.printStackTrace();
+			log.error(e.getMessage());
 			return false;
 		}
 	}
@@ -83,6 +88,7 @@ public class CommunityDaoImpl implements CommunityDao{
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.error(e.getMessage());
 			return false;
 		}
 	}
@@ -110,6 +116,7 @@ public class CommunityDaoImpl implements CommunityDao{
 						mf.transferTo(new File(baseUrl + newName));
 					}catch(Exception e){
 						e.printStackTrace();
+						log.error(e.getMessage());
 						return false;
 					}
 				}
@@ -117,6 +124,7 @@ public class CommunityDaoImpl implements CommunityDao{
 			getSession().update(c);
 			return true;
 		}catch(Exception e){
+			log.error(e.getMessage());
 			return false;
 		}
 	}
