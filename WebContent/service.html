@@ -9,7 +9,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" >
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.min.css" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body >
@@ -27,16 +26,13 @@
 	<div class="service " onclick="window.location.href='address.html'">
 		<div class="address">
 			<div class="similar_data_detail" style="margin-bottom:10px;">	
-				<span class="name">
-					蒋卓伟
+				<span class="name" id='name'>
 				</span>
-				<span class="phone">
-					13223232323
+				<span class="phone" id='phone'>
 				</span>
 			</div>
 			<div class="similar_data_detail">		
-				<p class="store-item-addr3">
-					南京市江宁区麒麟门路B座地下
+				<p class="store-item-addr3" id='address'>
 				</p>
 			</div>	
 		</div>
@@ -45,8 +41,8 @@
 	</div>
 	<div class="service_time" >
 		<div class="similar_data_detail" >		
-			<p class="store-item-addr3 datetimepicker">
-				上门时间<input></input>	
+			<p class="store-item-addr3">
+				上门时间<input type="datetime-local" id='ontime'  width="100%"/>
 			</p>
 			
 			<span class="icon3 glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
@@ -61,14 +57,70 @@
 		</div>
 	</div>
 	<div class="foot_button">
-        <div class="submit_button">提交</div>
+        <div class="submit_button" id='submit_button'>提交</div>
     </div>
     <script src="js/jquery-1.11.3.min.js"></script>
-    <script src="js/jquery.datetimepicker.full.min.js"></script>
+    <script type="text/javascript" src="js/pub_fuc.js"></script>
     <script type="text/javascript">
-    
-     $.datetimepicker.setLocale('ch');
-	 $(".datetimepicker").datetimepicker();
+     var openId = get_param('openid');
+     var nickname = get_param('nickname');
+	   //存入cookie
+	 setCookie('openId', openId);
+	 //defaut user info
+	 nativeAjax('get','api/user/getAddById?id='+openId,function(e){
+			var data = jsonParse(getResult(e));
+			if(data.code=='0'){//
+				var obj = data.data;
+				var short_add = obj.address;
+				if(short_add.length>13){
+					short_add = short_add.substring(0,13)+'...';		
+				}
+				document.getElementById('address').innerHTML = short_add;
+				document.getElementById('phone').innerHTML = obj.phone;
+				document.getElementById('name').innerHTML = obj.name;
+				submit(obj);
+			}
+			
+		});
+	 
+	 	var submit = function(obj){
+			$('#submit_button').click(function(){
+				//var arr = ['name','license','phone','province','city','region','address'];
+				var ontime = document.getElementById('ontime').value;
+				ontime = ontime.split("-").join("/");
+				ontime = ontime.split("T").join(" ");
+				obj.nickName = nickname;
+				obj.onTime = ontime;
+				var p = $.param(obj);
+				
+				/* for(var i=0,len=arr.length;i<len;i++){
+					var tid = arr[i];
+					var ele = document.getElementById(tid);
+					var value = ele.value;
+					if(isEmpty(value)){
+						ele.style.borderColor = 'red';
+						return;
+					}else{
+						ele.style = '';
+					}
+					param[tid] = value;
+				} */
+				//console.log($.param(param));
+				nativeAjax('post','api/user/reserve',function(e){
+					console.log(getResult(e));
+					var data = jsonParse(getResult(e));
+					//alert(JSON.stringify(data, null, 4));
+					/* if(data.code=='0'){
+						window.location.href ='address.html';
+					} */
+					
+				},p); 
+				
+			});
+	 		
+	 	}
+
+	 
     </script>
 </body>
 </html>

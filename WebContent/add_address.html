@@ -81,6 +81,8 @@
 		//console.log($.param(param));
 		nativeAjax('post','api/user/addAddress',function(e){
 			var data = jsonParse(getResult(e));
+			//console.log(data);
+			//alert(JSON.stringify(data, null, 4));
 			if(data.code=='0'){
 				window.location.href ='address.html';
 			}

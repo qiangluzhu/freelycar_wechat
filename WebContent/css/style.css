@@ -65,9 +65,9 @@ select{
 }
 
 .add_icon{
-	position: relative;
-    top: -38px;
-    margin-left: -30px;
+	position: absolute;
+    top: 30px;
+    margin-left: -26px; 	
 }
 
 .add_icon3{
@@ -97,7 +97,7 @@ select{
 .service_time input{
 	width:70%;
 	border:none;
-	padding-left:50px;
+	padding-left:10px;
 	-webkit-appearance: none;
 	outline-style: none;
 }

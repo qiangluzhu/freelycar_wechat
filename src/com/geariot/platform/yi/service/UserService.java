@@ -1,5 +1,6 @@
 package com.geariot.platform.yi.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -109,7 +110,9 @@ public class UserService {
 
 	public String reserve(Reservation r) {
 		JSONObject resultObj=new JSONObject();
+		r.setCreateTime(new Date());
 		boolean b = dao.reserve(r);
+		
 		if (!b) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,
