@@ -9,7 +9,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" >
     <link rel="stylesheet" type="text/css" href="css/style.css" />
-
+<style type="text/css">
+	.hidden{
+		display: none;
+	}
+</style>
 </head>
 <body>
 <div class="ycl-container ycl-dmxz">
@@ -35,21 +39,22 @@
 
     </ul>
 </div>
-
+<div class="more hidden" id='click_more'><a>点击加载更多...</a></div> 	
 
 <script src="js/jquery-1.11.3.min.js"></script>
 <script src="js/pub_fuc.js"></script>
 <script type="text/javascript">
+var page = 1;
 $(function(){
-	load();
+	load(page);
 	
 });
 
-function load(){
-	nativeAjax('get','api/store/find?page=0&number=10',function(e){
+function load(page){
+	nativeAjax('get','api/store/find?page='+page+'&number=10',function(e){
 		var data = jsonParse(getResult(e));
 		var arr = data.data;
-	//	console.log(arr);
+		console.log(data);
 		var html = '';
 		for(var i=0,len=arr.length;i<len;i++){
 			var obj = arr[i];
@@ -71,8 +76,16 @@ function load(){
 					+'</div>'
 					+'</li>';
 		}
-		document.getElementById('content_body').innerHTML = html;
+		//document.getElementById('content_body').innerHTML = html;
 		show_detail();
+		$('#content_body').append(html);
+		
+		if(data.num>$('#content_body').children().length){
+			$('#click_more').removeClass('hidden');
+		}else{
+			$('#click_more').addClass('hidden');
+		}
+		
 	});
 }
 
@@ -84,6 +97,10 @@ function show_detail(){
 		}
 	});
 }
+$('#click_more').click(function(){
+	page++;
+	load(page);
+});
 
 
 
