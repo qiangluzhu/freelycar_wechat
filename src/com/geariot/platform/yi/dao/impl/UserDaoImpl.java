@@ -24,6 +24,7 @@ import com.geariot.platform.yi.dao.UserDao;
 import com.geariot.platform.yi.entities.Admin;
 import com.geariot.platform.yi.entities.Community;
 import com.geariot.platform.yi.entities.Reservation;
+import com.geariot.platform.yi.entities.Technician;
 import com.geariot.platform.yi.entities.UserAddress;
 
 @Repository
@@ -135,10 +136,17 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public boolean reserve(Reservation r) {
 		try{
+			Query query0 = getSession().createQuery("from Technician");
+			query0.setFirstResult(0); // 开始记录
+			query0.setMaxResults(1); // 查询多少条
+			Technician t = (Technician) query0.uniqueResult();
+			r.setOrderOpenId(t.getOpenId());
+			r.setOrderPerson(t.getName());
+			r.setOrderPhone(t.getPhone());
 			getSession().save(r);
-			String tOpenid=r.getOrderOpenId();
-			JSONObject data = packJsonmsg(r.getRperson(),r.getPhone(),r.getOnTime(),"成功");
-			sendWechatmsgToUser(tOpenid,"L9Y9HHSN96_maQXSYUyYAbZf_fMeHB2EsR1hk2Eft0s","","",data);
+//			String tOpenid=r.getOrderOpenId();
+//			JSONObject data = packJsonmsg(r.getRperson(),r.getPhone(),r.getOnTime(),"成功");
+//			sendWechatmsgToUser(tOpenid,"L9Y9HHSN96_maQXSYUyYAbZf_fMeHB2EsR1hk2Eft0s","","",data);
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();
