@@ -128,6 +128,9 @@ public class CommunityDaoImpl implements CommunityDao{
 		basicQueryStr = new StringBuffer("from Community");
 		CommunityAndQueryCreator creator = new CommunityAndQueryCreator(c);
 		String creatorStr = creator.createStatement(0);
+//		String[] ways={"and","or"};
+//		TestQueryCreator creator = new TestQueryCreator(c,ways);
+//		String creatorStr = creator.createStatement();
 		Query query = QueryUtils.createLocalQuery(getSession(), basicQueryStr,
 				creatorStr);
 		query.setCacheable(Constants.SELECT_CACHE);
