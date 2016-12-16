@@ -10,6 +10,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" >
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <style type="text/css">
+    	#content_body li{
+    		position: relative;
+    	}
+    
+    </style>
 </head>
 <body >
 	<ul class="address_list" id='content_body'>
@@ -38,8 +44,13 @@ function load(){
 	nativeAjax('get','api/user/getAll?openId='+openId,function(e){
 		var data = jsonParse(getResult(e));
 		var arr = data.data;
+		if(isEmpty(arr)){
+			console.log('arr is empty');
+			return;
+		}
 		//console.log(arr);
 		var html = '';
+		
 		for(var i=0,len=arr.length;i<len;i++){
 			var obj = arr[i];
 			
@@ -63,11 +74,11 @@ function load(){
 			
 		}
 		document.getElementById('content_body').innerHTML = html;
-		show_detail();
+		opera();
 	});
 }
 
-function show_detail(){
+function opera(){
 	  $('#content_body').on('click','li',function(e){
 		//filter phone
 		var tid = e.currentTarget.id;
@@ -85,8 +96,15 @@ function show_detail(){
 				}
 			});
 		} else {
-			alert('zzz')
-		}
+			$('#content_body').find('span.glyphicon-ok').addClass('hidden');
+			$(this).find('span.glyphicon-ok').removeClass('hidden');
+			nativeAjax('get','api/user/setAddress?addId='+tid+'&userId='+openId,function(e1){
+				var data = jsonParse(getResult(e1));
+				if(data.code!='0'){
+					alert('set default address error!');
+				}
+			});
+		}	
 		
 	}); 
 	  

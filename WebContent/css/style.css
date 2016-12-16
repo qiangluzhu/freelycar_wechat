@@ -65,9 +65,9 @@ select{
 }
 
 .add_icon{
-	position: relative;
-    top: -38px;
-    margin-left: -30px;
+	position: absolute;
+    top: 30px;
+    margin-left: -26px; 	
 }
 
 .add_icon3{

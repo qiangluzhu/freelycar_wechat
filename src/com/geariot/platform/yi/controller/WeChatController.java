@@ -47,9 +47,9 @@ public class WeChatController {
 			if(resultJson.get("message").equals("success")){
 				String openid = resultJson.getString("openid");
 				String nickname = resultJson.getString("nickname");
-				nickname = URLEncoder.encode(nickname,"utf-8");
 				String headimgurl = resultJson.getString("headimgurl");
 				service.register(openid,nickname);
+				nickname = URLEncoder.encode(nickname,"utf-8");
 				return "redirect:../../"+htmlPage+".html?openid=" + openid+"&nickname="+nickname+"&headimg="+headimgurl;
 				
 			}else{
