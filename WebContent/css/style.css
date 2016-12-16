@@ -339,7 +339,8 @@ select{
 
 /*STORE-DETAIL*/
 .store_detail {
-	margin-bottom:3rem
+	margin-bottom:3rem;
+	padding-bottom:50px
 }
 
 .store_detail .mod_box {
@@ -586,6 +587,24 @@ select{
 .order_introduce{
     height: 35px;
     overflow: hidden;
+}
+
+.more{
+	text-align:center;
+	width:100%;
+	padding-top:10px;
+	padding-bottom:10px;
+	position:fixed;
+	bottom:5px;
+	font-size:13px;
+	background-color:F5F5F5
+}
+
+.more a{
+	color:#5D5D5D;
+	text-align:center;
+	text-decoration:none;
+	cursor:pointer
 }
 
 /* GROUP */
