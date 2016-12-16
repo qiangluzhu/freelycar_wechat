@@ -66,8 +66,25 @@
 	var headimg = get_param('headimg');
 	var nickname = get_param('nickname');
 	var openid = get_param('openid');
-	//存入cookie
-	setCookie('openId', openid);
+	
+	if(isEmpty(headimg)){
+		headimg = getCookie('headimg');
+	}else{
+		setCookie('headimg', headimg);
+	}
+	
+	if(isEmpty(nickname)){
+		nickname = getCookie('nickname');
+	}else{
+		setCookie('nickname', nickname);
+	}
+	
+	if(isEmpty(openid)){
+		openid = getCookie('openid');
+	}else{
+		setCookie('openid', openid);
+	}
+	
 	document.getElementById('headimg').setAttribute('src',headimg);
 	document.getElementById('nickname').innerHTML = nickname;
 

@@ -41,7 +41,8 @@
 			</p>                             
 		</div>	                        
 	</div> -->
-</div>	
+</div>
+<div class="more"><a>点击加载更多...</a></div> 	
 
 <script src="js/jquery-1.11.3.min.js"></script>
 <script src="js/pub_fuc.js"></script>
@@ -50,9 +51,9 @@ $(function(){
 	load();
 	
 });
-
+var openId =  getCookie('openid');
 function load(){
-	nativeAjax('get','api/technician/getReservation?openId=3452345234&page=0&number=10',function(e){
+	nativeAjax('get','api/technician/getReservation?openId='+openId+'&page=0&number=10',function(e){
 		var data = jsonParse(getResult(e));
 		var arr = data.data;
 		//console.log(arr);
