@@ -42,24 +42,30 @@
 		</div>	                        
 	</div> -->
 </div>
-<div class="more"><a>点击加载更多...</a></div> 	
+<div class="more hidden" id='click_more'><a>点击加载更多...</a></div> 	
 
 <script src="js/jquery-1.11.3.min.js"></script>
 <script src="js/pub_fuc.js"></script>
 <script type="text/javascript">
+var page = 1;
 $(function(){
-	load();
+	load(page);
 	
 });
 var openId =  getCookie('openid');
-function load(){
-	nativeAjax('get','api/user/getRecord?openId='+openId+'&page=0&number=10',function(e){
+function load(page){
+	nativeAjax('get','api/user/getRecord?openId='+openId+'&page='+page+'&number=3',function(e){
 		//alert(getResult(e));
 		var data = jsonParse(getResult(e));
 		var arr = data.data;
-		//console.log(arr);
+		//console.log(data);
 		
 		var html = '';
+		if(isEmpty(arr)){
+			console.log('not found');
+			return;
+		}
+		
 		for(var i=0,len=arr.length;i<len;i++){
 			var obj = arr[i];
 			html +='<div class="mod_box store_title">'
@@ -70,11 +76,23 @@ function load(){
 			+'</div>'	                        
 			+'</div>';
 		}
-		document.getElementById('content_body').innerHTML = html;
+		//document.getElementById('content_body').innerHTML = html;
+		$('#content_body').append(html);
+		
+		if(data.num>$('#content_body').children().length){
+			$('#click_more').removeClass('hidden');
+		}else{
+			$('#click_more').addClass('hidden');
+		}
+		
+		
 	});
 }
 
-
+$('#click_more').click(function(){
+	page++;
+	load(page);
+});
 
 
 </script>	
