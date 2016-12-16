@@ -24,7 +24,6 @@ import com.geariot.platform.yi.dao.UserDao;
 import com.geariot.platform.yi.entities.Admin;
 import com.geariot.platform.yi.entities.Community;
 import com.geariot.platform.yi.entities.Reservation;
-import com.geariot.platform.yi.entities.User;
 import com.geariot.platform.yi.entities.UserAddress;
 
 @Repository
@@ -40,10 +39,8 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public boolean register(String openId, String nickName) {
 		try{
-			User u=new User();
-			u.setNickName(nickName);
-			u.setOpenId(openId);
-			getSession().save(u);
+			String sql= "insert ignore into user(openId, nickName) values('" + openId + "','"+nickName+"')";
+			getSession().createSQLQuery(sql).executeUpdate();//注意,插入要加上executeUpdate,否则插入不成功  
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();
