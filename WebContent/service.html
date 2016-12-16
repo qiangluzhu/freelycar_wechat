@@ -53,7 +53,7 @@
 			<p class="store-item-addr3">
 				情况描述：	
 			</p>
-			<textarea></textarea>	
+			<textarea id='remark'></textarea>	
 		</div>
 	</div>
 	<div class="foot_button">
@@ -62,12 +62,32 @@
     <script src="js/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="js/pub_fuc.js"></script>
     <script type="text/javascript">
-     var openId = get_param('openid');
-     var nickname = get_param('nickname');
-	   //存入cookie
-	 setCookie('openId', openId);
+    
+    var headimg = get_param('headimg');
+	var nickname = get_param('nickname');
+	var openid = get_param('openid');
+	
+	if(isEmpty(headimg)){
+		headimg = getCookie('headimg');
+	}else{
+		setCookie('headimg', headimg);
+	}
+	
+	if(isEmpty(nickname)){
+		nickname = getCookie('nickname');
+	}else{
+		setCookie('nickname', nickname);
+	}
+	
+	if(isEmpty(openid)){
+		openid = getCookie('openid');
+	}else{
+		setCookie('openid', openid);
+	}
+    
 	 //defaut user info
-	 nativeAjax('get','api/user/getAddById?id='+openId,function(e){
+	// alert(openid);
+	 nativeAjax('get','api/user/getAddById?id='+openid,function(e){
 			var data = jsonParse(getResult(e));
 			if(data.code=='0'){//
 				var obj = data.data;
@@ -87,32 +107,36 @@
 			$('#submit_button').click(function(){
 				//var arr = ['name','license','phone','province','city','region','address'];
 				var ontime = document.getElementById('ontime').value;
-				ontime = ontime.split("-").join("/");
-				ontime = ontime.split("T").join(" ");
+				if(ontime.indexOf('-')>=0){
+					ontime = ontime.split("-").join("/");
+				}
+				
+				if(ontime.indexOf('T')>=0){
+					ontime = ontime.split("T").join(" ");
+				} 
+				
+				if(ontime.indexOf('年')>=0){
+					ontime = ontime.replace("年","/");
+					ontime = ontime.replace("月","/");
+					ontime = ontime.replace("日","");
+				}
+				if(ontime.length>16){
+					ontime = ontime.substring(0,16);
+				}
 				obj.nickName = nickname;
 				obj.onTime = ontime;
+				obj.remark = document.getElementById('remark').value;
+				obj.ropenId = openid;
+				obj.rperson = obj.name;
 				var p = $.param(obj);
-				
-				/* for(var i=0,len=arr.length;i<len;i++){
-					var tid = arr[i];
-					var ele = document.getElementById(tid);
-					var value = ele.value;
-					if(isEmpty(value)){
-						ele.style.borderColor = 'red';
-						return;
-					}else{
-						ele.style = '';
-					}
-					param[tid] = value;
-				} */
-				//console.log($.param(param));
 				nativeAjax('post','api/user/reserve',function(e){
-					console.log(getResult(e));
 					var data = jsonParse(getResult(e));
-					//alert(JSON.stringify(data, null, 4));
-					/* if(data.code=='0'){
-						window.location.href ='address.html';
-					} */
+					//alert(getResult(e));
+					if(data.code=='0'){
+						window.location.href ='center.html';
+					}else{
+						alert(JSON.stringify(data,null,4));
+					}
 					
 				},p); 
 				
