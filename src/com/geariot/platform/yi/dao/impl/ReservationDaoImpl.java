@@ -36,7 +36,7 @@ public class ReservationDaoImpl implements ReservationDao {
 	@Override
 	public List<Reservation> getByPerson(Reservation r, int start, int number) {
 		StringBuffer basicQueryStr;
-		basicQueryStr = new StringBuffer("from Reservation");
+		basicQueryStr = new StringBuffer("from Reservation order by createTime desc");
 		ReservationAndQueryCreator creator = new ReservationAndQueryCreator(r);
 		String creatorStr = creator.createStatement(0);
 		Query query = QueryUtils.createLocalQuery(getSession(), basicQueryStr,

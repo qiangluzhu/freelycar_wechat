@@ -168,7 +168,7 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public List<Reservation> getRecord(String openId, int start, int number) {
 		try {
-			String hql = "from Reservation where ropenId=:openId";
+			String hql = "from Reservation where ropenId=:openId  order by createTime desc";
 			Query query0 = getSession().createQuery(hql).setString("openId", openId);
 			query0.setFirstResult(start); // 开始记录
 			query0.setMaxResults(number); // 查询多少条
