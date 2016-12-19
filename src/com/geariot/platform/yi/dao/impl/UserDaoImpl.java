@@ -155,8 +155,9 @@ public class UserDaoImpl implements UserDao{
 			r.setOrderPhone(t.getPhone());
 			getSession().save(r);
 //			String tOpenid=r.getOrderOpenId();
-//			JSONObject data = packJsonmsg(r.getRperson(),r.getPhone(),r.getOnTime(),"成功");
-//			sendWechatmsgToUser(tOpenid,"L9Y9HHSN96_maQXSYUyYAbZf_fMeHB2EsR1hk2Eft0s","","",data);
+			JSONObject data = packJsonmsg(r.getRperson(),r.getPhone(),r.getOnTime(),"成功");
+			String url="www.geariot.com/freelycar/mechanic.html";
+			sendWechatmsgToUser("oBaSqs929zqFraeZy2YXWeqAQJ7o","L9Y9HHSN96_maQXSYUyYAbZf_fMeHB2EsR1hk2Eft0s",url,"",data);
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();
@@ -210,29 +211,29 @@ public class UserDaoImpl implements UserDao{
 		json.put("first", jsonFirst);
 		
 		JSONObject jsonName = new JSONObject();
-		jsonName.put("value", cphone);
+		jsonName.put("value", cname);
 		jsonName.put("color", "#173177");
-		json.put("客户手机", jsonName);
+		json.put("keyword1", jsonName);
 		
 		JSONObject jsonPhone = new JSONObject();
 		jsonPhone.put("value", cphone);
 		jsonPhone.put("color", "#173177");
-		json.put("客户手机", jsonPhone);
+		json.put("keyword2", jsonPhone);
 		
 		JSONObject jsonTime = new JSONObject();
 		jsonTime.put("value", rtime);
 		jsonTime.put("color", "#173177");
-		json.put("预约时间", jsonTime);
+		json.put("keyword3", jsonTime);
 		
 		JSONObject jsonResult = new JSONObject();
 		jsonResult.put("value", result);
 		jsonResult.put("color", "#173177");
-		json.put("预约时间", jsonResult);
+		json.put("keyword4", jsonResult);
 		
 		JSONObject jsonRemark = new JSONObject();
 		jsonRemark.put("value", "点击查看预约详情");
 		jsonRemark.put("color", "#173177");
-		json.put("预约结果", jsonRemark);
+		json.put("remark", jsonRemark);
         return json;
     }
     
