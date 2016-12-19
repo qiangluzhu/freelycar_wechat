@@ -154,10 +154,11 @@ public class UserDaoImpl implements UserDao{
 			r.setOrderPerson(t.getName());
 			r.setOrderPhone(t.getPhone());
 			getSession().save(r);
-//			String tOpenid=r.getOrderOpenId();
+			String tOpenid=r.getOrderOpenId();
+//			String tOpenid="oBaSqs929zqFraeZy2YXWeqAQJ7o";
 			JSONObject data = packJsonmsg(r.getRperson(),r.getPhone(),r.getOnTime(),"成功");
 			String url="www.geariot.com/freelycar/mechanic.html";
-			sendWechatmsgToUser("oBaSqs929zqFraeZy2YXWeqAQJ7o","L9Y9HHSN96_maQXSYUyYAbZf_fMeHB2EsR1hk2Eft0s",url,"",data);
+			sendWechatmsgToUser(tOpenid,"L9Y9HHSN96_maQXSYUyYAbZf_fMeHB2EsR1hk2Eft0s",url,"",data);
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();
@@ -307,9 +308,9 @@ public class UserDaoImpl implements UserDao{
             conn.disconnect();
             return buffer.toString();
         } catch (ConnectException ce) {
-            System.out.println("连接超时：{}");
+           log.error("连接超时：{}");
         } catch (Exception e) {
-            System.out.println("https请求异常：{}");
+        	log.error("https请求异常：{}");
         }
         return null;
     }
@@ -337,7 +338,7 @@ public class UserDaoImpl implements UserDao{
             String message = new String(jsonBytes, "UTF-8");
             JSONObject demoJson = new JSONObject(message);
             accessToken = demoJson.getString("access_token");
-            System.out.println(accessToken);
+            log.info(accessToken);
             is.close();
         } catch (Exception e) {
         	log.error(e.getMessage());

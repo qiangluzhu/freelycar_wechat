@@ -1,7 +1,5 @@
 package com.geariot.platform.yi.controller;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -58,12 +56,12 @@ public class UserController {
 	
 	@RequestMapping(value = "/reserve", method = RequestMethod.POST)
 	public String reserve(Reservation r) {
-		Reservation rr=new Reservation();
-		rr.setPhone("12345466787");
-		rr.setRperson("cyl");
-		rr.setAddress("Nanjing");
-		rr.setOnTime(new Date());
-		return service.reserve(rr);
+//		Reservation rr=new Reservation();
+//		rr.setPhone("12345466787");
+//		rr.setRperson("cyl");
+//		rr.setAddress("Nanjing");
+//		rr.setOnTime(new Date());
+		return service.reserve(r);
 	}
 	
 	@RequestMapping(value = "/getRecord", method = RequestMethod.GET)
