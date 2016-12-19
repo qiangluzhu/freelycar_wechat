@@ -3110,21 +3110,21 @@ button.rightPlugin:hover,.button.rightPlugin:hover
 	background: #bec1c6
 }
 
-.reveal-modal
+.modal
 {
 	padding: 0;
 	background: none;
 	border: 0
 }
 
-.reveal-modal .close-reveal-modal
+.modal .close-reveal-modal
 {
 	font-size: 1.5rem;
 	color: #ccc;
 	font-weight: normal
 }
 
-.reveal-modal .modal-title
+.modal .modal-title
 {
 	height: 50px;
 	line-height: 50px;
@@ -3138,7 +3138,7 @@ button.rightPlugin:hover,.button.rightPlugin:hover
 	border-top-left-radius: 5px
 }
 
-.reveal-modal .modal-body
+.modal .modal-body
 {
 	padding: 10px 0;
 	background: #fff;
@@ -6288,4 +6288,18 @@ button.rightPlugin:hover,.button.rightPlugin:hover
 	{
 		overflow: hidden
 	}
+}
+
+
+.btns.blue:hover {
+    background: #1a83d5;
+}
+.btns.blue {
+    background: #2096f3;
+}
+
+.locationmap{
+	height: 300px; 
+	border:1px solid red; 
+	margin:10px
 }

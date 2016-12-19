@@ -7,8 +7,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" >
+    <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="css/foundation-5.5.3.min.css" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
+    <script src="../js/jquery-1.11.3.min.js"></script>
+  	<script src="../js/bootstrap.min.js"></script>
 </head>
 <body>
   <div class="wrap">
@@ -96,7 +99,6 @@
 
                     </div>
                     <div class="large-3 end columns">
-                      <a href="javascript:void(0);" class="button postfix geo_bd ran-fix radius" style="border-radius: 3px;">调整定位</a>
                     </div>
                   </div>
                   <div class="row">
@@ -137,6 +139,7 @@
                   </div>
                 </div>
                 </form>
+                <button class="btns medium blue postfix geo_bd" data-toggle="modal" data-target="#location" style="position: relative; width: 130px; top: 160px; right: 206px;">调整定位</button>
               </div>
               <div class="row">
                 <div class="large-12 text-center columns">
@@ -150,6 +153,34 @@
       </div>
     </div>
   </div>
+  <div class="modal fade" id="location" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header" style="padding:0">
+				<h4 class="modal-title" >
+					调整定位
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="lead">
+        			<div class="small-9 columns">
+            			<input type="text" placeholder="请输入地址" id="geo_bd_address"  style="margin-bottom: 3px;">
+        			</div>
+   				</div>
+			</div>
+			<div class="locationmap" >
+				
+    		</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="button" class="btn btn-primary">
+					提交
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
    <script src="../js/jquery-1.11.3.min.js"></script>
    <script src="../js/pub_fuc.js"></script>
   <script src="js/tether.min.js"></script>
