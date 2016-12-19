@@ -51,7 +51,7 @@
                 </div>
                 <div >
                 
-                <div class="large-8 columns">
+                <div class="large-8 columns" id='store_form'>
                   <div class="row">
                     <div class="large-3 columns">
                     <label class="right inline">
@@ -76,12 +76,12 @@
                   </div>
                   <div class="large-8 end columns" id='city_box'>
                     <div class="large-4 columns" style="padding-left:0">
-                      <select class="radius prov" name="province" >
+                      <select class="radius prov" name="province" id='_province'>
                         </select>
                       </div>
 
                       <div class="large-4 columns">
-                        <select class="radius city" name="city" >
+                        <select class="radius city"  id='_city' name="city" >
                         </select>
                       </div>
                       <div class="large-4 end columns" style="padding-right:0">
@@ -95,16 +95,16 @@
                       <label for="" class="right inline"></label>
                     </div>
                     <div class="large-5 columns">
-                      <input type="text"  name="address" id="" class="radius" placeholder="请输入具体地址" value="">
+                      <input type="text"  name="address" id='address_input' class="radius" placeholder="请输入具体地址" value="">
 
                     </div>
                     <div class="large-3 end columns ">
-                    	<button class="btns medium blue postfix geo_bd" data-toggle="modal" data-target="#location" >调整定位</button>
+                    	<button class="btns medium blue postfix geo_bd" id="postion">调整定位</button>
                 	</div>
                   </div>
                   <div class="row">
                     <div class="large-8 large-offset-3 columns">
-                      <div style="height: 150px;margin: 0 0 1rem; border:1px solid red"></div>
+                      <div style="height: 150px;margin: 0 0 1rem; border:1px solid red" id="container"></div>
                     </div>
                   </div>
                   <div class="row">
@@ -164,11 +164,11 @@
 			<div class="modal-body">
 				<div class="lead">
         			<div class="small-9 columns">
-            			<input type="text" placeholder="请输入地址" id="geo_bd_address"  style="margin-bottom: 3px;">
+            			<input type="text" id="geo_bd_address"  style="margin-bottom: 3px;">
         			</div>
    				</div>
 			</div>
-			<div class="locationmap" >
+			<div class="locationmap" id='locationmap'>
 				
     		</div>
 			<div class="modal-footer">
@@ -188,6 +188,7 @@
   <script src="js/public.js"></script>
   <script src="js/common.js"></script>
   <script type="text/javascript" src="../js/jquery.cityselect.js"></script> 
+  <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=ae721b47f9c198651a4bfecec901aa8c"></script>
   <script>
       $(function() {
         $("div.header").load("public.html");
@@ -197,10 +198,12 @@
 		});
       });
       
+      var g_city = '南京';
+      
       $("#city_box").citySelect({  
 		    url:"../js/city.min.js",  
 		    prov:'江苏', //省份 
-		    city:'南京', //城市 
+		    city:g_city, //城市 
 		    dist:'建邺区', //区县 
 		    nodata:"none" //当子集无数据时，隐藏select 
 		}); 
@@ -223,7 +226,7 @@
       $('#add_store').click(function(){
     	  var formData = new FormData(document.getElementById('store_form'));
     	  formData.append("file", document.getElementById('barfile').files[0]);
-    	  console.log(formData);
+    	  //console.log(formData);
     	  
           $.ajax({
               url: '../api/store/add',
@@ -239,6 +242,61 @@
           return false;
       });
       
+      
+     	 //map
+      	var map = new AMap.Map('container');
+      	map.setZoom(10);
+      	//bind input 提示
+	    var placeSearch={};
+      	AMap.plugin(['AMap.Autocomplete','AMap.PlaceSearch'],function(){//回调函数
+		    //实例化Autocomplete
+		    var autoOptions = {
+		        input:"address_input"//使用联想输入的input的id
+		    };
+		    autocomplete= new AMap.Autocomplete(autoOptions);
+		    //TODO: 使用autocomplete对象调用相关功能
+		    placeSearch = new AMap.PlaceSearch({
+	    	  city:g_city,
+              map:map
+     		});
+		    
+		    AMap.event.addListener(autocomplete, "select", function(e){
+		           //TODO 针对选中的poi实现自己的功能
+		          // console.log(placeSearch);
+		           	placeSearch.search(e.poi.name);
+		            //要求经度值在前，纬度值在后：
+		         	//map.setCenter([e.poi.location.lng,e.poi.location.lat]);
+		     });
+		    
+		});
+      
+      	
+		//model
+    	  var  map2 = new AMap.Map('locationmap');
+    	  map2.setZoom(10);
+    	  var placeSearch2 = {};
+    	  AMap.plugin(['AMap.Autocomplete','AMap.PlaceSearch'],function(){//回调函数
+  		    //TODO: 使用autocomplete对象调用相关功能
+  		   	placeSearch2 = new AMap.PlaceSearch({
+  	    	  city:placeSearch.L.city,
+              map:map2
+       		});
+  		    
+  		});
+    	  
+		$('#postion').click(function(){
+			var $add = $("#address_input");
+			var address_input =  $add.val();
+			if(''==$.trim(address_input)){
+				$add.css('border-color','red');
+				return;
+			}
+			$('#geo_bd_address').val(address_input);
+			$('#location').modal();
+			console.log(placeSearch);
+			placeSearch2.search(address_input);
+		});
+		
       	
     </script>
 </body>

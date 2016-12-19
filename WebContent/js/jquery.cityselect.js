@@ -74,8 +74,22 @@ required:必选项
 				city_id--;
 			};
 			dist_obj.empty().attr("disabled",true);
-
+			
+			//*************start******************
+			//如果不集成高德，请删除如下
+			var pro = prov_obj.get(0).value;
+			if(pro=='北京' || pro=='天津' || pro=='上海' || pro=='重庆'){
+				placeSearch.L.city = pro;
+			}else{
+				placeSearch.L.city = city_obj.get(0).value;
+			}
+			$('#address_input').val('');
+			//*****************end **********************************
+			
+			
+			
 			if(prov_id<0||city_id<0||typeof(city_json.citylist[prov_id].c[city_id].a)=="undefined"){
+				
 				if(settings.nodata=="none"){
 					dist_obj.css("display","none");
 				}else if(settings.nodata=="hidden"){
