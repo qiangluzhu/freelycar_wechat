@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -221,8 +222,11 @@ public class UserDaoImpl implements UserDao{
 		jsonPhone.put("color", "#173177");
 		json.put("keyword2", jsonPhone);
 		
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");  
+		String str=sdf.format(rtime);  
+		
 		JSONObject jsonTime = new JSONObject();
-		jsonTime.put("value", rtime);
+		jsonTime.put("value", str);
 		jsonTime.put("color", "#173177");
 		json.put("keyword3", jsonTime);
 		
