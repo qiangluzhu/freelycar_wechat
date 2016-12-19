@@ -23,6 +23,8 @@ public class Store {
 	private String address;	//具体地址
 	private String info;//简介
 	private String url;	//图片url
+	private double longitude;//经度
+	private double latitude;//维度
 	
 	@Id
 	@Column(length = 32)
@@ -69,6 +71,18 @@ public class Store {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	public double getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+	public double getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
 	}
 	@Basic(fetch = FetchType.LAZY)   
 	@Type(type="text")  
