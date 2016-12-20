@@ -78,12 +78,17 @@ required:必选项
 			//*************start******************
 			//如果不集成高德，请删除如下
 			var pro = prov_obj.get(0).value;
+			var city_;
 			if(pro=='北京' || pro=='天津' || pro=='上海' || pro=='重庆'){
-				placeSearch.L.city = pro;
+				city_ = pro;
 			}else{
-				placeSearch.L.city = city_obj.get(0).value;
+				city_ = city_obj.get(0).value;
 			}
-			$('#address_input').val('');
+			if(autoOptions){
+				autoOptions.city = city_;
+			}
+			
+			
 			//*****************end **********************************
 			
 			

@@ -10,8 +10,11 @@
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="css/foundation-5.5.3.min.css" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
-    <script src="../js/jquery-1.11.3.min.js"></script>
-  	<script src="../js/bootstrap.min.js"></script>
+  	<style type="text/css">
+  		.red-border{
+  			border-color:red;
+  		}
+  	</style>
 </head>
 <body>
   <div class="wrap">
@@ -85,7 +88,7 @@
                         </select>
                       </div>
                       <div class="large-4 end columns" style="padding-right:0">
-                        <select class="radius dist" name="region" >
+                        <select class="radius dist" name="region" id='_dist'>
                         </select>
                       </div>
                     </div>
@@ -135,7 +138,7 @@
                       <label class="right inline"><b class="t-color red">*</b>简介：</label>
                     </div>
                     <div class="large-8 end columns">
-                      <textarea class="radius" name="info" placeholder="请填写简介" rows="4"></textarea>
+                      <textarea class="radius" name="info" id='info' placeholder="请填写简介" rows="4"></textarea>
                     </div>
                   </div>
                 </div>
@@ -174,7 +177,7 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="button" class="btn btn-primary">
+				<button type="button" id='reposition' class="btn btn-primary">
 					提交
 				</button>
 			</div>
@@ -182,6 +185,8 @@
 	</div><!-- /.modal -->
 </div>
 </div>
+ <script src="../js/jquery-1.11.3.min.js"></script>
+  	<script src="../js/bootstrap.min.js"></script>
   <script src="js/tether.min.js"></script>
   <script src="js/jquery.components.min.js"></script>
   <script src="js/foundation.min.js"></script>
@@ -197,8 +202,6 @@
 		    readURL(this);
 		});
       });
-      
-      var g_city = '南京';
       
       $("#city_box").citySelect({  
 		    url:"../js/city.min.js",  
@@ -224,19 +227,30 @@
       
       
       $('#add_store').click(function(){
-    	  var formData = new FormData(document.getElementById('store_form'));
+    	  var formData = new FormData();
+    	  $('#store_form').find('input').each(function(i,e){
+    		  formData.append($(this).attr('name'),$(this).val());
+    	  });
     	  formData.append("file", document.getElementById('barfile').files[0]);
-    	  //console.log(formData);
+    	  formData.append("province", document.getElementById('_province').value);
+    	  formData.append("city", document.getElementById('_city').value);
+    	  formData.append("region", document.getElementById('_dist').value);
+    	  formData.append("info", document.getElementById('info').value);
+    	  formData.append("longitude", lng);
+    	  formData.append("latitude", lat);
     	  
           $.ajax({
               url: '../api/store/add',
               type: 'POST',
               data: formData,
               cache: false,
+              dataType:'json',
               contentType: false,
               processData: false,
               success: function (data) {
-                  console.log(data);
+                  if(data.code=='0'){
+                	  window.location.href = 'store.html';
+                  }
               }
           });
           return false;
@@ -244,60 +258,109 @@
       
       
      	 //map
+     	var g_city = '南京';
       	var map = new AMap.Map('container');
-      	map.setZoom(10);
-      	//bind input 提示
-	    var placeSearch={};
+      	map.setZoom(50);
+      	var lng ;
+        var lat ;
+        var title ;
+	    var marker;
+	    var autoOptions;
       	AMap.plugin(['AMap.Autocomplete','AMap.PlaceSearch'],function(){//回调函数
 		    //实例化Autocomplete
-		    var autoOptions = {
+		    autoOptions = {
+		    	city:g_city,
 		        input:"address_input"//使用联想输入的input的id
 		    };
 		    autocomplete= new AMap.Autocomplete(autoOptions);
-		    //TODO: 使用autocomplete对象调用相关功能
-		    placeSearch = new AMap.PlaceSearch({
-	    	  city:g_city,
-              map:map
-     		});
-		    
+		   
 		    AMap.event.addListener(autocomplete, "select", function(e){
-		           //TODO 针对选中的poi实现自己的功能
-		          // console.log(placeSearch);
-		           	placeSearch.search(e.poi.name);
 		            //要求经度值在前，纬度值在后：
-		         	//map.setCenter([e.poi.location.lng,e.poi.location.lat]);
+		            //console.log(marker);
+		            if(marker){
+			            marker.setMap();
+		            }
+		             lng = e.poi.location.lng;
+		             lat = e.poi.location.lat;
+		             title = e.poi.name;
+		         	 map.setCenter([lng,lat]);
+		         	
+		           	marker = new AMap.Marker({
+		           	    position: [lng,lat],
+		           	    title: title,
+		           	    map: map
+		           	});
+		            
 		     });
 		    
 		});
       
       	
 		//model
-    	  var  map2 = new AMap.Map('locationmap');
-    	  map2.setZoom(10);
-    	  var placeSearch2 = {};
-    	  AMap.plugin(['AMap.Autocomplete','AMap.PlaceSearch'],function(){//回调函数
-  		    //TODO: 使用autocomplete对象调用相关功能
-  		   	placeSearch2 = new AMap.PlaceSearch({
-  	    	  city:placeSearch.L.city,
-              map:map2
-       		});
-  		    
-  		});
-    	  
+		 var dragendListener = function(marker2){
+	       	AMap.event.addListener(marker2, "dragend", function(e){
+	           	 	lng = e.lnglat.lng;
+	           	 	lat = e.lnglat.lat;
+			         //逆地理编码
+			         	AMap.service('AMap.Geocoder',function(){//回调函数
+			           	    //实例化Geocoder
+			           	    geocoder = new AMap.Geocoder({
+			           	        city: g_city//城市，默认：“全国”
+			           	    });
+				           var lnglatXY=[lng, lat];//地图上所标点的坐标
+				           geocoder.getAddress(lnglatXY, function(status, result) {
+				        	   if (status === 'complete' && result.info === 'OK') {
+				                  //获得了有效的地址信息:
+				                  //即，result.regeocode.formattedAddress
+				                  $('#geo_bd_address').val(result.regeocode.formattedAddress);
+				        	   
+				        	   		//第一面地图也得调整
+				        	   	 map.setCenter([lng,lat]);
+				                 if(marker){
+							          marker.setMap();
+						         }
+				                 marker = new AMap.Marker({
+						           	    position: [lng,lat],
+						           	    title: result.regeocode.formattedAddress,
+						           	    map: map
+						         });
+				        	   
+				               }else{
+				                  //获取地址失败
+				            	   console.log('not found');
+				               }
+				           }); 
+	         			})
+			 });
+			
+		} 
+		
+		var marker2;   
 		$('#postion').click(function(){
-			var $add = $("#address_input");
-			var address_input =  $add.val();
-			if(''==$.trim(address_input)){
-				$add.css('border-color','red');
-				return;
-			}
-			$('#geo_bd_address').val(address_input);
-			$('#location').modal();
-			console.log(placeSearch);
-			placeSearch2.search(address_input);
+			//nmb。要调用这个。才能初始化map。
+           	$('#location').modal();
+			
+			var map2 = new AMap.Map('locationmap');
+	      	map2.setZoom(50);
+	      	map2.setCenter([lng,lat]);
+	      	if(marker2){
+		        marker2.setMap();
+	         }
+	      	marker2 = new AMap.Marker({
+	       	    position: [lng,lat],
+	       	 	draggable:true,
+	       	    title: title,
+	       	    map: map2
+	        });
+	      	dragendListener(marker2);
+            $('#reposition').click(function(){
+           		$("#address_input").val($('#geo_bd_address').val());
+           		$('#location').modal('hide');
+           	});
+           	
 		});
 		
-      	
+		
     </script>
 </body>
 </html>
