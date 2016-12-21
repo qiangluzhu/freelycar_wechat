@@ -66,7 +66,6 @@ public class StoreDaoImpl implements StoreDao{
 			}
 			return false;
 		}catch(Exception e){
-			e.printStackTrace();
 			log.error(e.getMessage());
 			return false;
 		}

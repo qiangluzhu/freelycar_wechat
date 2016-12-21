@@ -21,13 +21,11 @@ public class Reservation {
 	private String rperson;//预约人
 	private String ropenId;	//预约人openid
 	private String phone;
-	private String province;//省
-	private String city;	//市
-	private String region;	//区
 	private String address;	//具体地址
 	private Date onTime;//上门时间
 	private String license;	//车牌
-	private String remark;	//备注
+	private String remark;	//服务类型
+	private String remarkId;//服务id
 	private String orderPerson;	//接单人
 	private String orderPhone;	//接单人电话
 	private String orderOpenId;	//接单人id
@@ -60,6 +58,12 @@ public class Reservation {
 	public void setRperson(String rperson) {
 		this.rperson = rperson;
 	}
+	public String getRemarkId() {
+		return remarkId;
+	}
+	public void setRemarkId(String remarkId) {
+		this.remarkId = remarkId;
+	}
 	public String getRopenId() {
 		return ropenId;
 	}
@@ -71,24 +75,6 @@ public class Reservation {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
-	}
-	public String getProvince() {
-		return province;
-	}
-	public void setProvince(String province) {
-		this.province = province;
-	}
-	public String getCity() {
-		return city;
-	}
-	public void setCity(String city) {
-		this.city = city;
-	}
-	public String getRegion() {
-		return region;
-	}
-	public void setRegion(String region) {
-		this.region = region;
 	}
 	public String getAddress() {
 		return address;
