@@ -101,7 +101,69 @@
   
 $(function(){
 	$(".header").load("public.html");
+	loadData(1);
 });
+
+
+var number = 10;
+var flag = true;
+function loadData(page){
+	nativeAjax('get','../api/stype/find',function(e){
+		var data = jsonParse(getResult(e));
+		//console.log(data);
+		if(data.code!='0'){
+			document.getElementById('content_body').innerHTML = '';
+			return;
+		}
+		
+		var arr = data.data;
+		var html = '';
+		for(var i=0,len=arr.length;i<len;i++){
+			var obj = arr[i];
+			console.log(obj);
+			html +='<tr>'
+				+'<td>'+(i+1)+'</td>'
+				+'<td>'+obj.info+'</td>'
+				+'<td class="action_columns">'
+				+'<a data-toggle="tooltip" title="删除" class="inline-button del"><i class="fa fa-trash fa-fw"></i></a>'
+				+'</td>'
+				+'</tr>';
+		}
+		document.getElementById('content_body').innerHTML = html;
+		document.getElementById('sum_count').innerHTML = data.num;
+		document.getElementById('page_num').innerHTML = number;
+		opera();
+		if(flag){
+			pagebutton(data.size);
+			flag = false;					
+		}
+	});
+}
+
+
+function opera(){
+	$('#content_body').on('click','tr',function(e){
+		//filter phone
+		var tid  = e.currentTarget.id;
+		//console.log(e.target.className);
+		if(e.target.className=='fa fa-pencil fa-fw'){
+			window.location.href = 'edit_store.html?tid='+tid;
+		}
+		
+		if(e.target.className=='fa fa-trash fa-fw'){
+			nativeAjax('get','../api/store/delete?id='+tid,function(e1){
+				var data = jsonParse(getResult(e1));
+				//console.log(data);
+				if(data.code=='0'){
+					e.currentTarget.outerHTML ='';
+				}
+			});
+		}
+	});
+	
+}
+
+
 </script>
   
 </body>

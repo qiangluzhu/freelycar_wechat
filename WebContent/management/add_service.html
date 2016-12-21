@@ -61,7 +61,7 @@
               </div>
               <div class="row">
                 <div class="large-12 text-center columns">
-                  <a id='add_group' class="button ran radius save">添加</a>
+                  <a id='add_service' class="button ran radius save">添加</a>
                 </div>
               </div>
             </div>
@@ -80,48 +80,17 @@
     <script>
       $(function() {
         $("div.header").load("public.html");
-        
-        $("#barfile").change(function(){
-		    readURL(this);
-		});
       });
       
-      
-      
-      //上次预览
-      function readURL(input) {
-		if (input.files && input.files[0]) {
-		    var reader = new FileReader();
-	           reader.onload = function (e) {
-		          $('#barpreview').attr('src', e.target.result);
-		        }
-		        reader.readAsDataURL(input.files[0]);
-		 }
-	}
-      
-      
-      
-      $('#add_group').click(function(){
-    	  var formData = new FormData();
-    	  formData.append('name', document.getElementById('name').value);
-    	  formData.append('intro', document.getElementById('intro').value);
-    	  formData.append('file', document.getElementById('barfile').files[0]);
-    	  
-    	  
-          $.ajax({
-              url: '../api/community/add',
-              type: 'POST',
-              data: formData,
-              cache: false,
-              contentType: false,
-              processData: false,
-              success: function (data) {
-            	 data = jsonParse(data);
-            	 if(data.code=='0'){
-            		  window.location.href ='group.html';
-            	  } 
-              }
-          });
+      $('#add_service').click(function(){
+    	  var info = document.getElementById('name').value;
+    	  nativeAjax('post','../api/stype/add',function(e){
+    		  var data = jsonParse(getResult(e));
+    		  if(data.code=='0'){
+    			  window.location.href = 'service.html';
+    		  }
+    		  
+    	  },'info='+info);
           return false;
       });
     </script>
