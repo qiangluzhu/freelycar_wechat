@@ -194,6 +194,22 @@ select{
 	background:url("../img/arrow2.png") no-repeat scroll right center transparent;
 }
 
+.similar_data_detail select{
+	width:90%;
+	height:30px;
+	border:1px solid #d8dee3;
+	border-radius:3px;
+	padding: 0;
+	margin-right:8px;
+	text-indent: 15px;
+	outline:none;
+	font-size:13px;
+	line-height:24px;
+	color:#929faa;
+	font-family:'微软雅黑',microsoft yahei;
+	background:url("../img/arrow2.png") no-repeat scroll right center transparent;
+}
+
 
 .foot_button{
 	width:100%;
