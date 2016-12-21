@@ -10,8 +10,6 @@
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="css/foundation-5.5.3.min.css" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
-    <script src="../js/jquery-1.11.3.min.js"></script>
-  	<script src="../js/bootstrap.min.js"></script>
 </head>
 <body>
   <div class="wrap">
@@ -51,7 +49,7 @@
                 </div>
                 
                 <div>
-                <div class="large-8 columns">
+                <div class="large-8 columns" id='store_form'>
                   <div class="row">
                     <div class="large-3 columns">
                     <label class="right inline">
@@ -76,16 +74,16 @@
                   </div>
                   <div class="large-8 end columns" id='city_box'>
                     <div class="large-4 columns" style="padding-left:0">
-                      <select class="radius prov"  name="province" >
+                      <select class="radius prov"  name="province" id='_province'>
                        </select>
                       </div>
 
                       <div class="large-4 columns">
-                        <select class="radius city" name="city" >
+                        <select class="radius city" name="city" id='_city'>
                         </select>
                       </div>
                       <div class="large-4 end columns" style="padding-right:0">
-                        <select class="radius dist"  name="region" >
+                        <select class="radius dist" id='_dist' name="region" >
                         </select>
                       </div>
                     </div>
@@ -95,16 +93,15 @@
                       <label for="" class="right inline"></label>
                     </div>
                     <div class="large-5 columns">
-                      <input type="text"  name="address" id="" class="radius" placeholder="请输入具体地址" value="">
-
+                      <input type="text"  name="address" id="address_input" class="radius" placeholder="请输入具体地址" value="">
                     </div>
                     <div class="large-3 end columns ">
-                    	<button class="btns medium blue postfix geo_bd" data-toggle="modal" data-target="#location" >调整定位</button>
+                    	<button class="btns medium blue postfix geo_bd" id='postion'>调整定位</button>
                 	</div>
                   </div>
                   <div class="row">
                     <div class="large-8 large-offset-3 columns">
-                      <div style="height: 150px;margin: 0 0 1rem; border:1px solid red"></div>
+                      <div style="height: 150px;margin: 0 0 1rem; border:1px solid red" id="container"></div>
                     </div>
                   </div>
                   <div class="row">
@@ -135,7 +132,7 @@
                       <label class="right inline"><b class="t-color red">*</b>简介：</label>
                     </div>
                     <div class="large-8 end columns">
-                      <textarea class="radius" name="info" placeholder="请填写简介" rows="4"></textarea>
+                      <textarea class="radius" name="info" id='info' placeholder="请填写简介" rows="4"></textarea>
                     </div>
                   </div>
                 </div>
@@ -164,17 +161,17 @@
 			<div class="modal-body">
 				<div class="lead">
         			<div class="small-9 columns">
-            			<input type="text" placeholder="请输入地址" id="geo_bd_address"  style="margin-bottom: 3px;">
+            			<input type="text" id="geo_bd_address"  style="margin-bottom: 3px;">
         			</div>
    				</div>
 			</div>
-			<div class="locationmap" >
+			<div class="locationmap" id='locationmap'>
 				
     		</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="button" class="btn btn-primary">
+				<button type="button" id='reposition' class="btn btn-primary">
 					提交
 				</button>
 			</div>
@@ -182,7 +179,8 @@
 	</div><!-- /.modal -->
 </div>
 </div>
-   <script src="../js/jquery-1.11.3.min.js"></script>
+ <script src="../js/jquery-1.11.3.min.js"></script>
+  	<script src="../js/bootstrap.min.js"></script>
    <script src="../js/pub_fuc.js"></script>
   <script src="js/tether.min.js"></script>
   <script src="js/jquery.components.min.js"></script>
@@ -190,6 +188,7 @@
   <script src="js/public.js"></script>
   <script src="js/common.js"></script>
   <script type="text/javascript" src="../js/jquery.cityselect.js"></script> 
+  <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=ae721b47f9c198651a4bfecec901aa8c"></script>
   <script>
       $(function() {
         $("div.header").load("public.html");
@@ -210,6 +209,7 @@
 				for(var item in obj){
 					$(":input[name="+item+"]").val(obj[item]);
 				}
+				
 				$('#barpreview').attr('src','/freely/store/'+obj.url);
 				 $("#city_box").citySelect({  
 					    url:"../js/city.min.js",  
@@ -219,7 +219,7 @@
 					    nodata:"none" //当子集无数据时，隐藏select 
 					}); 
 				 
-				 edit_store(obj.url);
+				 edit_store(obj.url,obj.longitude,obj.latitude);
 			}
 			
 		});
@@ -239,14 +239,33 @@
 		 }
 	}
       
-      function edit_store(url){
+      function edit_store(url,lng0,lat0){
 	      $('#add_store').click(function(){
-	    	  var formData = new FormData(document.getElementById('edit_form'));
-	    	  formData.append("file", document.getElementById('barfile').files[0]);
+	    	  var formData = new FormData();
+	    	  $('#store_form').find('input').each(function(i,e){
+	    		  if(isNotEmpty($(this).attr('name'))){
+		    		  formData.append($(this).attr('name'),$(this).val());
+	    		  }
+	    		  
+	    	  });
 	    	  formData.append("id", id);
 	    	  formData.append("url", url);
+	    	  formData.append("file", document.getElementById('barfile').files[0]);
+	    	  formData.append("province", document.getElementById('_province').value);
+	    	  formData.append("city", document.getElementById('_city').value);
+	    	  formData.append("region", document.getElementById('_dist').value);
+	    	  formData.append("info", document.getElementById('info').value);
+	    	  if(isEmpty(lng)){
+		    	  formData.append("longitude", lng0);
+	    	  }else{
+		    	  formData.append("longitude", lng);
+	    	  }
+	    	  if(isEmpty(lat)){
+		    	  formData.append("longitude", lat0);
+	    	  }else{
+		    	  formData.append("longitude", lat);
+	    	  }
 	    	  
-	    	  console.log(formData);
 	    	  
 	          $.ajax({
 	              url: '../api/store/modify',
@@ -267,7 +286,107 @@
     	  
       }
       
-      
+       //map
+        var g_city = '南京';
+    	var map = new AMap.Map('container');
+    	var lng ;
+        var lat ;
+        var title ;
+	    var marker;
+	    var autoOptions;
+    	AMap.plugin(['AMap.Autocomplete','AMap.PlaceSearch'],function(){//回调函数
+		    //实例化Autocomplete
+		    autoOptions = {
+		    	city:g_city,
+		        input:"address_input"//使用联想输入的input的id
+		    };
+    		map.setZoom(50);
+		    var autocomplete= new AMap.Autocomplete(autoOptions);
+		    AMap.event.addListener(autocomplete, "select", function(e){
+		            //要求经度值在前，纬度值在后：
+		            //console.log(marker);
+		            if(marker){
+			            marker.setMap();
+		            }
+		             lng = e.poi.location.lng;
+		             lat = e.poi.location.lat;
+		             title = e.poi.name;
+		         	 map.setCenter([lng,lat]);
+		         	
+		           	marker = new AMap.Marker({
+		           	    position: [lng,lat],
+		           	    title: title,
+		           	    map: map
+		           	});
+		            
+		     });
+		    
+		});
+    
+    	
+		//model
+		 var dragendListener = function(marker2){
+	       	AMap.event.addListener(marker2, "dragend", function(e){
+	           	 	lng = e.lnglat.lng;
+	           	 	lat = e.lnglat.lat;
+			         //逆地理编码
+			         	AMap.service('AMap.Geocoder',function(){//回调函数
+			           	    //实例化Geocoder
+			           	    geocoder = new AMap.Geocoder({
+			           	        city: g_city//城市，默认：“全国”
+			           	    });
+				           var lnglatXY=[lng, lat];//地图上所标点的坐标
+				           geocoder.getAddress(lnglatXY, function(status, result) {
+				        	   if (status === 'complete' && result.info === 'OK') {
+				                  //获得了有效的地址信息:
+				                  //即，result.regeocode.formattedAddress
+				                  $('#geo_bd_address').val(result.regeocode.formattedAddress);
+				        	   
+				        	   		//第一面地图也得调整
+				        	   	 map.setCenter([lng,lat]);
+				                 if(marker){
+							          marker.setMap();
+						         }
+				                 marker = new AMap.Marker({
+						           	    position: [lng,lat],
+						           	    title: result.regeocode.formattedAddress,
+						           	    map: map
+						         });
+				        	   
+				               }else{
+				                  //获取地址失败
+				            	   console.log('not found');
+				               }
+				           }); 
+	         			})
+			 });
+			
+		} 
+		
+		var marker2;   
+		$('#postion').click(function(){
+			//nmb。要调用这个。才能初始化map。
+         	$('#location').modal();
+		    var map2 = new AMap.Map('locationmap');
+	      	map2.setZoom(50);
+	      	map2.setCenter([lng,lat]);
+	      	 if(marker2){
+		        marker2.setMap();
+	         }
+	      	marker2 = new AMap.Marker({
+	       	    position: [lng,lat],
+	       	 	draggable:true,
+	       	    title: title,
+	       	    map: map2
+	        });
+	      	dragendListener(marker2);
+          	$('#reposition').click(function(){
+         		$("#address_input").val($('#geo_bd_address').val());
+         		$('#location').modal('hide');
+         	});  
+         	
+		});
+		
       	
     </script>
 </body>

@@ -12,18 +12,18 @@
     <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body >
-	<div class="service hidden" onclick="window.location.href='address.html'">
+	<div class="service hidden" onclick="window.location.href='add_address.html'">
 		<div class="address">
 			<div class="similar_data_detail" style="margin-bottom:10px;">	
 				<span class="name">
-					请填写地址
+					请填写信息
 				</span>
 			</div>
 		</div>
 		<span class="icon4 glyphicon glyphicon-map-marker" aria-hidden="true" style="position:absolute"></span>
 		<span class="icon5 glyphicon glyphicon-chevron-right" ></span>
 	</div>
-	<div class="service " onclick="window.location.href='address.html'">
+	<div class="service" onclick="window.location.href='edit_address.html'">
 		<div class="address">
 			<div class="similar_data_detail" style="margin-bottom:10px;">	
 				<span class="name" id='name'>
@@ -53,7 +53,12 @@
 			<p class="store-item-addr3">
 				情况描述：	
 			</p>
-			<textarea id='remark'></textarea>	
+			<select>
+			  <option value ="车门维修">车门维修</option>
+			  <option value ="车漆损坏">车漆损坏</option>
+			  <option value="轮胎更换">轮胎更换</option>
+			  <option value="洗车">洗车</option>
+			</select>
 		</div>
 	</div>
 	<div class="foot_button">
