@@ -94,9 +94,6 @@
                     </div>
                     <div class="large-5 columns">
                       <input type="text"  name="address" id="address_input" class="radius" placeholder="请输入具体地址" value="">
-                      <input type="hidden" id="map_lng">
-                      <input type="hidden" id="map_lat">
-
                     </div>
                     <div class="large-3 end columns ">
                     	<button class="btns medium blue postfix geo_bd" id='postion'>调整定位</button>
@@ -135,7 +132,7 @@
                       <label class="right inline"><b class="t-color red">*</b>简介：</label>
                     </div>
                     <div class="large-8 end columns">
-                      <textarea class="radius" name="info" placeholder="请填写简介" rows="4"></textarea>
+                      <textarea class="radius" name="info" id='info' placeholder="请填写简介" rows="4"></textarea>
                     </div>
                   </div>
                 </div>
@@ -222,7 +219,7 @@
 					    nodata:"none" //当子集无数据时，隐藏select 
 					}); 
 				 
-				 edit_store(obj.url);
+				 edit_store(obj.url,obj.longitude,obj.latitude);
 			}
 			
 		});
@@ -242,11 +239,14 @@
 		 }
 	}
       
-      function edit_store(url){
+      function edit_store(url,lng0,lat0){
 	      $('#add_store').click(function(){
 	    	  var formData = new FormData();
 	    	  $('#store_form').find('input').each(function(i,e){
-	    		  formData.append($(this).attr('name'),$(this).val());
+	    		  if(isNotEmpty($(this).attr('name'))){
+		    		  formData.append($(this).attr('name'),$(this).val());
+	    		  }
+	    		  
 	    	  });
 	    	  formData.append("id", id);
 	    	  formData.append("url", url);
@@ -255,8 +255,16 @@
 	    	  formData.append("city", document.getElementById('_city').value);
 	    	  formData.append("region", document.getElementById('_dist').value);
 	    	  formData.append("info", document.getElementById('info').value);
-	    	  formData.append("longitude", lng);
-	    	  formData.append("latitude", lat);
+	    	  if(isEmpty(lng)){
+		    	  formData.append("longitude", lng0);
+	    	  }else{
+		    	  formData.append("longitude", lng);
+	    	  }
+	    	  if(isEmpty(lat)){
+		    	  formData.append("longitude", lat0);
+	    	  }else{
+		    	  formData.append("longitude", lat);
+	    	  }
 	    	  
 	    	  
 	          $.ajax({
