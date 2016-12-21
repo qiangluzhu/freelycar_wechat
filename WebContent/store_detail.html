@@ -43,7 +43,6 @@
 	<script type="text/javascript">
 		$(function(){
 			$(".header").load("public.html");
-			load();
 		});
 	
 		var id = get_param('tid');
@@ -59,14 +58,14 @@
 						ele.innerHTML = obj[item];
 					}
 				}
-				show_map();
+				show_map(obj.longitude,obj.latitude);
 			}
 			
 		});
 		
-		function show_map(){
+		function show_map(lng,lat){
 			$('#detail_address').click(function(){
-				window.location.href = 'map.html';
+				window.location.href = 'map.html?lng='+lng+'&lat='+lat;
 			});
 		}
 	

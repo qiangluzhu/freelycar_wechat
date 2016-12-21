@@ -44,7 +44,7 @@ $(function(){
 });
 
 function load(){
-	nativeAjax('get','api/community/find?page='+page+'&number=1',function(e){
+	nativeAjax('get','api/community/find?page='+page+'&number=10',function(e){
 		var data = jsonParse(getResult(e));
 		var arr = data.data;
 		if(isEmpty(arr)){
@@ -57,7 +57,7 @@ function load(){
 			//console.log(obj);
 			html +='<li class="clearfix">'
 				+'<div class="store-item-left">'
-				+'<img src='+obj.url+' />'
+				+'<img src="/freely/community/'+obj.url+'" />'
 				+'</div>'
 				+'<div class="store-item-middle2">'
 				+'<p class="store-item-middle-title">'

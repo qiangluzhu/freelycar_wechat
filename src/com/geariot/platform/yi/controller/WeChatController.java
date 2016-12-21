@@ -7,6 +7,7 @@ import java.net.URLEncoder;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.select.Evaluator.IsEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,8 +50,13 @@ public class WeChatController {
 				String nickname = resultJson.getString("nickname");
 				String headimgurl = resultJson.getString("headimgurl");
 				service.register(openid,nickname);
-				nickname = URLEncoder.encode(nickname,"utf-8");
-				return "redirect:../../"+htmlPage+".html?openid=" + openid+"&nickname="+nickname+"&headimg="+headimgurl;
+				if(nickname==null || nickname.isEmpty()){
+					return "redirect:../../"+htmlPage+".html";
+				}else{
+					nickname = URLEncoder.encode(nickname,"utf-8");
+					return "redirect:../../"+htmlPage+".html?openid=" + openid+"&nickname="+nickname+"&headimg="+headimgurl;
+				}
+				
 				
 			}else{
 				return null;	
