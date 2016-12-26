@@ -123,6 +123,10 @@
 			}
 			param[tid] = value;
 		}
+		if(document.getElementById('phone').value.length!=11){
+			alert("请填写正确的手机号码");
+			return false;
+		}
 		console.log($.param(param));
 		nativeAjax('post','../api/technician/add',function(e){
 			var data = jsonParse(getResult(e));

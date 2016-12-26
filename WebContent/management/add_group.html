@@ -135,10 +135,25 @@
       
       
       $('#add_group').click(function(){
+    	  var name = document.getElementById('name').value;
+    	  var intro = document.getElementById('intro').value;
+    	  var file = document.getElementById('barfile').files[0];
+    	  
+    	  if(isEmpty(name)){
+    		  return false;
+    	  }
+    	  if(isEmpty(intro)){
+    		  return false;
+    	  }
+    	  if(isEmpty(file)){
+    		  return false;
+    	  }
+    	  
+    	  
     	  var formData = new FormData();
-    	  formData.append('name', document.getElementById('name').value);
-    	  formData.append('intro', document.getElementById('intro').value);
-    	  formData.append('file', document.getElementById('barfile').files[0]);
+    	  formData.append('name', name);
+    	  formData.append('intro', intro);
+    	  formData.append('file', file);
     	  
     	  
           $.ajax({
