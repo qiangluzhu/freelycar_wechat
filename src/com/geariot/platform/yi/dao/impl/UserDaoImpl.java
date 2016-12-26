@@ -147,7 +147,7 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public boolean reserve(Reservation r) {
 		try{
-			Query query0 = getSession().createQuery("from Technician");
+			Query query0 = getSession().createQuery("from Technician order by createTime desc");
 			query0.setFirstResult(0); // 开始记录
 			query0.setMaxResults(1); // 查询多少条
 			Technician t = (Technician) query0.uniqueResult();
