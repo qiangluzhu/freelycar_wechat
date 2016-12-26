@@ -52,7 +52,7 @@ $(function(){
 	load(page);
 	
 });
-var openId =  getCookie('openid');
+var openId =  getCookie('openId');
 function load(page){
 	nativeAjax('get','api/user/getRecord?openId='+openId+'&page='+page+'&number=3',function(e){
 		//alert(getResult(e));

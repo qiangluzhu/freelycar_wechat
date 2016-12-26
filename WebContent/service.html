@@ -23,7 +23,7 @@
 		<span class="icon4 glyphicon glyphicon-map-marker" aria-hidden="true" style="position:absolute"></span>
 		<span class="icon5 glyphicon glyphicon-chevron-right" ></span>
 	</div>
-	<div class="service" onclick="window.location.href='edit_address.html'">
+	<div class="service" onclick="window.location.href='add_address.html'">
 		<div class="address">
 			<div class="similar_data_detail" style="margin-bottom:10px;">	
 				<span class="name" id='name'>
@@ -53,11 +53,7 @@
 			<p class="store-item-addr3">
 				情况描述：	
 			</p>
-			<select>
-			  <option value ="车门维修">车门维修</option>
-			  <option value ="车漆损坏">车漆损坏</option>
-			  <option value="轮胎更换">轮胎更换</option>
-			  <option value="洗车">洗车</option>
+			<select id='service_type'>
 			</select>
 		</div>
 	</div>
@@ -70,8 +66,8 @@
     
     var headimg = get_param('headimg');
 	var nickname = get_param('nickname');
-	var openid = get_param('openid');
-	
+	var openId = get_param('openid');
+	//var openid  = 'oBaSqs4RpSZNY7czNBcCRF8uYLKI';
 	if(isEmpty(headimg)){
 		headimg = getCookie('headimg');
 	}else{
@@ -84,15 +80,14 @@
 		setCookie('nickname', nickname);
 	}
 	
-	if(isEmpty(openid)){
-		openid = getCookie('openid');
+	if(isEmpty(openId)){
+		openId = getCookie('openId');
 	}else{
-		setCookie('openid', openid);
+		setCookie('openId', openId);
 	}
-    
 	 //defaut user info
 	// alert(openid);
-	 nativeAjax('get','api/user/getAddById?id='+openid,function(e){
+	 nativeAjax('get','api/user/getAddById?id='+openId,function(e){
 			var data = jsonParse(getResult(e));
 			if(data.code=='0'){//
 				var obj = data.data;
@@ -104,50 +99,74 @@
 				document.getElementById('phone').innerHTML = obj.phone;
 				document.getElementById('name').innerHTML = obj.name;
 				submit(obj);
+			}else{
+				$('div.service').toggleClass('hidden');
 			}
 			
-		});
+	});
 	 
-	 	var submit = function(obj){
-			$('#submit_button').click(function(){
-				//var arr = ['name','license','phone','province','city','region','address'];
-				var ontime = document.getElementById('ontime').value;
-				if(ontime.indexOf('-')>=0){
-					ontime = ontime.split("-").join("/");
+	 
+	nativeAjax('get','api/stype/find',function(e){
+		var data = jsonParse(getResult(e));
+		//console.log(data);
+		if(data.code!='0'){
+			document.getElementById('service_type').innerHTML = '<option value ="">无服务</option>';
+			return;
+		}
+		var arr = data.data;
+		var html = '';
+		for(var i=0,len=arr.length;i<len;i++){
+			var obj = arr[i];
+			//console.log(obj);
+			html +='<option value ='+obj.info+' >'+obj.info+'</option>';
+		}
+		document.getElementById('service_type').innerHTML = html;
+	});
+	 
+	 
+	 
+	 
+	 
+ 	var submit = function(obj){
+		$('#submit_button').click(function(){
+			//var arr = ['name','license','phone','province','city','region','address'];
+			var ontime = document.getElementById('ontime').value;
+			if(ontime.indexOf('-')>=0){
+				ontime = ontime.split("-").join("/");
+			}
+			
+			if(ontime.indexOf('T')>=0){
+				ontime = ontime.split("T").join(" ");
+			} 
+			
+			if(ontime.indexOf('年')>=0){
+				ontime = ontime.replace("年","/");
+				ontime = ontime.replace("月","/");
+				ontime = ontime.replace("日","");
+			}
+			if(ontime.length>16){
+				ontime = ontime.substring(0,16);
+			}
+			obj.nickName = nickname;
+			obj.onTime = ontime;
+			obj.remark = document.getElementById('service_type').value;
+			obj.ropenId = openId;
+			obj.rperson = obj.name;
+			var p = $.param(obj);
+			nativeAjax('post','api/user/reserve',function(e){
+				var data = jsonParse(getResult(e));
+				//alert(getResult(e));
+				if(data.code=='0'){
+					window.location.href ='center.html';
+				}else{
+					alert(JSON.stringify(data,null,4));
 				}
 				
-				if(ontime.indexOf('T')>=0){
-					ontime = ontime.split("T").join(" ");
-				} 
-				
-				if(ontime.indexOf('年')>=0){
-					ontime = ontime.replace("年","/");
-					ontime = ontime.replace("月","/");
-					ontime = ontime.replace("日","");
-				}
-				if(ontime.length>16){
-					ontime = ontime.substring(0,16);
-				}
-				obj.nickName = nickname;
-				obj.onTime = ontime;
-				obj.remark = document.getElementById('remark').value;
-				obj.ropenId = openid;
-				obj.rperson = obj.name;
-				var p = $.param(obj);
-				nativeAjax('post','api/user/reserve',function(e){
-					var data = jsonParse(getResult(e));
-					//alert(getResult(e));
-					if(data.code=='0'){
-						window.location.href ='center.html';
-					}else{
-						alert(JSON.stringify(data,null,4));
-					}
-					
-				},p); 
-				
-			});
-	 		
-	 	}
+			},p); 
+			
+		});
+ 		
+ 	}
 
 	 
     </script>

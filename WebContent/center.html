@@ -65,7 +65,7 @@
 <script type="text/javascript">
 	var headimg = get_param('headimg');
 	var nickname = get_param('nickname');
-	var openid = get_param('openid');
+	var openId = get_param('openid');
 	
 	if(isEmpty(headimg)){
 		headimg = getCookie('headimg');
@@ -79,16 +79,16 @@
 		setCookie('nickname', nickname);
 	}
 	
-	if(isEmpty(openid)){
-		openid = getCookie('openid');
+	if(isEmpty(openId)){
+		openId = getCookie('openId');
 	}else{
-		setCookie('openid', openid);
+		setCookie('openId', openId);
 	}
 	
 	document.getElementById('headimg').setAttribute('src',headimg);
 	document.getElementById('nickname').innerHTML = nickname;
 
-	nativeAjax('get','api/user/getAddById?id='+openid,function(e){
+	nativeAjax('get','api/user/getAddById?id='+openId,function(e){
 		var data = jsonParse(getResult(e));
 		if(data.code=='0'){//
 			var obj = data.data;

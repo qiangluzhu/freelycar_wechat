@@ -38,11 +38,8 @@
                 </div> -->
                 <tr><p>定点上门服务地址</p></tr>
                 <tr>
-                    <select style="width:100%">
-					  <option value ="">南京市江宁去汤山街道麒东路777号</option>
-					  <option value ="">南京市江宁去汤山街道麒东路777号</option>
-					  <option value="">南京市江宁去汤山街道麒东路777号</option>
-					  <option value="">南京市江宁去汤山街道麒东路777号</option>
+                    <select style="width:100%" id='address'>
+                    	<option value='定点地址'>定点地址</option>
 					</select>
                 </tr>
             </tbody>
@@ -54,48 +51,74 @@
     
     <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=ae721b47f9c198651a4bfecec901aa8c"></script>
-	<script type="text/javascript" src="js/jquery.cityselect.js"></script> 
+	<!-- <script type="text/javascript" src="js/jquery.cityselect.js"></script>  -->
 	<script type="text/javascript" src="js/pub_fuc.js"></script>
 	<script type="text/javascript">
 	var openId  = getCookie('openId');
+	//var openId  = 'oBaSqs4RpSZNY7czNBcCRF8uYLKI';
+	
 	$(function(){
-		$("#city_box").citySelect({  
+		/* $("#city_box").citySelect({  
 		    url:"js/city.min.js",  
 		    prov:'江苏', //省份 
 		    city:'南京', //城市 
 		    dist:'建邺区', //区县 
 		    nodata:"none" //当子集无数据时，隐藏select 
-		});
+		}); */
 	})
 	
-	
-	$('#submit_button').click(function(){
-		var arr = ['name','license','phone','province','city','region','address'];
-		var param={openId:openId};
-		for(var i=0,len=arr.length;i<len;i++){
-			var tid = arr[i];
-			var ele = document.getElementById(tid);
-			var value = ele.value;
-			if(isEmpty(value)){
-				ele.style.borderColor = 'red';
-				return;
-			}else{
-				ele.style = '';
-			}
-			param[tid] = value;
-		}
-		//console.log($.param(param));
-		nativeAjax('post','api/user/addAddress',function(e){
+	 nativeAjax('get','api/user/getAddById?id='+openId,function(e){
 			var data = jsonParse(getResult(e));
 			//console.log(data);
-			//alert(JSON.stringify(data, null, 4));
-			if(data.code=='0'){
-				window.location.href ='address.html';
+			if(data.code=='0'){//
+				var obj = data.data;
+				document.getElementById('name').value = obj.name;
+				document.getElementById('license').value = obj.license;
+				document.getElementById('phone').value = obj.phone;
+				document.getElementById('address').value = obj.address;
+				submit(obj.id);
+			}else{
+				submit();
 			}
 			
-		},$.param(param)); 
-		
+			
 	});
+	
+	var submit = function(id){
+		$('#submit_button').click(function(){
+			var arr = ['name','license','phone','address'];
+			var param={openId:openId,'isSelected':'1'};
+			if(isNotEmpty(id)){
+				param.id = id;
+			}
+			
+			for(var i=0,len=arr.length;i<len;i++){
+				var tid = arr[i];
+				var ele = document.getElementById(tid);
+				var value = ele.value;
+				if(isEmpty(value)){
+					ele.style.borderColor = 'red';
+					return;
+				}else{
+					ele.style = '';
+				}
+				param[tid] = value;
+			}
+			//console.log($.param(param));
+			nativeAjax('post','api/user/modAddress',function(e){
+				var data = jsonParse(getResult(e));
+				//console.log(data);
+				//alert(JSON.stringify(data, null, 4));
+				if(data.code=='0'){
+					window.location.href ='service.html';
+				}
+				
+			},$.param(param)); 
+			
+		});
+		
+	}
+	
 
 	</script>
     
