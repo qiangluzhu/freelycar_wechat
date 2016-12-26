@@ -1,6 +1,7 @@
 package com.geariot.platform.yi.dao.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,32 +42,9 @@ public class CommunityDaoImpl implements CommunityDao{
 		try{
 			getSession().save(c);
 			if (null != mf) {
-				String baseUrl="D:\\upload\\community\\";
-				//String baseUrl = context.getRealPath("") + "\\upload\\community\\";
-				
-				Path path = Paths.get(baseUrl);
-				if(Files.notExists(path)){
-					Files.createDirectories(path);
-				}
-				
-				
-				String fileName = mf.getOriginalFilename();
-				if (!"".equals(fileName)) {
-					// 获取后缀
-					String suffix = fileName.substring(fileName.indexOf("."),
-							fileName.length());
-					String newName=c.getId()+suffix;
-					c.setUrl(newName);
-					try {
-						mf.transferTo(new File(baseUrl + newName));
-						return true;
-					}catch(Exception e){
-						e.printStackTrace();
-						log.error(e.getMessage());
-					}
-				}
+				savePic(c,mf);
 			}
-			return false;
+			return true;
 		}catch(Exception e){
 			e.printStackTrace();
 			log.error(e.getMessage());
@@ -96,37 +74,46 @@ public class CommunityDaoImpl implements CommunityDao{
 	@Override
 	public boolean modify(Community c,MultipartFile mf) {
 		try{
-			if (null != mf) {
-				String baseUrl="D:\\upload\\community\\";
-				//String baseUrl = context.getRealPath("") + "\\upload\\community\\";
-				
-				Path path = Paths.get(baseUrl);
-				if(Files.notExists(path)){
-					Files.createDirectories(path);
-				}
-				String fileName = mf.getOriginalFilename();
-				if (!"".equals(fileName)) {
-					// 获取后缀
-					String suffix = fileName.substring(fileName.indexOf("."),
-							fileName.length());
-					String newName=c.getId()+suffix;
-					c.setUrl(newName);
-					
-					try {
-						mf.transferTo(new File(baseUrl + newName));
-					}catch(Exception e){
-						e.printStackTrace();
-						log.error(e.getMessage());
-						return false;
-					}
-				}
-			}
 			getSession().update(c);
+			if (null != mf) {
+				savePic(c,mf);
+			}
 			return true;
 		}catch(Exception e){
 			log.error(e.getMessage());
 			return false;
 		}
+	}
+	
+	public boolean savePic(Community c,MultipartFile mf){
+//		String baseUrl="D:\\upload\\community\\";
+		String baseUrl = context.getRealPath("") + "\\upload\\community\\";
+		
+		Path path = Paths.get(baseUrl);
+		if(Files.notExists(path)){
+			try {
+				Files.createDirectories(path);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		String fileName = mf.getOriginalFilename();
+		if (!"".equals(fileName)) {
+			// 获取后缀
+			String suffix = fileName.substring(fileName.indexOf("."),
+					fileName.length());
+			String newName=c.getId()+suffix;
+			c.setUrl(newName);
+			
+			try {
+				mf.transferTo(new File(baseUrl + newName));
+			}catch(Exception e){
+				e.printStackTrace();
+				log.error(e.getMessage());
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@SuppressWarnings("unchecked")

@@ -1,6 +1,7 @@
 package com.geariot.platform.yi.dao.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,34 +42,14 @@ public class StoreDaoImpl implements StoreDao{
 		try{
 			getSession().save(c);
 			if (null != mf) {
-				String baseUrl="D:\\upload\\store\\";
-//				String baseUrl = context.getRealPath("") + "\\upload\\store\\";
-				
-				Path path = Paths.get(baseUrl);
-				if(Files.notExists(path)){
-					Files.createDirectories(path);
-				}
-				
-				String fileName = mf.getOriginalFilename();
-				if (!"".equals(fileName)) {
-					// 获取后缀
-					String suffix = fileName.substring(fileName.indexOf("."),
-							fileName.length());
-					String newName=c.getId()+suffix;
-					c.setUrl(newName);
-					try {
-						mf.transferTo(new File(baseUrl + newName));
-						return true;
-					}catch(Exception e){
-						e.printStackTrace();
-					}
-				}
+				savePic(c,mf);
 			}
-			return false;
 		}catch(Exception e){
+			e.printStackTrace();
 			log.error(e.getMessage());
 			return false;
 		}
+		return true;
 	}
 
 	@Override
@@ -95,35 +76,42 @@ public class StoreDaoImpl implements StoreDao{
 		try{
 			getSession().update(c);
 			if (null != mf) {
-				String baseUrl="D:\\upload\\store\\";
-//				String baseUrl = context.getRealPath("") + "\\upload\\store\\";
-				Path path = Paths.get(baseUrl);
-				if(Files.notExists(path)){
-					Files.createDirectories(path);
-				}
-				
-				
-				String fileName = mf.getOriginalFilename();
-				if (!"".equals(fileName)) {
-					// 获取后缀
-					String suffix = fileName.substring(fileName.indexOf("."),
-							fileName.length());
-					String newName=c.getId()+suffix;
-					c.setUrl(newName);
-					
-					try {
-						mf.transferTo(new File(baseUrl + newName));
-					}catch(Exception e){
-						e.printStackTrace();
-						return false;
-					}
-				}
+				savePic(c,mf);
 			}
 			return true;
 		}catch(Exception e){
 			log.error(e.getMessage());
 			return false;
 		}
+	}
+	
+	public boolean savePic(Store c,MultipartFile mf){
+//		String baseUrl="D:\\upload\\store\\";
+		String baseUrl = context.getRealPath("") + "\\upload\\store\\";
+		Path path = Paths.get(baseUrl);
+		if(Files.notExists(path)){
+			try {
+				Files.createDirectories(path);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		String fileName = mf.getOriginalFilename();
+		if (!"".equals(fileName)) {
+			// 获取后缀
+			String suffix = fileName.substring(fileName.indexOf("."),
+					fileName.length());
+			String newName=c.getId()+suffix;
+			c.setUrl(newName);
+			try {
+				String realUrl=baseUrl + newName;
+				mf.transferTo(new File(realUrl));
+			}catch(Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@SuppressWarnings("unchecked")
