@@ -281,6 +281,13 @@ select{
 	width:85px;
 }
 
+@media (max-width:321px) {
+	.store-item-left img{
+	width:auto;
+	float:left;
+	width:70px;
+}}
+
 .store-item-left{
 	padding-right:3%;
 }
