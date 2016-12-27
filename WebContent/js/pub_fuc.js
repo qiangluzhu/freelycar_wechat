@@ -87,8 +87,8 @@ $(function(){
 			 window.location.href = "login.html";
 		 }else{
 			 
-			 $("#main").find("span.glyphicon-user").text(login_sign);
-			 $("#main").find("span.glyphicon-log-out").parent().click(function(){
+			/* $("#hover").find("span.glyphicon-user").text(login_sign);*/
+			 $("#hover").find("li").click(function(){
 				 deleteCookie("login_sign");
 				 window.location.href = "login.html";
 			 });

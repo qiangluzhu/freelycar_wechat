@@ -132,6 +132,15 @@
 				var name = document.getElementById('name').value;
 				var phone = document.getElementById('phone').value;
 				var password = document.getElementById('password').value;
+				
+				if(isEmpty(name) || isEmpty(phone) || isEmpty(password)){
+					return false;
+				}
+				if(phone.length!=11){
+					alert("请填写正确的手机号码");
+					return false;
+				}
+				
 				var param = {'id':id,'phone':phone,'password':password,'name':name};
 				
 				nativeAjax('post','../api/technician/modify',function(e){
