@@ -224,10 +224,14 @@
 		        }
 		        reader.readAsDataURL(input.files[0]);
 		 }
-	}
+	  }
       
       
       $('#add_store').click(function(){
+    	  if(isEmpty(lng) || isEmpty(lat)){
+    		  alert("请选择下拉菜单中的提示地址");
+    		  return false;
+    	  }
     	  var formData = new FormData();
     	  $('#store_form').find('input').each(function(i,e){
     		  formData.append($(this).attr('name'),$(this).val());
@@ -237,6 +241,7 @@
     	  formData.append("city", document.getElementById('_city').value);
     	  formData.append("region", document.getElementById('_dist').value);
     	  formData.append("info", document.getElementById('info').value);
+    	  
     	  formData.append("longitude", lng);
     	  formData.append("latitude", lat);
     	  

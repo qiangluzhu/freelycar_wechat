@@ -219,7 +219,20 @@
 					    nodata:"none" //当子集无数据时，隐藏select 
 					}); 
 				 
-				 edit_store(obj.url,obj.longitude,obj.latitude);
+				 
+				 //init
+				 var lng = obj.longitude;
+				 var lat = obj.latitude;
+				 setCookie('lng', lng);
+				 setCookie('lat', lat);
+				  map.setCenter([lng,lat]);
+				 	marker = new AMap.Marker({
+		           	    position: [lng,lat],
+		           	    title: obj.address,
+		           	    map: map
+		           	});
+				 
+				 edit_store(obj.url,lng,lat);
 			}
 			
 		});
@@ -240,13 +253,12 @@
 	}
       
       function edit_store(url,lng0,lat0){
-	      $('#add_store').click(function(){
+    	  $('#add_store').click(function(){
 	    	  var formData = new FormData();
 	    	  $('#store_form').find('input').each(function(i,e){
 	    		  if(isNotEmpty($(this).attr('name'))){
 		    		  formData.append($(this).attr('name'),$(this).val());
 	    		  }
-	    		  
 	    	  });
 	    	  formData.append("id", id);
 	    	  formData.append("url", url);
@@ -255,17 +267,17 @@
 	    	  formData.append("city", document.getElementById('_city').value);
 	    	  formData.append("region", document.getElementById('_dist').value);
 	    	  formData.append("info", document.getElementById('info').value);
+
 	    	  if(isEmpty(lng)){
 		    	  formData.append("longitude", lng0);
 	    	  }else{
 		    	  formData.append("longitude", lng);
 	    	  }
 	    	  if(isEmpty(lat)){
-		    	  formData.append("longitude", lat0);
+		    	  formData.append("latitude", lat0);
 	    	  }else{
-		    	  formData.append("longitude", lat);
+		    	  formData.append("latitude", lat);
 	    	  }
-	    	  
 	    	  
 	          $.ajax({
 	              url: '../api/store/modify',
@@ -365,8 +377,17 @@
 		
 		var marker2;   
 		$('#postion').click(function(){
+         	var addressInput = $('#address_input').val();
+			if(isEmpty($.trim(addressInput))){
+           		return false;
+			}
 			//nmb。要调用这个。才能初始化map。
          	$('#location').modal();
+			
+        	$("#geo_bd_address").val(addressInput);
+			
+        	var lng = getCookie('lng');
+        	var lat = getCookie('lat');
 		    var map2 = new AMap.Map('locationmap');
 	      	map2.setZoom(50);
 	      	map2.setCenter([lng,lat]);
