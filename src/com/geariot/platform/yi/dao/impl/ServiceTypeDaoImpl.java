@@ -14,7 +14,7 @@ import com.geariot.platform.yi.entities.ServiceType;
 import com.geariot.platform.yi.entities.Store;
 import com.geariot.platform.yi.utils.Constants;
 import com.geariot.platform.yi.utils.query.QueryUtils;
-import com.geariot.platform.yi.utils.query.TypeAndQueryCreator;
+import com.geariot.platform.yi.utils.query.TypeQueryCreator;
 
 @Repository
 public class ServiceTypeDaoImpl implements ServiceTypeDao{
@@ -72,7 +72,7 @@ public class ServiceTypeDaoImpl implements ServiceTypeDao{
 	public List<Store> find(ServiceType s) {
 		StringBuffer basicQueryStr;
 		basicQueryStr = new StringBuffer("from ServiceType");
-		TypeAndQueryCreator creator = new TypeAndQueryCreator(s);
+		TypeQueryCreator creator = new TypeQueryCreator(s);
 		String creatorStr = creator.createStatement(0);
 		Query query = QueryUtils.createLocalQuery(getSession(), basicQueryStr,
 				creatorStr);

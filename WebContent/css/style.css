@@ -95,9 +95,9 @@ select{
 }
 
 .service_time input{
-	width:70%;
+	width:78%;
 	border:none;
-	padding-left:10px;
+	padding-left:30px;
 	-webkit-appearance: none;
 	outline-style: none;
 }
@@ -129,7 +129,8 @@ select{
 .icon3{
 	float:right;
 	margin-right:-10px;
-	margin-top:-25px
+	margin-top:-29px;
+	position:relative
 }
 
 .icon4{
@@ -358,6 +359,13 @@ select{
 	white-space: normal;
 	color: #999;
 	font-size:12px;
+}
+
+.store-item-addr6{
+	white-space: normal;
+	color: #666;
+	font-size:14px;
+	padding-right:0px;
 }
 
 /*STORE-DETAIL*/

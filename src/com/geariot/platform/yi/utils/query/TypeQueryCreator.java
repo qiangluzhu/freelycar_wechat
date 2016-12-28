@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.geariot.platform.yi.entities.ServiceType;
 
-public class TypeAndQueryCreator  extends AndOrQueryCreator{
+public class TypeQueryCreator extends AndOrQueryCreator{
 	protected void init() {
 		conditionKeys = new ArrayList<ConBean>();
 		ConBean bean1 = new ConBean("info", "like");
@@ -56,12 +56,12 @@ public class TypeAndQueryCreator  extends AndOrQueryCreator{
 		}
 	}
 
-	public TypeAndQueryCreator(String... con) {
+	public TypeQueryCreator(String... con) {
 		// TODO Auto-generated constructor stub
 		super(con);
 	}
 
-	public TypeAndQueryCreator(ServiceType stu) {
+	public TypeQueryCreator(ServiceType stu) {
 		// TODO Auto-generated constructor stub
 		super(stu);
 	}
