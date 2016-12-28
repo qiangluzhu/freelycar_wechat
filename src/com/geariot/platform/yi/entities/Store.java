@@ -101,10 +101,7 @@ public class Store {
 	}
 	@Override
 	public String toString() {
-		return "Store [id=" + id + ", name=" + name + ", phone=" + phone
-				+ ", province=" + province + ", city=" + city + ", region="
-				+ region + ", address=" + address + ", info=" + info + ", url="
-				+ url + "]";
+		return "Store [longitude=" + longitude + ", latitude=" + latitude + "]";
 	}
 	
 	

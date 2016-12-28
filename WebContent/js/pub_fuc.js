@@ -29,12 +29,12 @@ var deleteCookie = function ( name ) {
  * Tools
  */
 var isEmpty =  function(str){
-	return str=="" || str==null || str=="null" || str==undefined;
+	return str=="" || str==null || str=="null" || str==undefined || str=="undefined";
 }
 
 
 var isNotEmpty =  function(str){
-	return str!="" && str!=null && str!="null" && str!=undefined;
+	return str!="" && str!=null && str!="null" && str!=undefined && str!="undefined";
 }
 
 
@@ -83,12 +83,14 @@ $(function(){
 	 var index2 = url.indexOf("management");
 	 if(index2>=0 && index<0){
 		var login_sign = getCookie("login_sign");
+		//console.log(login_sign);
+		return false;
 		if(isEmpty(login_sign)){
 			 window.location.href = "login.html";
 		 }else{
 			 
-			 $("#main").find("span.glyphicon-user").text(login_sign);
-			 $("#main").find("span.glyphicon-log-out").parent().click(function(){
+			/* $("#hover").find("span.glyphicon-user").text(login_sign);*/
+			 $("#hover").find("li").click(function(){
 				 deleteCookie("login_sign");
 				 window.location.href = "login.html";
 			 });

@@ -95,7 +95,7 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public boolean modify(UserAddress c) {
 		try{
-			getSession().update(c);
+			getSession().saveOrUpdate(c);
 			return true;
 		}catch(Exception e){
 			log.error(e.getMessage());

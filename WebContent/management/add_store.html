@@ -186,6 +186,7 @@
 </div>
 </div>
  <script src="../js/jquery-1.11.3.min.js"></script>
+ <script src="../js/pub_fuc.js"></script>
   	<script src="../js/bootstrap.min.js"></script>
   <script src="js/tether.min.js"></script>
   <script src="js/jquery.components.min.js"></script>
@@ -223,10 +224,14 @@
 		        }
 		        reader.readAsDataURL(input.files[0]);
 		 }
-	}
+	  }
       
       
       $('#add_store').click(function(){
+    	  if(isEmpty(lng) || isEmpty(lat)){
+    		  alert("请选择下拉菜单中的提示地址");
+    		  return false;
+    	  }
     	  var formData = new FormData();
     	  $('#store_form').find('input').each(function(i,e){
     		  formData.append($(this).attr('name'),$(this).val());
@@ -236,6 +241,7 @@
     	  formData.append("city", document.getElementById('_city').value);
     	  formData.append("region", document.getElementById('_dist').value);
     	  formData.append("info", document.getElementById('info').value);
+    	  
     	  formData.append("longitude", lng);
     	  formData.append("latitude", lat);
     	  
@@ -290,7 +296,14 @@
 		           	    title: title,
 		           	    map: map
 		           	});
-		            
+		           	
+		        /* 	marker2 = new AMap.Marker({
+		           	    position: [lng,lat],
+		           	 	draggable:true,
+		           	    title: title,
+		           	    map: map2
+		            }); */
+		           	
 		     });
 		    
 		});
@@ -336,22 +349,32 @@
 		} 
 		
 		var marker2;   
+		var map2 = new AMap.Map('locationmap',{dragEnable:false});
+      	map2.setZoom(50);
+      	
+      	
 		$('#postion').click(function(){
-			//nmb。要调用这个。才能初始化map。
+			var addressInput = $('#address_input').val();
+			if(isEmpty($.trim(addressInput))){
+           		return false;
+			}
            	$('#location').modal();
 			
-			var map2 = new AMap.Map('locationmap');
-	      	map2.setZoom(50);
-	      	map2.setCenter([lng,lat]);
-	      	if(marker2){
-		        marker2.setMap();
-	         }
-	      	marker2 = new AMap.Marker({
-	       	    position: [lng,lat],
-	       	 	draggable:true,
-	       	    title: title,
-	       	    map: map2
-	        });
+           	map2.setCenter([lng,lat]);
+            if(marker2){
+	            marker2.setMap();
+            }
+            marker2 = new AMap.Marker({
+           	    position: [lng,lat],
+           	 	draggable:true,
+           	    title: title,
+           	    map: map2
+            });
+			
+			//console.log(marker2.getDraggable());
+           	$("#geo_bd_address").val(addressInput);
+			
+			
 	      	dragendListener(marker2);
             $('#reposition').click(function(){
            		$("#address_input").val($('#geo_bd_address').val());

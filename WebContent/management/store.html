@@ -7,6 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" >
+     <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" >
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/foundation-5.5.3.min.css" >
     <link rel="stylesheet" type="text/css" href="css/app.css" >
@@ -110,9 +111,10 @@
       </div>
     </div>
   </div>
-  
+  <div id='confirm_cancel'></div>
   	   <!-- Script -->
    <script src="../js/jquery-1.11.3.min.js"></script>
+   <script src="../js/bootstrap.min.js"></script>
   <script src="js/tether.min.js"></script>
   <script src="js/jquery.components.min.js"></script>
   <script src="js/foundation.min.js"></script>
@@ -177,13 +179,22 @@ function opera(){
 		}
 		
 		if(e.target.className=='fa fa-trash fa-fw'){
-			nativeAjax('get','../api/store/delete?id='+tid,function(e1){
-				var data = jsonParse(getResult(e1));
-				//console.log(data);
-				if(data.code=='0'){
-					e.currentTarget.outerHTML ='';
-				}
-			});
+			
+			 $("#confirm_cancel").load("confirm_cancel.html",function(){
+					$('#myModal').modal('show');
+					 $("#myModal").find("button.comfirm").click(function(){
+						$('#myModal').modal('hide');
+						nativeAjax('get','../api/store/delete?id='+tid,function(e1){
+							var data = jsonParse(getResult(e1));
+							//console.log(data);
+							if(data.code=='0'){
+								e.currentTarget.outerHTML ='';
+							}
+						});
+					}); 
+					
+				}); 
+			
 		}
 	});
 	
