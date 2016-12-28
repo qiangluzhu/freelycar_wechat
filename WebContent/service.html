@@ -144,6 +144,14 @@
 				ontime = ontime.replace("月","/");
 				ontime = ontime.replace("日","");
 			}
+			if(ontime.indexOf('上午')>=0){
+				ontime = ontime.replace("上午","");
+			}
+			if(ontime.indexOf('下午')>=0){
+				ontime = ontime.replace("下午","/");
+			}
+			
+			
 			if(ontime.length>16){
 				ontime = ontime.substring(0,16);
 			}

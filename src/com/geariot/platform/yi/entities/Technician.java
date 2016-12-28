@@ -68,5 +68,13 @@ public class Technician {
 	public void setSid(String sid) {
 		this.sid = sid;
 	}
+	@Override
+	public String toString() {
+		return "Technician [id=" + id + ", name=" + name + ", phone=" + phone
+				+ ", password=" + password + ", openId=" + openId
+				+ ", createTime=" + createTime + ", sid=" + sid + "]";
+	}
 
+	
+	
 }

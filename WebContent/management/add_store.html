@@ -62,7 +62,7 @@
                     </label>
                   </div>
                   <div class="large-8 end columns">
-                    <input type="text" class="radius" name="name" placeholder="请输入名称" value="">
+                    <input type="text" class="radius" id='name1' name="name" placeholder="请输入名称" value="">
                   </div>
                 </div>
                 <div class="row">
@@ -70,7 +70,7 @@
                     <label class="right inline"><b class="t-color red">*</b>电话：</label>
                   </div>
                   <div class="large-8 end columns">
-                    <input type="text" class="radius" name="phone" placeholder="请输入电话" value="">
+                    <input type="text" class="radius"  id='phone1' name="phone" placeholder="请输入电话" value="">
                   </div>
                 </div>
                 <div class="row">
@@ -232,6 +232,26 @@
     		  alert("请选择下拉菜单中的提示地址");
     		  return false;
     	  }
+    	  
+    	  
+    	  var name1 = document.getElementById('name1').value;
+    	  var phone1 = document.getElementById('phone1').value;
+    	  var info = document.getElementById('info').value;
+    	  
+    	  if(isEmpty(name1)){
+    		  alert('请填写名称');
+    		  return false;
+    	  }
+    	  if(isEmpty(phone1)){
+    		  alert('请填写手机号码');
+    		  return false;
+    	  }
+    	  if(isEmpty(info)){
+    		  alert('请填写简介');
+    		  return false;
+    	  }
+    	  
+    	  
     	  var formData = new FormData();
     	  $('#store_form').find('input').each(function(i,e){
     		  formData.append($(this).attr('name'),$(this).val());
