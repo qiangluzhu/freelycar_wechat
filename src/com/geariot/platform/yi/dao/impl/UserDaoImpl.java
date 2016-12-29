@@ -28,6 +28,8 @@ import com.geariot.platform.yi.entities.Community;
 import com.geariot.platform.yi.entities.Reservation;
 import com.geariot.platform.yi.entities.Technician;
 import com.geariot.platform.yi.entities.UserAddress;
+import com.geariot.platform.yi.utils.Constants;
+import com.geariot.platform.yi.utils.WechatConfig;
 
 @Repository
 public class UserDaoImpl implements UserDao{
@@ -144,6 +146,14 @@ public class UserDaoImpl implements UserDao{
 		}
 	}
 
+	
+	/**
+	 * @javebean
+	 * 返回三个int 作为 标示
+	 * 1：技师为空
+	 * 2：技师openid为空 未激活
+	 * 3. 技师 已经激活
+	 */
 	@Override
 	public int reserve(Reservation r) {
 		try{
@@ -153,7 +163,9 @@ public class UserDaoImpl implements UserDao{
 			Technician t = (Technician) query0.uniqueResult();
 			if(t==null){
 				return 1;
-			}else{
+			} else if(t.getOpenId()==null){
+				return 2;
+			} else{
 				r.setOrderOpenId(t.getOpenId());
 				r.setOrderPerson(t.getName());
 				r.setOrderPhone(t.getPhone());
@@ -161,9 +173,9 @@ public class UserDaoImpl implements UserDao{
 				String tOpenid=r.getOrderOpenId();
 	//			String tOpenid="oBaSqs929zqFraeZy2YXWeqAQJ7o";
 				JSONObject data = packJsonmsg(r.getRperson(),r.getPhone(),r.getOnTime(),"成功");
-				String url="www.geariot.com/freelycar/mechanic.html";
-				sendWechatmsgToUser(tOpenid,"L9Y9HHSN96_maQXSYUyYAbZf_fMeHB2EsR1hk2Eft0s",url,"",data);
-				return 0;
+				String url=Constants.DOMAIN+"/mechanic.html";
+				sendWechatmsgToUser(tOpenid,WechatConfig.PUSH_CODE,url,"",data);
+				return 3;
 			}
 		}catch(Exception e){
 			e.printStackTrace();

@@ -37,6 +37,12 @@ public class WeChatController {
 		String redir = getWechatInfo(htmlPage, code, state);
 		return redir;
 	}
+	@RequestMapping(value = "/tlogin")
+	public String tlogin(String code, String state) throws IOException {
+		String htmlPage="login";
+		String redir = getWechatInfo(htmlPage, code, state);
+		return redir;
+	}
 	
 	public String getWechatInfo(String htmlPage, String code, String state) throws UnsupportedEncodingException{
 		String wechatInfo = WechatLoginUse.wechatInfo(code);

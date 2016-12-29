@@ -108,15 +108,23 @@ public class UserService {
 		return resultObj.toString();
 	}
 
+	
+	/**
+	 * @javebean
+	 * 返回三个int 作为 标示
+	 * 1：技师为空
+	 * 2：技师openid为空 未激活
+	 * 3. 技师 已经激活
+	 */
 	public String reserve(Reservation r) {
 		JSONObject resultObj=new JSONObject();
 		r.setCreateTime(new Date());
 		int b = dao.reserve(r);
 		
 		if (b==2) {
-			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.CREATE_ERROR);
+			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.TECHNICIAN_INACTIVATED);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,
-					RESCODE.CREATE_ERROR.getMsg());
+					RESCODE.TECHNICIAN_INACTIVATED.getMsg());
 			return resultObj.toString();
 		}else if(b==1){
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.TECHNICIAN_ERROR);
@@ -126,7 +134,7 @@ public class UserService {
 		}
 		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
 		resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
-		resultObj.put(Constants.RESPONSE_DATA_KEY, b);
+		//resultObj.put(Constants.RESPONSE_DATA_KEY, b);
 		return resultObj.toString();
 	}
 

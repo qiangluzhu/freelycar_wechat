@@ -15,6 +15,7 @@ public enum RESCODE {
 	STATE_ERROR(10, "对象状态错误"),
 	JSON_ERROR(11, "Json解析出错"),
 	UNKNOW_ERROR(12, "系统发生位置错误"),
+	TECHNICIAN_INACTIVATED(14, "技师未激活"),
 	TECHNICIAN_ERROR(13,"技师不存在");
 	;
 

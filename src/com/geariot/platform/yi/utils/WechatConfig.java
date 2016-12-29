@@ -19,6 +19,7 @@ public class WechatConfig {
 	//http%3a%2f%2fwww.geariot.com%2ffreelycar%2fapi%2fwechat%2fcenter
 	//https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd188f8284ee297b&redirect_uri=http%3a%2f%2fwww.geariot.com%2ffreelycar%2fapi%2fwechat%2fcenter&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
 	//https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd188f8284ee297b&redirect_uri=http%3a%2f%2fwww.geariot.com%2ffreelycar%2fapi%2fwechat%2fservice&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
+	//https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd188f8284ee297b&redirect_uri=http%3a%2f%2fwww.freelycar.com%2ffreelycar%2fapi%2fwechat%2ftlogin&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
 	private static Logger log = Logger.getLogger(WechatConfig.class);
 	
 	//自定义的token
@@ -28,8 +29,12 @@ public class WechatConfig {
 	//public static String mchId = "1380202002";    //商户号，微信商户平台里面获取
 	//public static String secret = "da188683eaeacf8cde241aee8df3cb30";
 	public static String secret = "8e7a35d582d6b9fe771ac56462029321";
+	
+	
+	//微信推送的ma
+	public static final String PUSH_CODE = "L9Y9HHSN96_maQXSYUyYAbZf_fMeHB2EsR1hk2Eft0s";
 
-	//public static String key = "zimerwechatcreatetimeymd20160816"; //签名秘钥，在微信商户平台里面设置
+	//public static String key = "zimerwechatcreatetimeymd20160816"; //签名秘钥，在微信商户平台里面设置z`z`
 
 	//public static String orderUrl = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 

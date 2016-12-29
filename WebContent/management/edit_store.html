@@ -57,7 +57,7 @@
                     </label>
                   </div>
                   <div class="large-8 end columns">
-                    <input type="text" class="radius" name="name" placeholder="请输入名称" value="">
+                    <input type="text" class="radius" name="name"  id='name1' placeholder="请输入名称" value="">
                   </div>
                 </div>
                 <div class="row">
@@ -65,7 +65,7 @@
                     <label class="right inline"><b class="t-color red">*</b>电话：</label>
                   </div>
                   <div class="large-8 end columns">
-                    <input type="text" class="radius" name="phone" placeholder="请输入电话" value="">
+                    <input type="text" class="radius" name="phone"  id='phone1' placeholder="请输入电话" value="">
                   </div>
                 </div>
                 <div class="row">
@@ -254,7 +254,31 @@
       
       function edit_store(url,lng0,lat0){
     	  $('#add_store').click(function(){
-	    	  var formData = new FormData();
+	    	  
+    		  var name1 = document.getElementById('name1').value;
+        	  var phone1 = document.getElementById('phone1').value;
+        	  var address_input = document.getElementById('address_input').value;
+        	  var info = document.getElementById('info').value;
+        	  
+        	  if(isEmpty(name1)){
+        		  alert('请填写名称');
+        		  return false;
+        	  }
+        	  if(isEmpty(address_input)){
+        		  alert('请填写地址');
+        		  return false;
+        	  }
+        	  if(isEmpty(phone1)){
+        		  alert('请填写手机号码');
+        		  return false;
+        	  }
+        	  if(isEmpty(info)){
+        		  alert('请填写简介');
+        		  return false;
+        	  }
+        	  
+    		  
+    		  var formData = new FormData();
 	    	  $('#store_form').find('input').each(function(i,e){
 	    		  if(isNotEmpty($(this).attr('name'))){
 		    		  formData.append($(this).attr('name'),$(this).val());

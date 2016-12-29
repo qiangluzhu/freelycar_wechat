@@ -36,8 +36,8 @@ public class TechnicianController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(String phone,String password) {
-		return service.login(phone,password);
+	public String login(String phone,String password ,String openId) {
+		return service.login(phone,password,openId);
 	}
 	
 	@RequestMapping(value = "/getReservation", method = RequestMethod.GET)

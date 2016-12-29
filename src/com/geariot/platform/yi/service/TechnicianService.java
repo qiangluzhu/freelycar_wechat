@@ -13,6 +13,7 @@ import com.geariot.platform.yi.entities.Reservation;
 import com.geariot.platform.yi.entities.Technician;
 import com.geariot.platform.yi.model.RESCODE;
 import com.geariot.platform.yi.utils.Constants;
+import com.geariot.platform.yi.utils.HttpRequest;
 import com.geariot.platform.yi.utils.MD5;
 
 @Transactional
@@ -88,7 +89,7 @@ public class TechnicianService {
 		return resultObj.toString();
 	}
 
-	public String login(String phone, String password) {
+	public String login(String phone, String password,String openId) {
 		JSONObject resultObj=new JSONObject();
 		password=MD5.compute(password);
 		Technician b = dao.login(phone,password);
@@ -98,6 +99,7 @@ public class TechnicianService {
 					RESCODE.NOT_FOUND.getMsg());
 			return resultObj.toString();
 		}
+		b.setOpenId(openId);
 		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
 		resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
 		resultObj.put(Constants.RESPONSE_DATA_KEY, new JSONObject(b));

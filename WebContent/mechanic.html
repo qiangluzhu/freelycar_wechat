@@ -84,7 +84,8 @@ $(function(){
 });
 
 //var openId ='3452345234';
-var openId  = getCookie('openId');
+var openId = get_param('openId');
+//var openId  = getCookie('openId');
 function load(){
 	nativeAjax('get','api/technician/getReservation?openId='+openId+'&page=0&number=10',function(e){
 		var data = jsonParse(getResult(e));

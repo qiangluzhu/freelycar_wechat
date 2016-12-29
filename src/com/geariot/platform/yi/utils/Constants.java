@@ -8,4 +8,6 @@ public class Constants {
 	
 	/*是否开启查询缓存*/
 	public static boolean SELECT_CACHE = true;
+	
+	public static final String DOMAIN = "www.freelycar.com";
 }

@@ -34,7 +34,10 @@
 <script src="js/jquery-1.11.3.min.js"></script>
 <script src="js/pub_fuc.js"></script>
 <script type="text/javascript">
-$('#login').click(function(){
+	var headimg = get_param('headimg');
+	var nickname = get_param('nickname');
+	var openId = get_param('openid');
+	$('#login').click(function(){
 	var username = document.getElementById('username').value;
 	var password = document.getElementById('password').value;
 	
@@ -44,12 +47,12 @@ $('#login').click(function(){
 		var code = data.code;
 		if(code=='0'){
 			setCookie('login_sign', data.data.username);
-			window.location.href = 'mechanic.html';
+			window.location.href = 'mechanic.html?openId='+openId;
 		}else{
 			alert('用户名或密码不正确');
 		}
 		
-	},'phone='+username+'&password='+password);
+	},'phone='+username+'&password='+password+'&openId='+openId);
 	return false;
 });
 
