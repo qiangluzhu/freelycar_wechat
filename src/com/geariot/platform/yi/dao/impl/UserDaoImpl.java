@@ -145,25 +145,29 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public boolean reserve(Reservation r) {
+	public int reserve(Reservation r) {
 		try{
 			Query query0 = getSession().createQuery("from Technician order by createTime desc");
 			query0.setFirstResult(0); // 开始记录
 			query0.setMaxResults(1); // 查询多少条
 			Technician t = (Technician) query0.uniqueResult();
-			r.setOrderOpenId(t.getOpenId());
-			r.setOrderPerson(t.getName());
-			r.setOrderPhone(t.getPhone());
-			getSession().save(r);
-			String tOpenid=r.getOrderOpenId();
-//			String tOpenid="oBaSqs929zqFraeZy2YXWeqAQJ7o";
-			JSONObject data = packJsonmsg(r.getRperson(),r.getPhone(),r.getOnTime(),"成功");
-			String url="www.geariot.com/freelycar/mechanic.html";
-			sendWechatmsgToUser(tOpenid,"L9Y9HHSN96_maQXSYUyYAbZf_fMeHB2EsR1hk2Eft0s",url,"",data);
-			return true;
+			if(t==null){
+				return 1;
+			}else{
+				r.setOrderOpenId(t.getOpenId());
+				r.setOrderPerson(t.getName());
+				r.setOrderPhone(t.getPhone());
+				getSession().save(r);
+				String tOpenid=r.getOrderOpenId();
+	//			String tOpenid="oBaSqs929zqFraeZy2YXWeqAQJ7o";
+				JSONObject data = packJsonmsg(r.getRperson(),r.getPhone(),r.getOnTime(),"成功");
+				String url="www.geariot.com/freelycar/mechanic.html";
+				sendWechatmsgToUser(tOpenid,"L9Y9HHSN96_maQXSYUyYAbZf_fMeHB2EsR1hk2Eft0s",url,"",data);
+				return 0;
+			}
 		}catch(Exception e){
 			e.printStackTrace();
-			return false;
+			return 2;
 		}
 	}
 

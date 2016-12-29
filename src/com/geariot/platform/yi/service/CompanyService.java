@@ -25,7 +25,7 @@ public class CompanyService {
 		JSONObject resultObj=new JSONObject();
 		boolean b = companyDao.add(c);
 		if (!b) {
-			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.CREATE_ERROR);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,
 					RESCODE.CREATE_ERROR.getMsg());
 			return resultObj.toString();
@@ -49,7 +49,7 @@ public class CompanyService {
 			resultObj.put("num", realSize);
 			return resultObj.toString();
 		}
-		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.NOT_FOUND);
 		resultObj.put(Constants.RESPONSE_MSG_KEY,
 				RESCODE.NOT_FOUND.getMsg());
 		return resultObj.toString();

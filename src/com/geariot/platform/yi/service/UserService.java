@@ -26,7 +26,7 @@ public class UserService {
 		JSONObject resultObj=new JSONObject();
 		boolean b = dao.register(openId,nickName);
 		if (!b) {
-			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.CREATE_ERROR);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,
 					RESCODE.CREATE_ERROR.getMsg());
 			return resultObj.toString();
@@ -40,7 +40,7 @@ public class UserService {
 		JSONObject resultObj=new JSONObject();
 		boolean b = dao.add(c);
 		if (!b) {
-			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.CREATE_ERROR);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,
 					RESCODE.CREATE_ERROR.getMsg());
 			return resultObj.toString();
@@ -102,7 +102,7 @@ public class UserService {
 			resultObj.put(Constants.RESPONSE_DATA_KEY, list);
 			return resultObj.toString();
 		}
-		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.NOT_FOUND);
 		resultObj.put(Constants.RESPONSE_MSG_KEY,
 				RESCODE.NOT_FOUND.getMsg());
 		return resultObj.toString();
@@ -111,12 +111,17 @@ public class UserService {
 	public String reserve(Reservation r) {
 		JSONObject resultObj=new JSONObject();
 		r.setCreateTime(new Date());
-		boolean b = dao.reserve(r);
+		int b = dao.reserve(r);
 		
-		if (!b) {
-			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+		if (b==2) {
+			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.CREATE_ERROR);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,
 					RESCODE.CREATE_ERROR.getMsg());
+			return resultObj.toString();
+		}else if(b==1){
+			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.TECHNICIAN_ERROR);
+			resultObj.put(Constants.RESPONSE_MSG_KEY,
+					RESCODE.TECHNICIAN_ERROR.getMsg());
 			return resultObj.toString();
 		}
 		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
@@ -139,7 +144,7 @@ public class UserService {
 			resultObj.put("num", realSize);
 			return resultObj.toString();
 		}
-		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.NOT_FOUND);
 		resultObj.put(Constants.RESPONSE_MSG_KEY,
 				RESCODE.NOT_FOUND.getMsg());
 		return resultObj.toString();
@@ -159,7 +164,7 @@ public class UserService {
 			resultObj.put("num", realSize);
 			return resultObj.toString();
 		}
-		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.NOT_FOUND);
 		resultObj.put(Constants.RESPONSE_MSG_KEY,
 				RESCODE.NOT_FOUND.getMsg());
 		return resultObj.toString();
@@ -169,7 +174,7 @@ public class UserService {
 		JSONObject resultObj=new JSONObject();
 		boolean b = dao.adminLogin(username,password);
 		if (!b) {
-			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.NOT_FOUND);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,
 					RESCODE.NOT_FOUND.getMsg());
 			return resultObj.toString();
@@ -184,7 +189,7 @@ public class UserService {
 		JSONObject resultObj=new JSONObject();
 		boolean b = dao.setDefaultAddress(addId,userId);
 		if (!b) {
-			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.CREATE_ERROR);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,
 					RESCODE.CREATE_ERROR.getMsg());
 			return resultObj.toString();

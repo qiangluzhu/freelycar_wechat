@@ -53,7 +53,7 @@ public class StoreService {
 		JSONObject resultObj=new JSONObject();
 		boolean b = storeDao.modify(c,file);
 		if (!b) {
-			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.UPDATE_ERROR);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,
 					RESCODE.UPDATE_ERROR.getMsg());
 			return resultObj.toString();
@@ -77,7 +77,7 @@ public class StoreService {
 			resultObj.put("num", realSize);
 			return resultObj.toString();
 		}
-		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.NOT_FOUND);
 		resultObj.put(Constants.RESPONSE_MSG_KEY,
 				RESCODE.NOT_FOUND.getMsg());
 		return resultObj.toString();
@@ -92,7 +92,7 @@ public class StoreService {
 			resultObj.put(Constants.RESPONSE_DATA_KEY, new JSONObject(s));
 			return resultObj.toString();
 		}
-		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.NOT_FOUND);
 		resultObj.put(Constants.RESPONSE_MSG_KEY,
 				RESCODE.NOT_FOUND.getMsg());
 		return resultObj.toString();

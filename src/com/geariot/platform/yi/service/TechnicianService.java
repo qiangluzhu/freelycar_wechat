@@ -29,7 +29,7 @@ public class TechnicianService {
 		c.setCreateTime(new Date());
 		boolean b = dao.add(c);
 		if (!b) {
-			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.CREATE_ERROR);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,
 					RESCODE.CREATE_ERROR.getMsg());
 			return resultObj.toString();
@@ -58,7 +58,7 @@ public class TechnicianService {
 		c.setPassword(MD5.compute(c.getPassword()));
 		boolean b = dao.modify(c);
 		if (!b) {
-			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.UPDATE_ERROR);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,
 					RESCODE.UPDATE_ERROR.getMsg());
 			return resultObj.toString();
@@ -82,7 +82,7 @@ public class TechnicianService {
 			resultObj.put("num", realSize);
 			return resultObj.toString();
 		}
-		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.NOT_FOUND);
 		resultObj.put(Constants.RESPONSE_MSG_KEY,
 				RESCODE.NOT_FOUND.getMsg());
 		return resultObj.toString();
@@ -93,7 +93,7 @@ public class TechnicianService {
 		password=MD5.compute(password);
 		Technician b = dao.login(phone,password);
 		if (b==null) {
-			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.NOT_FOUND);
 			resultObj.put(Constants.RESPONSE_MSG_KEY,
 					RESCODE.NOT_FOUND.getMsg());
 			return resultObj.toString();
@@ -118,7 +118,7 @@ public class TechnicianService {
 			resultObj.put("num", realSize);
 			return resultObj.toString();
 		}
-		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.NOT_FOUND);
 		resultObj.put(Constants.RESPONSE_MSG_KEY,
 				RESCODE.NOT_FOUND.getMsg());
 		return resultObj.toString();
@@ -133,7 +133,7 @@ public class TechnicianService {
 			resultObj.put(Constants.RESPONSE_DATA_KEY, new JSONObject(s));
 			return resultObj.toString();
 		}
-		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.DELETE_ERROR);
+		resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.NOT_FOUND);
 		resultObj.put(Constants.RESPONSE_MSG_KEY,
 				RESCODE.NOT_FOUND.getMsg());
 		return resultObj.toString();

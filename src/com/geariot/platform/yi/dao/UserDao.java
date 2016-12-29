@@ -20,7 +20,7 @@ public interface UserDao {
 
 	List<UserAddress> getAll(String openId);
 
-	boolean reserve(Reservation r);
+	int reserve(Reservation r);
 
 	List<Reservation> getRecord(String openId, int start, int number);
 
