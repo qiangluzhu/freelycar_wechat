@@ -37,16 +37,22 @@
 	var headimg = get_param('headimg');
 	var nickname = get_param('nickname');
 	var openId = get_param('openid');
+	var login_sign = getCookie('login_sign');
+	if(isNotEmpty(login_sign)){
+		window.location.href = 'mechanic.html?openId='+openId;
+	}
+	
+	
+	
 	$('#login').click(function(){
 	var username = document.getElementById('username').value;
 	var password = document.getElementById('password').value;
-	
 	nativeAjax('post','api/technician/login',function(e){
 		var data = jsonParse(getResult(e));
 		//console.log(data);
 		var code = data.code;
 		if(code=='0'){
-			setCookie('login_sign', data.data.username);
+			setCookie('login_sign', username);
 			window.location.href = 'mechanic.html?openId='+openId;
 		}else{
 			alert('用户名或密码不正确');

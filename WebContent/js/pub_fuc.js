@@ -83,8 +83,8 @@ $(function(){
 	 var index2 = url.indexOf("management");
 	 if(index2>=0 && index<0){
 		var login_sign = getCookie("login_sign");
-		//console.log(login_sign);
-		return false;
+	/*	console.log(login_sign);
+		console.log(isEmpty(login_sign));*/
 		if(isEmpty(login_sign)){
 			 window.location.href = "login.html";
 		 }else{

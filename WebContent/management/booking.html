@@ -48,9 +48,9 @@
                 <div class="large-2 columns">
                   <input type="text" value="" id='re_name' placeholder="预约人搜索">
                 </div>
-                <div class="large-2 columns">
+               <!--  <div class="large-2 columns">
                   <input type="text" value="" id='re_id' placeholder="预约号搜索">
-                </div>
+                </div> -->
                 <div class="large-2 columns end">
                   <a id="con_search"  class="button small ran_search">搜索</a>
                 </div>
@@ -111,9 +111,10 @@ var flag = true;
 
 
 function loadData(page){
-	nativeAjax('get','../api/reservation/getByPerson?rperson='+re_name+'&id='+re_id+'&page='+page+'&number='+number,function(e){
+	nativeAjax('get','../api/reservation/getByPerson?rperson='+re_name+'&page='+page+'&number='+number,function(e){
 		//console.log(getResult(e));
 		var data = jsonParse(getResult(e));
+		console.log(data);
 		if(data.code!='0'){
 			document.getElementById('content_body').innerHTML = '';
 			return;
@@ -156,7 +157,6 @@ function opera(){
 
 $('#con_search').click(function(){
 	re_name = document.getElementById('re_name').value;
-	re_id = document.getElementById('re_id').value;
 	loadData(1);
 });
 

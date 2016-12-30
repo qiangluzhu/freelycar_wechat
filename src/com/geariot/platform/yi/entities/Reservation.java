@@ -121,6 +121,10 @@ public class Reservation {
 	public void setOrderOpenId(String orderOpenId) {
 		this.orderOpenId = orderOpenId;
 	}
+	@Override
+	public String toString() {
+		return "Reservation [rperson=" + rperson + "]";
+	}
 
 
 }
