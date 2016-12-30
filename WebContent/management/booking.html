@@ -114,7 +114,7 @@ function loadData(page){
 	nativeAjax('get','../api/reservation/getByPerson?rperson='+re_name+'&page='+page+'&number='+number,function(e){
 		//console.log(getResult(e));
 		var data = jsonParse(getResult(e));
-		console.log(data);
+		//console.log(data);
 		if(data.code!='0'){
 			document.getElementById('content_body').innerHTML = '';
 			return;
@@ -122,9 +122,10 @@ function loadData(page){
 		
 		var arr = data.data;
 		var html = '';
+	
+			//console.log(arr.length);
 		for(var i=0,len=arr.length;i<len;i++){
 			var obj = arr[i];
-			//console.log(obj);
 			html +='<tr id='+obj.id+'>'
             +'<td>'+(i+1)+'</td>'
             +'<td>'+obj.id+'</td>'
