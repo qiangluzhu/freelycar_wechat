@@ -25,8 +25,6 @@ public class ReservationService {
 		int start = (page-1)*number;
 		JSONObject resultObj=new JSONObject();
 		List<Reservation> list = reservationDao.getByPerson(r,start,number);
-		System.out.println(r.toString());
-		System.out.println(list.size());
 		if (list!=null&&list.size()!=0) {
 			resultObj.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
 			resultObj.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());

@@ -36,7 +36,7 @@ public class ReservationDaoImpl implements ReservationDao {
 	@Override
 	public List<Reservation> getByPerson(Reservation r, int start, int number) {
 		StringBuffer basicQueryStr;
-		basicQueryStr = new StringBuffer("from Reservation order by createTime desc");
+		basicQueryStr = new StringBuffer("from Reservation");
 		ReservationAndQueryCreator creator = new ReservationAndQueryCreator(r);
 		String creatorStr = creator.createStatement(0);
 		Query query = QueryUtils.createLocalQuery(getSession(), basicQueryStr,
@@ -56,7 +56,6 @@ public class ReservationDaoImpl implements ReservationDao {
 		Calendar date0 = Calendar.getInstance();
 		date0.setTime(beginDate0);
 		int month0=date0.get(Calendar.MONTH)+1;
-		System.out.println("month:"+month0);
 		if(month0>4){
 			for(int i=0;i<4;i++){
 				monthArr[i]=month0-3+i;

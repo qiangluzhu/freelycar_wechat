@@ -32,7 +32,7 @@ public class CompanyDaoImpl implements CompanyDao{
 	@Override
 	public List<Company> find(Company c,int start,int number) {
 		StringBuffer basicQueryStr;
-		basicQueryStr = new StringBuffer("from Company order by createTime desc");
+		basicQueryStr = new StringBuffer("from Company");
 		CompanyAndQueryCreator creator = new CompanyAndQueryCreator(c);
 		String creatorStr = creator.createStatement(0);
 		Query query = QueryUtils.createLocalQuery(getSession(), basicQueryStr,
