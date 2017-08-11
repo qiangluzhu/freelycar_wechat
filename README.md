@@ -1,1 +1,0 @@
-# freelycar_wechat
