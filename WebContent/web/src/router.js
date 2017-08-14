@@ -8,6 +8,7 @@ import AddCar from './routes/addCar/AddCar'
 import SelectCarInfo from './routes/addCar/SelectCarBrand'
 import OrderTrack from './routes/order/OrderTrack'
 import ServiceCard from './routes/service/ServiceCard'
+import OrderDetail from './routes/orderDetail/orderDetail'
 import './routes/IndexPage.less'
 function RouterConfig({ history }) {
   return (
@@ -20,6 +21,7 @@ function RouterConfig({ history }) {
       <Route path="/selectCarInfo" component={SelectCarInfo} />
       <Route path="/personalInfo" component={PersonalInfo} />
       <Route path="/serviceCard" component={ServiceCard} />
+      <Route path="/orderDetail" component={OrderDetail} />
     </Router>
   );
 }
