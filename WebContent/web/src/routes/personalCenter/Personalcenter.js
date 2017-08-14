@@ -26,7 +26,6 @@ class Personalcenter extends React.Component {
                     <div className="info-name">Anan托马斯</div>
                     <Flex justify="between">
                         <Flex.Item>个人信息 ></Flex.Item>
-                        <Flex.Item className="info-integral"><span>2000</span>积分</Flex.Item>
                     </Flex>
                 </Flex.Item>
             </Flex>
@@ -57,6 +56,16 @@ class Personalcenter extends React.Component {
                     </Flex.Item>
                 </Flex>
             </div>
+            <Flex className="center-line-box">
+                <div className="center-icon1"><img src={Vehiclemanagement_icon} alt="" /></div>
+                <p>总积分</p>
+                <Flex.Item className="vip-card-more">2000积分<img style={{ marginLeft: '.2rem' }} src={more_arrow} alt="" /></Flex.Item>
+            </Flex>
+            <Flex className="center-line-box">
+                <div className="center-icon1"><img src={Vehiclemanagement_icon} alt="" /></div>
+                <p>优惠券</p>
+                <Flex.Item className="vip-card-more">3张<img style={{ marginLeft: '.2rem' }} src={more_arrow} alt="" /></Flex.Item>
+            </Flex>
             <Flex className="center-line-box">
                 <div className="center-icon1"><img src={Vehiclemanagement_icon} alt="" /></div>
                 <p>爱车管理</p>

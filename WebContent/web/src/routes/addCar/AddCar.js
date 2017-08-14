@@ -11,7 +11,9 @@ class AddCar extends React.Component {
         this.state = {
             focused: false,
             focused1: false,
-            data: [{key:1,label:'A'},{key:2,label:'A'},{key:3,label:'A'},{key:4,label:'A'},{key:5,label:'A'}]
+            data: [{label:'B',value:'B'},{value:'A',label:'A'},{value:'C',label:'C'},{value:'D',label:'D'},{value:'E',label:'E'}],
+            province:'A',
+            city:'A'
         }
     }
 
@@ -33,26 +35,26 @@ class AddCar extends React.Component {
                     labelNumber="6"
                 >
                     <div style={{ display: 'inline-block' }}>车牌号</div>
-                    <div style={{ display: 'inline-block' }}>
+                    <div className="card-number" style={{ display: 'inline-block',marginLeft:' 2.45rem' }}>
                         <Picker
                             data={this.state.data}
                             title="选择地区"
-                            onOk={e => console.log('ok', e)}
-
+                            onOk={v => this.setState({ province: v })}
+                            value={this.state.province}
                         >
                             <List.Item arrow="down" style={{ display: 'inline-block' }}></List.Item>
                         </Picker>
-                    </div>
-                    <div style={{ display: 'inline-block' }}>
+                    </div><span className="parting-line">|</span>
+                    <div className="card-number" style={{ display: 'inline-block' }}>
                         <Picker
                             data={this.state.data}
                             title="选择城市"
-                            onOk={e => console.log('ok', e)}
-
+                            value={this.state.city}
+                            onOk={v => this.setState({ city: v })}
                         >
                             <List.Item arrow="down" style={{ display: 'inline-block' }}></List.Item>
                         </Picker>
-                    </div>
+                    </div><span className="parting-line">|</span>
                 </InputItem>
                 <Item extra="请选择品牌车系" arrow="horizontal" onClick={() => { }}>品牌车系</Item>
                 <Item extra="点击添加车型" arrow="horizontal" onClick={() => { }}>车型</Item>

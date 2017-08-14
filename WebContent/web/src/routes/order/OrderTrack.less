@@ -126,4 +126,56 @@
 
 .order-track-state {
     margin: .2rem .22rem 0;
+    padding: .4rem .42rem .86rem .1rem;
+    background: #fff;
+    
+    
+    .order-track-state-box{
+        height: 2rem;
+        color: #bbb;
+        &.active {
+            color: #5a88e5;
+            .right-box {
+                .circle{
+                    background: #5a88e5;
+                }
+            }
+        }
+        .time{
+            font-size: .18rem;
+            line-height: .28rem;
+        }
+        .right-box{
+            position: relative;
+            width: 100%;
+            margin-left: .4rem;
+            padding-left: .46rem;
+            font-size: .26rem;
+            line-height: .38rem;
+            height: 100%;
+            border-left: 2px solid #bbbbbb;
+            &.last{
+                border-left: none;
+            }
+            .circle {
+                position: absolute;
+                left: -.2rem;
+                width: .4rem;
+                height: .4rem;
+                background: #bbb;
+                border-radius: 50%;
+            }
+            .evaluate{
+                margin-top: .38rem;
+                position: absolute;
+                right: 0;
+                display: inline-block;
+                border: 1px solid #e42f2f;
+                padding:0 .12rem ;
+                font-size: .2rem;
+                border-radius: .05rem;
+                color:#e42f2f;
+            }
+        }
+    }
 }
