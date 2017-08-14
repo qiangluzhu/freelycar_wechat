@@ -11,9 +11,9 @@ class AddCar extends React.Component {
         this.state = {
             focused: false,
             focused1: false,
-            data: [{label:'B',value:'B'},{value:'A',label:'A'},{value:'C',label:'C'},{value:'D',label:'D'},{value:'E',label:'E'}],
-            province:'A',
-            city:'A'
+            data: [{ label: 'B', value: 'B' }, { value: 'A', label: '苏' }, { value: 'C', label: 'C' }, { value: 'D', label: 'D' }, { value: 'E', label: 'E' }],
+            province: ['A'],
+            city: ['B']
         }
     }
 
@@ -35,22 +35,20 @@ class AddCar extends React.Component {
                     labelNumber="6"
                 >
                     <div style={{ display: 'inline-block' }}>车牌号</div>
-                    <div className="card-number" style={{ display: 'inline-block',marginLeft:' 2.45rem' }}>
+                    <div className="card-number" style={{ display: 'inline-block', marginLeft: ' 2.25rem' }}>
                         <Picker
-                            data={this.state.data}
-                            title="选择地区"
-                            onOk={v => this.setState({ province: v })}
+                            data={this.state.data}  cols={1} {...getFieldProps('district3') }
                             value={this.state.province}
+                            onOk={v => this.setState({ province: v + '' })}
                         >
                             <List.Item arrow="down" style={{ display: 'inline-block' }}></List.Item>
                         </Picker>
                     </div><span className="parting-line">|</span>
                     <div className="card-number" style={{ display: 'inline-block' }}>
                         <Picker
-                            data={this.state.data}
-                            title="选择城市"
+                            data={this.state.data}   cols={1} {...getFieldProps('district3') }
                             value={this.state.city}
-                            onOk={v => this.setState({ city: v })}
+                            onOk={v => this.setState({ city: v + '' })}
                         >
                             <List.Item arrow="down" style={{ display: 'inline-block' }}></List.Item>
                         </Picker>
