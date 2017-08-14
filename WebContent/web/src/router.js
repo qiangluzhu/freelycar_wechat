@@ -9,6 +9,8 @@ import SelectCarInfo from './routes/addCar/SelectCarBrand'
 import OrderTrack from './routes/order/OrderTrack'
 import ServiceCard from './routes/service/ServiceCard'
 import OrderDetail from './routes/orderDetail/orderDetail'
+import OrderDetail_nopay from './routes/orderDetail/orderDetail_nopay'
+import OrderDetail_vip from './routes/orderDetail/orderDetail_vip'
 import './routes/IndexPage.less'
 function RouterConfig({ history }) {
   return (
@@ -22,6 +24,8 @@ function RouterConfig({ history }) {
       <Route path="/personalInfo" component={PersonalInfo} />
       <Route path="/serviceCard" component={ServiceCard} />
       <Route path="/orderDetail" component={OrderDetail} />
+      <Route path="/orderDetail_nopay" component={OrderDetail_nopay} />
+      <Route path="/orderDetail_vip" component={OrderDetail_vip} />
     </Router>
   );
 }
