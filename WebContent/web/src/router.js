@@ -13,13 +13,17 @@ import ServiceCard from './routes/service/ServiceCard'
 import OrderDetail from './routes/orderDetail/orderDetail'
 import OrderDetail_nopay from './routes/orderDetail/orderDetail_nopay'
 import OrderDetail_vip from './routes/orderDetail/orderDetail_vip'
+
+
 import MyCardDetail from './routes/membership/MyCardDetail'
 import MyCard from './routes/membership/MyCard'
+import MyPoints from './routes/membership/MyPoints'
+
 import './routes/IndexPage.less'
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
-      <Route path="/" component={MyCardDetail} />
+      <Route path="/" component={MyPoints} />
       <Route path="/center" component={Personalcenter} />
       <Route path="/login" component={Login} />
 
@@ -37,6 +41,7 @@ function RouterConfig({ history }) {
 
       <Route path="/membership/mycard" component={MyCard} />
       <Route path="/membership/mycard/detail" component={MyCardDetail}/>
+      <Route path="/membership/mypoints" component={MyPoints}/>
     </Router>
   );
 }
