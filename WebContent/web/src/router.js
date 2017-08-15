@@ -13,7 +13,11 @@ import ServiceCard from './routes/service/ServiceCard'
 import OrderDetail from './routes/orderDetail/orderDetail'
 import OrderDetail_nopay from './routes/orderDetail/orderDetail_nopay'
 import OrderDetail_vip from './routes/orderDetail/orderDetail_vip'
+<<<<<<< HEAD
 
+=======
+import AddCard from './routes/addCard/addCard'
+>>>>>>> 71ea855bc4fd5bb69aed84f27220202b6b230eef
 
 import MyCardDetail from './routes/membership/MyCardDetail'
 import MyCard from './routes/membership/MyCard'
@@ -38,7 +42,7 @@ function RouterConfig({ history }) {
       <Route path="/orderDetail" component={OrderDetail} />
       <Route path="/orderDetail_nopay" component={OrderDetail_nopay} />
       <Route path="/orderDetail_vip" component={OrderDetail_vip} />
-
+      <Route path="/addCard" component={AddCard} />
       <Route path="/membership/mycard" component={MyCard} />
       <Route path="/membership/mycard/detail" component={MyCardDetail}/>
       <Route path="/membership/mypoints" component={MyPoints}/>
