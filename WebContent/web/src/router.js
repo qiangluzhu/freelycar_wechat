@@ -15,23 +15,30 @@ import OrderDetail_nopay from './routes/orderDetail/orderDetail_nopay'
 import OrderDetail_vip from './routes/orderDetail/orderDetail_vip'
 import AddCard from './routes/addCard/addCard'
 
+import MyCardDetail from './routes/membership/MyCardDetail'
+import MyCard from './routes/membership/MyCard'
 import './routes/IndexPage.less'
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
-      <Route path="/" component={SelectCarInfo} />
+      <Route path="/" component={MyCardDetail} />
       <Route path="/center" component={Personalcenter} />
       <Route path="/login" component={Login} />
-      <Route path="/addcar" component={AddCar}/>
-      <Route path="/addcar/carbrand" component={CarBrand}/>
-      <Route path="/ordertrack" component={OrderTrack}/>
+
+      <Route path="/addcar" component={AddCar} />
+      <Route path="/addcar/carbrand" component={CarBrand} />
+
+      <Route path="/ordertrack" component={OrderTrack} />
       <Route path="/selectCarInfo" component={SelectCarInfo} />
       <Route path="/personalInfo" component={PersonalInfo} />
       <Route path="/serviceCard" component={ServiceCard} />
+
       <Route path="/orderDetail" component={OrderDetail} />
       <Route path="/orderDetail_nopay" component={OrderDetail_nopay} />
       <Route path="/orderDetail_vip" component={OrderDetail_vip} />
       <Route path="/addCard" component={AddCard} />
+      <Route path="/membership/mycard" component={MyCard} />
+      <Route path="/membership/mycard/detail" component={MyCardDetail}/>
     </Router>
   );
 }
