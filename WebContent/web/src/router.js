@@ -13,11 +13,8 @@ import ServiceCard from './routes/service/ServiceCard'
 import OrderDetail from './routes/orderDetail/orderDetail'
 import OrderDetail_nopay from './routes/orderDetail/orderDetail_nopay'
 import OrderDetail_vip from './routes/orderDetail/orderDetail_vip'
-<<<<<<< HEAD
 
-=======
 import AddCard from './routes/addCard/addCard'
->>>>>>> 71ea855bc4fd5bb69aed84f27220202b6b230eef
 
 import MyCardDetail from './routes/membership/MyCardDetail'
 import MyCard from './routes/membership/MyCard'
