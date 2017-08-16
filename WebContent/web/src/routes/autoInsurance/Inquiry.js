@@ -10,9 +10,9 @@ class Inquiry extends React.Component {
         }
     }
     componentDidMount() {
-        new Swiper(this.swiperID, {
+      let mySwiper = new Swiper(this.swiperID, {
             direction: 'horizontal',
-            loop: true,
+            loop: false,
             
             // 如果需要分页器
             pagination: '.swiper-pagination',
@@ -21,7 +21,7 @@ class Inquiry extends React.Component {
     render() {
         return <div>
             <NavBar title={'车险询价'}></NavBar>
-            <div className="swiper-container"  ref={self => this.swiperID = self} style={{width:'100%'}} >
+            <div className="swiper-container"  ref={self => this.swiperID = self}>
                 <div className="swiper-wrapper">
                     <div className="swiper-slide">Slide 1</div>
                     <div className="swiper-slide">Slide 2</div>
