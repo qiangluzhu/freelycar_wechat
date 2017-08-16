@@ -1,7 +1,6 @@
 import React from 'react';
 import { Flex } from 'antd-mobile'
 import './addCard.less'
-import Swiper from 'react-swipe';
 import NavBar from '../../components/NavBar'
 import gold_card from '../../img/gold_card.png'
 import wgold_card from '../../img/wgold_card.png'
