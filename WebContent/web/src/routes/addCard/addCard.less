@@ -11,7 +11,6 @@
         width: 25%;
         margin: 0;
         position: relative;
-        display: inline-block;
         img{
             display:block;
             width:.92rem;
@@ -23,6 +22,10 @@
             color: #fff;
             text-align: center;
             margin-top: .12rem;
+        }
+
+        .hidden{
+            display: none;
         }
 
         .arrow{
@@ -38,4 +41,67 @@
             margin-left: -.16rem;
         }
     }
+}
+
+
+.vip-service{
+    position: absolute;
+    top: 2.86rem;
+    bottom: 0;
+    width: 100%;
+    background-color: #f0f0f0;
+
+    .vip-service-div{
+        height: 100%;
+        margin-top: .28rem;
+        margin-right: .22rem;
+        margin-left: .22rem;
+        border-top-left-radius: .25rem;
+        border-top-right-radius:.25rem;
+        background-color: #fff;
+        .vip-service-header{
+         /* Safari 5.1 - 6.0 */
+            background: -webkit-linear-gradient(right, #e7d895, #dad4ae);
+            background: -moz-linear-gradient(right, #e7d895, #dad4ae);
+            background: -o-linear-gradient(right, #e7d895, #dad4ae);
+            background: linear-gradient(to left, #e7d895, #dad4ae); /* Opera 11.1 - 12.0 */
+         /* Firefox 3.6 - 15 */
+         /* 标准的语法 */
+            border-top-left-radius: .25rem;
+            border-top-right-radius:.25rem;
+            height: .79rem;
+            line-height: .79rem;
+            padding-left: .25rem;
+            font-weight: 600;
+        }
+
+
+        .vip-service-item{
+            height: .76rem;
+            border-bottom: 1px solid #e8e8e8;
+            padding-left: .22rem;
+            padding-right: .22rem;
+
+            .label-left{
+                height: .76rem;
+                line-height: .76rem;
+                float: left;
+            }
+            .label-right{
+                height: .76rem;
+                line-height: .76rem;
+                float: right;
+
+                .count{
+                    font-size: 1.5em;
+                }
+
+                .unit{
+                    font-size: .5em;
+                }
+            }
+        }
+
+    }
+
 }
