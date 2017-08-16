@@ -37,7 +37,7 @@ export default {
   },
   proxy: {
     "/api": {
-      "target": "http://192.168.0.105:8081/freelycar/api/",
+      "target": "http://172.17.3.106:8500/freelycar/api/",
       "changeOrigin": true,
       "pathRewrite": { "^/api": "" }
     }

@@ -19,12 +19,13 @@ import AddCard from './routes/addCard/addCard'
 import MyCardDetail from './routes/membership/MyCardDetail'
 import MyCard from './routes/membership/MyCard'
 import MyPoints from './routes/membership/MyPoints'
-
+//车险询价
+import Inquiry from './routes/autoInsurance/Inquiry'
 import './routes/IndexPage.less'
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
-      <Route path="/" component={MyPoints} />
+      <Route path="/" component={IndexPage} />
       <Route path="/center" component={Personalcenter} />
       <Route path="/login" component={Login} />
 
@@ -43,6 +44,8 @@ function RouterConfig({ history }) {
       <Route path="/membership/mycard" component={MyCard} />
       <Route path="/membership/mycard/detail" component={MyCardDetail}/>
       <Route path="/membership/mypoints" component={MyPoints}/>
+
+      <Route path="/insurance/inquiry" component={Inquiry}/>
     </Router>
   );
 }

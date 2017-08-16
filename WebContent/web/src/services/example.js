@@ -5,6 +5,6 @@ export default {
     return request('/api/users');
   },
   add: (option) => {
-    return request('/api/staff/delete',option)
+    return request('/api/car/listbrandtest',option)
   }
 } 
