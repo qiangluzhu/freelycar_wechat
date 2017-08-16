@@ -25,7 +25,7 @@ import './routes/IndexPage.less'
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
-      <Route path="/" component={IndexPage} />
+      <Route path="/" component={Inquiry} />
       <Route path="/center" component={Personalcenter} />
       <Route path="/login" component={Login} />
 
