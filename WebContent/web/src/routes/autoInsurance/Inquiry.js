@@ -84,7 +84,7 @@ class Inquiry extends React.Component {
             </div>
             <div className="cooperative-agency">
                 <div className="title">合作机构</div>
-                <div className="list-body" >
+                <div className="list-body clear" >
                     <div className="list-item"></div>
                     <div className="list-item"></div>
                     <div className="list-item"></div>
