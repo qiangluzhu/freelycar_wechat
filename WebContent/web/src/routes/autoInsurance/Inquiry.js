@@ -1,5 +1,4 @@
 import React from 'react';
-import Swiper from 'swiper';
 import NavBar from '../../components/NavBar'
 import './Inquiry.less'
 class Inquiry extends React.Component {
@@ -10,25 +9,24 @@ class Inquiry extends React.Component {
         }
     }
     componentDidMount() {
-      let mySwiper = new Swiper(this.swiperID, {
+        let mySwiper = new Swiper(this.swiperID, {
             direction: 'horizontal',
             loop: false,
-            
             // 如果需要分页器
             pagination: '.swiper-pagination',
         });
     }
     render() {
         return <div>
+
             <NavBar title={'车险询价'}></NavBar>
-            <div className="swiper-container"  ref={self => this.swiperID = self}>
-                <div className="swiper-wrapper">
-                    <div className="swiper-slide">Slide 1</div>
-                    <div className="swiper-slide">Slide 2</div>
-                    <div className="swiper-slide">Slide 3</div>
-                </div>
-                <div className="swiper-pagination"></div>
+            <div className="swiper-container" ref={self => this.swiperID = self}>
+            <div className="swiper-wrapper banner-img">
+                <div className="swiper-slide ">Slide 1</div>
+                <div className="swiper-slide ">Slide 2</div>
             </div>
+            <div className="swiper-pagination"></div>
+        </div>
         </div>
     }
 }
