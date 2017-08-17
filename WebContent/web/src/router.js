@@ -24,11 +24,12 @@ import Inquiry from './routes/autoInsurance/Inquiry'
 
 //门店 
 import CooperativeStore from './routes/store/CooperativeStore'
+import StoreDetail from './routes/store/StoreDetail'
 import './routes/IndexPage.less'
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
-      <Route path="/" component={CooperativeStore} />
+      <Route path="/" component={StoreDetail} />
       <Route path="/center" component={Personalcenter} />
       <Route path="/login" component={Login} />
 

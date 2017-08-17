@@ -1,6 +1,6 @@
 .cooperative-store-list {
     padding: .28rem .22rem;
-    margin-bottom: .1rem;
+
     background: #fff;
     .store-name {
         font-size: .36rem;
@@ -48,5 +48,92 @@
         line-height: .2rem;
         color: #fff;
         background: #5a88e5;
+    }
+}
+
+
+.store-detail {
+    // .cooperative-store-coupon {
+    //     width: 6.25rem !important;
+    // }
+    .store-detail-title {
+        height: .82rem;
+        margin-bottom: 4px;
+        background: #fff;
+        .sign {
+            width: .07rem;
+            height: .3rem;
+            background: #5987E5;
+        }
+        .title {
+            margin-left: .4rem;
+        }
+    }
+
+    .coupon {
+        width: 6.25rem;
+        .money {
+            padding: 0 .24rem;
+            font-size: .36rem;
+            color: #e42f2f;
+        }
+        .parting-line {
+            height: 100%;
+            width: .1rem;
+            background: url('../../img/item_segmented.png') 0 -5px;
+            background-size: .1rem 1.35rem;
+        }
+    }
+    .use-button {
+        margin-left: auto;
+        padding: .05rem .07rem;
+        margin-right: .22rem;
+        line-height: .16rem;
+        font-size: .14rem;
+        color: #ee5e5e;
+        border-radius: .05rem;
+        border: 1px solid #ee5e5e;
+    }
+    .coupon-info {
+        box-sizing:border-box;
+        -moz-box-sizing:border-box; /* Firefox */
+        -webkit-box-sizing:border-box; /* Safari */
+        width: 100%;
+        padding: 0 .22rem;
+        font-size: .16rem;
+        height: .46rem;
+        line-height: .46rem;
+        color: #8c8c8c;
+        background: #fafafa;
+        .phone {
+            float: left;
+        }
+        .time {
+            float: right;
+        }
+    }
+    .store-service {
+        background: #fff;
+        .am-tabs-ink-bar  {
+            margin-left: 25%;
+            left: -70px;
+            width: 140px !important;
+            background: #5a88e5;
+        }
+        .am-tabs-bar .am-tabs-tab {
+            border-bottom: none;
+        }
+        .am-tabs-bar .am-tabs-tab-active {
+            color: #1e1e1e;
+        }
+        .tabpane1{
+            padding-right: 50%;
+            .am-tabs-bar .am-tabs-tab-active {
+                color: #5a88e5;
+            }
+            .am-tabs-ink-bar {
+                display: none !important;
+            }
+        }
     }
 }

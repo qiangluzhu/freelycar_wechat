@@ -20,7 +20,7 @@ class CooperativeStore extends React.Component {
         return <div>
             <NavBar title="合作门店" />
             <div>
-                <Flex className="cooperative-store-list">
+                <Flex className="cooperative-store-list" style={{marginBottom: '.1rem'}}>
                     <Flex className="picture">
                         <img src="" alt="" />
                     </Flex>
