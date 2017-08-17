@@ -25,11 +25,13 @@ import Inquiry from './routes/autoInsurance/Inquiry'
 //爱车信息
 import CarInfo from './routes/carInfo/CarInfo'
 
+//门店 
+import CooperativeStore from './routes/store/CooperativeStore'
 import './routes/IndexPage.less'
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
-      <Route path="/" component={Inquiry} />
+      <Route path="/" component={CooperativeStore} />
       <Route path="/center" component={Personalcenter} />
       <Route path="/login" component={Login} />
 
@@ -53,6 +55,7 @@ function RouterConfig({ history }) {
 
       
       <Route path="/carInfo" component={CarInfo}/>
+      <Route path="/store/cooperative-store" component={CooperativeStore}/>
     </Router>
   );
 }
