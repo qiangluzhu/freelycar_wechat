@@ -21,11 +21,14 @@ import MyCard from './routes/membership/MyCard'
 import MyPoints from './routes/membership/MyPoints'
 //车险询价
 import Inquiry from './routes/autoInsurance/Inquiry'
+
+//门店 
+import CooperativeStore from './routes/store/CooperativeStore'
 import './routes/IndexPage.less'
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
-      <Route path="/" component={Inquiry} />
+      <Route path="/" component={CooperativeStore} />
       <Route path="/center" component={Personalcenter} />
       <Route path="/login" component={Login} />
 
@@ -46,6 +49,8 @@ function RouterConfig({ history }) {
       <Route path="/membership/mypoints" component={MyPoints}/>
 
       <Route path="/insurance/inquiry" component={Inquiry}/>
+
+      <Route path="/store/cooperative-store" component={CooperativeStore}/>
     </Router>
   );
 }

@@ -11,7 +11,7 @@ function handleTabClick(key) {
     console.log('onTabClick', key);
 }
 
-class PersonalInfo extends React.Component {
+class ServiceCard extends React.Component {
 
     constructor(props) {
         super(props)
@@ -104,4 +104,4 @@ class PersonalInfo extends React.Component {
     }
 
 }
-export default PersonalInfo
+export default ServiceCard
