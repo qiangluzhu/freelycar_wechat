@@ -21,6 +21,10 @@ import MyCard from './routes/membership/MyCard'
 import MyPoints from './routes/membership/MyPoints'
 //车险询价
 import Inquiry from './routes/autoInsurance/Inquiry'
+
+//爱车信息
+import CarInfo from './routes/carInfo/CarInfo'
+
 import './routes/IndexPage.less'
 function RouterConfig({ history }) {
   return (
@@ -46,6 +50,9 @@ function RouterConfig({ history }) {
       <Route path="/membership/mypoints" component={MyPoints}/>
 
       <Route path="/insurance/inquiry" component={Inquiry}/>
+
+      
+      <Route path="/carInfo" component={CarInfo}/>
     </Router>
   );
 }
