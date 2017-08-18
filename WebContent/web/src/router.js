@@ -25,6 +25,9 @@ import Inquiry from './routes/autoInsurance/Inquiry'
 //爱车信息
 import CarInfo from './routes/carInfo/CarInfo'
 
+//保险信息
+import Insurance from './routes/insuranceInfo/Insurance'
+
 //门店 
 import CooperativeStore from './routes/store/CooperativeStore'
 import StoreDetail from './routes/store/StoreDetail'
@@ -57,6 +60,9 @@ function RouterConfig({ history }) {
       
       <Route path="/carInfo" component={CarInfo}/>
       <Route path="/store/cooperative-store" component={CooperativeStore}/>
+
+      <Route path="/insurance" component={Insurance}/>
+
     </Router>
   );
 }

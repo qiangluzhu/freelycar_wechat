@@ -6,6 +6,7 @@ import NavBar from '../../components/NavBar'
 import car_icon from '../../img/car_icon.jpg'
 import insurance from '../../img/insurance.png'
 import annualInspection from '../../img/annualInspection.png'
+import more_arrow from '../../img/more_arrow.png'
 
 class CarInfo extends React.Component {
 
@@ -13,7 +14,9 @@ class CarInfo extends React.Component {
         super(props)
         this.state = {
             insuranceSwitch: false,//保险提醒开关
+            insuranceTip: false,//保险tip
             annualInspection: false,//年检开关
+            inspectionTip: false,//年检tip
         }
     }
 
@@ -35,14 +38,16 @@ class CarInfo extends React.Component {
     //处理保险提醒
     OnHanleinsurance = (checked) => {
         this.setState({
-            insuranceSwitch: checked
+            insuranceSwitch: checked,
+            insuranceTip:!this.state.insuranceTip
         });
     }
 
     //处理年检提醒
     OnHanleAnnualInspection = (checked) => {
         this.setState({
-            annualInspection: checked
+            annualInspection: checked,
+           inspectionTip:!this.state.inspectionTip
         });
     }
 
@@ -87,22 +92,34 @@ class CarInfo extends React.Component {
 
 
 
-            <List className='remind-item' style={{margin:'10px'}}>
+            <List className='remind-item' style={{ margin: '10px' }}>
                 <List.Item extra={<Switch checked={this.state.insuranceSwitch}
-                    onClick={(checked) => { this.OnHanleinsurance(checked) }} />}
-                >
-                    <img src={insurance} alt="" />
-                    保险提醒</List.Item>
-            <div className='remind-tip'></div>
+                    onClick={(checked) => { this.OnHanleinsurance(checked) }} />}>
+                    <Flex>
+                        <img className='icon' src={insurance} alt="" />
+                        保险提醒
+                    </Flex>
+                </List.Item>
+                <Flex className='remind-tip' style={{display:this.state.insuranceTip?'':'none'}}>
+                    <div>距离下次续保时间还有<span className='day'>28</span>天</div>
+                    <img src={more_arrow} alt="" className='more'/>
+                </Flex>
             </List>
 
-            <List>
+            <List className='remind-item' style={{ margin: '10px' }}>
                 <List.Item extra={<Switch checked={this.state.annualInspection}
-                    onClick={(checked) => { this.OnHanleAnnualInspection(checked) }} />}
-                >
-                    <img src={annualInspection} alt="" />
-                    保险提醒</List.Item>
+                    onClick={(checked) => { this.OnHanleAnnualInspection(checked) }} />}>
+                    <Flex>
+                        <img className='icon' src={annualInspection} alt="" />
+                        年检提醒
+                    </Flex>
+                </List.Item>
+                <Flex className='remind-tip' style={{display:this.state.inspectionTip?'':'none'}}>
+                    <div>距离下次续保时间还有<span className='day'>28</span>天</div>
+                    <img src={more_arrow} alt="" className='more'/>
+                </Flex>
             </List>
+
 
         </div>
     }
