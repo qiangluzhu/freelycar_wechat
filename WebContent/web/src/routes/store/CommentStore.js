@@ -23,6 +23,9 @@ class CommentStore extends React.Component {
     render() {
         return <div>
             <NavBar title="合作门店" />
+            <div className="comment-store">
+
+            </div>
             <CommentStar setScore={this.setScore} nowStar={this.state.nowStar}/>
         </div>
     }
