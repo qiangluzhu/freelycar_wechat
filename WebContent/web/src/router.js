@@ -31,11 +31,12 @@ import Insurance from './routes/insuranceInfo/Insurance'
 //门店 
 import CooperativeStore from './routes/store/CooperativeStore'
 import StoreDetail from './routes/store/StoreDetail'
+import CommentStore from './routes/store/CommentStore'
 import './routes/IndexPage.less'
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
-      <Route path="/" component={StoreDetail} />
+      <Route path="/" component={CommentStore} />
       <Route path="/center" component={Personalcenter} />
       <Route path="/login" component={Login} />
 
@@ -60,7 +61,8 @@ function RouterConfig({ history }) {
       
       <Route path="/carInfo" component={CarInfo}/>
       <Route path="/store/cooperative-store" component={CooperativeStore}/>
-
+      <Route path="/store/comment" component={CommentStore}/>
+      
       <Route path="/insurance" component={Insurance}/>
 
     </Router>

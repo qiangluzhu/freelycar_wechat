@@ -1,30 +1,15 @@
 import React from 'react';
 
 
-class CommentStar extends React.Component{
-    constructor(props) {
-        super(props)
-        this.state = {
-        }
-    }
 
-    
-
-    render(){
+function CommentStar({ nowStar, setScore}) {
+    let stars = [1,2,3,4,5]
+        let shows = Object.keys(stars).map((item, index) => {
+            return <div key={index} className={nowStar > index ? 'star big' : 'empty-star big'} onClick={() => { setScore(index+1) }}></div>
+        })
         return <div className='star-comment'>
-        <div className="clear"><div className="empty-star"></div><div className="empty-star"></div><div className="empty-star"></div><div className="empty-star"></div><div className="empty-star"></div></div>
-        <div></div>
-        <div style={{ width: `${(number * 18 + (number) * 7.5) / 100}rem` }} className="clear top-star"><div className="star"></div><div className="star"></div><div className="star"></div><div className="star"></div><div className="star"></div></div>
-        <div></div>
-    </div>
-    }
+            <div className="clear">{shows}</div>
+            <div></div>
+        </div>
 }
-// function CommentStar({ number }) {
-//     return <div className='star-comment'>
-//         <div className="clear"><div className="empty-star"></div><div className="empty-star"></div><div className="empty-star"></div><div className="empty-star"></div><div className="empty-star"></div></div>
-//         <div></div>
-//         <div style={{ width: `${(number * 18 + (number) * 7.5) / 100}rem` }} className="clear top-star"><div className="star"></div><div className="star"></div><div className="star"></div><div className="star"></div><div className="star"></div></div>
-//         <div></div>
-//     </div>
-// }
 export default CommentStar
