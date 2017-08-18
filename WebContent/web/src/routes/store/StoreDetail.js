@@ -48,7 +48,7 @@ class CooperativeStore extends React.Component {
                 </Flex>
                 <Flex direction="column" align="start" justify="between" style={{ height: '1.6rem', width: '5.24rem' }}>
                     <div className="store-name">
-                        小易爱车
+                        小易爱车   <span style={{fontSize:'.18rem',color:'#e42f2f',marginLeft:'.14rem'}}>5.0分</span>
                     </div>
                     <Flex className="address" style={{ width: "100%" }}>
                         <div className="address-icon"></div>
