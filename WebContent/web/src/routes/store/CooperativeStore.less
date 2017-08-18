@@ -12,6 +12,7 @@
         background: #b5b5b5;
     }
     .address {
+        position: relative;
         .address-icon {
             width: .12rem;
             height: .14rem;
@@ -26,8 +27,19 @@
         width: .5rem;
         height: .5rem;
         background: #5987E5;
+        &.tel-icon{
+            
+            background: url('../../img/button_phone.png') center center no-repeat;
+            background-size: 100% 100%;
+        }
+        &.address-icon {
+            bottom: 0;
+            background: url('../../img/button_address.png') center center no-repeat;
+            background-size: 100% 100%;
+        }
     }
     .time {
+        position: relative;
         .time-icon{
             width: .12rem;
             height: .14rem;
@@ -40,15 +52,18 @@
         color: #b5b5b5;
         font-size: .26rem;
     }
-    .identification {
-        display: inline-block;
-        padding: .04rem .08rem;
-        margin-right: .2rem;
-        font-size: .16rem;
-        line-height: .2rem;
-        color: #fff;
-        background: #5a88e5;
-    }
+    .info-identify{
+        margin-left: .35rem;
+        .identification {
+            display: inline-block;
+            padding: .04rem .08rem;
+            margin-right: .2rem;
+            font-size: .16rem;
+            line-height: .2rem;
+            color: #fff;
+            background: #5a88e5;
+        }
+    }   
 }
 
 
@@ -113,6 +128,7 @@
         }
     }
     .store-service {
+        margin-top: .32rem;
         background: #fff;
         .am-tabs-ink-bar  {
             margin-left: 25%;

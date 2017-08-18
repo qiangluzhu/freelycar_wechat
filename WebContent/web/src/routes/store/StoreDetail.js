@@ -53,7 +53,7 @@ class CooperativeStore extends React.Component {
                     <Flex className="address" style={{ width: "100%" }}>
                         <div className="address-icon"></div>
                         <p className="info-font">南京市苏宁诺富特酒店B2</p>
-                        <div className="icon"></div>
+                        <div className="icon tel-icon"></div>
                     </Flex>
                     <Flex className="time" align="end" style={{ width: "100%" }}>
                         <div>
@@ -61,12 +61,12 @@ class CooperativeStore extends React.Component {
                                 <div className="time-icon"></div>
                                 营业时间：8:20-20:00
                                 </Flex>
-                            <div>
+                            <div className="info-identify">
                                 <span className="identification">免费安全监测</span>
                                 <span className="identification">下雨保</span>
                             </div>
                         </div>
-                        <div className="icon"></div>
+                        <div className="icon address-icon"></div>
                     </Flex>
                 </Flex>
             </Flex>
@@ -83,8 +83,8 @@ class CooperativeStore extends React.Component {
                                 <div className="parting-line"></div>
                                 <Flex style={{ flex: 'auto' }}>
                                     <Flex direction="column" align="start">
-                                        <div>洗车抵扣券</div>
-                                        <div>洗车项目时可直接抵扣</div>
+                                        <div  style={{fontSize:'.3rem',marginLeft:'.2rem'}}>洗车抵扣券</div>
+                                        <div style={{fontSize:'.2rem',lineHeight:'.3rem',marginLeft:'.2rem'}}>洗车项目时可直接抵扣</div>
                                     </Flex>
                                     <div className="use-button">
                                         立即使用
@@ -104,8 +104,8 @@ class CooperativeStore extends React.Component {
                                 <div className="parting-line"></div>
                                 <Flex style={{ flex: 'auto', marginLeft: '.2rem' }}>
                                     <Flex direction="column" align="start">
-                                        <div>洗车抵扣券</div>
-                                        <div>洗车项目时可直接抵扣</div>
+                                        <div style={{fontSize:'.3rem',marginLeft:'.2rem'}}>洗车抵扣券</div>
+                                        <div style={{fontSize:'.2rem',lineHeight:'.3rem',marginLeft:'.2rem'}}>洗车项目时可直接抵扣</div>
                                     </Flex>
                                     <div className="use-button">
                                         立即使用
@@ -120,7 +120,7 @@ class CooperativeStore extends React.Component {
                     </div>
                 </div>
             </div>
-            <div style={{ height: '.21rem', background: '#fff', marginTop: '.04rem', borderBottom: '1px solid #dfdfe1' }}>
+            <div style={{ height: '.21rem', background: '#fff', marginTop: '.04rem'}}>
             </div>
             <Tabs defaultActiveKey="1" swipeable underlineColor="#5a88e5" className="store-service">
                 <TabPane tab='门店服务' key="1" >
