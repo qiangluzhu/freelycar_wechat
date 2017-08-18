@@ -31,7 +31,6 @@ class CooperativeStore extends React.Component {
                         <Flex className="address" style={{ width: "100%" }}>
                             <div className="address-icon"></div>
                             <p className="info-font">南京市苏宁诺富特酒店B2</p>
-                            <div className="icon tel-icon"></div>
                         </Flex>
                         <Flex className="time" align="end" style={{ width: "100%" }}>
                             <div>
@@ -44,7 +43,6 @@ class CooperativeStore extends React.Component {
                                     <span className="identification">下雨保</span>
                                 </div>
                             </div>
-                            <div className="icon address-icon"></div>
                         </Flex>
                     </Flex>
                 </Flex>
@@ -60,7 +58,6 @@ class CooperativeStore extends React.Component {
                         <Flex className="address" style={{ width: "100%" }}>
                             <div className="address-icon"></div>
                             <p className="info-font">南京市苏宁诺富特酒店B2</p>
-                            <div className="icon tel-icon"></div>
                         </Flex>
                         <Flex className="time" align="end" style={{ width: "100%" }}>
                             <div>
@@ -73,7 +70,6 @@ class CooperativeStore extends React.Component {
                                     <span className="identification">下雨保</span>
                                 </div>
                             </div>
-                            <div className="icon address-icon"></div>
                         </Flex>
                     </Flex>
                 </Flex>
