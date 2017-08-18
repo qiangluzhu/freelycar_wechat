@@ -1,6 +1,7 @@
 import React from 'react';
 import { Flex, Tabs } from 'antd-mobile';
 import NavBar from '../../components/NavBar'
+import Star from '../../components/Star'
 import './CooperativeStore.less'
 
 const TabPane = Tabs.TabPane
@@ -99,7 +100,7 @@ class CooperativeStore extends React.Component {
                     <div className="swiper-slide cooperative-store-coupon">
                         <Flex className="coupon" direction="column" align="start">
                             <Flex style={{ height: '1.16rem', background: '#fff', width: '100%' }}>
-                                <div className="money">￥25</div>
+                                <div className="money">￥1000</div>
                                 <div className="parting-line"></div>
                                 <Flex style={{ flex: 'auto', marginLeft: '.2rem' }}>
                                     <Flex direction="column" align="start">
@@ -124,16 +125,73 @@ class CooperativeStore extends React.Component {
             <Tabs defaultActiveKey="1" swipeable underlineColor="#5a88e5" className="store-service">
                 <TabPane tab='门店服务' key="1" >
                     <Tabs defaultActiveKey="1" swipeable underlineColor="#5a88e5" className="tabpane1" >
-                        <TabPane tab='汽车美容' key="1" >
-
+                        <TabPane tab='汽车美容' key="1" style={{ borderTop: '1px solid #dfdfe1' }} >
+                            <Flex style={{ width: '100%', borderBottom: '1px solid #dfdfe1' }} >
+                                <div >
+                                    <Flex direction="column" align="start" justify="center" style={{ height: '1.3rem' }}>
+                                        <div className="beauty-title">普洗</div>
+                                        <div className="beauty-aim">整车泡沫冲洗，车内洗尘，内饰简单清洁除尘</div>
+                                    </Flex>
+                                </div>
+                                <div className="money">
+                                    ￥1000
+                                </div>
+                            </Flex>
+                            <Flex style={{ width: '100%', borderBottom: '1px solid #dfdfe1' }} >
+                                <div >
+                                    <Flex direction="column" align="start" justify="center" style={{ height: '1.3rem' }}>
+                                        <div className="beauty-title">普洗</div>
+                                        <div className="beauty-aim">整车泡沫冲洗，车内洗尘，内饰简单清洁除尘</div>
+                                    </Flex>
+                                </div>
+                                <div className="money">
+                                    ￥25
+                                </div>
+                            </Flex>
                         </TabPane>
-                        <TabPane tab='维修保养' key="2">
-
+                        <TabPane tab='维修保养' key="2" style={{ borderTop: '1px solid #dfdfe1' }}>
+                            <Flex style={{ width: '100%', borderBottom: '1px solid #dfdfe1' }} >
+                                <div >
+                                    <Flex direction="column" align="start" justify="center" style={{ height: '1.3rem' }}>
+                                        <div className="beauty-title">普洗</div>
+                                        <div className="beauty-aim">整车泡沫冲洗，车内洗尘，内饰简单清洁除尘</div>
+                                    </Flex>
+                                </div>
+                                <div className="money">
+                                    ￥25
+                                </div>
+                            </Flex>
+                            <Flex style={{ width: '100%',borderBottom:'1px solid #dfdfe1' }} >
+                                <div >
+                                    <Flex direction="column" align="start" justify="center" style={{height:'1.3rem'}}>
+                                        <div className="beauty-title">普洗</div>
+                                        <div className="beauty-aim">整车泡沫冲洗，车内洗尘，内饰简单清洁除尘</div>
+                                    </Flex>
+                                </div>
+                                <div className="money">
+                                    ￥25
+                                </div>
+                            </Flex>
                         </TabPane>
                     </Tabs>
                 </TabPane>
-                <TabPane tab='门店评价' key="2">
-
+                <TabPane tab='门店评价' key="2" className="tabpane2">
+                    <Flex className="comment" align="start">
+                        <div className="avatar"><img/></div>
+                        <Flex.Item>
+                            <div style={{width:'100%'}}><span className="phone">1559****5565</span><span className="time">2017-08-23</span></div>
+                           <Star number={1}> </Star>
+                           <div className="introduction">整车泡沫冲洗，车内洗尘，内饰简单清洁除尘 </div>
+                        </Flex.Item>
+                    </Flex>
+                    <Flex className="comment" align="start">
+                        <div className="avatar"><img/></div>
+                        <Flex.Item>
+                            <div style={{width:'100%'}}><span className="phone">1559****5565</span><span className="time">2017-08-23</span></div>
+                           <Star number={1}> </Star>
+                           <div className="introduction">整车泡沫冲洗，车内洗尘，内饰简单清洁除尘 </div>
+                        </Flex.Item>
+                    </Flex>
                 </TabPane>
             </Tabs>
         </div>

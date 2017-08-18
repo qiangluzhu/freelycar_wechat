@@ -16,7 +16,7 @@
             width: .12rem;
             height: .14rem;
             margin: .1rem;
-            background: url(../../img/address_icon.png);
+            background: url(../../img/address_icon.png) no-repeat; 
             background-size:.12rem .14rem;
         }
     }
@@ -32,7 +32,7 @@
             width: .12rem;
             height: .14rem;
             margin: .1rem;
-            background: url(../../img/time_icon.png) center center;
+            background: url(../../img/time_icon.png) center center no-repeat;
             background-size: .11rem .11rem;
         }
     }
@@ -127,13 +127,68 @@
             color: #1e1e1e;
         }
         .tabpane1{
-            padding-right: 50%;
+            box-sizing:border-box;
+            -moz-box-sizing:border-box; /* Firefox */
+            -webkit-box-sizing:border-box; /* Safari */
+            // margin-right: 50%;
+            .am-tabs-bar {
+                padding-right: 50%;
+            }
             .am-tabs-bar .am-tabs-tab-active {
                 color: #5a88e5;
             }
             .am-tabs-ink-bar {
                 display: none !important;
             }
+            .beauty-title {
+                padding-left: .34rem;
+                font-size: .3rem;
+                line-height: .4rem;
+            }
+            .beauty-aim {
+                padding-left: .34rem;
+                font-size: .24rem;
+                line-height: .3rem;
+                color: #8e8e8e;
+            }
+            .money{
+                padding-right: .46rem;
+                margin-left: auto;
+                color: #e42f2f;
+                font-size: .36rem;
+            }
+        }
+
+        .comment {
+            box-sizing:border-box;
+            -moz-box-sizing:border-box; /* Firefox */
+            -webkit-box-sizing:border-box; /* Safari */
+            height: 1.36rem;
+            padding: .24rem .46rem .2rem .22rem;
+            border-bottom: 1px solid #dfdfe1;
+            .avatar {
+                width: .5rem;
+                height: .5rem; 
+                background: #999999;
+                border-radius: 50%;
+            }
+            .phone {
+                font-size: .28rem;
+                line-height: .35rem;
+            }
+            .time {
+
+                float: right;
+                font-size: .18rem;
+                line-height: .35rem;
+                color: #bfbfbf;
+            }
+            .introduction {
+                font-size: .26rem;
+                line-height: .4rem;
+                color: #4b4b4b;
+            }
         }
     }
+
 }
