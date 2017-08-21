@@ -20,20 +20,37 @@ class Personalcenter extends React.Component {
         return <div className="body-bac">
             <div className="top-gradient">
             </div>
-            <Flex justify="between" align='center' direction="row" className="person-info">
+            <div className="clear"><div className="center-login-out"></div><a href="tel:18512391863" className="center-line-phone"></a></div>
+            <Flex justify="between" align='start' direction="row" className="person-info">
                 <div className="avatar"><img src={avatar} alt="" /></div>
                 <Flex.Item style={{ marginLeft: '.3rem' }} direction="column">
                     <div className="info-name">Anan托马斯</div>
                     <Flex justify="between">
                         <Flex.Item>个人信息 ></Flex.Item>
                     </Flex>
+                    <Flex justify="between">
+                        <Flex direction="column" justify="center">
+                            <Flex.Item className="program-time" >3<span>个</span></Flex.Item>
+                            <Flex.Item className="vip-card-program">优惠</Flex.Item>
+                        </Flex>
+                        <Flex direction="column" justify="center">
+                            <Flex.Item className="program-time">2000<span>分</span></Flex.Item>
+                            <Flex.Item className="vip-card-program" >积分</Flex.Item>
+                        </Flex>
+                    </Flex>
                 </Flex.Item>
+            </Flex>
+           
+            <Flex className="center-line-box">
+                <div className="center-icon1"><img src={Vehiclemanagement_icon} alt="" /></div>
+                <p>爱车管理</p>
+                <Flex.Item className="vip-card-more"><img src={more_arrow} alt="" /></Flex.Item>
             </Flex>
             <div className="vip-gold-card">
                 <Flex className="vip-card-line1">
                     <div className="icon-close"><img src={membershipcard} alt="" /></div>
                     <Flex.Item className="vip-card-name">会员金卡</Flex.Item>
-                    <Flex.Item className="vip-card-more"><img src={more_arrow} alt="" /></Flex.Item>
+                    <Flex.Item className="vip-card-more" style={{color:'#8e8e8e'}} >全部会员卡管理<img src={more_arrow} style={{ marginLeft: '.2rem' }} alt="" /></Flex.Item>
                 </Flex>
                 <Flex>
                     <Flex.Item>
@@ -56,21 +73,6 @@ class Personalcenter extends React.Component {
                     </Flex.Item>
                 </Flex>
             </div>
-            <Flex className="center-line-box">
-                <div className="center-icon1"><img src={Vehiclemanagement_icon} alt="" /></div>
-                <p>总积分</p>
-                <Flex.Item className="vip-card-more">2000积分<img style={{ marginLeft: '.2rem' }} src={more_arrow} alt="" /></Flex.Item>
-            </Flex>
-            <Flex className="center-line-box">
-                <div className="center-icon1"><img src={Vehiclemanagement_icon} alt="" /></div>
-                <p>优惠券</p>
-                <Flex.Item className="vip-card-more">3张<img style={{ marginLeft: '.2rem' }} src={more_arrow} alt="" /></Flex.Item>
-            </Flex>
-            <Flex className="center-line-box">
-                <div className="center-icon1"><img src={Vehiclemanagement_icon} alt="" /></div>
-                <p>爱车管理</p>
-                <Flex.Item className="vip-card-more"><img src={more_arrow} alt="" /></Flex.Item>
-            </Flex>
             <Flex className="center-line-box" style={{ marginBottom: '0' }}>
                 <div className="center-icon2"><img src={order_icon} alt="" /></div>
                 <p>订单</p>
@@ -88,13 +90,6 @@ class Personalcenter extends React.Component {
                     <Flex.Item className="total-price">￥200</Flex.Item >
                 </Flex>
             </Flex>
-
-            <a  href="tel:18512391863" style={{color:'#000'}}>
-                <Flex className="center-line-box">
-                    <div className="center-icon3"><img src={Contactxiaoyi_icon} alt="" /></div>
-                    <p>联系小易：18512391863</p>
-                </Flex>
-            </a>
         </div>
     }
 }
