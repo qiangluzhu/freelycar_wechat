@@ -217,4 +217,51 @@
 .comment-store{
     margin: 0 .22rem;
     padding: 0 .24rem;
+    background: #fff;
+    border-bottom:  1px solid #e6e5e5;
+    .comment-store-title {
+        padding: .3rem 0;
+        border-bottom: 1px solid #e6e5e5;
+        .title {
+            font-size: .36rem;
+        }
+        .comment-store-avatar {
+            height: .8rem;
+            width: .8rem;
+            margin-right: .23rem;
+            border-radius: 50%;
+            background: #316d96;
+            img{
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+    .comment {
+        height: 1.44rem;
+    }
+    .comment-text {
+        box-sizing:border-box;
+        -moz-box-sizing:border-box; /* Firefox */
+        -webkit-box-sizing:border-box; /* Safari */
+        width: 100%;
+        height: 2rem;
+        padding: .18rem  .3rem;
+        margin-bottom: .8rem;
+        border:1px solid #8e8e8e;
+        border-radius: 0px;
+        box-shadow: none;
+        line-height: .48rem;
+        overflow: auto;  
+        word-break: break-all;  
+        resize: none;
+    }
+}
+.comment-commit-btn {
+    margin-top: .54rem;
+    height: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    background: #5a88e5;
+    color: #fff;
 }
