@@ -70,7 +70,7 @@ public class Card {
 	}
 	public void setPayDate(Date payDate) {
 		this.payDate = payDate;
-	}
+	}	
 	public void setPayMethod(int payMethod) {
 		this.payMethod = payMethod;
 	}

@@ -15,15 +15,25 @@ import javax.persistence.OneToMany;
 @Entity
 public class CarBrand {
 	private int id;
-	private String name;
+	private String brand;
+	private char pinyin;
+	public String getBrand() {
+		return brand;
+	}
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+	public char getPinyin() {
+		return pinyin;
+	}
+	public void setPinyin(char pinyin) {
+		this.pinyin = pinyin;
+	}
 	private Set<CarType> types;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return id;
-	}
-	public String getName() {
-		return name;
 	}
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	@JoinColumn(name="brandId", foreignKey=@ForeignKey(name="none"))
@@ -32,9 +42,6 @@ public class CarBrand {
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public void setName(String name) {
-		this.name = name;
 	}
 	public void setTypes(Set<CarType> types) {
 		this.types = types;

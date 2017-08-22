@@ -19,6 +19,9 @@ public class Car {
 	private int id;
 	private Client client;
 	private CarType type;
+	//private String cartype;
+	//private String ownerName;
+	//private String 
 	private String licensePlate;
 	private String driveLicenseNumber;
 	private Date insuranceStarttime;
@@ -32,6 +35,8 @@ public class Car {
 	private int miles;
 	@JsonDeserialize(using=JsonDateDeserialize.class)
 	private Date createDate;
+	@JsonDeserialize(using=JsonDateDeserialize.class)
+	private Date defaultDate;
 	@ManyToOne(cascade={}, fetch=FetchType.EAGER)
 	@JoinColumn(name="clientId", foreignKey=@ForeignKey(name="none"))
 	public Client getClient() {
@@ -127,6 +132,12 @@ public class Car {
 	}
 	public void setType(CarType type) {
 		this.type = type;
+	}
+	public Date getDefaultDate() {
+		return defaultDate;
+	}
+	public void setDefaultDate(Date defaultDate) {
+		this.defaultDate = defaultDate;
 	}
     @Override
     public String toString() {
