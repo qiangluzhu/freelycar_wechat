@@ -32,6 +32,10 @@ import Insurance from './routes/insuranceInfo/Insurance'
 import CooperativeStore from './routes/store/CooperativeStore'
 import StoreDetail from './routes/store/StoreDetail'
 import CommentStore from './routes/store/CommentStore'
+
+//404 not found页面
+import NotFound from './routes/NotFound'
+
 import './routes/IndexPage.less'
 function RouterConfig({ history }) {
   return (
@@ -64,6 +68,8 @@ function RouterConfig({ history }) {
       <Route path="/store/comment" component={CommentStore}/>
       
       <Route path="/insurance" component={Insurance}/>
+
+      <Route path="/notFound" component={NotFound}/>
 
     </Router>
   );
