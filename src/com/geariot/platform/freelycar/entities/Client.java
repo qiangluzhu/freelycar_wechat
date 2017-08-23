@@ -35,11 +35,10 @@ public class Client {
 	private Date createDate;
 	private Set<Car> cars;
 	private Set<Card> cards;
+	private Set<FavourRemainings> remainings;
 	private int consumTimes;
 	private float consumAmout;
 	private Boolean isMember;  
-	
-	
 	@JsonDeserialize(using=JsonDateDeserialize.class)
 	private Date lastVisit;
 	public int getAge() {
@@ -151,17 +150,22 @@ public class Client {
 	public void setState(int state) {
 		this.state = state;
 	}
-	
-	@Override
-    public String toString() {
-        return "Client [cars=" + cars + "]";
-    }
     public Boolean getIsMember() {
 		return isMember;
 	}
 	public void setIsMember(Boolean isMember) {
 		this.isMember = isMember;
 	}
-	
-	
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
+	@JoinColumn(name="clientId", foreignKey=@ForeignKey(name="none"))
+	public Set<FavourRemainings> getRemainings() {
+		return remainings;
+	}
+	public void setRemainings(Set<FavourRemainings> remainings) {
+		this.remainings = remainings;
+	}
+	@Override
+	public String toString() {
+		return "Client [cars=" + cars + "]";
+	}
 }

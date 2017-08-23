@@ -27,6 +27,7 @@ public class Service {
 	private List<ServiceProjectInfo> projectInfos;
 	@JsonDeserialize(using=JsonDateDeserialize.class)
 	private Date createDate;
+	private String favourIds;		//保存选中的优惠活动Id号,以##间隔
 	private boolean deleted;		//删除Service只标记这条记录为true，不在数据库中实际删掉数据。
 	public String getComment() {
 		return comment;
@@ -87,4 +88,11 @@ public class Service {
 	public void setValidTime(int validTime) {
 		this.validTime = validTime;
 	}
+	public String getFavourIds() {
+		return favourIds;
+	}
+	public void setFavourIds(String favourIds) {
+		this.favourIds = favourIds;
+	}
+	
 }

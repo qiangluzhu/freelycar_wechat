@@ -1,4 +1,4 @@
-package com.geariot.platform.freelycar.entities;
+/*package com.geariot.platform.freelycar.entities;
 
 import java.util.Set;
 
@@ -47,8 +47,9 @@ public class CarBrand {
 		this.types = types;
 	}
 	
-	/*@Override
+	@Override
 	public String toString() {
 		return "CarBrand [id=" + id + ", name=" + name + ", carType=" + types + "]";
-	}*/
+	}
 }
+*/

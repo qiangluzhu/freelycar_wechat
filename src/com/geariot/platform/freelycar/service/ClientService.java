@@ -16,7 +16,6 @@ import com.geariot.platform.freelycar.dao.ClientDao;
 import com.geariot.platform.freelycar.dao.IncomeOrderDao;
 import com.geariot.platform.freelycar.entities.Admin;
 import com.geariot.platform.freelycar.entities.Car;
-import com.geariot.platform.freelycar.entities.CarType;
 import com.geariot.platform.freelycar.entities.Card;
 import com.geariot.platform.freelycar.entities.Client;
 import com.geariot.platform.freelycar.entities.IncomeOrder;
@@ -58,7 +57,7 @@ public class ClientService {
 		JsonConfig config = JsonResFactory.dateConfig();
 		config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor());
 		JsonPropertyFilter filter = new JsonPropertyFilter(Client.class);
-		filter.setColletionProperties(CarType.class);
+		/*filter.setColletionProperties(CarType.class);*/
 		config.setJsonPropertyFilter(filter);
 		config.registerPropertyExclusions(Admin.class, new String[]{"password", "role", "current", "createDate", "comment"});
 		JSONArray jsonArray = JSONArray.fromObject(list, config);
@@ -132,7 +131,7 @@ public class ClientService {
 		JsonConfig config = new JsonConfig();
 		config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor());
 		JsonPropertyFilter filter = new JsonPropertyFilter(Client.class);
-		filter.setColletionProperties(CarType.class);
+	/*	filter.setColletionProperties(CarType.class);*/
 		config.setJsonPropertyFilter(filter);
 		config.registerPropertyExclusions(Card.class, new String[]{"projectInfos", "service", "orderMaker"});
 		net.sf.json.JSONObject res = JsonResFactory.buildNetWithData(RESCODE.SUCCESS, 
@@ -151,7 +150,7 @@ public class ClientService {
 //		config.registerPropertyExclusion(Car.class, "client");
 //		config.registerPropertyExclusion(CarBrand.class, "types");
 		JsonPropertyFilter filter = new JsonPropertyFilter(Client.class);
-		filter.setColletionProperties(CarType.class);
+		/*filter.setColletionProperties(CarType.class);*/
 		config.setJsonPropertyFilter(filter);
 		JSONObject obj = JsonResFactory.buildNet(RESCODE.SUCCESS, 
 				Constants.RESPONSE_CLIENT_KEY, JSONObject.fromObject(client, config));

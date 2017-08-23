@@ -1,4 +1,4 @@
-package com.geariot.platform.freelycar.entities;
+/*package com.geariot.platform.freelycar.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,8 +37,9 @@ public class CarType {
 		this.type = type;
 	}
 	
-	/*@Override
+	@Override
 	public String toString() {
 		return "CarType: id:" + this.id + ", type:" + this.type;
-	}*/
+	}
 }
+*/

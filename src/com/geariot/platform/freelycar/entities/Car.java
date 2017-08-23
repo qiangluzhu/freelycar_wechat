@@ -18,10 +18,8 @@ import com.geariot.platform.freelycar.utils.JsonDateDeserialize;
 public class Car {
 	private int id;
 	private Client client;
-	private CarType type;
-	//private String cartype;
-	//private String ownerName;
-	//private String 
+	//private CarType type;
+	private String cartype;
 	private String licensePlate;
 	private String driveLicenseNumber;
 	private Date insuranceStarttime;
@@ -80,11 +78,11 @@ public class Car {
 	public int getMiles() {
 		return miles;
 	}
-	@ManyToOne(fetch=FetchType.EAGER)
+	/*@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="carTypeId", foreignKey=@ForeignKey(name="none"))
 	public CarType getType() {
 		return type;
-	}
+	}*/
 	public boolean isNewCar() {
 		return newCar;
 	}
@@ -130,16 +128,22 @@ public class Car {
 	public void setNewCar(boolean newCar) {
 		this.newCar = newCar;
 	}
-	public void setType(CarType type) {
+	/*public void setType(CarType type) {
 		this.type = type;
-	}
+	}*/
 	public Date getDefaultDate() {
 		return defaultDate;
 	}
 	public void setDefaultDate(Date defaultDate) {
 		this.defaultDate = defaultDate;
 	}
-    @Override
+    public String getCartype() {
+		return cartype;
+	}
+	public void setCartype(String cartype) {
+		this.cartype = cartype;
+	}
+	@Override
     public String toString() {
         return "Car [id=" + id + ", client=" + client + ", insuranceStarttime="
                 + insuranceStarttime + ", insuranceEndtime=" + insuranceEndtime

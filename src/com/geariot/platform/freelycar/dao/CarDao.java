@@ -3,7 +3,6 @@ package com.geariot.platform.freelycar.dao;
 import java.util.List;
 
 import com.geariot.platform.freelycar.entities.Car;
-import com.geariot.platform.freelycar.entities.CarBrand;
 
 public interface CarDao {
 	void deleteById(int carId);
@@ -16,5 +15,5 @@ public interface CarDao {
 	
 	void save(Car car);
 	
-	List<CarBrand> listBrand(String brandName);
+	/*List<CarBrand> listBrand(String brandName);*/
 }

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.geariot.platform.freelycar.dao.CarDao;
 import com.geariot.platform.freelycar.entities.Car;
-import com.geariot.platform.freelycar.entities.CarBrand;
 import com.geariot.platform.freelycar.utils.Constants;
 
 @Repository
@@ -50,12 +49,12 @@ public class CarDaoImpl implements CarDao {
 				.setCacheable(Constants.SELECT_CACHE).list();
 	}
 
-	@SuppressWarnings("unchecked")
+	/*@SuppressWarnings("unchecked")
 	@Override
 	public List<CarBrand> listBrand(String brandName) {
 		String hql = "from CarBrand where name like :brandName";
 		return this.getSession().createQuery(hql).setString("brandName", "%"+brandName+"%").setCacheable(Constants.SELECT_CACHE).list();
-	}
+	}*/
 
 	@Override
 	public void save(Car car) {

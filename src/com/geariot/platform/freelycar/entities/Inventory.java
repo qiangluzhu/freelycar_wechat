@@ -26,6 +26,7 @@ public class Inventory {
 	private String property;
 	private float price;
 	private float amount;
+	private String ManufactureNumber;		//v2 添加厂家编号
 	private Provider provider;
 	private String comment;
 	@JsonDeserialize(using=JsonDateDeserialize.class)
@@ -110,6 +111,12 @@ public class Inventory {
 	}
 	public void setTypeName(String typeName) {
 		this.typeName = typeName;
+	}
+	public String getManufactureNumber() {
+		return ManufactureNumber;
+	}
+	public void setManufactureNumber(String manufactureNumber) {
+		ManufactureNumber = manufactureNumber;
 	}
 	
 }

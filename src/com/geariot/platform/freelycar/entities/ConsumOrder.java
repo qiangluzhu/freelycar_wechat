@@ -39,7 +39,8 @@ public class ConsumOrder {
 	private int lastMiles;
 	private int miles;
 	private Admin orderMaker;
-	private String comment;
+	private String comment;			//客户消费开单服务评价
+	private double stars;			//客户消费开单评分
 	private String faultDesc;
 	private String repairAdvice;
 	private Staff pickCarStaff;
@@ -237,6 +238,12 @@ public class ConsumOrder {
 				+ deliverTime + ", createDate=" + createDate + ", lastMiles=" + lastMiles + ", miles=" + miles
 				+ ", orderMaker=" + orderMaker + ", comment=" + comment + ", faultDesc=" + faultDesc + ", repairAdvice="
 				+ repairAdvice + ", pickCarStaff=" + pickCarStaff + "]";
+	}
+	public double getStars() {
+		return stars;
+	}
+	public void setStars(double stars) {
+		this.stars = stars;
 	}
 	
 	

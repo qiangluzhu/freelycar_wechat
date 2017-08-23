@@ -19,7 +19,6 @@ import com.geariot.platform.freelycar.dao.InventoryOrderDao;
 import com.geariot.platform.freelycar.dao.ProjectDao;
 import com.geariot.platform.freelycar.entities.Admin;
 import com.geariot.platform.freelycar.entities.Car;
-import com.geariot.platform.freelycar.entities.CarType;
 import com.geariot.platform.freelycar.entities.Card;
 import com.geariot.platform.freelycar.entities.CardProjectRemainingInfo;
 import com.geariot.platform.freelycar.entities.ConsumExtraInventoriesInfo;
@@ -184,7 +183,7 @@ public class ConsumOrderService {
 		int size = (int) Math.ceil(realSize / (double) number);
 		JsonConfig config = JsonResFactory.dateConfig();
 		JsonPropertyFilter filter = new JsonPropertyFilter();
-		filter.setColletionProperties(CarType.class, Provider.class);
+		filter.setColletionProperties(Provider.class);
 		config.setJsonPropertyFilter(filter);
 		config.registerPropertyExclusions(Admin.class,
 				new String[] { "password", "role", "current", "createDate", "comment" });
@@ -256,7 +255,7 @@ public class ConsumOrderService {
 		int size = (int) Math.ceil(realSize / (double) condition.getNumber());
 		JsonConfig config = JsonResFactory.dateConfig();
 		JsonPropertyFilter filter = new JsonPropertyFilter();
-		filter.setColletionProperties(Car.class, CarType.class, Card.class, ProjectInventoriesInfo.class,
+		filter.setColletionProperties(Car.class, Card.class, ProjectInventoriesInfo.class,
 				Project.class);
 		config.setJsonPropertyFilter(filter);
 		config.registerPropertyExclusions(Admin.class,
