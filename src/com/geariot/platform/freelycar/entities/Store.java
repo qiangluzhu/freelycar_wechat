@@ -3,6 +3,7 @@
  */
 package com.geariot.platform.freelycar.entities;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -30,6 +31,7 @@ public class Store {
 	private List<Project> projects;			//门店经营项目
 	private List<Favour> favours;			//门店优惠活动
 	private List<imgUrl> imgUrls;			//门店图片
+	private Date createDate;				//门店创建时间
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
@@ -97,6 +99,12 @@ public class Store {
 	}
 	public void setImgUrls(List<imgUrl> imgUrls) {
 		this.imgUrls = imgUrls;
+	}
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	} 
 	
 }

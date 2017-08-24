@@ -40,10 +40,12 @@ public class ConsumOrder {
 	private int miles;
 	private Admin orderMaker;
 	private String comment;			//客户消费开单服务评价
+	private Date commentDate;
 	private double stars;			//客户消费开单评分
 	private String faultDesc;
 	private String repairAdvice;
 	private Staff pickCarStaff;
+	private Store store;			//门店Id
 	public String getCarBrand() {
 		return carBrand;
 	}
@@ -244,6 +246,20 @@ public class ConsumOrder {
 	}
 	public void setStars(double stars) {
 		this.stars = stars;
+	}
+	@ManyToOne(cascade={}, fetch=FetchType.EAGER)
+	@JoinColumn(name="storeId", foreignKey=@ForeignKey(name="none"))
+	public Store getStore() {
+		return store;
+	}
+	public void setStore(Store store) {
+		this.store = store;
+	}
+	public Date getCommentDate() {
+		return commentDate;
+	}
+	public void setCommentDate(Date commentDate) {
+		this.commentDate = commentDate;
 	}
 	
 	

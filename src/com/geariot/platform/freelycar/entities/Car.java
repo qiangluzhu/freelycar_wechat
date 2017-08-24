@@ -19,6 +19,7 @@ public class Car {
 	private int id;
 	private Client client;
 	//private CarType type;
+	private String carbrand;
 	private String cartype;
 	private String licensePlate;
 	private String driveLicenseNumber;
@@ -142,6 +143,13 @@ public class Car {
 	}
 	public void setCartype(String cartype) {
 		this.cartype = cartype;
+	}
+	
+	public String getCarbrand() {
+		return carbrand;
+	}
+	public void setCarbrand(String carbrand) {
+		this.carbrand = carbrand;
 	}
 	@Override
     public String toString() {
