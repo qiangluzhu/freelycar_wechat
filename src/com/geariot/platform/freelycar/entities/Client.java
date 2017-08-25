@@ -55,6 +55,7 @@ public class Client {
 	}
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	@JoinColumn(name="clientId", foreignKey=@ForeignKey(name="none"))
+	@OrderBy("defaultDate asc")
 	public Set<Car> getCars() {
 		return cars;
 	}

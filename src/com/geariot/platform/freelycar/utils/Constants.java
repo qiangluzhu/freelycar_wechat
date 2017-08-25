@@ -18,7 +18,7 @@ public class Constants {
 	public static final String RESPONSE_CLIENT_KEY = "client";
 	public static final String RESPONSE_REAL_SIZE_KEY = "realSize";
 	public static final String RESPONSE_AMOUNT_KEY = "amount";
-	
+	public static final String RESPONSE_FAVOUR_KEY = "favour";
 	private static final String RELOAD_ROLES_KEY = "reload_roles";
 	public static boolean RELOAD_ROLES;
 	

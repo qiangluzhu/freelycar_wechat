@@ -1,25 +1,21 @@
-/**
- * 
- */
 package com.geariot.platform.freelycar.entities;
-
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.geariot.platform.freelycar.utils.JsonDateDeserialize;
-
-/**
- * @author mxy940127
- *
- */
-
 @Entity
-public class wxUser {
+public class WXUser {
 	private int id;            		//数据库记录id
 	private String openId;	   		//微信用户openId
 	private String nickName;		//微信用户昵称

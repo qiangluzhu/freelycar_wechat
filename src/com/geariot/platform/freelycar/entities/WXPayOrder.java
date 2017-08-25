@@ -22,7 +22,7 @@ import com.geariot.platform.freelycar.utils.JsonDateDeserialize;
  */
 
 @Entity
-public class wxPayOrder {
+public class WXPayOrder {
 	private int id;
 	private String openId;		//微信openId
 	private double amount;		//支付金额
