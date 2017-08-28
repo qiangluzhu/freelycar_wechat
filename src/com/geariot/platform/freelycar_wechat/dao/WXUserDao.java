@@ -6,5 +6,5 @@ public interface WXUserDao {
 	WXUser findUserByOpenId(String openId);
 	WXUser findUserByPhone(String phone);
 	void saveOrUpdateUser(WXUser wxUser);
-	boolean deleteUser(String openId);
+	void deleteUser(String openId);
 }

@@ -17,18 +17,18 @@ public class WXUserController {
 	private static final Logger log = LogManager.getLogger(WXUserController.class);
 	@Autowired
 	private WXUserService wxUserService;
-//	@RequestMapping(value = "/addWxUser",method = RequestMethod.POST)
-//	public String addWxUser(String openId,String nickName,String headimgurl,String phone){
-//		
-//	}
-//	@RequestMapping(value = "/login",method = RequestMethod.POST)
-//	public String login(String openId){
-//		
-//	}
-//	@RequestMapping(value = "/logout",method = RequestMethod.POST)
-//	public String logout(String openId){
-//		
-//	}
+	@RequestMapping(value = "/addWxUser",method = RequestMethod.POST)
+	public String addWxUser(String openId,String nickName,String headimgurl,String phone){
+		return wxUserService.addWXUser(openId,nickName,headimgurl,phone);
+	}
+	@RequestMapping(value = "/login",method = RequestMethod.POST)
+	public String login(String openId){
+		return wxUserService.login(openId);
+	}
+	@RequestMapping(value = "/logout",method = RequestMethod.POST)
+	public String logout(String openId){
+		return wxUserService.deletWXUser(openId);
+	}
 	@RequestMapping(value = "/myDiscount",method = RequestMethod.POST)
 	public String myDiscount(String openId){
 		return wxUserService.listDiscount(openId);

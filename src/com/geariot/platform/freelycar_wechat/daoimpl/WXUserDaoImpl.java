@@ -32,20 +32,14 @@ public class WXUserDaoImpl implements WXUserDao{
 
 	@Override
 	public void saveOrUpdateUser(WXUser wxUser) {
-		// update wxuser
-		
+		this.getSession().saveOrUpdate(wxUser);
 	}
 
 	@Override
-	public boolean deleteUser(String openId) {
-		// TODO Auto-generated method stub
-		return false;
+	public void deleteUser(String openId) {
+		String sql="update wxuser set openId=null,headimgurl=null where openId=:openId";
+		this.getSession().createSQLQuery(sql).setString("openId", openId).setCacheable(Constants.SELECT_CACHE).uniqueResult();
 	}
 
-//	@Override
-//	public boolean deleteUser(String openId) {
-//		String sql="update wxuser set openId=null,headimgurl=null where openId=:openId";
-//		this.getSession().createSQLQuery(sql).setString("openId", openId).setCacheable(Constants.SELECT_CACHE).uniqueResult();
-//	}
 
 }

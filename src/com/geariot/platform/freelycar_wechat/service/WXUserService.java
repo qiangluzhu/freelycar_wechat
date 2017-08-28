@@ -48,10 +48,40 @@ public class WXUserService {
 		return wxUserDao.findUserByOpenId("12345");
 	}
 	
+	public String deletWXUser(String openId){
+		wxUserDao.deleteUser(openId);
+		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
+	}
+	public String login(String openId){
+		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
+		if(wxUser == null){
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
+		}
+		Client client = new Client();
+		if(clientDao.findByPhone(wxUser.getPhone())==null){
+			client.setPhone(wxUser.getPhone());
+			client.setBirthday(wxUser.getBirthday());
+			client.setName(wxUser.getName());
+			client.setGender(wxUser.getGender());
+			clientDao.save(client);
+		}
+		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
+	}
+	//只做添加操作
+	public String addWXUser(String openId,String nickName,String headimgurl,String phone){
+		WXUser wxUser= new WXUser();
+		wxUser.setPhone(phone);
+		wxUser.setNickName(nickName);
+		wxUser.setHeadimgurl(headimgurl);
+		wxUser.setOpenId(openId);
+		wxUserDao.saveOrUpdateUser(wxUser);
+		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
+	}
+	
 	public String listDiscount(String openId){
 		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
 		if(wxUser == null){
-			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
 		}
 		Client client = clientDao.findByPhone(wxUser.getPhone());
 		if(client == null){
@@ -74,7 +104,7 @@ public class WXUserService {
 	public String addCar(String openId,Car car){
 		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
 		if(wxUser == null){
-			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
 		}
 		Client client = clientDao.findByPhone(wxUser.getPhone());
 		if(client == null){
@@ -97,7 +127,7 @@ public class WXUserService {
 	public String detail(String openId){
 		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
 		if(wxUser == null){
-			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
 		}
 		Client client = clientDao.findByPhone(wxUser.getPhone());
 		if(client == null){

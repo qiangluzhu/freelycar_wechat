@@ -31,7 +31,8 @@ public enum RESCODE {
 	NO_INCOME(26, "无对应日期订单记录"),
 	UNSUPPORT_TYPE(27, "不支持该操作"),
 	NO_RECORD(28,"数据库无记录"),
-	CANNOT_CANCEL_INVOICES(29,"配件库存不足以退货")
+	CANNOT_CANCEL_INVOICES(29,"配件库存不足以退货"),
+	NOT_FOUND_WXUSER(30,"无openId对应微信用户")
 	;
 	
 	// 定义私有变量
