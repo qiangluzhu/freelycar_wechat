@@ -37,8 +37,8 @@ public class WXUserDaoImpl implements WXUserDao{
 
 	@Override
 	public void deleteUser(String openId) {
-		String sql="update wxuser set openId=null,headimgurl=null where openId=:openId";
-		this.getSession().createSQLQuery(sql).setString("openId", openId).setCacheable(Constants.SELECT_CACHE).uniqueResult();
+		String sql="update wxuser set openId=null,headimgurl=null where openId= :openId";
+		this.getSession().createSQLQuery(sql).setString("openId", openId).setCacheable(Constants.SELECT_CACHE).executeUpdate();
 	}
 
 
