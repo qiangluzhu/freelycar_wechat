@@ -4,16 +4,16 @@ import java.util.Date;
 
 public class PointBean {
 	
-	public PointBean(Double point, Date commentDate) {
+	public PointBean(int point, Date commentDate) {
 		super();
 		this.point = point;
 		this.commentDate = commentDate;
 	}
-	private Double point;
-	public Double getPoint() {
+	private int point;
+	public int getPoint() {
 		return point;
 	}
-	public void setPoint(Double point) {
+	public void setPoint(int point) {
 		this.point = point;
 	}
 	public Date getCommentDate() {

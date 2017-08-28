@@ -168,7 +168,7 @@ public class WXUserService {
 		} else {
 			List<PointBean> pointBeans = new ArrayList<>();
 			for (Object[] exist : exists) {
-				pointBeans.add(new PointBean((Double)exist[1],(Date)exist[0]));
+				pointBeans.add(new PointBean((int)Math.rint((Double)exist[1]),(Date)exist[0]));
 			}
 			return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONArray.fromObject(pointBeans,config)).toString();
 		}
