@@ -98,6 +98,7 @@ public class WXUserService {
 		if(car == null)
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		car.setDefaultDate(new Date());
+		carDao.update(car);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 	
