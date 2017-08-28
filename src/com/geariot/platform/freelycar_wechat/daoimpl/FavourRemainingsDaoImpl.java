@@ -23,7 +23,7 @@ public class FavourRemainingsDaoImpl implements FavourRemainingsDao{
 	@Override
 	public List<FavourRemainings> favourtByClientId(int clientId) {
 		String hql = "from FavourRemainings where clientId = :clientId";
-		return this.getSession().createQuery(hql).setInteger("clientId",clientId).list();
+		return this.getSession().createQuery(hql).setCacheable(Constants.SELECT_CACHE).setInteger("clientId",clientId).list();
 	}
 
 }

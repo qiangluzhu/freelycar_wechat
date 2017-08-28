@@ -27,7 +27,7 @@ public class WXUserDaoImpl implements WXUserDao{
 	@Override
 	public WXUser findUserByPhone(String phone) {
     	String hql = "from WXUser where phone = :phone";
-		return (WXUser) getSession().createQuery(hql).setString("phone", phone).uniqueResult();
+		return (WXUser) getSession().createQuery(hql).setCacheable(Constants.SELECT_CACHE).setString("phone", phone).uniqueResult();
 	}
 
 	@Override

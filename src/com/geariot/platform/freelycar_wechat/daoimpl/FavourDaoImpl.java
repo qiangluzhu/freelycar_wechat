@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.geariot.platform.freelycar_wechat.dao.FavourDao;
 import com.geariot.platform.freelycar_wechat.entities.Favour;
+import com.geariot.platform.freelycar_wechat.utils.Constants;
 @Repository
 public class FavourDaoImpl implements FavourDao{
 	@Autowired
@@ -19,7 +20,7 @@ public class FavourDaoImpl implements FavourDao{
 	@Override
 	public Favour findById(int id) {
 		String hql = "from Favour where id= :id";
-		return (Favour) this.getSession().createQuery(hql).setInteger("id",id)
+		return (Favour) this.getSession().createQuery(hql).setCacheable(Constants.SELECT_CACHE).setInteger("id",id)
 				.uniqueResult();
 	}
 
