@@ -34,7 +34,7 @@ public class Constants {
 	
 	private static Properties p = null;
 	
-	static {
+	/*static {
 		p = new Properties();
 		try {
 			ClassLoader cl = Thread.currentThread().getContextClassLoader();  
@@ -48,7 +48,7 @@ public class Constants {
 			e.printStackTrace();
 		}
 		
-	}
+	}*/
 	
 	
 		

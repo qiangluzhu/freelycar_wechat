@@ -53,7 +53,7 @@
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="configLocation" value="classpath:hibernate.cfg.xml"></property>
-		<property name="packagesToScan" value="com.geariot.platform.freelycar.entities"/>
+		<property name="packagesToScan" value="com.geariot.platform.freelycar_wechat.entities"/>
 	</bean>
 
 

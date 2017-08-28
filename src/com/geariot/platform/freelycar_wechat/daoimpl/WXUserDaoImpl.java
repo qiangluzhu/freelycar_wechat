@@ -20,7 +20,7 @@ public class WXUserDaoImpl implements WXUserDao{
 	public WXUser findUserByOpenId(String openId) {
     	String hql = "from WXUser where openid= :openid ";
     	//(Client) this.getSession().createQuery(hql).setString("phone", phone).uniqueResult()
-		WXUser wxuser= (WXUser) getSession().createQuery(hql).setString("openid", openId).uniqueResult();
+		WXUser wxuser= (WXUser) getSession().createQuery(hql).setString("openid", openId).setCacheable(Constants.SELECT_CACHE).uniqueResult();
 		return wxuser;
 	}
 

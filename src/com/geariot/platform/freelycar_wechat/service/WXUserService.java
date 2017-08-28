@@ -44,8 +44,8 @@ public class WXUserService {
 	@Autowired
 	private PointDao pointDao;
 	
-	public Client test(){
-		return clientDao.findById(10);
+	public WXUser test(){
+		return wxUserDao.findUserByOpenId("12345");
 	}
 	
 	public String listDiscount(String openId){
