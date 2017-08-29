@@ -9,6 +9,7 @@ import insurance from '../../img/insurance.png'
 import annualInspection from '../../img/annualInspection.png'
 import more_arrow from '../../img/more_arrow.png'
 
+import cityJson from '../../data/city.json';
 const Item = List.Item;
 const Brief = Item.Brief;
 
@@ -39,10 +40,7 @@ class Insurance extends React.Component {
             { label: "人寿保险", value: "人寿保险1" }
         ];
 
-        const insuredCity = [
-            { label: "南京", value: "南京" },
-            { label: "上海", value: "上海" }
-        ];
+        const insuredCity = cityJson;
 
         return <div className="body-bac">
             <NavBar title="爱车信息" />
@@ -71,7 +69,7 @@ class Insurance extends React.Component {
                 </Picker>
                 <Picker extra="填写投保城市"
                     data={insuredCity}
-                    cols={1}
+                    cols={2}
                     onOk={e => this.setState({ insuredCity: e })}
                     onDismiss={e => console.log('dismiss', e)}
                     value={this.state.insuredCity}

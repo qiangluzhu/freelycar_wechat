@@ -53,7 +53,7 @@
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="configLocation" value="classpath:hibernate.cfg.xml"></property>
-		<property name="packagesToScan" value="com.geariot.platform.freelycar.entities"/>
+		<property name="packagesToScan" value="com.geariot.platform.freelycar_wechat.entities"/>
 	</bean>
 
 
@@ -76,49 +76,6 @@
         <!-- 由于hibernate也使用了Ehcache, 保证双方都使用同一个缓存管理器 -->
         <property name="shared" value="true"/>
     </bean>
-    
-    <!-- shiro配置 -->
-    <bean name="credentialsMatcher" class="com.geariot.platform.freelycar.shiro.MD5CredentialsMatcher"/>
-    <bean id="jdbcRealm" class="com.geariot.platform.freelycar.shiro.ShiroRealmBaseDatabase">
-	    <!-- 使用继承了org.apache.shiro.realm.jdbc.JdbcRealm的自定义realm，集成使用了本项目的AdminService -->
-	    <property name="permissionsLookupEnabled" value="true"/>
-	    <property name="credentialsMatcher" ref="credentialsMatcher"/>
-	</bean>
-	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-	    <property name="realm" ref="jdbcRealm"/>
-	</bean>
-    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-		<property name="securityManager" ref="securityManager"/>
-    	<!-- override these for application-specific URLs if you like:-->
-    	<!--
-    	<property name="loginUrl" value="/freelycar/api/login"/>
-    	<property name="successUrl" value="/freelycar/api/dashboard/index"/>
-    	<property name="unauthorizedUrl" value="/unauthorized.html"/>
-    	-->
-    	<!-- <property name="filters">  
-            <map>  
-                <entry key="authc">  
-                    <bean class="com.geariot.platform.freelycar.utils.ShiroAjaxFilter" />  
-                </entry>  
-            </map>  
-        </property> -->
-    	<property name="filterChainDefinitions">
-        	<value>
-        		 /freelycar/api/#/** = authc
-            	<!-- # some example chain definitions:
-        		/api/shiro = anon
-        		/api/test/* = authc
-            	/admin/** = authc, roles[admin]
-            	/docs/** = authc, perms[document:read]
-            	
-            	/api/test/get = authc, perms[data:get]
-            	# more URL-to-FilterChain definitions here -->
-        	</value>
-	    </property>
-	</bean>
-    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
-    <!-- shiro配置结束 -->
-    
     
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	<task:annotation-driven/>
