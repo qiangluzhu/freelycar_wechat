@@ -33,6 +33,7 @@ import CooperativeStore from './routes/store/CooperativeStore'
 import StoreDetail from './routes/store/StoreDetail'
 import CommentStore from './routes/store/CommentStore'
 import './routes/IndexPage.less'
+import './car.json'
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
