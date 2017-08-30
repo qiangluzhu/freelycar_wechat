@@ -41,7 +41,7 @@ import './routes/IndexPage.less'
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
-      <Route path="/" component={CommentStore} />
+      <Route path="/" component={StoreDetail} />
       <Route path="/center" component={Personalcenter} />
       <Route path="/login" component={Login} />
 
