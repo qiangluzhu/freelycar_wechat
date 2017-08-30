@@ -24,4 +24,9 @@ public class PointDaoImpl implements PointDao{
 		String sql="SELECT c1.commentDate,SUM(price) FROM projectinfo,consumorder AS c1 WHERE consumOrderId in (SELECT id FROM consumorder as c2 WHERE c1.id=c2.id and clientId =:clientId and commentDate<>\"\") GROUP BY consumOrderId ORDER BY commentDate";
 		return this.getSession().createSQLQuery(sql).setInteger("clientId", clientId).setCacheable(Constants.SELECT_CACHE).list();
 	}
+	@Override
+	public Object getSumPoint(int clientId) {
+		String sql = "SELECT SUM(price) FROM projectinfo WHERE consumOrderId in (SELECT id FROM consumorder  WHERE clientId =:clientId and commentDate<>\"\")";
+		return this.getSession().createSQLQuery(sql).setInteger("clientId", clientId).uniqueResult();
+	}
 }

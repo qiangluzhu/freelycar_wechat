@@ -44,8 +44,8 @@ public class WXUserService {
 	@Autowired
 	private PointDao pointDao;
 	
-	public WXUser test(){
-		return wxUserDao.findUserByOpenId("12345");
+	public double test(){
+return 0;
 	}
 	
 	public String deletWXUser(String openId){
@@ -173,5 +173,33 @@ public class WXUserService {
 			}
 			return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONArray.fromObject(pointBeans,config)).toString();
 		}
+	}
+	
+	
+	//积分、wxuser、discount,复用性极差
+	public String getWXUser(String openId){
+		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
+		if(wxUser == null){
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
+		}
+		Client client = clientDao.findByPhone(wxUser.getPhone());
+		if(client == null){
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
+		}
+		Object favour = favourRemainingsDao.getCountByClientId(client.getId());
+		Object point =pointDao.getSumPoint(client.getId()) ;
+		JSONObject obj = new JSONObject();
+		if(favour==null){
+			favour=0;
+		}
+		if(point == null)
+			point=0;
+		else
+			point=(int)Math.rint((double)(point));
+		obj.put("favour", favour);
+		obj.put("point", point);
+		obj.put("wxUser", wxUser);
+		
+		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
 	}
 }

@@ -49,7 +49,7 @@ public class WXUserController {
 	}
 	@RequestMapping(value="/test",method=RequestMethod.GET)
 	public void test(){
-		wxUserService.test();
+		log.info("test   "+wxUserService.test());
 	}
 	@RequestMapping(value = "/detail",method = RequestMethod.GET)
 	public String detail(String openId){
@@ -62,6 +62,10 @@ public class WXUserController {
 	@RequestMapping(value = "/delCar",method = RequestMethod.POST)
 	public String delCar(int carId){
 		return wxUserService.deleteCar(carId);
+	}
+	@RequestMapping(value = "/wxInfo",method = RequestMethod.POST)
+	public String wxInfo(String openId){
+		return wxUserService.getWXUser(openId);
 	}
 
 }
