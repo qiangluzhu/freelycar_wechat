@@ -9,6 +9,7 @@ import com.geariot.platform.freelycar_wechat.dao.FavourRemainingsDao;
 import com.geariot.platform.freelycar_wechat.entities.FavourRemainings;
 import com.geariot.platform.freelycar_wechat.utils.Constants;
 
+import java.math.BigDecimal;
 import java.util.List;
 @Repository
 public class FavourRemainingsDaoImpl implements FavourRemainingsDao{
@@ -24,6 +25,12 @@ public class FavourRemainingsDaoImpl implements FavourRemainingsDao{
 	public List<FavourRemainings> favourtByClientId(int clientId) {
 		String hql = "from FavourRemainings where clientId = :clientId";
 		return this.getSession().createQuery(hql).setCacheable(Constants.SELECT_CACHE).setInteger("clientId",clientId).list();
+	}
+
+	@Override
+	public Object getCountByClientId(int clientId) {
+		String sql = "SELECT SUM(remaining) FROM `favourremainings` where clientId= :clientId";
+		return  this.getSession().createSQLQuery(sql).setInteger("clientId", clientId).uniqueResult();
 	}
 
 }
