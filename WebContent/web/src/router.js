@@ -37,7 +37,7 @@ import CommentStore from './routes/store/CommentStore'
 import NotFound from './routes/NotFound'
 
 import './routes/IndexPage.less'
-import './car.json'
+
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
