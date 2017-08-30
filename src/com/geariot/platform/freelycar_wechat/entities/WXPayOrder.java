@@ -23,21 +23,28 @@ import com.geariot.platform.freelycar_wechat.utils.JsonDateDeserialize;
 
 @Entity
 public class WXPayOrder {
-	private int id;
+	private String id;
 	private String openId;		//微信openId
 	private double amount;		//支付金额
 	@JsonDeserialize(using=JsonDateDeserialize.class)
 	private Date createDate;	//订单产生时间
-	private int payState;		//订单支付状态
+	private Date finishDate;	//支付完时间
+	public Date getFinishDate() {
+		return finishDate;
+	}
+	public void setFinishDate(Date finishDate) {
+		this.finishDate = finishDate;
+	}
+	private int payState;		//订单支付状态,0未支付，1支付完成
 	private Service service;	//购买的卡类
 	private Favour favour;		//购买的抵用券
-	private int payMethod;		//支付方式
+	private int payMethod;		//支付方式，只有微信0
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getOpenId() {
