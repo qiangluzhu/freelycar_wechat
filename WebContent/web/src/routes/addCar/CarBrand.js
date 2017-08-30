@@ -38,8 +38,10 @@ class SelectCarBrand extends React.Component {
             open: false,
             types: [],
             carBrand: '',
+            type: '',
             pinyin: '',
-            hotlist: [{ img: require(`../../carImgs/大众.jpg`), name: '大众' }, { img: require(`../../carImgs/福特.jpg`), name: '福特' }, { img: require(`../../carImgs/本田.jpg`), name: '本田' }, { img: require(`../../carImgs/丰田.jpg`), name: '丰田' }, { img: require(`../../carImgs/别克.jpg`), name: '别克' }, { img: require(`../../carImgs/奥迪.jpg`), name: '奥迪' }, { img: require(`../../carImgs/现代.jpg`), name: '现代' }, { img: require(`../../carImgs/雪佛兰.jpg`), name: '雪佛兰' }, { img: require(`../../carImgs/奔驰.jpg`), name: '奔驰' }, { img: require(`../../carImgs/宝马.jpg`), name: '宝马' }]
+            models: [],
+            hotlist: [{ img: require(`../../carImgs/大众.jpg`), pinyin: 'D', name: '大众' }, { img: require(`../../carImgs/福特.jpg`), pinyin: 'F', name: '福特' }, { img: require(`../../carImgs/本田.jpg`), pinyin: 'B', name: '本田' }, { img: require(`../../carImgs/丰田.jpg`), pinyin: 'F', name: '丰田' }, { img: require(`../../carImgs/别克.jpg`), pinyin: 'B', name: '别克' }, { img: require(`../../carImgs/奥迪.jpg`), pinyin: 'A', name: '奥迪' }, { img: require(`../../carImgs/现代.jpg`), pinyin: 'X', name: '现代' }, { img: require(`../../carImgs/雪佛兰.jpg`), pinyin: 'X', name: '雪佛兰' }, { img: require(`../../carImgs/奔驰.jpg`), pinyin: 'B', name: '奔驰' }, { img: require(`../../carImgs/宝马.jpg`), pinyin: 'B', name: '宝马' }]
         };
     }
 
@@ -48,14 +50,33 @@ class SelectCarBrand extends React.Component {
         console.log(this.state.dataSource)
     }
 
-    onOpenChange = (...args) => {
-        console.log(args);
-        this.setState({ open: !this.state.open });
+    onOpenChange = (e, i) => {
+        let obj = {
+            open: !this.state.open
+        }
+        if (i) {
+            obj = {
+                open: !this.state.open,
+                type: i.type,
+                models: i.models
+            }
+        }
+        this.setState(obj);
     }
 
+    hotClick = (item) => {
+        let carObj = car.data[item.pinyin].filter((obj)=>{
+            return (obj.brand == item.name)
+        })
+        this.setState({
+            carBrand: item.name,
+            types:carObj[0].types
+        })
+        this.onOpenChange()
+    }
     render() {
         let hotlist = this.state.hotlist.map((item, index) => {
-            return <Flex key={index} className={index > 4 ? 'one-item border-no' : 'one-item'} direction="column">
+            return <Flex key={index} className={index > 4 ? 'one-item border-no' : 'one-item'} direction="column" onClick={() => { this.hotClick(item) }}>
                 <img src={item.img} alt="" />
                 <div>{item.name}</div>
             </Flex>
@@ -63,9 +84,9 @@ class SelectCarBrand extends React.Component {
         const sidebar = (<List>
             <List.Item key={-1}
                 multipleLine
-            ><img src={require(`../../carImgs/${this.state.carBrand?this.state.carBrand:'大众'}.jpg`)} style={{marginRight:'10px'}} />{this.state.carBrand}</List.Item>
+            ><img src={require(`../../carImgs/${this.state.carBrand ? this.state.carBrand : '大众'}.jpg`)} style={{ marginRight: '10px' }} />{this.state.carBrand}</List.Item>
             {this.state.types.map((i, index) => {
-                return (<List.Item key={index} onClick={(e) => { this.onOpenChange(e) }}
+                return (<List.Item key={index} onClick={(e) => { this.onOpenChange(e, i) }}
                 >{i.type}</List.Item>);
             })}
         </List>);
