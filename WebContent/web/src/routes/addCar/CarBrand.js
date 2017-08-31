@@ -45,11 +45,6 @@ class SelectCarBrand extends React.Component {
         };
     }
 
-    componentDidMount() {
-        console.log(province)
-        console.log(this.state.dataSource)
-    }
-
     onOpenChange = (e, i) => {
         let obj = {
             open: !this.state.open
@@ -60,17 +55,20 @@ class SelectCarBrand extends React.Component {
                 type: i.type,
                 models: i.models
             }
+            window.localStorage.setItem("models", i.models)
+            window.localStorage.setItem("brandType", this.state.carBrand + i.type)
+            history.back()
         }
         this.setState(obj);
     }
 
     hotClick = (item) => {
-        let carObj = car.data[item.pinyin].filter((obj)=>{
+        let carObj = car.data[item.pinyin].filter((obj) => {
             return (obj.brand == item.name)
         })
         this.setState({
             carBrand: item.name,
-            types:carObj[0].types
+            types: carObj[0].types
         })
         this.onOpenChange()
     }
@@ -84,7 +82,10 @@ class SelectCarBrand extends React.Component {
         const sidebar = (<List>
             <List.Item key={-1}
                 multipleLine
-            ><img src={require(`../../carImgs/${this.state.carBrand ? this.state.carBrand : '大众'}.jpg`)} style={{ marginRight: '10px' }} />{this.state.carBrand}</List.Item>
+            >
+                <img style={{ verticalAlign: 'middle' }} src={require(`../../carImgs/${this.state.carBrand ? this.state.carBrand : '大众'}.jpg`)} style={{ marginRight: '10px' }} />
+                <span style={{ verticalAlign: 'middle' }}>{this.state.carBrand}</span>
+            </List.Item>
             {this.state.types.map((i, index) => {
                 return (<List.Item key={index} onClick={(e) => { this.onOpenChange(e, i) }}
                 >{i.type}</List.Item>);
