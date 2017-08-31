@@ -196,9 +196,9 @@ return 0;
 			point=0;
 		else
 			point=(int)Math.rint((double)(point));
-		obj.put("favour", favour);
+		obj.put(Constants.RESPONSE_FAVOUR_KEY, favour);
 		obj.put("point", point);
-		obj.put("wxUser", wxUser);
+		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
 		
 		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
 	}

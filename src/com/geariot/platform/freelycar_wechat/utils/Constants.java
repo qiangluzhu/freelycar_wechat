@@ -4,11 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-/**
- * 常量类，存储项目中需要用的常量
- * @author haizhe
- *
- */
+
 public class Constants {
 
 	public static final String RESPONSE_CODE_KEY = "code"; //返回对象里的code的key名称
@@ -19,7 +15,14 @@ public class Constants {
 	public static final String RESPONSE_REAL_SIZE_KEY = "realSize";
 	public static final String RESPONSE_AMOUNT_KEY = "amount";
 	public static final String RESPONSE_FAVOUR_KEY = "favour";
+	public static final String RESPONSE_WXORDER_KEY = "wxOrder";
+	public static final String RESPONSE_WXUSER_KEY = "wxUser";
+	public static final String RESPONSE_POINT_KEY = "point";
 	public static boolean RELOAD_ROLES;
+	
+	public static final int PAY_BY_WX = 3;
+	public static final int PAY_UNPAY = 0;
+	public static final int PAY_FINISH = 1;
 	
 	public static final int PROJECT_WITH_CARD = 0;
 	public static final int PROJECT_WITH_CASH = 1;

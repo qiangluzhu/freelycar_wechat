@@ -1,19 +1,27 @@
 package com.geariot.platform.freelycar_wechat.service;
 
+import java.util.Date;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import net.sf.json.JSONObject;
+
+import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
 import com.geariot.platform.freelycar_wechat.dao.CardDao;
 import com.geariot.platform.freelycar_wechat.dao.FavourDao;
 import com.geariot.platform.freelycar_wechat.dao.FavourProjectInfosDao;
 import com.geariot.platform.freelycar_wechat.dao.ProjectDao;
 import com.geariot.platform.freelycar_wechat.dao.ServiceDao;
 import com.geariot.platform.freelycar_wechat.dao.WXUserDao;
+import com.geariot.platform.freelycar_wechat.entities.Card;
 import com.geariot.platform.freelycar_wechat.entities.Favour;
 import com.geariot.platform.freelycar_wechat.entities.FavourProjectInfos;
 import com.geariot.platform.freelycar_wechat.entities.WXUser;
 import com.geariot.platform.freelycar_wechat.entities.Service;
+import com.geariot.platform.freelycar_wechat.entities.WXPayOrder;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
 import com.geariot.platform.freelycar_wechat.utils.*;
 
@@ -38,25 +46,30 @@ public class PayService {
 	
 	
 	//创建订单	
-	public org.json.JSONObject createOrder(String openId,float totalPrice,
-			int projectId, int waitlist,int type){
+	public String createCardOrder(String openId,double totalPrice,
+			Service service){
 		log.debug("create new order");
-		org.json.JSONObject obj = new org.json.JSONObject();
+		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
+		log.debug("id" + wxPayOrder.getId() + "总金额" + wxPayOrder.getTotalPrice() + "openId" + wxPayOrder.getOpenId() +"Date" + wxPayOrder.getCreateDate());
 		WXUser wxUser =  wxUserDao.findUserByOpenId(openId);
-		if(wxUser== null){
-			obj.put(Constants.RESPONSE_CODE_KEY, RESCODE.NOT_FOUND.toString());
-			obj.put(Constants.RESPONSE_MSG_KEY, RESCODE.NOT_FOUND.getMsg());
-			return obj;
-		}
-		String productName = null;
-		if(type == 0){
-			FavourProjectInfos favourProjectInfos = favourProjectInfosDao.findById(projectId);
-			//productName = projectDao.findProjectById(favourProjectInfos.getProject());
-		}
-		else{
-			productName = serviceDao.findServiceById(projectId).getName();
-			
-		}
-		return null;
+		wxPayOrder.setService(service);
+		JSONObject obj = new JSONObject();
+		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
+		obj.put(Constants.RESPONSE_WXORDER_KEY,wxPayOrder);
+		
+		
+		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
+	}
+	
+	
+	private WXPayOrder buildBasivOrders(String openId,double totalPrice){
+		WXPayOrder wxPayOrder = new WXPayOrder();
+		wxPayOrder.setId(IDGenerator.generate(IDGenerator.WX_CONSUM));
+		wxPayOrder.setCreateDate(new Date());
+		wxPayOrder.setOpenId(openId);
+		wxPayOrder.setPayMethod(Constants.PAY_BY_WX);
+		wxPayOrder.setPayState(Constants.PAY_UNPAY);
+		wxPayOrder.setTotalPrice(totalPrice);
+		return wxPayOrder;
 	}
 }
