@@ -52,17 +52,29 @@ class AddCar extends React.Component {
             method: 'post',
             credentials: 'include', 
             headers: {
-               'Accept': 'application/json',
-               'Content-Type':'application/json;charset=utf-8' 
+                'Accept': 'application/json',
+                'Content-Type':'application/json;charset=utf-8'
             },
-            body: {
-                openId: '11',
-                car:{
-                    carbrand: window.localStorage.getItem('brandType'),
-                    cartype: this.state.carModel[0],
-                    licensePlate: this.state.province + this.state.carPlate
+            body:JSON.stringify({
+                carbrand: window.localStorage.getItem('brandType'),
+                cartype:  this.state.carModel[0],
+                licensePlate:this.state.province + this.state.carPlate,
+                //时间选择
+                insuranceStarttime:new Date(),
+                //时间选择
+                insuranceEndtime: new Date(),
+                insuranceAmount:'1',
+                frameNumber:"1",
+                engineNumber: '1',
+                //时间选择
+                licenseDate:1,
+                newCar: true,
+                lastMiles: 11,
+                miles: 1,
+                client: {
+                    id: '11'
                 }
-            }
+            })
         }
         let myInit2 = {
             method: 'post',
