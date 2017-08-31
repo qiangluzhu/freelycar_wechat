@@ -55,8 +55,13 @@ class SelectCarBrand extends React.Component {
                 type: i.type,
                 models: i.models
             }
-            window.localStorage.setItem("models", i.models)
-            window.localStorage.setItem("brandType", this.state.carBrand + i.type)
+            let newType = i.type
+            if (i.type.indexOf(this.state.carBrand) != -1) {
+                console.log(this.state.carBrand.length)
+                newType = i.type.slice(this.state.carBrand.length)
+            }
+            window.localStorage.setItem("models", JSON.stringify(i.models))
+            window.localStorage.setItem("brandType", this.state.carBrand + newType)
             history.back()
         }
         this.setState(obj);
