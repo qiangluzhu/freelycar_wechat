@@ -19,6 +19,7 @@ import com.geariot.platform.freelycar_wechat.dao.WXUserDao;
 import com.geariot.platform.freelycar_wechat.entities.Card;
 import com.geariot.platform.freelycar_wechat.entities.Favour;
 import com.geariot.platform.freelycar_wechat.entities.FavourProjectInfos;
+import com.geariot.platform.freelycar_wechat.entities.FavourRemainings;
 import com.geariot.platform.freelycar_wechat.entities.WXUser;
 import com.geariot.platform.freelycar_wechat.entities.Service;
 import com.geariot.platform.freelycar_wechat.entities.WXPayOrder;
@@ -45,7 +46,7 @@ public class PayService {
 	private static final Logger log = LogManager.getLogger(PayService.class);
 	
 	
-	//创建订单	
+	//创建card订单	
 	public String createCardOrder(String openId,double totalPrice,
 			Service service){
 		log.debug("create new order");
@@ -59,6 +60,20 @@ public class PayService {
 		
 		
 		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
+	}
+	
+	//create favour order
+	public String createFavourOrder(String openId,double totalPrice,
+			FavourRemainings favour){
+		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
+		WXUser wxUser =  wxUserDao.findUserByOpenId(openId);
+		JSONObject obj = new JSONObject();
+		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
+		obj.put(Constants.RESPONSE_WXORDER_KEY,wxPayOrder);
+		
+		
+		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
+		
 	}
 	
 	

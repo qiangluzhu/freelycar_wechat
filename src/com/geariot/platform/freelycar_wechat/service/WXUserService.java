@@ -176,7 +176,7 @@ return 0;
 	}
 	
 	
-	//积分、wxuser、discount,复用性极差
+	//point、wxuser、discount,复用性极差
 	public String getWXUser(String openId){
 		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
 		if(wxUser == null){
