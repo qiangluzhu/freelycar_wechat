@@ -37,7 +37,7 @@ export default {
   },
   proxy: {
     "/api": {
-      "target": "http://172.17.3.122:8080/freelycar/api/",
+      "target": "http://172.17.3.122:8080/freelycar_wechat/api/",
       "changeOrigin": true,
       "pathRewrite": { "^/api": "" }
     }
