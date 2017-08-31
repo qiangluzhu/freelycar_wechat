@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.geariot.platform.freelycar_wechat.entities.Car;
@@ -51,13 +52,15 @@ public class WXUserController {
 	public void test(){
 		log.info("test   "+wxUserService.test());
 	}
-	@RequestMapping(value = "/detail",method = RequestMethod.GET)
+	
+	@RequestMapping(value = "/detail",method = RequestMethod.POST)
 	public String detail(String openId){
 		return wxUserService.detail(openId);
 	}
+	@ResponseBody
 	@RequestMapping(value = "/addcar",method = RequestMethod.POST)
-	public String addcar(String openId,Car car){
-		return wxUserService.addCar(openId,car);
+	public String addcar(@RequestBody Car car){
+		return wxUserService.addCar(car);
 	}
 	@RequestMapping(value = "/delCar",method = RequestMethod.POST)
 	public String delCar(int carId){

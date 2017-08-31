@@ -56,14 +56,15 @@ return 0;
 		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
 		if(wxUser == null){
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
-		}
-		Client client = new Client();
+		}		
 		if(clientDao.findByPhone(wxUser.getPhone())==null){
+			Client client = new Client();
 			client.setPhone(wxUser.getPhone());
 			client.setBirthday(wxUser.getBirthday());
 			client.setName(wxUser.getName());
 			client.setGender(wxUser.getGender());
-			clientDao.save(client);
+			client.setCreateDate(new Date());
+			clientDao.save(client);	
 		}
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
@@ -102,17 +103,15 @@ return 0;
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 	
-	public String addCar(String openId,Car car){
-		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
-		if(wxUser == null){
-			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
-		}
-		Client client = clientDao.findByPhone(wxUser.getPhone());
-		if(client == null){
+	public String addCar(Car car){
+		System.out.print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.print(car);
+		Client client = clientDao.findById(car.getClient().getId());
+		if (client == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
 		Car exist = carDao.findByLicense(car.getLicensePlate());
-		if(exist != null){
+		if (exist != null) {
 			return JsonResFactory.buildOrg(RESCODE.CAR_LICENSE_EXIST).toString();
 		}
 		car.setCreateDate(new Date());
