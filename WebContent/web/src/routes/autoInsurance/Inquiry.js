@@ -13,7 +13,7 @@ class Inquiry extends React.Component {
         }
     }
     componentDidMount() {
-        let mySwiper = new Swiper(this.swiperID, {
+        let mySwiper4= new Swiper(this.swiperID, {
             direction: 'horizontal',
             loop: true,
             // 如果需要分页器
