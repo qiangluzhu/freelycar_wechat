@@ -90,9 +90,11 @@ class CooperativeStore extends React.Component {
                                         <div style={{ fontSize: '.3rem', marginLeft: '.2rem' }}>洗车抵扣券</div>
                                         <div style={{ fontSize: '.2rem', lineHeight: '.3rem', marginLeft: '.2rem' }}>洗车项目时可直接抵扣</div>
                                     </Flex>
-                                    <div className="use-button">
-                                        立即使用
-                                    </div>
+                                    <Flex className="use-button">
+                                        <div className="use-button-plus">-</div>
+                                        <div className="number">1</div>
+                                        <div className="use-button-add">+</div>
+                                    </Flex>
                                 </Flex>
                             </Flex>
                             <div className="coupon-info">
@@ -198,6 +200,18 @@ class CooperativeStore extends React.Component {
                     </Flex>
                 </TabPane>
             </Tabs>
+            <div className='bottom-pay-button'>
+                <Flex style={{ height: '100%' }}>
+                    <Flex.Item className='lable'>合计:</Flex.Item>
+                    <Flex.Item style={{color:'red'}}>￥999</Flex.Item>
+                    <div className='pay-button'>
+                        <Flex style={{ height: '100%' }}>
+                            <Flex.Item style={{textAlign:'center',color:'#fff'}}>立即购买</Flex.Item>
+                        </Flex>
+                    </div>
+                </Flex>
+            </div>
+
         </div>
     }
 

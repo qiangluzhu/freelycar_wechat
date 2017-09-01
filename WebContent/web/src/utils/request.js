@@ -21,7 +21,17 @@ function checkStatus(response) {
  * @param  {object} [options] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export default function request(url, options) {
+export default function request(url,options,params) {
+  if (params) {  
+    let paramsArray = [];  
+    //拼接参数  
+    Object.keys(params).forEach(key => paramsArray.push(key + '=' + params[key]))  
+    if (url.search(/\?/) === -1) {  
+        url += '?' + paramsArray.join('&')  
+    } else {  
+        url += '&' + paramsArray.join('&')  
+    }  
+}  
   return fetch(url, { ...options, credentials: 'include' })
     .then(checkStatus)
     .then(parseJSON)

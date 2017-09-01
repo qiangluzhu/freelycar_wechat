@@ -3,6 +3,7 @@ import { ListView, List, Flex, Drawer } from 'antd-mobile';
 import NavBar from '../../components/NavBar'
 import DasAuto from '../../img/das_auto.jpg'
 import fute from '../../img/fute.jpg'
+import car from '../../car.js'
 const { Item } = List;
 
 class SelectCarBrand extends React.Component {
@@ -21,49 +22,79 @@ class SelectCarBrand extends React.Component {
         const dataBlob = {};
         const sectionIDs = [];
         const rowIDs = [];
-        Object.keys(province).forEach((item, index) => {
+        const carData = car.data;
+        Object.keys(carData).forEach((item, index) => {
             sectionIDs.push(item);
             dataBlob[item] = item;
             rowIDs[index] = [];
-            province[item].forEach((jj) => {
-                rowIDs[index].push(jj.value);
-                dataBlob[jj.value] = jj.label;
+            carData[item].forEach((jj) => {
+                rowIDs[index].push(jj.brand);
+                dataBlob[jj.brand] = jj;
             });
         });
         this.state = {
             dataSource: dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
             headerPressCount: 0,
             open: false,
-            hotlist: [{ img: DasAuto, name: '大众' }, { img: fute, name: '福特' }, { img: '', name: '本田' }, { img: '', name: '丰田' }, { img: '', name: '别克' }, { img: '', name: '奥迪' }]
+            types: [],
+            carBrand: '',
+            type: '',
+            pinyin: '',
+            models: [],
+            hotlist: [{ img: require(`../../carImgs/大众.jpg`), pinyin: 'D', name: '大众' }, { img: require(`../../carImgs/福特.jpg`), pinyin: 'F', name: '福特' }, { img: require(`../../carImgs/本田.jpg`), pinyin: 'B', name: '本田' }, { img: require(`../../carImgs/丰田.jpg`), pinyin: 'F', name: '丰田' }, { img: require(`../../carImgs/别克.jpg`), pinyin: 'B', name: '别克' }, { img: require(`../../carImgs/奥迪.jpg`), pinyin: 'A', name: '奥迪' }, { img: require(`../../carImgs/现代.jpg`), pinyin: 'X', name: '现代' }, { img: require(`../../carImgs/雪佛兰.jpg`), pinyin: 'X', name: '雪佛兰' }, { img: require(`../../carImgs/奔驰.jpg`), pinyin: 'B', name: '奔驰' }, { img: require(`../../carImgs/宝马.jpg`), pinyin: 'B', name: '宝马' }]
         };
     }
 
-    componentDidMount() {
-        console.log(province)
-        console.log(this.state.dataSource)
+    onOpenChange = (e, i) => {
+        let obj = {
+            open: !this.state.open
+        }
+        if (i) {
+            obj = {
+                open: !this.state.open,
+                type: i.type,
+                models: i.models
+            }
+            let newType = i.type
+            if (i.type.indexOf(this.state.carBrand) != -1) {
+                console.log(this.state.carBrand.length)
+                newType = i.type.slice(this.state.carBrand.length)
+            }
+            window.localStorage.setItem("models", JSON.stringify(i.models))
+            window.localStorage.setItem("brandType", this.state.carBrand + newType)
+            history.back()
+        }
+        this.setState(obj);
     }
 
-    onOpenChange = (...args) => {
-        console.log(args);
-        this.setState({ open: !this.state.open });
+    hotClick = (item) => {
+        let carObj = car.data[item.pinyin].filter((obj) => {
+            return (obj.brand == item.name)
+        })
+        this.setState({
+            carBrand: item.name,
+            types: carObj[0].types
+        })
+        this.onOpenChange()
     }
-
+    
     render() {
         let hotlist = this.state.hotlist.map((item, index) => {
-            return <Flex key={index} className={index > 4 ? 'one-item border-no' : 'one-item'} direction="column">
+            return <Flex key={index} className={index > 4 ? 'one-item border-no' : 'one-item'} direction="column" onClick={() => { this.hotClick(item) }}>
                 <img src={item.img} alt="" />
                 <div>{item.name}</div>
             </Flex>
         })
         const sidebar = (<List>
-            {[...Array(20).keys()].map((i, index) => {
-                if (index === 0) {
-                    return (<List.Item key={index}
-                        multipleLine
-                    ><img src={DasAuto} />大众</List.Item>);
-                }
-                return (<List.Item key={index} onClick={(e)=>{this.onOpenChange(e)}}
-                >Category{index}</List.Item>);
+            <List.Item key={-1}
+                multipleLine
+            >
+                <img style={{ verticalAlign: 'middle' }} src={require(`../../carImgs/${this.state.carBrand ? this.state.carBrand : '大众'}.jpg`)} style={{ marginRight: '10px' }} />
+                <span style={{ verticalAlign: 'middle' }}>{this.state.carBrand}</span>
+            </List.Item>
+            {this.state.types.map((i, index) => {
+                return (<List.Item key={index} onClick={(e) => { this.onOpenChange(e, i) }}
+                >{i.type}</List.Item>);
             })}
         </List>);
         return (
@@ -89,7 +120,10 @@ class SelectCarBrand extends React.Component {
                         </div>}
                         renderFooter={() => <span >custom footer</span>}
                         renderSectionHeader={sectionData => (<div>{sectionData}</div>)}
-                        renderRow={rowData => (<Item onClick={(e) => { this.onOpenChange(e) }}>{rowData}</Item>)}
+                        renderRow={rowData => (<Item onClick={(e) => { this.setState({ carBrand: rowData.brand, pinyin: rowData.pinyin, types: rowData.types }); this.onOpenChange() }}>
+                            <img style={{ verticalAlign: 'middle', marginRight: '10px' }} src={require(`../../carImgs/${rowData.brand}.jpg`)} />
+                            <span style={{ verticalAlign: 'middle' }}>{rowData.brand}</span>
+                        </Item>)}
                         style={{
                             height: document.documentElement.clientHeight,
                             overflow: 'auto',
