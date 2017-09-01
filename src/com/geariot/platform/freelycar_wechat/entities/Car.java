@@ -152,12 +152,15 @@ public class Car {
 		this.carbrand = carbrand;
 	}
 	@Override
-    public String toString() {
-        return "Car [id=" + id + ", client=" + client + ", insuranceStarttime="
-                + insuranceStarttime + ", insuranceEndtime=" + insuranceEndtime
-                + "]";
-    }
-    
+	public String toString() {
+		return "Car [id=" + id + ", client=" + client + ", carbrand=" + carbrand + ", cartype=" + cartype
+				+ ", licensePlate=" + licensePlate + ", driveLicenseNumber=" + driveLicenseNumber
+				+ ", insuranceStarttime=" + insuranceStarttime + ", insuranceEndtime=" + insuranceEndtime
+				+ ", insuranceAmount=" + insuranceAmount + ", frameNumber=" + frameNumber + ", engineNumber="
+				+ engineNumber + ", licenseDate=" + licenseDate + ", newCar=" + newCar + ", lastMiles=" + lastMiles
+				+ ", miles=" + miles + ", createDate=" + createDate + ", defaultDate=" + defaultDate + "]";
+	}
+	
 	
 	
 }

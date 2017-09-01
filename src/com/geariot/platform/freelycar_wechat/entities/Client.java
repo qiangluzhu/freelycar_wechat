@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.geariot.platform.freelycar_wechat.utils.JsonDateDeserialize;
 
@@ -55,7 +57,6 @@ public class Client {
 	}
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	@JoinColumn(name="clientId", foreignKey=@ForeignKey(name="none"))
-	@OrderBy("defaultDate asc")
 	public Set<Car> getCars() {
 		return cars;
 	}
@@ -159,6 +160,7 @@ public class Client {
 	}
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	@JoinColumn(name="clientId", foreignKey=@ForeignKey(name="none"))
+	@Where(clause="failed=0")
 	public Set<FavourRemainings> getRemainings() {
 		return remainings;
 	}
@@ -167,6 +169,11 @@ public class Client {
 	}
 	@Override
 	public String toString() {
-		return "Client [cars=" + cars + "]";
+		return "Client [id=" + id + ", name=" + name + ", age=" + age + ", idNumber=" + idNumber + ", gender=" + gender
+				+ ", phone=" + phone + ", birthday=" + birthday + ", driverLicense=" + driverLicense + ", state="
+				+ state + ", points=" + points + ", recommendName=" + recommendName + ", createDate=" + createDate
+				+ ", cars=" + cars + ", cards=" + cards + ", remainings=" + remainings + ", consumTimes=" + consumTimes
+				+ ", consumAmout=" + consumAmout + ", isMember=" + isMember + ", lastVisit=" + lastVisit + "]";
 	}
+	
 }
