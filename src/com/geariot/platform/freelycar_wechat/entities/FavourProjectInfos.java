@@ -4,6 +4,7 @@
 package com.geariot.platform.freelycar_wechat.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,7 +32,7 @@ public class FavourProjectInfos {
 	public void setId(int id) {
 		this.id = id;
 	}
-	@ManyToOne
+	@ManyToOne(cascade={}, fetch=FetchType.EAGER)
 	@JoinColumn(name="projectId", foreignKey=@ForeignKey(name="none"))
 	public Project getProject() {
 		return project;
@@ -56,6 +57,11 @@ public class FavourProjectInfos {
 	}
 	public void setPresentPrice(double presentPrice) {
 		this.presentPrice = presentPrice;
+	}
+	@Override
+	public String toString() {
+		return "FavourProjectInfos [id=" + id + ", project=" + project + ", times=" + times + ", buyPrice=" + buyPrice
+				+ ", presentPrice=" + presentPrice + "]";
 	}
 		
 }
