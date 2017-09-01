@@ -10,13 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.geariot.platform.freelycar_wechat.dao.CarDao;
 import com.geariot.platform.freelycar_wechat.dao.ClientDao;
-import com.geariot.platform.freelycar_wechat.dao.FavourRemainingsDao;
 import com.geariot.platform.freelycar_wechat.dao.IncomeOrderDao;
 import com.geariot.platform.freelycar_wechat.dao.PointDao;
 import com.geariot.platform.freelycar_wechat.dao.WXUserDao;
 import com.geariot.platform.freelycar_wechat.entities.Car;
 import com.geariot.platform.freelycar_wechat.entities.Client;
-import com.geariot.platform.freelycar_wechat.entities.FavourRemainings;
 import com.geariot.platform.freelycar_wechat.entities.IncomeOrder;
 import com.geariot.platform.freelycar_wechat.entities.WXUser;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
@@ -39,8 +37,6 @@ public class WXUserService {
 	private ClientDao clientDao;
 	@Autowired
 	private IncomeOrderDao incomeOrderDao;
-	@Autowired
-	private FavourRemainingsDao favourRemainingsDao;
 	@Autowired
 	private PointDao pointDao;
 	
@@ -83,10 +79,9 @@ return 0;
 		if(client == null){
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
-		List<FavourRemainings> list = favourRemainingsDao.favourtByClientId(client.getId());
-		JsonConfig config = JsonResFactory.dateConfig(FavourRemainings.class);
-		net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(list, config);
-		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, array).toString();
+		JSONObject obj = new JSONObject();
+		obj.put(Constants.RESPONSE_CLIENT_KEY, client);
+		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
 	}
 	
 	public String setDefaultCar(int carId){
@@ -170,17 +165,17 @@ return 0;
 		if(client == null){
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
-		Object favour = favourRemainingsDao.getCountByClientId(client.getId());
+		//Object favour = favourRemainingsDao.getCountByClientId(client.getId());
 		Object point =pointDao.getSumPoint(client.getId()) ;
 		JSONObject obj = new JSONObject();
-		if(favour==null){
-			favour=0;
-		}
+//		if(favour==null){
+//			favour=0;
+//		}
 		if(point == null)
 			point=0;
 		else
 			point=(int)Math.rint((double)(point));
-		obj.put(Constants.RESPONSE_FAVOUR_KEY, favour);
+		//obj.put(Constants.RESPONSE_FAVOUR_KEY, favour);
 		obj.put("point", point);
 		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
 		

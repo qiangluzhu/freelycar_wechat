@@ -48,7 +48,6 @@ public class WXPayOrder {
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public String getId() {
 		return id;
 	}

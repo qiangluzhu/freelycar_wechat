@@ -58,7 +58,7 @@ public class PayService {
 		WXUser wxUser =  wxUserDao.findUserByOpenId(openId);
 		String productName = null;
 		for(FavourToOrder favour : favours)
-			productName += favour.getFavour().getName()+",";
+			productName += favour.getFavour().getName()+"*"+favour.getCount()+",";
 		wxPayOrder.setProductName(productName);
 		wxPayOrder.setFavours(favours);
 		JSONObject obj = new JSONObject();
