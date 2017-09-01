@@ -77,6 +77,7 @@ class SelectCarBrand extends React.Component {
         })
         this.onOpenChange()
     }
+    
     render() {
         let hotlist = this.state.hotlist.map((item, index) => {
             return <Flex key={index} className={index > 4 ? 'one-item border-no' : 'one-item'} direction="column" onClick={() => { this.hotClick(item) }}>

@@ -6,7 +6,9 @@ package com.geariot.platform.freelycar_wechat.entities;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,10 +31,12 @@ public class Favour {
 	private int type;				//优惠券类型 1=抵用券 2=代金券
 	private int validTime;			//券类有效时间
 	private String content;			//内容说明
-	@JsonDeserialize(using=JsonDateDeserialize.class)
-	private Date buyDeadline;		//限时购买截止日期
+	private Date buyStartline;		//限时购买开始日期 
+	private Date buyDeadline;		//限时购买截止日期    
 	private Set<FavourProjectInfos> set;		//优惠项目
 	private boolean deleted;		//是否删除
+	@JsonDeserialize(using=JsonDateDeserialize.class)
+	private Date createDate;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
@@ -71,12 +75,12 @@ public class Favour {
 	public void setBuyDeadline(Date buyDeadline) {
 		this.buyDeadline = buyDeadline;
 	}
-	@OneToMany
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	@JoinColumn(name="favourId", foreignKey=@ForeignKey(name="none"))
-	public Set<FavourProjectInfos> getList() {
+	public Set<FavourProjectInfos> getSet() {
 		return set;
 	}
-	public void setList(Set<FavourProjectInfos> set) {
+	public void setSet(Set<FavourProjectInfos> set) {
 		this.set = set;
 	}
 	public boolean getDeleted() {
@@ -84,6 +88,24 @@ public class Favour {
 	}
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	@Override
+	public String toString() {
+		return "Favour [id=" + id + ", name=" + name + ", type=" + type + ", validTime=" + validTime + ", content="
+				+ content + ", buyDeadline=" + buyDeadline + ", set=" + set + ", deleted=" + deleted + ", createDate="
+				+ createDate + "]";
+	}
+	public Date getBuyStartline() {
+		return buyStartline;
+	}
+	public void setBuyStartline(Date buyStartline) {
+		this.buyStartline = buyStartline;
 	}
 	
 }

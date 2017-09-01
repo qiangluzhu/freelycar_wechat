@@ -4,6 +4,8 @@ import { Popup, List, InputItem, WhiteSpace, Picker, Button, Flex, Icon } from '
 import { createForm } from 'rc-form'
 import NavBar from '../../components/NavBar'
 import { browserHistory } from 'react-router'
+import { addCar, userDetail } from '../../services/user.js'
+import parseForm from '../../utils/parseToForm.js'
 const Item = List.Item;
 const isIPhone = new RegExp('\\biPhone\\b|\\biPod\\b', 'i').test(window.navigator.userAgent);
 let maskProps;
@@ -22,7 +24,8 @@ class AddCar extends React.Component {
             focused1: false,
             carModels: [],
             province: '苏',
-            carModel: ''
+            carModel: '',
+            carPlate: ''
         }
     }
 
@@ -34,6 +37,7 @@ class AddCar extends React.Component {
         this.setState({
             carModels: carModels
         })
+   
     }
 
     selectProvince(item) {
@@ -41,6 +45,50 @@ class AddCar extends React.Component {
         this.setState({
             province: item
         })
+    }
+
+    addCar() {
+        let myInit = {
+            method: 'post',
+            credentials: 'include', 
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json;charset=utf-8'
+            },
+            body:JSON.stringify({
+                carbrand: window.localStorage.getItem('brandType'),
+                cartype:  this.state.carModel[0],
+                licensePlate:this.state.province + this.state.carPlate,
+                //时间选择
+                insuranceStarttime:new Date(),
+                //时间选择
+                insuranceEndtime: new Date(),
+                insuranceAmount:'1',
+                frameNumber:"1",
+                engineNumber: '1',
+                //时间选择
+                licenseDate:1,
+                newCar: true,
+                lastMiles: 11,
+                miles: 1,
+                client: {
+                    id: '11'
+                }
+            })
+        }
+        let myInit2 = {
+            method: 'post',
+            credentials: 'include', 
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/x-www-form-urlencoded;charset=utf-8' 
+            },
+            body:parseForm({
+                openId: '11'
+            })
+        }
+        console.log(userDetail(myInit2))
+        console.log(addCar(myInit))
     }
 
     PopupModal() {
@@ -62,11 +110,11 @@ class AddCar extends React.Component {
             <List className="add-car-info">
 
                 <InputItem
-                    {...getFieldProps('number') }
                     clear
                     placeholder="填写车牌号"
                     maxLength="6"
                     labelNumber="6"
+                    onChange={(e) => { this.setState({ carPlate: e }) }}
                 >
                     <div style={{ display: 'inline-block' }}>车牌号</div>
                     <div className="card-number" style={{ display: 'inline-block', marginLeft: ' 3.3rem' }}>
@@ -86,10 +134,9 @@ class AddCar extends React.Component {
                 </Picker>
 
             </List>
-            <div className="addCar-btn">保存</div>
+            <div className="addCar-btn" onClick={() => { this.addCar() }}>保存</div>
         </div>
     }
-
 }
 const AddCarInfo = createForm()(AddCar);
 // ReactDOM.render(<AddCarInfo />, mountNode);

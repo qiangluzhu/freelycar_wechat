@@ -37,7 +37,7 @@ public class Client {
 	private Date createDate;
 	private Set<Car> cars;
 	private Set<Card> cards;
-	private Set<FavourRemainings> remainings;
+	private Set<Ticket> tickets;
 	private int consumTimes;
 	private float consumAmout;
 	private Boolean isMember;  
@@ -161,19 +161,10 @@ public class Client {
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	@JoinColumn(name="clientId", foreignKey=@ForeignKey(name="none"))
 	@Where(clause="failed=0")
-	public Set<FavourRemainings> getRemainings() {
-		return remainings;
+	public Set<Ticket> getTickets() {
+		return tickets;
 	}
-	public void setRemainings(Set<FavourRemainings> remainings) {
-		this.remainings = remainings;
+	public void setTickets(Set<Ticket> tickets) {
+		this.tickets = tickets;
 	}
-	@Override
-	public String toString() {
-		return "Client [id=" + id + ", name=" + name + ", age=" + age + ", idNumber=" + idNumber + ", gender=" + gender
-				+ ", phone=" + phone + ", birthday=" + birthday + ", driverLicense=" + driverLicense + ", state="
-				+ state + ", points=" + points + ", recommendName=" + recommendName + ", createDate=" + createDate
-				+ ", cars=" + cars + ", cards=" + cards + ", remainings=" + remainings + ", consumTimes=" + consumTimes
-				+ ", consumAmout=" + consumAmout + ", isMember=" + isMember + ", lastVisit=" + lastVisit + "]";
-	}
-	
 }

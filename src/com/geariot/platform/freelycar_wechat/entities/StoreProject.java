@@ -16,10 +16,17 @@ import javax.persistence.ManyToOne;
  *
  */
 @Entity
-public class FavourInfos {
+public class StoreProject {
 	private int id;
-	private Favour favour;  //
-	private int count;
+	private Project project;
+	@ManyToOne
+	@JoinColumn(name="projectId", foreignKey=@ForeignKey(name="none"))
+	public Project getProject() {
+		return project;
+	}
+	public void setProject(Project project) {
+		this.project = project;
+	}
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
@@ -28,19 +35,4 @@ public class FavourInfos {
 	public void setId(int id) {
 		this.id = id;
 	}
-	@ManyToOne
-	@JoinColumn(name="favourId", foreignKey=@ForeignKey(name="none"))
-	public Favour getFavour() {
-		return favour;
-	}
-	public void setFavour(Favour favour) {
-		this.favour = favour;
-	}
-	public int getCount() {
-		return count;
-	}
-	public void setCount(int count) {
-		this.count = count;
-	}
-	
 }

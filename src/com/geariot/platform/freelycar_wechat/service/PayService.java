@@ -1,7 +1,6 @@
 package com.geariot.platform.freelycar_wechat.service;
 
 import java.util.Date;
-import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +20,6 @@ import com.geariot.platform.freelycar_wechat.entities.Card;
 import com.geariot.platform.freelycar_wechat.entities.Favour;
 import com.geariot.platform.freelycar_wechat.entities.FavourProjectInfos;
 import com.geariot.platform.freelycar_wechat.entities.FavourRemainings;
-import com.geariot.platform.freelycar_wechat.entities.FavourToOrder;
 import com.geariot.platform.freelycar_wechat.entities.WXUser;
 import com.geariot.platform.freelycar_wechat.entities.Service;
 import com.geariot.platform.freelycar_wechat.entities.WXPayOrder;
@@ -55,7 +53,6 @@ public class PayService {
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
 		log.debug("id" + wxPayOrder.getId() + "总金额" + wxPayOrder.getTotalPrice() + "openId" + wxPayOrder.getOpenId() +"Date" + wxPayOrder.getCreateDate());
 		WXUser wxUser =  wxUserDao.findUserByOpenId(openId);
-		wxPayOrder.setProductName(service.getName());
 		wxPayOrder.setService(service);
 		JSONObject obj = new JSONObject();
 		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
@@ -67,14 +64,9 @@ public class PayService {
 	
 	//create favour order
 	public String createFavourOrder(String openId,double totalPrice,
-			Set<FavourToOrder> favours){
+			FavourRemainings favour){
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
 		WXUser wxUser =  wxUserDao.findUserByOpenId(openId);
-		String productName = null;
-		for(FavourToOrder favour : favours )
-			productName+=favour;
-		wxPayOrder.setProductName(productName);
-		wxPayOrder.setFavours(favours);
 		JSONObject obj = new JSONObject();
 		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
 		obj.put(Constants.RESPONSE_WXORDER_KEY,wxPayOrder);
@@ -95,10 +87,5 @@ public class PayService {
 		wxPayOrder.setTotalPrice(totalPrice);
 		return wxPayOrder;
 	}
-
-	public JSONObject paySuccess(String orderId) {
-		log.debug("paySuccess and finish order");
-		
-		return null;
-	}
 }
+

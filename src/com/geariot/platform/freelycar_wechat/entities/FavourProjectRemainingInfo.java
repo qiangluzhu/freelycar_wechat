@@ -18,12 +18,10 @@ import javax.persistence.ManyToOne;
  */
 
 @Entity
-public class FavourProjectInfos {
+public class FavourProjectRemainingInfo {
 	private int id;
 	private Project project;
-	private int times;
-	private double buyPrice;
-	private double presentPrice;
+	private int remaining;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
@@ -40,28 +38,11 @@ public class FavourProjectInfos {
 	public void setProject(Project project) {
 		this.project = project;
 	}
-	public int getTimes() {
-		return times;
+	public int getRemaining() {
+		return remaining;
 	}
-	public void setTimes(int times) {
-		this.times = times;
+	public void setRemaining(int remaining) {
+		this.remaining = remaining;
 	}
-	public double getBuyPrice() {
-		return buyPrice;
-	}
-	public void setBuyPrice(double buyPrice) {
-		this.buyPrice = buyPrice;
-	}
-	public double getPresentPrice() {
-		return presentPrice;
-	}
-	public void setPresentPrice(double presentPrice) {
-		this.presentPrice = presentPrice;
-	}
-	@Override
-	public String toString() {
-		return "FavourProjectInfos [id=" + id + ", project=" + project + ", times=" + times + ", buyPrice=" + buyPrice
-				+ ", presentPrice=" + presentPrice + "]";
-	}
-		
+	
 }

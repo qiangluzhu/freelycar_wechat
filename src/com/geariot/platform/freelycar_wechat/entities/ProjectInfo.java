@@ -23,8 +23,10 @@ public class ProjectInfo {
 	private String name;
 	private float price;
 	private int payMethod;			//0,1=扣卡次，付现金
-	private int cardId;
+	private String cardId;
 	private String cardName;
+	private String favourRemainingsId;
+	private String favourName;
 	private int payCardTimes;
 	private float referWorkTime;
 	private float pricePerUnit;
@@ -58,7 +60,7 @@ public class ProjectInfo {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-	public int getCardId() {
+	public String getCardId() {
 		return cardId;
 	}
 	public String getCardName() {
@@ -97,7 +99,7 @@ public class ProjectInfo {
 	public Set<Staff> getStaffs() {
 		return staffs;
 	}
-	public void setCardId(int cardId) {
+	public void setCardId(String cardId) {
 		this.cardId = cardId;
 	}
 	public void setCardName(String cardName) {
@@ -130,16 +132,26 @@ public class ProjectInfo {
 	public void setStaffs(Set<Staff> staffs) {
 		this.staffs = staffs;
 	}
-    @Override
-    public String toString() {
-        return "ProjectInfo [id=" + id + ", projectId=" + projectId + ", name="
-                + name + ", price=" + price + ", payMethod=" + payMethod
-                + ", cardId=" + cardId + ", cardName=" + cardName
-                + ", payCardTimes=" + payCardTimes + ", referWorkTime="
-                + referWorkTime + ", pricePerUnit=" + pricePerUnit
-                + ", staffs=" + staffs + ", clientName=" + clientName
-                + ", licensePlate=" + licensePlate + ", brandName=" + brandName
-                + ", createDate=" + createDate + "]";
-    }
+	public String getFavourRemainingsId() {
+		return favourRemainingsId;
+	}
+	public void setFavourRemainingsId(String favourRemainingsId) {
+		this.favourRemainingsId = favourRemainingsId;
+	}
+	public String getFavourName() {
+		return favourName;
+	}
+	public void setFavourName(String favourName) {
+		this.favourName = favourName;
+	}
+	@Override
+	public String toString() {
+		return "ProjectInfo [id=" + id + ", projectId=" + projectId + ", name=" + name + ", price=" + price
+				+ ", payMethod=" + payMethod + ", cardId=" + cardId + ", cardName=" + cardName + ", favourRemainingsId="
+				+ favourRemainingsId + ", favourName=" + favourName + ", payCardTimes=" + payCardTimes
+				+ ", referWorkTime=" + referWorkTime + ", pricePerUnit=" + pricePerUnit + ", staffs=" + staffs
+				+ ", clientName=" + clientName + ", licensePlate=" + licensePlate + ", brandName=" + brandName
+				+ ", createDate=" + createDate + "]";
+	}
 	
 }

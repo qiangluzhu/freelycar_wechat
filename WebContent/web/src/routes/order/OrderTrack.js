@@ -2,6 +2,8 @@ import React from 'react';
 import NavBar from '../../components/NavBar'
 import { Flex } from 'antd-mobile'
 import './OrderTrack.less'
+import {orderDetail} from '../../services/orders.js'
+import parseForm from '../../utils/parseToForm.js'
 class OrderTrack extends React.Component {
     constructor(props) {
         super(props)
@@ -9,6 +11,20 @@ class OrderTrack extends React.Component {
             paystate: 0,
             carState:0,
         }
+    }
+
+    componentDidMount(){
+        let myInit = {
+            method: 'get',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/x-www-form-urlencoded;charset=utf-8' 
+            }
+        }
+        orderDetail({
+            consumOrderId: '11'
+        },myInit)
     }
 
     render() {

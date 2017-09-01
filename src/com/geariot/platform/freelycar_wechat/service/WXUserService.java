@@ -56,15 +56,14 @@ return 0;
 		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
 		if(wxUser == null){
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
-		}		
+		}
+		Client client = new Client();
 		if(clientDao.findByPhone(wxUser.getPhone())==null){
-			Client client = new Client();
 			client.setPhone(wxUser.getPhone());
 			client.setBirthday(wxUser.getBirthday());
 			client.setName(wxUser.getName());
 			client.setGender(wxUser.getGender());
-			client.setCreateDate(new Date());
-			clientDao.save(client);	
+			clientDao.save(client);
 		}
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
@@ -79,8 +78,12 @@ return 0;
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 	
-	public String listDiscount(int clientId){
-		Client client = clientDao.findById(clientId);
+	public String listDiscount(String openId){
+		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
+		if(wxUser == null){
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
+		}
+		Client client = clientDao.findByPhone(wxUser.getPhone());
 		if(client == null){
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
@@ -99,13 +102,17 @@ return 0;
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 	
-	public String addCar(Car car){
-		Client client = clientDao.findById(car.getClient().getId());
-		if (client == null) {
+	public String addCar(String openId,Car car){
+		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
+		if(wxUser == null){
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
+		}
+		Client client = clientDao.findByPhone(wxUser.getPhone());
+		if(client == null){
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
 		Car exist = carDao.findByLicense(car.getLicensePlate());
-		if (exist != null) {
+		if(exist != null){
 			return JsonResFactory.buildOrg(RESCODE.CAR_LICENSE_EXIST).toString();
 		}
 		car.setCreateDate(new Date());
@@ -118,8 +125,12 @@ return 0;
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 	//返回微信用户信息,client card
-	public String detail(int clientId){
-		Client client = clientDao.findById(clientId);
+	public String detail(String openId){
+		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
+		if(wxUser == null){
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
+		}
+		Client client = clientDao.findByPhone(wxUser.getPhone());
 		if(client == null){
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
@@ -142,8 +153,12 @@ return 0;
 		carDao.update(car);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
-	public String getPoint(int clientId){
-		Client client = clientDao.findById(clientId);
+	public String getPoint(String openId){
+		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
+		if(wxUser == null){
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
+		}
+		Client client = clientDao.findByPhone(wxUser.getPhone());
 		if(client == null){
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
@@ -188,3 +203,4 @@ return 0;
 		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
 	}
 }
+

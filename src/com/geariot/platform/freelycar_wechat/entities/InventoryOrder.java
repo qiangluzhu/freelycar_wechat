@@ -17,7 +17,7 @@ public class InventoryOrder {
 	private String id;
 	private List<InventoryOrderInfo> inventoryInfos;
 	private int type;	//0,1,2,3=入库,维修出库,美容出库,退货出库
-	private float totalAmount;
+	//private float totalAmount;  无用字段
 	private float totalPrice;
 	private Admin orderMaker;
 	private int state;	//0,1=已完成,已作废等
@@ -42,9 +42,9 @@ public class InventoryOrder {
 	public int getState() {
 		return state;
 	}
-	public float getTotalAmount() {
+	/*public float getTotalAmount() {
 		return totalAmount;
-	}
+	}*/
 	public float getTotalPrice() {
 		return totalPrice;
 	}
@@ -66,9 +66,9 @@ public class InventoryOrder {
 	public void setState(int state) {
 		this.state = state;
 	}
-	public void setTotalAmount(float totalAmount) {
+	/*public void setTotalAmount(float totalAmount) {
 		this.totalAmount = totalAmount;
-	}
+	}*/
 	public void setTotalPrice(float totalPrice) {
 		this.totalPrice = totalPrice;
 	}
@@ -77,9 +77,9 @@ public class InventoryOrder {
 	}
 	@Override
 	public String toString() {
-		return "InventoryOrder [id=" + id + ", inventoryInfos=" + inventoryInfos + ", type=" + type + ", totalAmount="
-				+ totalAmount + ", totalPrice=" + totalPrice + ", orderMaker=" + orderMaker + ", state=" + state
-				+ ", createDate=" + createDate + "]";
+		return "InventoryOrder [id=" + id + ", inventoryInfos=" + inventoryInfos + ", type=" + type + ", totalPrice="
+				+ totalPrice + ", orderMaker=" + orderMaker + ", state=" + state + ", createDate=" + createDate + "]";
 	}
+	
 	
 }

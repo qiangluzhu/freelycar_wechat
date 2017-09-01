@@ -19,7 +19,7 @@ import com.geariot.platform.freelycar_wechat.utils.JsonDateDeserialize;
  */
 
 @Entity
-public class insuranceOrder {
+public class InsuranceOrder {
 	private int id;
 	private String name;				//客户姓名
 	private String licensePlate;		//保险询价 车牌
