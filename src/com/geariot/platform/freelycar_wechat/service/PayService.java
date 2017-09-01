@@ -1,6 +1,7 @@
 package com.geariot.platform.freelycar_wechat.service;
 
 import java.util.Date;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,10 +17,7 @@ import com.geariot.platform.freelycar_wechat.dao.FavourProjectInfosDao;
 import com.geariot.platform.freelycar_wechat.dao.ProjectDao;
 import com.geariot.platform.freelycar_wechat.dao.ServiceDao;
 import com.geariot.platform.freelycar_wechat.dao.WXUserDao;
-import com.geariot.platform.freelycar_wechat.entities.Card;
-import com.geariot.platform.freelycar_wechat.entities.Favour;
-import com.geariot.platform.freelycar_wechat.entities.FavourProjectInfos;
-import com.geariot.platform.freelycar_wechat.entities.FavourRemainings;
+import com.geariot.platform.freelycar_wechat.entities.FavourToOrder;
 import com.geariot.platform.freelycar_wechat.entities.WXUser;
 import com.geariot.platform.freelycar_wechat.entities.Service;
 import com.geariot.platform.freelycar_wechat.entities.WXPayOrder;
@@ -32,16 +30,6 @@ public class PayService {
 	
 	@Autowired
 	private WXUserDao wxUserDao;
-	@Autowired
-	private ProjectDao projectDao;
-	@Autowired
-	private ServiceDao serviceDao;
-	@Autowired
-	private CardDao cardDao;
-	@Autowired
-	private FavourDao favourDao;
-	@Autowired
-	private FavourProjectInfosDao favourProjectInfosDao;
 	
 	private static final Logger log = LogManager.getLogger(PayService.class);
 	
@@ -54,6 +42,7 @@ public class PayService {
 		log.debug("id" + wxPayOrder.getId() + "总金额" + wxPayOrder.getTotalPrice() + "openId" + wxPayOrder.getOpenId() +"Date" + wxPayOrder.getCreateDate());
 		WXUser wxUser =  wxUserDao.findUserByOpenId(openId);
 		wxPayOrder.setService(service);
+		wxPayOrder.setProductName(service.getName());
 		JSONObject obj = new JSONObject();
 		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
 		obj.put(Constants.RESPONSE_WXORDER_KEY,wxPayOrder);
@@ -64,9 +53,14 @@ public class PayService {
 	
 	//create favour order
 	public String createFavourOrder(String openId,double totalPrice,
-			FavourRemainings favour){
+			Set<FavourToOrder> favours){
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
 		WXUser wxUser =  wxUserDao.findUserByOpenId(openId);
+		String productName = null;
+		for(FavourToOrder favour : favours)
+			productName += favour.getFavour().getName()+",";
+		wxPayOrder.setProductName(productName);
+		wxPayOrder.setFavours(favours);
 		JSONObject obj = new JSONObject();
 		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
 		obj.put(Constants.RESPONSE_WXORDER_KEY,wxPayOrder);
@@ -86,6 +80,11 @@ public class PayService {
 		wxPayOrder.setPayState(Constants.PAY_UNPAY);
 		wxPayOrder.setTotalPrice(totalPrice);
 		return wxPayOrder;
+	}
+
+	public JSONObject paySuccess(String orderId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 

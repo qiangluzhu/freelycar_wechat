@@ -28,8 +28,8 @@ public class Store {
 	private String address;					//门店地址
 	private double latitude;				//门店纬度
 	private double longitude;				//门店经度
-	private Date openingTime;				//门店营业时间
-	private Date closingTime;				//门店歇业事件
+	private String openingTime;				//门店营业时间
+	private String closingTime;				//门店歇业事件
 	private String phone;					//门店联系方式
 	private Set<StoreProject> storeProjects;			//门店经营项目
 	private Set<StoreFavour> storefavours;			//门店优惠活动
@@ -104,17 +104,17 @@ public class Store {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-	public Date getClosingTime() {
-		return closingTime;
-	}
-	public void setClosingTime(Date closingTime) {
-		this.closingTime = closingTime;
-	}
-	public Date getOpeningTime() {
+	public String getOpeningTime() {
 		return openingTime;
 	}
-	public void setOpeningTime(Date openingTime) {
+	public void setOpeningTime(String openingTime) {
 		this.openingTime = openingTime;
-	} 
+	}
+	public String getClosingTime() {
+		return closingTime;
+	}
+	public void setClosingTime(String closingTime) {
+		this.closingTime = closingTime;
+	}
 	
 }

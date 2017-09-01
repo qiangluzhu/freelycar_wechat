@@ -42,9 +42,9 @@ public class PayController {
 	PayService payService;
 	
 	@RequestMapping(value="favour")
-	public String wechatFavour(String openId,float totalPrice,Set<FavourToOrder> favour){
+	public String wechatFavour(String openId,float totalPrice,Set<FavourToOrder> favours){
 			log.info("购买券");
-			return payService.createFavourOrder(openId, totalPrice, favour);
+			return payService.createFavourOrder(openId, totalPrice, favours);
 	}
 
 	@RequestMapping(value="membershipCard")

@@ -35,7 +35,7 @@ public class ConsumOrderService {
 		if (exist == null || exist.isEmpty()) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
-		long realSize = serviceDao.getCount();
+		long realSize = consumOrderDao.getCountByClientId(clientId);
 		int size = (int)Math.ceil(realSize/number);
 		JsonConfig config = new JsonConfig();
 		config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor());

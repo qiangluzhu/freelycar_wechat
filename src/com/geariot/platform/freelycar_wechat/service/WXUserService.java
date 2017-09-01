@@ -78,12 +78,8 @@ return 0;
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 	
-	public String listDiscount(String openId){
-		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
-		if(wxUser == null){
-			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
-		}
-		Client client = clientDao.findByPhone(wxUser.getPhone());
+	public String listDiscount(int clientId){
+		Client client = clientDao.findById(clientId);
 		if(client == null){
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
@@ -102,17 +98,13 @@ return 0;
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 	
-	public String addCar(String openId,Car car){
-		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
-		if(wxUser == null){
-			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
-		}
-		Client client = clientDao.findByPhone(wxUser.getPhone());
-		if(client == null){
+	public String addCar(Car car){
+		Client client = clientDao.findById(car.getClient().getId());
+		if (client == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
 		Car exist = carDao.findByLicense(car.getLicensePlate());
-		if(exist != null){
+		if (exist != null) {
 			return JsonResFactory.buildOrg(RESCODE.CAR_LICENSE_EXIST).toString();
 		}
 		car.setCreateDate(new Date());
@@ -125,12 +117,8 @@ return 0;
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 	//返回微信用户信息,client card
-	public String detail(String openId){
-		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
-		if(wxUser == null){
-			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
-		}
-		Client client = clientDao.findByPhone(wxUser.getPhone());
+	public String detail(int clientId){
+		Client client = clientDao.findById(clientId);
 		if(client == null){
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
@@ -153,12 +141,8 @@ return 0;
 		carDao.update(car);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
-	public String getPoint(String openId){
-		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
-		if(wxUser == null){
-			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
-		}
-		Client client = clientDao.findByPhone(wxUser.getPhone());
+	public String getPoint(int clientId){
+		Client client = clientDao.findById(clientId);
 		if(client == null){
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}

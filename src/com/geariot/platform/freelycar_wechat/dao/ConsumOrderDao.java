@@ -13,6 +13,10 @@ public interface ConsumOrderDao {
 	List<ConsumOrder> list(int from, int pageSize);
 
 	long getCount();
+	
+	long getCountByClientId(int clientId);
+	
+	List<ConsumOrder> listByClientId(int clientId,int from, int pageSize);
 
 	ConsumOrder findById(String consumOrderId);
 
