@@ -31,13 +31,13 @@ public class WXUserController {
 		return wxUserService.deletWXUser(openId);
 	}
 	@RequestMapping(value = "/myDiscount",method = RequestMethod.POST)
-	public String myDiscount(String openId){
-		return wxUserService.listDiscount(openId);
+	public String myDiscount(int clientId){
+		return wxUserService.listDiscount(clientId);
 	}
 	//要显示积分记录查project
 	@RequestMapping(value = "/points",method = RequestMethod.POST)
-	public String points(String openId){
-		return wxUserService.getPoint(openId);
+	public String points(int clientId){
+		return wxUserService.getPoint(clientId);
 	}
 	//设置时间
 	@RequestMapping(value = "/defaultCar",method = RequestMethod.POST)
@@ -54,12 +54,13 @@ public class WXUserController {
 	}
 	
 	@RequestMapping(value = "/detail",method = RequestMethod.POST)
-	public String detail(String openId){
-		return wxUserService.detail(openId);
+	public String detail(int clientId){
+		return wxUserService.detail(clientId);
 	}
-	@ResponseBody
+	
 	@RequestMapping(value = "/addcar",method = RequestMethod.POST)
 	public String addcar(@RequestBody Car car){
+		log.debug(">>>>>>>> "+car);
 		return wxUserService.addCar(car);
 	}
 	@RequestMapping(value = "/delCar",method = RequestMethod.POST)

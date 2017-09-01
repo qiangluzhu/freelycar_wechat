@@ -32,7 +32,9 @@ public enum RESCODE {
 	UNSUPPORT_TYPE(27, "不支持该操作"),
 	NO_RECORD(28,"数据库无记录"),
 	CANNOT_CANCEL_INVOICES(29,"配件库存不足以退货"),
-	NOT_FOUND_WXUSER(30,"无openId对应微信用户")
+	NOT_FOUND_WXUSER(30,"无openId对应微信用户"),
+	ORDER_ERROR(31,"微信下单接口失败"),
+	CALL_PORT_ERROR(32,"微信下单接口调用失败")
 	;
 	
 	// 定义私有变量

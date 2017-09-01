@@ -43,12 +43,28 @@ public class ConsumOrderDaoImpl implements ConsumOrderDao {
 		return this.getSession().createQuery(hql).setFirstResult(from).setMaxResults(pageSize)
 				.setCacheable(Constants.SELECT_CACHE).list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ConsumOrder> listByClientId(int clientId, int from, int pageSize) {
+		String hql = "from ConsumOrder where clientId = :clientId order by createDate desc";
+		return this.getSession().createQuery(hql).setInteger("clientId", clientId).setFirstResult(from).setMaxResults(pageSize)
+				.setCacheable(Constants.SELECT_CACHE).list();
+	}
+
 
 	@Override
 	public long getCount() {
 		String hql = "select count(*) from ConsumOrder";
 		return (long) this.getSession().createQuery(hql).setCacheable(Constants.SELECT_CACHE).uniqueResult();
 	}
+	
+	@Override
+	public long getCountByclient(int clientId) {
+		String hql = "select count(*) from ConsumOrder where clientId=: clientId";
+		return (long) this.getSession().createQuery(hql).setInteger("clientId", clientId).setCacheable(Constants.SELECT_CACHE).uniqueResult();
+	}
+
 
 	@Override
 	public ConsumOrder findById(String consumOrderId) {
@@ -181,5 +197,7 @@ public class ConsumOrderDaoImpl implements ConsumOrderDao {
 		List<ConsumOrder> res = this.getSession().createQuery(hql).setInteger("id", staffId).list();
 		return res;
 	}
+
+
 
 }

@@ -12,6 +12,8 @@ public interface ConsumOrderDao {
 	List<ConsumOrder> list(int from, int pageSize);
 
 	long getCount();
+	
+	long getCountByclient(int clientId);
 
 	ConsumOrder findById(String consumOrderId);
 
@@ -26,6 +28,8 @@ public interface ConsumOrderDao {
 	List<ConsumOrder> findByMakerAccount(String account);
 	
 	List<ConsumOrder> findByPickCarStaffId(int staffId);
+	
+	List<ConsumOrder> listByClientId(int clientId,int from, int pageSize);
 	
 	long countInventoryInfoByIds(List<String> inventoryIds);
 	

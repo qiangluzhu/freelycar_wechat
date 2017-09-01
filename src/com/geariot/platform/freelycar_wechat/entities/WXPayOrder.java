@@ -34,7 +34,7 @@ public class WXPayOrder {
 	private Date createDate;	//订单产生时间
 	private Date finishDate;	//完成时间
 	private String productName; //产品名称
-	private int payState;		//订单支付状态
+	private int payState;		//订单支付状态0,1=未结算,已结算
 	public String getProductName() {
 		return productName;
 	}

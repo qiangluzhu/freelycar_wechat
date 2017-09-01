@@ -95,4 +95,10 @@ public class PayService {
 		wxPayOrder.setTotalPrice(totalPrice);
 		return wxPayOrder;
 	}
+
+	public JSONObject paySuccess(String orderId) {
+		log.debug("paySuccess and finish order");
+		
+		return null;
+	}
 }
