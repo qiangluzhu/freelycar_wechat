@@ -1,7 +1,7 @@
 package com.geariot.platform.freelycar_wechat.entities;
 
 import java.util.Date;
-
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.FetchType;
+import javax.persistence.CascadeType;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.geariot.platform.freelycar_wechat.utils.JsonDateDeserialize;
@@ -28,7 +31,8 @@ public class WXPayOrder {
 	private Date finishDate;	//支付完时间
 	private int payState;		//订单支付状态,0未支付，1支付完成
 	private Service service;	//购买的卡类
-	private Favour favour;		//购买的抵用券
+	private String productName; //产品名称
+	private Set<FavourToOrder> favours;//购买券
 	private int payMethod;		//支付方式，只有微信0
 	public Date getFinishDate() {
 		return finishDate;
@@ -77,19 +81,25 @@ public class WXPayOrder {
 	public void setService(Service service) {
 		this.service = service;
 	}
-	@ManyToOne
-	@JoinColumn(name="favourId", foreignKey=@ForeignKey(name="none"))
-	public Favour getFavour() {
-		return favour;
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
+	@JoinColumn(name="wxOrderId", foreignKey=@ForeignKey(name="none"))
+	public Set<FavourToOrder> getFavours() {
+		return favours;
 	}
-	public void setFavour(Favour favour) {
-		this.favour = favour;
+	public void setFavours(Set<FavourToOrder> favours) {
+		this.favours = favours;
 	}
 	public int getPayMethod() {
 		return payMethod;
 	}
 	public void setPayMethod(int payMethod) {
 		this.payMethod = payMethod;
+	}
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 	
 }
