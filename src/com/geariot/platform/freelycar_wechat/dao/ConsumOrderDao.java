@@ -41,5 +41,7 @@ public interface ConsumOrderDao {
 	List<Object[]> programNameMonth();
 	
 	List<Object[]> programNameRange(Date startTime , Date endTime);
+
+	void update(ConsumOrder consumOrder);
 }
 

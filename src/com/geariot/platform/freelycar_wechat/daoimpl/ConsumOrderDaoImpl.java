@@ -197,8 +197,10 @@ public class ConsumOrderDaoImpl implements ConsumOrderDao {
 		return res;
 	}
 
-
-
+	@Override
+	public void update(ConsumOrder consumOrder) {
+		this.getSession().update(consumOrder);
+	}
 
 }
 

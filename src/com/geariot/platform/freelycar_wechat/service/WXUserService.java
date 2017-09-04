@@ -29,8 +29,6 @@ public class WXUserService {
 	@Autowired
 	private ClientDao clientDao;
 	@Autowired
-	private IncomeOrderDao incomeOrderDao;
-	@Autowired
 	private PointDao pointDao;
 	@Autowired
 	private ConsumOrderDao consumOrderDao;

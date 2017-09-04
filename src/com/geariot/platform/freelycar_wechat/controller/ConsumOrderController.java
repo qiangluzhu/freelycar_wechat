@@ -30,6 +30,7 @@ public class ConsumOrderController {
 		return consumOrderService.listWXPayOrder(clientId,page,number);
 	}
 	
+	@RequestMapping(value = "/comment",method = RequestMethod.GET)
 	public String comment(String consumOrderId,String comment,int stars){
 		return consumOrderService.comment(consumOrderId,comment,stars);
 	}

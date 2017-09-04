@@ -68,7 +68,6 @@ public class ConsumOrderService {
 
 
 	public String listWXPayOrder(int clientId, int page, int number) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -76,8 +75,13 @@ public class ConsumOrderService {
 
 
 	public String comment(String consumOrderId, String comment, int stars) {
-		// TODO Auto-generated method stub
-		return null;
+		ConsumOrder consumOrder = consumOrderDao.findById(consumOrderId);
+		consumOrder.setComment(comment);
+		consumOrder.setStars(stars);
+		consumOrder.setCommentDate(new Date());
+		consumOrderDao.update(consumOrder);
+		return JsonResFactory.buildNet(RESCODE.SUCCESS).toString();
+
 	}
 	
 	
