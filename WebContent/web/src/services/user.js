@@ -43,7 +43,7 @@ export default {
     },
 
     wxInfo:(params)=>{
-        return post('/api/user/wxInfo',params)
+        return get('/api/user/wxInfo',params)
     }
 
 }
