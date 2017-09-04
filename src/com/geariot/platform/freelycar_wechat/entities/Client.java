@@ -27,6 +27,14 @@ public class Client {
 	private String name;
 	private int age;
 	private String idNumber;
+	@Override
+	public String toString() {
+		return "Client [id=" + id + ", name=" + name + ", age=" + age + ", idNumber=" + idNumber + ", gender=" + gender
+				+ ", phone=" + phone + ", birthday=" + birthday + ", driverLicense=" + driverLicense + ", state="
+				+ state + ", points=" + points + ", recommendName=" + recommendName + ", createDate=" + createDate
+				+ ", cars=" + cars + ", cards=" + cards + ", tickets=" + tickets + ", consumTimes=" + consumTimes
+				+ ", consumAmout=" + consumAmout + ", isMember=" + isMember + ", lastVisit=" + lastVisit + "]";
+	}
 	private String gender;
 	private String phone;
 	private Date birthday;
