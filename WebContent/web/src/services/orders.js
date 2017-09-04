@@ -17,6 +17,6 @@ export default {
         return post('/api/orders/comment',params)
     },
     orderDetail:(params)=>{
-        return get('/api/orders/detail/',params)
+        return get('/api/orders/detail',params)
     }
 }

@@ -18,18 +18,12 @@ class OrderTrack extends React.Component {
     }
 
     componentDidMount(){
-        let myInit = {
-            method: 'get',
-            credentials: 'include',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type':'application/x-www-form-urlencoded;charset=utf-8' 
-            }
-        }
+
         orderDetail({
-            consumOrderId: 'S20170802w9ujo4'
-        },myInit).then((res)=>{
+            consumOrderId: 'S201708104lfl5v'
+        }).then((res)=>{
             let data = res.data.data.data
+            console.log(res)
             if(res.data.code=='0') {
                 console.log(data)
                 this.setState({
