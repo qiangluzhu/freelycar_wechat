@@ -23,4 +23,10 @@ public class WXPayOrderDaoImpl implements WXPayOrderDao{
 		this.getSession().saveOrUpdate(wxPayOrder);
 	}
 
+	@Override
+	public WXPayOrder findById(String wxPayOrderId) {
+		String hql = "from WXPayOrder where wxPayOrderId = :wxPayOrderId";
+		return (WXPayOrder) this.getSession().createQuery(hql).setString("wxPayOrderId", wxPayOrderId).uniqueResult();
+	}
+
 }

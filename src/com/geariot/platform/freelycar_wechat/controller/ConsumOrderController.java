@@ -18,4 +18,8 @@ public class ConsumOrderController {
 	public String listConsumOrder(int clientId , int page , int number){
 		return consumOrderService.listConsumOrder(clientId,page,number);
 	}
+	@RequestMapping(value = "/detailWXPayOrder",method = RequestMethod.GET)
+	public String detailWXPayOrder(String wxPayOrderId){
+		return consumOrderService.detailWXPayOrder(wxPayOrderId);
+	}
 }

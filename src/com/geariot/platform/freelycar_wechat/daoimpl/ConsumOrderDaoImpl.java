@@ -47,7 +47,7 @@ public class ConsumOrderDaoImpl implements ConsumOrderDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ConsumOrder> listByClientId(int clientId, int from, int pageSize) {
-		String hql = "from ConsumOrder where clientId=: clientId order by createDate desc";
+		String hql = "from ConsumOrder where clientId= :clientId order by createDate desc";
 		return this.getSession().createQuery(hql).setInteger("clientId", clientId).setFirstResult(from).setMaxResults(pageSize)
 				.setCacheable(Constants.SELECT_CACHE).list();
 	}
