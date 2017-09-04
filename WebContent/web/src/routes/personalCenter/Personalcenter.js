@@ -1,6 +1,6 @@
 import React from 'react';
 import './Personalcenter.less'
-import { Flex } from 'antd-mobile'
+import { Flex, Modal } from 'antd-mobile'
 import membershipcard from '../../img/membershipcard_icon@2x.png'
 import more_arrow from '../../img/more_arrow.png'
 import Vehiclemanagement_icon from '../../img/Vehiclemanagement_icon.png'
@@ -8,8 +8,10 @@ import order_icon from '../../img/order_icon.png'
 import Contactxiaoyi_icon from '../../img/Contactxiaoyi_icon.png'
 import avatar from '../../assets/yay.jpg'
 import banner from '../../img/member_banner.png'
-import { wxInfo, userDetail, modifyCarInfo } from '../../services/user.js'
+import { wxInfo, userDetail, modifyCarInfo, logout } from '../../services/user.js'
 import { browserHistory } from 'dva/router'
+
+const alert = Modal.alert
 class Personalcenter extends React.Component {
 
     constructor(props) {
@@ -21,7 +23,8 @@ class Personalcenter extends React.Component {
             tickets: 0,
             card: [],
             cars: [],
-            order:[]
+            order: [],
+            modal1: false
         }
     }
 
@@ -70,11 +73,27 @@ class Personalcenter extends React.Component {
         })
     }
 
+    logout = () => {
+        const alertInstance = alert('', '确定退出登录吗?', [
+            { text: '否', onPress: () => console.log('cancel'), style: 'default' },
+            {
+                text: '是', onPress: () => logout({
+                    openId: '11'
+                }).then((res) => {
+                    browserHistory.push('/login')
+                })
+            },
+        ]);
+        setTimeout(() => {
+            alertInstance.close();
+        }, 2000);
+
+    }
 
     render() {
 
-        let projectInfos =  this.state.card.projectInfos||[]
-        let programs =projectInfos.map((item, index) => {
+        let projectInfos = this.state.card.projectInfos || []
+        let programs = projectInfos.map((item, index) => {
             return <Flex.Item key={index}>
                 <Flex direction="column" justify="center">
                     <Flex.Item className="vip-card-program">{item.project.name}</Flex.Item>
@@ -85,7 +104,9 @@ class Personalcenter extends React.Component {
         return <div className="body-bac">
             <div className="top-gradient">
             </div>
-            <div className="clear"><div className="center-login-out"></div><a href="tel:18512391863" className="center-line-phone"></a></div>
+            <div className="clear"><div className="center-login-out" onClick={() => {
+                this.logout()
+            }}></div><a href="tel:18512391863" className="center-line-phone"></a></div>
             <Flex justify="between" align='start' direction="column" className="person-info">
                 <Flex justify="between" align='start' style={{ height: '1.2rem' }} >
                     <div className="avatar"><img src={avatar} alt="" /></div>
@@ -108,6 +129,8 @@ class Personalcenter extends React.Component {
                 </Flex>
             </Flex>
 
+
+
             <div className="center-banner"><img src={banner} alt="" /></div>
             <Flex className="center-line-box" onClick={() => {
                 if (this.state.cars.length > 0) {
@@ -118,18 +141,19 @@ class Personalcenter extends React.Component {
                 <p>爱车管理</p>
                 <Flex.Item className="vip-card-more"><img src={more_arrow} alt="" /></Flex.Item>
             </Flex>
-            <div className="vip-gold-card" onClick={()=>{
-                browserHistory.push('/membership/mycard')}}>
+            <div className="vip-gold-card" onClick={() => {
+                browserHistory.push('/membership/mycard')
+            }}>
                 <Flex className="vip-card-line1">
                     <div className="icon-close"><img src={membershipcard} alt="" /></div>
-                    <Flex.Item className="vip-card-name">{this.state.card.service?this.state.card.service.name:''}</Flex.Item>
+                    <Flex.Item className="vip-card-name">{this.state.card.service ? this.state.card.service.name : ''}</Flex.Item>
                     <Flex.Item className="vip-card-more" style={{ color: '#8e8e8e' }} >全部会员卡管理<img src={more_arrow} style={{ marginLeft: '.2rem' }} alt="" /></Flex.Item>
                 </Flex>
                 <Flex>
                     {programs}
                 </Flex>
             </div>
-            <Flex className="center-line-box" style={{ marginBottom: '0' }} onClick={()=>{browserHistory.push('/serviceCard')}}>
+            <Flex className="center-line-box" style={{ marginBottom: '0' }} onClick={() => { browserHistory.push('/serviceCard') }}>
                 <div className="center-icon2"><img src={order_icon} alt="" /></div>
                 <p>订单</p>
                 <Flex.Item className="vip-card-more">全部订单 订单详情<img style={{ marginLeft: '.2rem' }} src={more_arrow} alt="" /></Flex.Item>
@@ -137,8 +161,8 @@ class Personalcenter extends React.Component {
             <Flex className="center-listItem" direction="column">
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.24rem', color: '#4b4b4b' }}>
                     <i className="circle"></i>
-                    <p>{this.state.order.projects?(this.state.order.projects[0].name+(this.state.order.projects.length>1?<span style={{color:'#1e1e1e',opacity: '0.5'}}>...</span>:'')):''}</p>
-                    <Flex.Item className="finish-state">{this.state.order.state==0?'已接车':(this.state.order.state==1?'已完成':'已交车')}</Flex.Item>
+                    <p>{this.state.order.projects ? (this.state.order.projects[0].name + (this.state.order.projects.length > 1 ? <span style={{ color: '#1e1e1e', opacity: '0.5' }}>...</span> : '')) : ''}</p>
+                    <Flex.Item className="finish-state">{this.state.order.state == 0 ? '已接车' : (this.state.order.state == 1 ? '已完成' : '已交车')}</Flex.Item>
                 </Flex>
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.18rem', color: '#8e8e8e' }}>
                     <i className="circle2"></i>

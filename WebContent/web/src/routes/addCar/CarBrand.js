@@ -98,7 +98,7 @@ class SelectCarBrand extends React.Component {
             })}
         </List>);
         return (
-            <div className="body-bac">
+            <div className="body-bac" style={{height:'100%'}}>
                 <NavBar title="请选择品牌" />
                 <Drawer
                     className="my-drawer"

@@ -31,13 +31,14 @@ class AddCar extends React.Component {
 
     componentDidMount() {
         let carModels = []
-        JSON.parse(window.localStorage.getItem('models')).map((item, index) => {
-            carModels.push({ label: item.model, value: item.model, key: item.model })
-        })
-        this.setState({
-            carModels: carModels
-        })
-   
+        if (window.localStorage.getItem('models')) {
+            JSON.parse(window.localStorage.getItem('models')).map((item, index) => {
+                carModels.push({ label: item.model, value: item.model, key: item.model })
+            })
+            this.setState({
+                carModels: carModels
+            })
+        }
     }
 
     selectProvince(item) {
@@ -47,48 +48,22 @@ class AddCar extends React.Component {
         })
     }
 
-    addCar() {
-        let myInit = {
-            method: 'post',
-            credentials: 'include', 
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type':'application/json;charset=utf-8'
-            },
-            body:JSON.stringify({
-                carbrand: window.localStorage.getItem('brandType'),
-                cartype:  this.state.carModel[0],
-                licensePlate:this.state.province + this.state.carPlate,
-                //时间选择
-                insuranceStarttime:new Date(),
-                //时间选择
-                insuranceEndtime: new Date(),
-                insuranceAmount:'1',
-                frameNumber:"1",
-                engineNumber: '1',
-                //时间选择
-                licenseDate:1,
-                newCar: true,
-                lastMiles: 11,
-                miles: 1,
-                client: {
-                    id: '11'
-                }
-            })
-        }
-        let myInit2 = {
-            method: 'post',
-            credentials: 'include', 
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type':'application/x-www-form-urlencoded;charset=utf-8' 
-            },
-            body:parseForm({
-                openId: '11'
-            })
-        }
-        console.log(userDetail(myInit2))
-        console.log(addCar(myInit))
+    addCarInfos() {
+       addCar({
+            carbrand: window.localStorage.getItem('brandType'),
+            cartype: this.state.carModel[0],
+            licensePlate: this.state.province + this.state.carPlate,
+            client: {
+                id: '11'
+            }
+        }).then((res)=>{
+            console.log(res)
+            if(res.data.code == '0') {
+                browserHistory.push('/carInfo')
+            }
+        }).catch((Error)=>{
+            console.log(Error)
+        })
     }
 
     PopupModal() {
@@ -134,7 +109,7 @@ class AddCar extends React.Component {
                 </Picker>
 
             </List>
-            <div className="addCar-btn" onClick={() => { this.addCar() }}>保存</div>
+            <div className="addCar-btn" onClick={() => { this.addCarInfos() }}>保存</div>
         </div>
     }
 }
