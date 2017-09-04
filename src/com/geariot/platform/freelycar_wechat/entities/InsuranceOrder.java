@@ -27,7 +27,7 @@ public class InsuranceOrder {
 	private String insuranceCompany;	//客户意向 保险公司
 	@JsonDeserialize(using=JsonDateDeserialize.class)
 	private Date createDate;			//询价创建日期
-	private String intent;				//客户意向
+	private String intent;				//客户意向  commit
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
