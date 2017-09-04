@@ -59,7 +59,7 @@ return 0;
 		}
 		JSONObject obj = new JSONObject();
 		obj.put(Constants.RESPONSE_CLIENT_KEY, client);
-		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
+		return JsonResFactory.buildNet(RESCODE.SUCCESS, Constants.RESPONSE_CLIENT_KEY, client.getId()).toString();
 		//return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 	//只做添加操作

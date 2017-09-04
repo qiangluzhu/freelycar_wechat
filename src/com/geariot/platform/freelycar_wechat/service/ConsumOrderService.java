@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.geariot.platform.freelycar_wechat.utils.Constants;
-import com.geariot.platform.freelycar_wechat.utils.DateJsonValueProcessor;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
 import com.geariot.platform.freelycar_wechat.dao.*;
 import com.geariot.platform.freelycar_wechat.entities.ConsumOrder;
@@ -45,9 +44,9 @@ public class ConsumOrderService {
 		}
 		long realSize = consumOrderDao.getCountByClientId(clientId);
 		int size = (int)Math.ceil(realSize/number);
-		System.out.print("<<<<<"+realSize+">>>>"+size);
-		JsonConfig config = new JsonConfig();
-		config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor());
+		//JsonConfig config = new JsonConfig();
+		//config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor());
+		JsonConfig config = JsonResFactory.dateConfig();
 		JSONArray jsonArray = JSONArray.fromObject(exist,config);
 		net.sf.json.JSONObject obj= JsonResFactory.buildNetWithData(RESCODE.SUCCESS, jsonArray);
 		obj.put(Constants.RESPONSE_SIZE_KEY, size);
