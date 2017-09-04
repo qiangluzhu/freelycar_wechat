@@ -17,9 +17,35 @@ class Personalcenter extends React.Component {
         }
     }
 
-    componentDidMount(){
-        
-    }
+    componentDidMount() {
+        wxInfo({
+            openId: '11'
+        }).then((res) => {
+            console.log(res)
+            if (res.data.code == '0') {
+                let data = res.data.data
+                this.setState({
+                    point: data.point,
+                    name: data.name ? data.name : data.nickName,
+                    headimgurl:data.headimgurl
+                })
+            }
+        }).catch((error)=>{console.log(error)})
+
+        userDetail({
+            clientId:'10'
+        }).then((res)=>{
+            console.log(res)
+            if(res.data.code == '0') {
+                let data = res.data.data
+                this.setState({
+                    card:data.cards
+                })
+            }
+        }).catch((error)=>{
+            console.log(error)
+        })
+    } 
     render() {
         return <div className="body-bac">
             <div className="top-gradient">
