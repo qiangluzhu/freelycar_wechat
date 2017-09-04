@@ -1,3 +1,4 @@
+
 package com.geariot.platform.freelycar_wechat.controller;
 
 import org.apache.logging.log4j.LogManager;
@@ -6,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.geariot.platform.freelycar_wechat.entities.Car;
@@ -30,7 +30,7 @@ public class WXUserController {
 	public String logout(String openId){
 		return wxUserService.deletWXUser(openId);
 	}
-	@RequestMapping(value = "/myDiscount",method = RequestMethod.POST)
+	@RequestMapping(value = "/myDiscount",method = RequestMethod.GET)
 	public String myDiscount(int clientId){
 		return wxUserService.listDiscount(clientId);
 	}
@@ -73,3 +73,4 @@ public class WXUserController {
 	}
 
 }
+
