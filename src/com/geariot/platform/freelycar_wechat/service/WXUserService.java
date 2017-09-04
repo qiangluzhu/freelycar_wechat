@@ -8,15 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.geariot.platform.freelycar_wechat.dao.CarDao;
-import com.geariot.platform.freelycar_wechat.dao.ClientDao;
-import com.geariot.platform.freelycar_wechat.dao.IncomeOrderDao;
-import com.geariot.platform.freelycar_wechat.dao.PointDao;
-import com.geariot.platform.freelycar_wechat.dao.WXUserDao;
-import com.geariot.platform.freelycar_wechat.entities.Car;
-import com.geariot.platform.freelycar_wechat.entities.Client;
-import com.geariot.platform.freelycar_wechat.entities.IncomeOrder;
-import com.geariot.platform.freelycar_wechat.entities.WXUser;
+import com.geariot.platform.freelycar_wechat.dao.*;
+import com.geariot.platform.freelycar_wechat.entities.*;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
 import com.geariot.platform.freelycar_wechat.utils.Constants;
 import com.geariot.platform.freelycar_wechat.utils.JsonPropertyFilter;
@@ -39,6 +32,8 @@ public class WXUserService {
 	private IncomeOrderDao incomeOrderDao;
 	@Autowired
 	private PointDao pointDao;
+	@Autowired
+	private ConsumOrderDao consumOrderDao;
 	
 	public double test(){
 return 0;
@@ -64,7 +59,10 @@ return 0;
 				client.setName(wxUser.getName());
 			clientDao.save(client);
 		}
-		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
+		JSONObject obj = new JSONObject();
+		obj.put(Constants.RESPONSE_CLIENT_KEY, client);
+		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
+		//return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 	//只做添加操作
 	public String addWXUser(String openId,String nickName,String headimgurl,String phone){
@@ -82,9 +80,12 @@ return 0;
 		if(client == null){
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
-		JSONObject obj = new JSONObject();
-		obj.put(Constants.RESPONSE_CLIENT_KEY, client);
-		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
+		JsonConfig config = JsonResFactory.dateConfig();
+		JsonPropertyFilter filter = new JsonPropertyFilter(Client.class);
+		config.setJsonPropertyFilter(filter);
+		JSONObject obj = JsonResFactory.buildNet(RESCODE.SUCCESS, 
+				Constants.RESPONSE_CLIENT_KEY, JSONObject.fromObject(client, config));
+		return obj.toString();
 	}
 	
 	public String setDefaultCar(int carId){
@@ -125,9 +126,9 @@ return 0;
 		config.setJsonPropertyFilter(filter);
 		JSONObject obj = JsonResFactory.buildNet(RESCODE.SUCCESS, 
 				Constants.RESPONSE_CLIENT_KEY, JSONObject.fromObject(client, config));
-		List<IncomeOrder> consumHist = this.incomeOrderDao.findByClientId(client.getId());
-		if(consumHist != null){
-			obj.put(Constants.RESPONSE_DATA_KEY, JSONArray.fromObject(consumHist, config));
+		List<ConsumOrder> consumOrders = this.consumOrderDao.findWithClientId(clientId);
+		if(consumOrders != null){
+			obj.put(Constants.RESPONSE_CONSUMORDER_KEY, JSONArray.fromObject(consumOrders, config));
 		}
 		return obj.toString();
 	}

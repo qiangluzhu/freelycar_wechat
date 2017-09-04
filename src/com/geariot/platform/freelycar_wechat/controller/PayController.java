@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.geariot.platform.freelycar_wechat.utils.query.FavourOrderBean;
 import com.geariot.platform.freelycar_wechat.utils.RandomStringGenerator;
 import com.geariot.platform.freelycar_wechat.wxutils.WechatConfig;
 import com.geariot.platform.freelycar_wechat.utils.HttpRequest;
@@ -42,9 +43,9 @@ public class PayController {
 	PayService payService;
 	
 	@RequestMapping(value="favour")
-	public String wechatFavour(String openId,float totalPrice,Set<FavourToOrder> favours){
+	public String wechatFavour(FavourOrderBean favourOrderBean){
 			log.info("购买券");
-			return payService.createFavourOrder(openId, totalPrice, favours);
+			return payService.createFavourOrder(favourOrderBean);
 	}
 
 	@RequestMapping(value="membershipCard")

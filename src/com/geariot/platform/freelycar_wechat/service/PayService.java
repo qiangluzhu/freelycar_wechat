@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.sf.json.JSONObject;
 
+import com.geariot.platform.freelycar_wechat.utils.query.FavourOrderBean;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
 import com.geariot.platform.freelycar_wechat.dao.CardDao;
 import com.geariot.platform.freelycar_wechat.dao.FavourDao;
@@ -55,8 +56,10 @@ public class PayService {
 	}
 	
 	//create favour order
-	public String createFavourOrder(String openId,double totalPrice,
-			Set<FavourToOrder> favours){
+	public String createFavourOrder(FavourOrderBean favourOrderBean){
+		String openId = favourOrderBean.getOpenId();
+		double totalPrice = favourOrderBean.getTotalPrice();
+		Set<FavourToOrder> favours = favourOrderBean.getFavours();
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
 		WXUser wxUser =  wxUserDao.findUserByOpenId(openId);
 		String productName = null;
