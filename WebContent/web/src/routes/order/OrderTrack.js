@@ -18,7 +18,6 @@ class OrderTrack extends React.Component {
     }
 
     componentDidMount(){
-
         orderDetail({
             consumOrderId: 'S201708104lfl5v'
         }).then((res)=>{
