@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.geariot.platform.freelycar_wechat.service.ConsumOrderService;
+
 @RestController
 @RequestMapping(value = "/orders")
 public class ConsumOrderController {
@@ -24,10 +25,12 @@ public class ConsumOrderController {
 	}
 	
 	
-	@RequestMapping(value = "/listConsumOrder",method = RequestMethod.GET)
+	@RequestMapping(value = "/listWXPayOrder",method = RequestMethod.GET)
 	public String listWXPayOrder(int clientId , int page , int number){
 		return consumOrderService.listWXPayOrder(clientId,page,number);
 	}
 	
-	public String comment(String consumOrderId,String comment,)
+	public String comment(String consumOrderId,String comment,int stars){
+		return consumOrderService.comment(consumOrderId,comment,stars);
+	}
 }

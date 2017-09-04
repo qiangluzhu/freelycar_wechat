@@ -48,9 +48,9 @@ public class PayController {
 	}
 
 	@RequestMapping(value="membershipCard")
-	public String wechatCard(String openId,float totalPrice,Service service){
+	public String wechatCard(String openId,float totalPrice,int serviceId){
 			log.info("购买卡");
-			return payService.createCardOrder(openId,totalPrice,service);
+			return payService.createCardOrder(openId,totalPrice,serviceId);
 		
 	}
 	

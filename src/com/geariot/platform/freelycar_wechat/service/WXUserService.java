@@ -57,8 +57,11 @@ return 0;
 		if(clientDao.findByPhone(wxUser.getPhone())==null){
 			client.setPhone(wxUser.getPhone());
 			client.setBirthday(wxUser.getBirthday());
-			client.setName(wxUser.getName());
 			client.setGender(wxUser.getGender());
+			if(wxUser.getName()==null)
+				client.setName(wxUser.getNickName());
+			else	
+				client.setName(wxUser.getName());
 			clientDao.save(client);
 		}
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();

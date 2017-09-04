@@ -71,6 +71,14 @@ public class ConsumOrderService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+
+	public String comment(String consumOrderId, String comment, int stars) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }
