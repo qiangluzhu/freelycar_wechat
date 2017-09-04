@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.geariot.platform.freelycar_wechat.utils.Constants;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
 import com.geariot.platform.freelycar_wechat.dao.*;
-import com.geariot.platform.freelycar_wechat.entities.ConsumOrder;
+import com.geariot.platform.freelycar_wechat.entities.*;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
 
 import net.sf.json.JSONArray;
@@ -24,7 +24,12 @@ public class ConsumOrderService {
 	//根据前端之前获取的单据ID调用接口，不需要验证单据不存在
 	@Autowired
 	private ConsumOrderDao consumOrderDao;
+	@Autowired
 	private WXPayOrderDao wxPayOrderDao;
+	@Autowired
+	private WXUserDao wxUserDao;
+	@Autowired
+	private ClientDao clientDao;
 	
 	public String detail(String consumOrderId){
 		JSONObject obj = new JSONObject();
@@ -35,7 +40,6 @@ public class ConsumOrderService {
 	
 	
 	
-//数据库的问题报错？
 	public String listConsumOrder(int clientId, int page, int number) {
 		int from = (page-1)*number;
 		List<ConsumOrder> exist = consumOrderDao.listByClientId(clientId,from,number);
@@ -67,7 +71,23 @@ public class ConsumOrderService {
 
 
 	public String listWXPayOrder(int clientId, int page, int number) {
-		return null;
+		WXUser wxUser = wxUserDao.findUserByPhone(clientDao.findById(clientId).getPhone());
+		String openId = wxUser.getOpenId();
+		int from = (page-1)*number;
+		List<WXPayOrder> exist = wxPayOrderDao.listByOpenId(openId,from,number);
+		if (exist == null || exist.isEmpty()) {
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
+		}
+		long realSize = wxPayOrderDao.getCountByOpenId(openId);
+		int size = (int)Math.ceil(realSize/number);
+		//JsonConfig config = new JsonConfig();
+		//config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor());
+		JsonConfig config = JsonResFactory.dateConfig();
+		JSONArray jsonArray = JSONArray.fromObject(exist,config);
+		net.sf.json.JSONObject obj= JsonResFactory.buildNetWithData(RESCODE.SUCCESS, jsonArray);
+		obj.put(Constants.RESPONSE_SIZE_KEY, size);
+		obj.put(Constants.RESPONSE_REAL_SIZE_KEY, realSize);
+		return obj.toString();
 	}
 
 
