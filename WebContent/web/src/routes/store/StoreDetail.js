@@ -16,7 +16,7 @@ class CooperativeStore extends React.Component {
     }
 
     componentDidMount() {
-        let mySwiper1 = new Swiper(this.swiperID, {
+        let mySwiper = new Swiper(this.swiperID, {
             direction: 'horizontal',
             loop: true,
             // 如果需要分页器

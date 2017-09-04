@@ -1,29 +1,28 @@
-import post from '../utils/post';
-import get from '../utils/get';
+import request from '../utils/request';
 
 export default {
-    addWxUser: (params) => {
-        return post('/api/user/addWxUser', params)
+    addWxUser: (option) => {
+        return request('/api/user/addWxUser', option)
     },
 
-    login: (params) => {
-        return post('/api/user/login', params)
+    login: (option) => {
+        return request('/api/user/login', option)
     },
 
-    logout: (params) => {
-        return post('/api/user/logout', params)
+    logout: (option) => {
+        return request('/api/user/logout', option)
     },
 
-    myDiscount: (params) => {
-        return post('/api/user/myDiscount', params)
+    myDiscount: (option) => {
+        return request('/api/user/myDiscount', option)
     },//客户优惠券信息
 
-    myPoints: (params) => {
-        return post('/api/user/points', params)
+    myPoints: (option) => {
+        return request('/api/user/points', option)
     },
 
-    addCar: (params) => {
-        return post('/api/user/addcar', params)
+    addCar: (option) => {
+        return request('/api/user/addcar', option)
     },
 
     userDetail:(params)=>{
@@ -45,5 +44,4 @@ export default {
     wxInfo:(params)=>{
         return get('/api/user/wxInfo',params)
     }
-
 }

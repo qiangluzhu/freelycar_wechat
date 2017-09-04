@@ -18,7 +18,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class FavourInfos {
 	private int id;
-	private Favour favour;  //
+	private Favour favour;
 	private int count;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

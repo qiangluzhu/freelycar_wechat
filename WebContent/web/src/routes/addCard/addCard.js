@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom';
 import { Flex } from 'antd-mobile'
 import './addCard.less'
 import NavBar from '../../components/NavBar'
@@ -25,12 +26,12 @@ class OrderDetail extends React.Component {
         }
     }
     componentDidMount() {
-        let mySwiper3 = new Swiper(this.swiperID, {
+        let mySwiper2 = new Swiper(this.swiperID, {
             direction: 'horizontal',
             loop: false,
             slidesPerView: 4,
             slidesPerGroup: 1,
-            centeredSlides: false
+            centeredSlides: false,
             // 如果需要分页器
         });
     }

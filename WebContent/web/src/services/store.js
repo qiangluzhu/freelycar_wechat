@@ -1,13 +1,15 @@
-import post from '../utils/post';
-import get from '../utils/get';
+import request from '../utils/request';
 export default {
-    storeList: (params) => {
-        return get('/api/store/list', params);
+    //消费单据支付
+    storeList: (option) => {
+        return request('/api/store/list', option);
     },
-    storeDetail: (params) => {
-        return get('/api/store/detai/',params)
+    //消费单据列表
+    storeDetail: (option,params) => {
+        return request('/api/store/detai/', option,params)
     },
-    storeComment: (params) => {
-        return get('/api/store/comment', option)
+    //单据评价
+    storeComment: (option) => {
+        return request('/api/store/comment', option)
     }
 }

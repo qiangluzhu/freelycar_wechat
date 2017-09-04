@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.geariot.platform.freelycar_wechat.entities.Car;
@@ -31,13 +30,13 @@ public class WXUserController {
 		return wxUserService.deletWXUser(openId);
 	}
 	@RequestMapping(value = "/myDiscount",method = RequestMethod.POST)
-	public String myDiscount(int clientId){
-		return wxUserService.listDiscount(clientId);
+	public String myDiscount(String openId){
+		return wxUserService.listDiscount(openId);
 	}
 	//要显示积分记录查project
 	@RequestMapping(value = "/points",method = RequestMethod.POST)
-	public String points(int clientId){
-		return wxUserService.getPoint(clientId);
+	public String points(String openId){
+		return wxUserService.getPoint(openId);
 	}
 	//设置时间
 	@RequestMapping(value = "/defaultCar",method = RequestMethod.POST)
@@ -52,16 +51,13 @@ public class WXUserController {
 	public void test(){
 		log.info("test   "+wxUserService.test());
 	}
-	
-	@RequestMapping(value = "/detail",method = RequestMethod.POST)
-	public String detail(int clientId){
-		return wxUserService.detail(clientId);
+	@RequestMapping(value = "/detail",method = RequestMethod.GET)
+	public String detail(String openId){
+		return wxUserService.detail(openId);
 	}
-	
 	@RequestMapping(value = "/addcar",method = RequestMethod.POST)
-	public String addcar(@RequestBody Car car){
-		log.debug(">>>>>>>> "+car);
-		return wxUserService.addCar(car);
+	public String addcar(String openId,Car car){
+		return wxUserService.addCar(openId,car);
 	}
 	@RequestMapping(value = "/delCar",method = RequestMethod.POST)
 	public String delCar(int carId){
