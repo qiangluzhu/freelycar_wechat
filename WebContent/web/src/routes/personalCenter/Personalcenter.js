@@ -8,19 +8,16 @@ import order_icon from '../../img/order_icon.png'
 import Contactxiaoyi_icon from '../../img/Contactxiaoyi_icon.png'
 import avatar from '../../assets/yay.jpg'
 import banner from '../../img/member_banner.png'
-import { wxInfo,userDetail } from '../../services/user.js'
-import {browserHistory} from 'dva/router'
 class Personalcenter extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            point:0,
-            name:'',
-            headimgurl:'',
+
         }
     }
 
+<<<<<<< HEAD
     componentDidMount() {
         wxInfo({
             openId: '11'
@@ -50,13 +47,18 @@ class Personalcenter extends React.Component {
             console.log(error)
         })
     } 
+=======
+    componentDidMount(){
+        
+    }
+>>>>>>> parent of 956e337... 个人中心掉接口
     render() {
         return <div className="body-bac">
             <div className="top-gradient">
             </div>
             <div className="clear"><div className="center-login-out"></div><a href="tel:18512391863" className="center-line-phone"></a></div>
             <Flex justify="between" align='start' direction="column" className="person-info">
-                <Flex justify="between" align='start' style={{ height: '1.2rem' }} >
+                <Flex justify="between" align='start' style={{height:'1.2rem'}} >
                     <div className="avatar"><img src={avatar} alt="" /></div>
                     <Flex.Item style={{ marginLeft: '.3rem' }} direction="column">
                         <div className="info-name">Anan托马斯</div>
@@ -65,20 +67,20 @@ class Personalcenter extends React.Component {
                         </Flex>
                     </Flex.Item>
                 </Flex>
-                <Flex justify="between" style={{ width: '100%' }}>
-                    <Flex direction="column" justify="center" align="center" style={{ width: '50%' }}>
-                        <div style={{ fontSize: '.36rem', color: '#37cedc' }}>3<span style={{ fontSize: '.16rem' }}>个</span></div>
-                        <div style={{ fontSize: '.22rem', lineHeight: '.35rem', color: '#8e8e8e' }}>优惠</div>
+                <Flex justify="between" style={{width:'100%'}}>
+                    <Flex direction="column" justify="center" align="center" style={{width:'50%'}}>
+                        <div style={{fontSize:'.36rem',color:'#37cedc'}}>3<span style={{fontSize:'.16rem'}}>个</span></div>
+                        <div style={{fontSize:'.22rem',lineHeight:'.35rem',color:'#8e8e8e'}}>优惠</div>
                     </Flex>
-                    <Flex direction="column" justify="center" align="center" style={{ width: '50%' }}>
-                        <div style={{ fontSize: '.36rem', color: '#37cedc' }}>2000<span style={{ fontSize: '.16rem' }}>分</span></div>
-                        <div style={{ fontSize: '.22rem', lineHeight: '.35rem', color: '#8e8e8e' }}>积分</div>
+                    <Flex direction="column" justify="center" align="center"  style={{width:'50%'}}>
+                        <div style={{fontSize:'.36rem',color:'#37cedc'}}>2000<span style={{fontSize:'.16rem'}}>分</span></div>
+                        <div style={{fontSize:'.22rem',lineHeight:'.35rem',color:'#8e8e8e'}}>积分</div>
                     </Flex>
                 </Flex>
             </Flex>
 
             <div className="center-banner"><img src={banner} alt="" /></div>
-            <Flex className="center-line-box" onClick={()=>{browserHistory.push('/addcar')}}>
+            <Flex className="center-line-box">
                 <div className="center-icon1"><img src={Vehiclemanagement_icon} alt="" /></div>
                 <p>爱车管理</p>
                 <Flex.Item className="vip-card-more"><img src={more_arrow} alt="" /></Flex.Item>
