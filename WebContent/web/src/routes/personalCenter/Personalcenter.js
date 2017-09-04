@@ -17,7 +17,6 @@ class Personalcenter extends React.Component {
         }
     }
 
-<<<<<<< HEAD
     componentDidMount() {
         wxInfo({
             openId: '11'
@@ -47,11 +46,6 @@ class Personalcenter extends React.Component {
             console.log(error)
         })
     } 
-=======
-    componentDidMount(){
-        
-    }
->>>>>>> parent of 956e337... 个人中心掉接口
     render() {
         return <div className="body-bac">
             <div className="top-gradient">
