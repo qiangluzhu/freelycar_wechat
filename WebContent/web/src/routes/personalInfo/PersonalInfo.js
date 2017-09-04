@@ -17,7 +17,7 @@ class PersonalInfo extends React.Component {
     }
 
     componentDidMount() {
-        console.log(document.documentElement.clientWidth )
+        console.log(document.documentElement.clientWidth)
     }
     render() {
         const { getFieldProps } = this.props.form;
