@@ -63,6 +63,14 @@ public class ConsumOrderService {
 		obj.put(Constants.RESPONSE_DATA_KEY,wxPayOrderDao.findById(wxPayOrderId));
 		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
 	}
+
+
+
+
+	public String listWXPayOrder(int clientId, int page, int number) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }
