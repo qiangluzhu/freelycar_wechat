@@ -49,7 +49,7 @@ class Personalcenter extends React.Component {
         }).catch((error)=>{
             console.log(error)
         })
-    }
+    } 
     render() {
         return <div className="body-bac">
             <div className="top-gradient">
