@@ -5,19 +5,35 @@ import { createForm } from 'rc-form'
 import { Flex } from 'antd-mobile'
 import NavBar from '../../components/NavBar'
 import login from '../../img/logo.png';
-
+import {wxInfo}from '../../services/user.js'
 class PersonalInfo extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
             focused: false,
-            focused1: false
+            focused1: false,
+            name: '',
+            headimgurl: ''
         }
     }
 
     componentDidMount() {
-        console.log(document.documentElement.clientWidth)
+        wxInfo({
+            openId: '11'
+        }).then((res) => {
+            console.log(res)
+            if (res.data.code == '0') {
+                let data = res.data.data
+                this.setState({
+                    point: data.point,
+                    name: data.name ? data.name : data.nickName,
+                    headimgurl: data.headimgurl
+                })
+            }
+        }).catch((error) => { console.log(error) });
+
+
     }
     render() {
         const { getFieldProps } = this.props.form;
@@ -25,7 +41,7 @@ class PersonalInfo extends React.Component {
             <NavBar title="个人信息" />
             <List className="add-car-info">
                 <Flex justify='center' style={{ height: '1.6rem' }}>
-                    <img className='logo' src={login} style={{ width: '1.16rem' }} />
+                    <img className='logo' src={this.state.headimgurl} style={{ width: '1.16rem' }} />
                 </Flex>
 
                 <InputItem
