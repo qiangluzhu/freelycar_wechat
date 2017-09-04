@@ -44,7 +44,7 @@ public class WXUserController {
 	public String defaultCar(int carId){
 		return wxUserService.setDefaultCar(carId);
 	}
-	@RequestMapping(value = "/carInfo",method = RequestMethod.POST)
+	@RequestMapping(value = "/carInfo",method = RequestMethod.POST,headers="Content-Type=application/json")
 	public String carInfo(int carId,Car car){
 		return wxUserService.modifyCar(carId,car);
 	}
@@ -53,7 +53,7 @@ public class WXUserController {
 		log.info("test   "+wxUserService.test());
 	}
 	
-	@RequestMapping(value = "/detail",method = RequestMethod.POST)
+	@RequestMapping(value = "/detail",method = RequestMethod.GET)
 	public String detail(int clientId){
 		return wxUserService.detail(clientId);
 	}
@@ -67,7 +67,7 @@ public class WXUserController {
 	public String delCar(int carId){
 		return wxUserService.deleteCar(carId);
 	}
-	@RequestMapping(value = "/wxInfo",method = RequestMethod.POST)
+	@RequestMapping(value = "/wxInfo",method = RequestMethod.GET)
 	public String wxInfo(String openId){
 		return wxUserService.getWXUser(openId);
 	}

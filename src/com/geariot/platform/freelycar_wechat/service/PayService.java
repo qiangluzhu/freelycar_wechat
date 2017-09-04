@@ -30,17 +30,20 @@ public class PayService {
 	
 	@Autowired
 	private WXUserDao wxUserDao;
+	@Autowired
+	private ServiceDao serviceDao;
 	
 	private static final Logger log = LogManager.getLogger(PayService.class);
 	
 	
 	//创建card订单	
 	public String createCardOrder(String openId,double totalPrice,
-			Service service){
+			int serviceId){
 		log.debug("create new order");
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
 		log.debug("id" + wxPayOrder.getId() + "总金额" + wxPayOrder.getTotalPrice() + "openId" + wxPayOrder.getOpenId() +"Date" + wxPayOrder.getCreateDate());
 		WXUser wxUser =  wxUserDao.findUserByOpenId(openId);
+		Service service = serviceDao.findServiceById(serviceId);
 		wxPayOrder.setService(service);
 		wxPayOrder.setProductName(service.getName());
 		JSONObject obj = new JSONObject();
