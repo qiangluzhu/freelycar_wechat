@@ -17,6 +17,9 @@ class Personalcenter extends React.Component {
         }
     }
 
+    componentDidMount(){
+        
+    }
     render() {
         return <div className="body-bac">
             <div className="top-gradient">

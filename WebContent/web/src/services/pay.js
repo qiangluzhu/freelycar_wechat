@@ -1,9 +1,10 @@
-import request from '../utils/request';
+import get from '../utils/get';
+import post from '../utils/post';
 export default {
-    buyCard: (option) => {
-        return request('/api/pay/buycard',option);
+    buyCard: (params) => {
+        return post('/api/pay/buycard',params);
     },
     buySales:(option)=>{
-        return request('/api/pay/buysales',option)
+        return post('/api/pay/buysales',option)
     }
 }

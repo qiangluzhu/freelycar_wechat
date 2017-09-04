@@ -1,11 +1,11 @@
-import request from '../utils/request';
+import post from '../utils/post';
 
 export default {
-    //短信验证接口
-    identifyCode: (option) => {
-      return request('/api/sms/request');
-    },
-    loginBind: (option) => {
-      return request('/api/sms/bind', option)
-    }
+  //短信验证接口
+  identifyCode: (params) => {
+    return post('/api/sms/request', params);
+  },
+  loginBind: (params) => {
+    return post('/api/sms/bind', params)
+  }
 }

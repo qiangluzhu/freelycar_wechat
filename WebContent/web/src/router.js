@@ -67,7 +67,6 @@ function RouterConfig({ history }) {
       <Route path="/insurance" component={Insurance}/>
       <Route path="/insurance/inquiry" component={Inquiry}/>
       <Route path="/notFound" component={NotFound}/>
-
     </Router>
   );
 }

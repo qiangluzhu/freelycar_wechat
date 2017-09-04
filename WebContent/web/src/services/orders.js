@@ -1,18 +1,22 @@
-import request from '../utils/request';
+import get from '../utils/get';
+import post from '../utils/post';
 export default {
     //消费单据支付
-    payment: (option) => {
-        return request('/api/orders/payment',option);
+    payment: (params) => {
+        return post('/api/orders/payment',params);
     },
-    //消费单据列表
-    orderList:(option)=>{
-        return request('/api/orders/list',option)
+    //消费服务单据列表
+    listConsumOreder:(params)=>{
+        return get('/api/orders/listConsumOreder',params)
+    },
+    listWXPayOrder:(params)=>{
+        return get('/api/orders/listWXPayOrder',params)
     },
     //单据评价
-    orderComment:(option)=>{
-        return request('/api/orders/comment',option)
+    orderComment:(params)=>{
+        return post('/api/orders/comment',params)
     },
-    orderDetail:(params,option)=>{
-        return request('/api/orders/detail/',option,params)
+    orderDetail:(params)=>{
+        return get('/api/orders/detail/',params)
     }
 }
