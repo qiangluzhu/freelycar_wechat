@@ -18,6 +18,7 @@ public class Constants {
 	public static final String RESPONSE_WXORDER_KEY = "wxOrder";
 	public static final String RESPONSE_WXUSER_KEY = "wxUser";
 	public static final String RESPONSE_POINT_KEY = "point";
+	public static final String RESPONSE_CONSUMORDER_KEY = "orders";
 	public static boolean RELOAD_ROLES;
 	
 	public static final int PAY_BY_WX = 3;
