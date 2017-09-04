@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tabs, WhiteSpace, Badge, Flex } from 'antd-mobile';
 import more_arrow from '../../img/more_arrow.png'
+import {listConsumOrder,listWXPayOrder} from '../../services/orders.js'
 
 const TabPane = Tabs.TabPane;
 
@@ -22,8 +23,24 @@ class ServiceCard extends React.Component {
     }
 
     componentDidMount() {
-        console.log(document.documentElement.clientWidth)
+        listConsumOrder({
+            clientId:1,
+            page:1,
+            number:10
+        }).then((res) => {
+            console.log(res)
+            if (res.data.code == '0') {
+                let data = res.data.data
+                // this.setState({
+                //     point: data.point,
+                //     name: data.name ? data.name : data.nickName,
+                //     headimgurl: data.headimgurl
+                // })
+            }
+        }).catch((error) => { console.log(error) });
     }
+
+
     render() {
         return <div>
             <Tabs defaultActiveKey="1" onChange={callback} onTabClick={handleTabClick}>

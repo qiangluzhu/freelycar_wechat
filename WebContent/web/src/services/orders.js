@@ -6,8 +6,8 @@ export default {
         return post('/api/orders/payment',params);
     },
     //消费服务单据列表
-    listConsumOreder:(params)=>{
-        return get('/api/orders/listConsumOreder',params)
+    listConsumOrder:(params)=>{
+        return get('/api/orders/listConsumOrder',params)
     },
     listWXPayOrder:(params)=>{
         return get('/api/orders/listWXPayOrder',params)

@@ -46,14 +46,4 @@ export default {
         return get('/api/user/wxInfo',params)
     },
 
-    //消费服务单据列表:
-    listConsumOrder:(params)=>{
-        return get('/api/orders/listConsumOrder',params)
-    },
-
-    //消费卡券单据列表
-    listWXPayOrder:(params)=>{
-        return get('/api/orders/listWXPayOrder',params)
-    },
-
 }
