@@ -15,6 +15,7 @@ if (isIPhone) {
         onTouchStart: e => e.preventDefault(),
     };
 }
+
 class AddCar extends React.Component {
 
     constructor(props) {

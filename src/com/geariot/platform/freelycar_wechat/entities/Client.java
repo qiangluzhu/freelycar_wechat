@@ -15,8 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Where;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.geariot.platform.freelycar_wechat.utils.JsonDateDeserialize;
 
@@ -37,7 +35,7 @@ public class Client {
 	private Date createDate;
 	private Set<Car> cars;
 	private Set<Card> cards;
-	private Set<Ticket> tickets;
+	private Set<FavourRemainings> remainings;
 	private int consumTimes;
 	private float consumAmout;
 	private Boolean isMember;  
@@ -57,6 +55,7 @@ public class Client {
 	}
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	@JoinColumn(name="clientId", foreignKey=@ForeignKey(name="none"))
+	@OrderBy("defaultDate asc")
 	public Set<Car> getCars() {
 		return cars;
 	}
@@ -160,11 +159,14 @@ public class Client {
 	}
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	@JoinColumn(name="clientId", foreignKey=@ForeignKey(name="none"))
-	@Where(clause="failed=0")
-	public Set<Ticket> getTickets() {
-		return tickets;
+	public Set<FavourRemainings> getRemainings() {
+		return remainings;
 	}
-	public void setTickets(Set<Ticket> tickets) {
-		this.tickets = tickets;
+	public void setRemainings(Set<FavourRemainings> remainings) {
+		this.remainings = remainings;
+	}
+	@Override
+	public String toString() {
+		return "Client [cars=" + cars + "]";
 	}
 }

@@ -41,7 +41,7 @@ public class ConsumOrder {
 	private Admin orderMaker;
 	private String comment;			//客户消费开单服务评价
 	private Date commentDate;
-	private int stars;			//客户消费开单评分
+	private double stars;			//客户消费开单评分
 	private String faultDesc;
 	private String repairAdvice;
 	private Staff pickCarStaff;
@@ -241,11 +241,10 @@ public class ConsumOrder {
 				+ ", orderMaker=" + orderMaker + ", comment=" + comment + ", faultDesc=" + faultDesc + ", repairAdvice="
 				+ repairAdvice + ", pickCarStaff=" + pickCarStaff + "]";
 	}
-
-	public int getStars() {
+	public double getStars() {
 		return stars;
 	}
-	public void setStars(int stars) {
+	public void setStars(double stars) {
 		this.stars = stars;
 	}
 	@ManyToOne(cascade={}, fetch=FetchType.EAGER)

@@ -25,14 +25,12 @@ public class WechatConfig {
 	private static Logger log = LogManager.getLogger(WechatConfig.class);
 	
 	//自定义的token
-	public static final String TOKEN = "";
+	public static final String TOKEN = "fitness20170317";
 	
-	public static final String APP_ID = "";
-	public static final String MCH_ID = "";   //商户号，微信商户平台里面获取
+	public static final String APP_ID = "wxe803af673ef3e02f";
+	public static final String MCH_ID = "1449654602";   //商户号，微信商户平台里面获取
 	//public static String secret = "da188683eaeacf8cde241aee8df3cb30";
-	public static final String APP_SECRET = "";
-	
-	public static final String APP_DOMAIN = "";//ur域名
+	public static final String APP_SECRET = "21ed40b37033fce10d66c01406e3d68a";
 	
 	
 	//微信推送的ma
