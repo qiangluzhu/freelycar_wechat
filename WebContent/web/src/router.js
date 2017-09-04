@@ -49,6 +49,7 @@ function RouterConfig({ history }) {
       <Route path="/addcar/carbrand" component={CarBrand} />
 
       <Route path="/ordertrack" component={OrderTrack} />
+      <Route path="/selectCarInfo" component={SelectCarInfo} />
       <Route path="/personalInfo" component={PersonalInfo} />
       <Route path="/serviceCard" component={ServiceCard} />
 
@@ -59,14 +60,18 @@ function RouterConfig({ history }) {
       <Route path="/membership/mycard" component={MyCard} />
       <Route path="/membership/mycard/detail" component={MyCardDetail}/>
       <Route path="/membership/mypoints" component={MyPoints}/>
+
+      <Route path="/insurance/inquiry" component={Inquiry}/>
+
       
       <Route path="/carInfo" component={CarInfo}/>
       <Route path="/store/cooperative-store" component={CooperativeStore}/>
       <Route path="/store/comment" component={CommentStore}/>
-      <Route path="/store/detail" component={StoreDetail}/>
+      
       <Route path="/insurance" component={Insurance}/>
-      <Route path="/insurance/inquiry" component={Inquiry}/>
+
       <Route path="/notFound" component={NotFound}/>
+
     </Router>
   );
 }

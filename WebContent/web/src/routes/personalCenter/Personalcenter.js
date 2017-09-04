@@ -56,7 +56,7 @@ class Personalcenter extends React.Component {
             </div>
             <div className="clear"><div className="center-login-out"></div><a href="tel:18512391863" className="center-line-phone"></a></div>
             <Flex justify="between" align='start' direction="column" className="person-info">
-                <Flex justify="between" align='start' style={{ height: '1.2rem' }} >
+                <Flex justify="between" align='start ' style={{ height: '1.2rem' }} >
                     <div className="avatar"><img src={avatar} alt="" /></div>
                     <Flex.Item style={{ marginLeft: '.3rem' }} direction="column">
                         <div className="info-name">Anan托马斯</div>

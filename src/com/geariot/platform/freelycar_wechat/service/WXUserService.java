@@ -10,11 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.geariot.platform.freelycar_wechat.dao.CarDao;
 import com.geariot.platform.freelycar_wechat.dao.ClientDao;
+import com.geariot.platform.freelycar_wechat.dao.FavourRemainingsDao;
 import com.geariot.platform.freelycar_wechat.dao.IncomeOrderDao;
 import com.geariot.platform.freelycar_wechat.dao.PointDao;
 import com.geariot.platform.freelycar_wechat.dao.WXUserDao;
 import com.geariot.platform.freelycar_wechat.entities.Car;
 import com.geariot.platform.freelycar_wechat.entities.Client;
+import com.geariot.platform.freelycar_wechat.entities.FavourRemainings;
 import com.geariot.platform.freelycar_wechat.entities.IncomeOrder;
 import com.geariot.platform.freelycar_wechat.entities.WXUser;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
@@ -37,6 +39,8 @@ public class WXUserService {
 	private ClientDao clientDao;
 	@Autowired
 	private IncomeOrderDao incomeOrderDao;
+	@Autowired
+	private FavourRemainingsDao favourRemainingsDao;
 	@Autowired
 	private PointDao pointDao;
 	
@@ -74,14 +78,19 @@ return 0;
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 	
-	public String listDiscount(int clientId){
-		Client client = clientDao.findById(clientId);
+	public String listDiscount(String openId){
+		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
+		if(wxUser == null){
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
+		}
+		Client client = clientDao.findByPhone(wxUser.getPhone());
 		if(client == null){
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
-		JSONObject obj = new JSONObject();
-		obj.put(Constants.RESPONSE_CLIENT_KEY, client);
-		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
+		List<FavourRemainings> list = favourRemainingsDao.favourtByClientId(client.getId());
+		JsonConfig config = JsonResFactory.dateConfig(FavourRemainings.class);
+		net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(list, config);
+		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, array).toString();
 	}
 	
 	public String setDefaultCar(int carId){
@@ -93,13 +102,17 @@ return 0;
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 	
-	public String addCar(Car car){
-		Client client = clientDao.findById(car.getClient().getId());
-		if (client == null) {
+	public String addCar(String openId,Car car){
+		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
+		if(wxUser == null){
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
+		}
+		Client client = clientDao.findByPhone(wxUser.getPhone());
+		if(client == null){
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
 		Car exist = carDao.findByLicense(car.getLicensePlate());
-		if (exist != null) {
+		if(exist != null){
 			return JsonResFactory.buildOrg(RESCODE.CAR_LICENSE_EXIST).toString();
 		}
 		car.setCreateDate(new Date());
@@ -112,8 +125,12 @@ return 0;
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 	//返回微信用户信息,client card
-	public String detail(int clientId){
-		Client client = clientDao.findById(clientId);
+	public String detail(String openId){
+		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
+		if(wxUser == null){
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
+		}
+		Client client = clientDao.findByPhone(wxUser.getPhone());
 		if(client == null){
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
@@ -136,8 +153,12 @@ return 0;
 		carDao.update(car);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
-	public String getPoint(int clientId){
-		Client client = clientDao.findById(clientId);
+	public String getPoint(String openId){
+		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
+		if(wxUser == null){
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
+		}
+		Client client = clientDao.findByPhone(wxUser.getPhone());
 		if(client == null){
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
@@ -165,21 +186,20 @@ return 0;
 		if(client == null){
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
-		//Object favour = favourRemainingsDao.getCountByClientId(client.getId());
+		Object favour = favourRemainingsDao.getCountByClientId(client.getId());
 		Object point =pointDao.getSumPoint(client.getId()) ;
 		JSONObject obj = new JSONObject();
-//		if(favour==null){
-//			favour=0;
-//		}
+		if(favour==null){
+			favour=0;
+		}
 		if(point == null)
 			point=0;
 		else
 			point=(int)Math.rint((double)(point));
-		//obj.put(Constants.RESPONSE_FAVOUR_KEY, favour);
+		obj.put(Constants.RESPONSE_FAVOUR_KEY, favour);
 		obj.put("point", point);
 		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
 		
 		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
 	}
 }
-

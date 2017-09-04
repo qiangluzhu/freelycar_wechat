@@ -83,8 +83,7 @@ public class Card {
 	@Override
 	public String toString() {
 		return "Card [id=" + id + ", service=" + service + ", payDate=" + payDate + ", expirationDate=" + expirationDate
-				+ ", payMethod=" + payMethod + ", projectInfos=" + projectInfos + ", orderMaker=" + orderMaker
-				+ ", cardNumber=" + cardNumber + "]";
+				+ ", payMethod=" + payMethod + ", projectInfos=" + projectInfos + ", orderMaker=" + orderMaker + "]";
 	}
 	public String getCardNumber() {
 		return cardNumber;

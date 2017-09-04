@@ -1,6 +1,6 @@
-import get from '../utils/get';
+import request from '../utils/request';
 export default {
-    getCardList: (params) => {
-        return get('/api/service/list', params);
+    getCardList: (option) => {
+        return request('/api/service/list');
     }
 }

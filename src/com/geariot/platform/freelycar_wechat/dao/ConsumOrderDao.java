@@ -1,4 +1,3 @@
-
 package com.geariot.platform.freelycar_wechat.dao;
 
 import java.util.Date;
@@ -13,10 +12,6 @@ public interface ConsumOrderDao {
 	List<ConsumOrder> list(int from, int pageSize);
 
 	long getCount();
-	
-	long getCountByClientId(int clientId);
-	
-	List<ConsumOrder> listByClientId(int clientId,int from, int pageSize);
 
 	ConsumOrder findById(String consumOrderId);
 
@@ -42,4 +37,3 @@ public interface ConsumOrderDao {
 	
 	List<Object[]> programNameRange(Date startTime , Date endTime);
 }
-

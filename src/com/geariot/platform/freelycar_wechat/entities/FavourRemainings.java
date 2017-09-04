@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package com.geariot.platform.freelycar_wechat.entities;
 
 import javax.persistence.Entity;
@@ -8,31 +11,36 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+/**
+ * @author mxy940127
+ *
+ */
 @Entity
-public class ServiceProjectInfo {
+public class FavourRemainings {
 	private int id;
-	private Project project;
-	private int times;
+	private Favour favour;
+	private int remaining;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}
-	@ManyToOne
-	@JoinColumn(name="projectId", foreignKey=@ForeignKey(name="none"))
-	public Project getProject() {
-		return project;
-	}
-	public int getTimes() {
-		return times;
-	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public void setProject(Project project) {
-		this.project = project;
+	@ManyToOne
+	@JoinColumn(name="favourId", foreignKey=@ForeignKey(name="none"))
+	public Favour getFavour() {
+		return favour;
 	}
-	public void setTimes(int times) {
-		this.times = times;
+	public void setFavour(Favour favour) {
+		this.favour = favour;
 	}
+	public int getRemaining() {
+		return remaining;
+	}
+	public void setRemaining(int remaining) {
+		this.remaining = remaining;
+	}
+	
 }

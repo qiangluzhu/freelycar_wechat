@@ -4,11 +4,9 @@
 package com.geariot.platform.freelycar_wechat.entities;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,13 +27,11 @@ public class Store {
 	private double latitude;				//门店纬度
 	private double longitude;				//门店经度
 	private String openingTime;				//门店营业时间
-	private String closingTime;				//门店歇业事件
 	private String phone;					//门店联系方式
-	private Set<StoreProject> storeProjects;			//门店经营项目
-	private Set<StoreFavour> storefavours;			//门店优惠活动
-	private Set<imgUrl> imgUrls;			//门店图片
+	private List<Project> projects;			//门店经营项目
+	private List<Favour> favours;			//门店优惠活动
+	private List<imgUrl> imgUrls;			//门店图片
 	private Date createDate;				//门店创建时间
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
@@ -68,34 +64,40 @@ public class Store {
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
+	public String getOpeningTime() {
+		return openingTime;
+	}
+	public void setOpeningTime(String openingTime) {
+		this.openingTime = openingTime;
+	}
 	public String getPhone() {
 		return phone;
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
+	@OneToMany
 	@JoinColumn(name="storeId", foreignKey=@ForeignKey(name="none"))
-	public Set<StoreProject> getStoreProjects() {
-		return storeProjects;
+	public List<Project> getProjects() {
+		return projects;
 	}
-	public void setStoreProjects(Set<StoreProject> storeProjects) {
-		this.storeProjects = storeProjects;
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
 	}
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
+	@OneToMany
 	@JoinColumn(name="storeId", foreignKey=@ForeignKey(name="none"))
-	public Set<StoreFavour> getStorefavours() {
-		return storefavours;
+	public List<Favour> getFavours() {
+		return favours;
 	}
-	public void setStorefavours(Set<StoreFavour> storefavours) {
-		this.storefavours = storefavours;
+	public void setFavours(List<Favour> favours) {
+		this.favours = favours;
 	}
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
+	@OneToMany
 	@JoinColumn(name="storeId", foreignKey=@ForeignKey(name="none"))
-	public Set<imgUrl> getImgUrls() {
+	public List<imgUrl> getImgUrls() {
 		return imgUrls;
 	}
-	public void setImgUrls(Set<imgUrl> imgUrls) {
+	public void setImgUrls(List<imgUrl> imgUrls) {
 		this.imgUrls = imgUrls;
 	}
 	public Date getCreateDate() {
@@ -103,18 +105,6 @@ public class Store {
 	}
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
-	}
-	public String getOpeningTime() {
-		return openingTime;
-	}
-	public void setOpeningTime(String openingTime) {
-		this.openingTime = openingTime;
-	}
-	public String getClosingTime() {
-		return closingTime;
-	}
-	public void setClosingTime(String closingTime) {
-		this.closingTime = closingTime;
-	}
+	} 
 	
 }

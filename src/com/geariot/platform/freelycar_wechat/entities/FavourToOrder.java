@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class FavourToOrder {
 	private int id;
-	private Favour favour;	//
+	private Favour favour;
 	private int count;
 	private WXPayOrder wxPayOrder;
 	@ManyToOne(fetch=FetchType.EAGER)
