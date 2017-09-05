@@ -32,9 +32,9 @@ public class ConsumOrderService {
 	private ClientDao clientDao;
 	
 	public String detail(String consumOrderId){
-		JSONObject obj = new JSONObject();
-		obj.put(Constants.RESPONSE_DATA_KEY, consumOrderDao.findById(consumOrderId));
-		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
+		JsonConfig config = JsonResFactory.dateConfig();
+		JSONObject obj = JSONObject.fromObject(consumOrderDao.findById(consumOrderId),config);	
+		return JsonResFactory.buildOrg(RESCODE.SUCCESS, Constants.RESPONSE_CONSUMORDER_KEY, obj).toString();
 	}
 	
 	
@@ -62,9 +62,9 @@ public class ConsumOrderService {
 
 
 	public String detailWXPayOrder(String wxPayOrderId) {
-		JSONObject obj = new JSONObject();
-		obj.put(Constants.RESPONSE_DATA_KEY,wxPayOrderDao.findById(wxPayOrderId));
-		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
+		JsonConfig config = JsonResFactory.dateConfig();
+		JSONObject obj = JSONObject.fromObject(wxPayOrderDao.findById(wxPayOrderId),config);
+		return JsonResFactory.buildOrg(RESCODE.SUCCESS, Constants.RESPONSE_WXORDER_KEY, obj).toString();
 	}
 
 

@@ -27,14 +27,6 @@ public class Client {
 	private String name;
 	private int age;
 	private String idNumber;
-	@Override
-	public String toString() {
-		return "Client [id=" + id + ", name=" + name + ", age=" + age + ", idNumber=" + idNumber + ", gender=" + gender
-				+ ", phone=" + phone + ", birthday=" + birthday + ", driverLicense=" + driverLicense + ", state="
-				+ state + ", points=" + points + ", recommendName=" + recommendName + ", createDate=" + createDate
-				+ ", cars=" + cars + ", cards=" + cards + ", tickets=" + tickets + ", consumTimes=" + consumTimes
-				+ ", consumAmout=" + consumAmout + ", isMember=" + isMember + ", lastVisit=" + lastVisit + "]";
-	}
 	private String gender;
 	private String phone;
 	private Date birthday;
@@ -47,7 +39,7 @@ public class Client {
 	private Set<Card> cards;
 	private Set<Ticket> tickets;
 	private int consumTimes;
-	private float consumAmout;
+	private double consumAmout;
 	private Boolean isMember;  
 	@JsonDeserialize(using=JsonDateDeserialize.class)
 	private Date lastVisit;
@@ -68,7 +60,7 @@ public class Client {
 	public Set<Car> getCars() {
 		return cars;
 	}
-	public float getConsumAmout() {
+	public double getConsumAmout() {
 		return consumAmout;
 	}
 	public int getConsumTimes() {
@@ -121,7 +113,7 @@ public class Client {
 	public void setCars(Set<Car> cars) {
 		this.cars = cars;
 	}
-	public void setConsumAmout(float consumAmout) {
+	public void setConsumAmout(double consumAmout) {
 		this.consumAmout = consumAmout;
 	}
 	public void setConsumTimes(int consumTimes) {
@@ -174,5 +166,9 @@ public class Client {
 	}
 	public void setTickets(Set<Ticket> tickets) {
 		this.tickets = tickets;
+	}
+	@Override
+	public String toString() {
+		return "Client [cars=" + cars + "]";
 	}
 }
