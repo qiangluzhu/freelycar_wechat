@@ -12,14 +12,14 @@ public class IncomeOrder {
 	private int id;
 	private int clientId;
 	private String licensePlate;
-	private float amount;
+	private double amount;
 	private Date payDate;
 	private int payMethod;  //// 0,1,2,3,4  现金,刷卡,支付宝,微信,易付宝   
 	private String programName;
 //	private String staffNames;
 	private boolean member; 
 	
-	public float getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 	public int getClientId() {
@@ -45,7 +45,7 @@ public class IncomeOrder {
 //	public String getStaffNames() {
 //		return staffNames;
 //	}
-	public void setAmount(float amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 	public void setClientId(int clientId) {
