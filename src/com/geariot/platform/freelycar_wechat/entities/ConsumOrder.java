@@ -21,6 +21,18 @@ public class ConsumOrder {
 	private String carBrand;
 	private int clientId;
 	private String clientName;
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+	public double getPresentPrice() {
+		return presentPrice;
+	}
+	public void setPresentPrice(double presentPrice) {
+		this.presentPrice = presentPrice;
+	}
 	private String gender;
 	private String phone;
 	private Set<ProjectInfo> projects;
@@ -30,7 +42,8 @@ public class ConsumOrder {
 	private String parkingLocation;
 	private Set<ConsumExtraInventoriesInfo> inventoryInfos;
 	private int state;		//0,1,2=接,完,交
-	private float totalPrice;
+	private double totalPrice;//实际支付金额
+	private double presentPrice;//展示原价
 	private int payState;	//0,1=未结算,已结算
 	private Date pickTime;
 	private Date finishTime;
@@ -138,9 +151,6 @@ public class ConsumOrder {
 	}
 	public int getState() {
 		return state;
-	}
-	public float getTotalPrice() {
-		return totalPrice;
 	}
 	public void setCarBrand(String carBrand) {
 		this.carBrand = carBrand;
