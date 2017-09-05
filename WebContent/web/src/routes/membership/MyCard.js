@@ -35,10 +35,10 @@ class MyCard extends React.Component {
                 case '2': background = zhizun; break;
                 case '3': background = jinka; break;
             }
-            return <div key={index} className="membership-mycard" style={{ background: `url(${background})`,backgroundSize:'100% 100%' }}>
+            return <div key={index} className="membership-mycard" onClick={()=>{browserHistory.push(`/membership/mycard/detail/${item.id}`)}} style={{ background: `url(${background})`,backgroundSize:'100% 100%' }}>
                 <div className="card-name">{item.service.name}</div>
                 <div className="card-number">{item.cardNumber}</div>
-                <div className="card-time">{item.expirationDate}</div>
+                <div className="card-time">{item.service.createDate.slice(0,10)}</div>
             </div>
         })
         return <div>

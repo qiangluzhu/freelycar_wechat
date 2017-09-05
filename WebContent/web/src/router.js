@@ -57,7 +57,7 @@ function RouterConfig({ history }) {
       <Route path="/orderDetail_vip" component={OrderDetail_vip} />
       <Route path="/addCard" component={AddCard} />
       <Route path="/membership/mycard" component={MyCard} />
-      <Route path="/membership/mycard/detail" component={MyCardDetail}/>
+      <Route path="/membership/mycard/detail/:id" component={MyCardDetail}/>
       <Route path="/membership/mypoints" component={MyPoints}/>
       
       <Route path="/carInfo" component={CarInfo}/>

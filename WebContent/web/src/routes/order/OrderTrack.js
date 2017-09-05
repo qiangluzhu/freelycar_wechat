@@ -55,7 +55,7 @@ class OrderTrack extends React.Component {
                     </Flex.Item>
                 </Flex>
                 <div className="beauty overplus">
-                    <p>已抵扣会员卡{item.cardNumber} {item.name}项目1次，该项目还剩余20次</p>
+                    <p>已抵扣会员卡{item.cardNumber} {item.name}项目1次，该项目还剩余{item.remaining}次</p>
                 </div>
             </Flex>
         })
