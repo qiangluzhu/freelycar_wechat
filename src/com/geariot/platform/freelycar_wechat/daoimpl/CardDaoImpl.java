@@ -69,4 +69,13 @@ public class CardDaoImpl implements CardDao {
 				.setTime("now", now).setCacheable(Constants.SELECT_CACHE).list();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Card> listCardByClientId(int clientId) {
+		String sql = "from Card where clientId = :clientId and expirationDate > :now";
+		Date now = new Date(System.currentTimeMillis());
+		return this.getSession().createQuery(sql).setInteger("clientId", clientId)
+				.setTime("now", now).setCacheable(Constants.SELECT_CACHE).list();
+	}
+
 }

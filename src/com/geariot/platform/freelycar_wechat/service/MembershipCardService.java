@@ -12,10 +12,13 @@ import com.geariot.platform.freelycar_wechat.utils.DateJsonValueProcessor;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import com.geariot.platform.freelycar_wechat.utils.Constants;
+import com.geariot.platform.freelycar_wechat.dao.CardDao;
 import com.geariot.platform.freelycar_wechat.dao.ServiceDao;
+import com.geariot.platform.freelycar_wechat.entities.Card;
 import com.geariot.platform.freelycar_wechat.entities.Service;
 
 @org.springframework.stereotype.Service
@@ -23,6 +26,10 @@ import com.geariot.platform.freelycar_wechat.entities.Service;
 public class MembershipCardService {
 	@Autowired
 	private ServiceDao serviceDao;
+	
+	@Autowired
+	private CardDao cardDao;
+	
 	public String getMembershipCardList(int page , int number){
 		int from = (page-1)*number;
 		List<Service> exist = serviceDao.listOnWX(from,number);
@@ -31,12 +38,20 @@ public class MembershipCardService {
 		}
 		long realSize = serviceDao.getCount();
 		int size = (int)Math.ceil(realSize/number);
-		JsonConfig config = new JsonConfig();
-		config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor());
+		JsonConfig config = JsonResFactory.dateConfig();
 		JSONArray jsonArray = JSONArray.fromObject(exist, config);
 		net.sf.json.JSONObject obj= JsonResFactory.buildNetWithData(RESCODE.SUCCESS, jsonArray);
 		obj.put(Constants.RESPONSE_SIZE_KEY, size);
 		obj.put(Constants.RESPONSE_REAL_SIZE_KEY, realSize);
 		return obj.toString();
 	}
+
+
+	public String getCardDetail(int cardId) {
+		Card card = cardDao.getCardById(cardId);
+		JsonConfig config = JsonResFactory.dateConfig();
+		JSONObject obj = JSONObject.fromObject(card, config);
+		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
+	}
+
 }

@@ -18,5 +18,7 @@ public interface CardDao {
 	List<Integer> getAvailableCardId(int projectId);
 	
 	List<Card> getAvailableCard(int clientId, List<Integer> cardIds);
+
+	List<Card> listCardByClientId(int clientId);
 	
 }

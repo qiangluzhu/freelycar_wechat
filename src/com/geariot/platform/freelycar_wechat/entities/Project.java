@@ -28,6 +28,12 @@ public class Project {
 	private List<ProjectInventoriesInfo> inventoryInfos;
 	@JsonDeserialize(using=JsonDateDeserialize.class)
 	private Date createDate;
+	@Override
+	public String toString() {
+		return "Project [id=" + id + ", name=" + name + ", price=" + price + ", referWorkTime=" + referWorkTime
+				+ ", pricePerUnit=" + pricePerUnit + ", comment=" + comment + ", inventoryInfos=" + inventoryInfos
+				+ ", createDate=" + createDate + ", program=" + program + "]";
+	}
 	private Program program;
 	public String getComment() {
 		return comment;

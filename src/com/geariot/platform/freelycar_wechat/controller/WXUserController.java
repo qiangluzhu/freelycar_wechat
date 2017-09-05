@@ -35,7 +35,7 @@ public class WXUserController {
 		return wxUserService.listDiscount(clientId);
 	}
 	//要显示积分记录查project
-	@RequestMapping(value = "/points",method = RequestMethod.POST)
+	@RequestMapping(value = "/points",method = RequestMethod.GET)
 	public String points(int clientId){
 		return wxUserService.getPoint(clientId);
 	}
@@ -44,7 +44,7 @@ public class WXUserController {
 	public String defaultCar(int carId){
 		return wxUserService.setDefaultCar(carId);
 	}
-	@RequestMapping(value = "/carInfo",method = RequestMethod.POST,headers="Content-Type=application/json")
+	@RequestMapping(value = "/carInfo",method = RequestMethod.POST)
 	public String carInfo(int carId,Car car){
 		return wxUserService.modifyCar(carId,car);
 	}
@@ -70,6 +70,10 @@ public class WXUserController {
 	@RequestMapping(value = "/wxInfo",method = RequestMethod.GET)
 	public String wxInfo(String openId){
 		return wxUserService.getWXUser(openId);
+	}
+	@RequestMapping(value = "/listCard",method = RequestMethod.GET)
+	public String listCard(int clientId){
+		return wxUserService.listCard(clientId);
 	}
 
 }

@@ -21,18 +21,6 @@ public class ConsumOrder {
 	private String carBrand;
 	private int clientId;
 	private String clientName;
-	public double getTotalPrice() {
-		return totalPrice;
-	}
-	public void setTotalPrice(double totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-	public double getPresentPrice() {
-		return presentPrice;
-	}
-	public void setPresentPrice(double presentPrice) {
-		this.presentPrice = presentPrice;
-	}
 	private String gender;
 	private String phone;
 	private Set<ProjectInfo> projects;
@@ -59,6 +47,19 @@ public class ConsumOrder {
 	private String repairAdvice;
 	private Staff pickCarStaff;
 	private Store store;			//门店Id
+	
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+	public double getPresentPrice() {
+		return presentPrice;
+	}
+	public void setPresentPrice(double presentPrice) {
+		this.presentPrice = presentPrice;
+	}
 	public String getCarBrand() {
 		return carBrand;
 	}
