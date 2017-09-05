@@ -1,7 +1,7 @@
 import React from 'react';
 import NavBar from '../../components/NavBar'
 import './Inquiry.less'
-import { List, InputItem, WhiteSpace, Picker,Flex } from 'antd-mobile'
+import { List, InputItem, WhiteSpace, Picker,Flex ,Popup } from 'antd-mobile'
 const Item = List.Item;
 class Inquiry extends React.Component {
     constructor(props) {
@@ -23,17 +23,23 @@ class Inquiry extends React.Component {
         });
     }
 
+    selectProvince(item) {
+        Popup.hide()
+        this.setState({
+            province: item
+        })
+    }
+
     PopupModal() {
-        
-                let province = ['京', '沪', '浙', '苏', '粤', '鲁', '晋', '冀', '豫', '川', '渝', '辽', '吉', '黑', '皖', '鄂', '湘', '赣', '闽', '陕', '甘', '宁', '蒙', '津', '贵', '云', '桂', '琼', '青', '新', '藏'];
-                let items = province.map((item, index) => {
-                    return <li key={index} onClick={() => { this.selectProvince(item) }} style={{ float: 'left', color: this.state.province == item ? '#fff' : '#666', background: this.state.province == item ? '#1e1e1e' : '#fff', width: '.915rem', height: '.915rem', textAlign: 'center', lineHeight: '.92rem', borderRight: '1px solid #eee', borderBottom: '1px solid #eee' }}>{item}</li>
-                })
-                Popup.show(<Flex justify="center" align="center" style={{ background: '#eee' }}>
-                    <ul className="clear" style={{ listStyle: 'none', width: '100%', borderTop: '1px solid #eee', borderLeft: '1px solid #eee' }}>
-                        {items}
-                    </ul>
-                </Flex>, { animationType: 'slide-up', maskClosable: true });
+        let province = ['京', '沪', '浙', '苏', '粤', '鲁', '晋', '冀', '豫', '川', '渝', '辽', '吉', '黑', '皖', '鄂', '湘', '赣', '闽', '陕', '甘', '宁', '蒙', '津', '贵', '云', '桂', '琼', '青', '新', '藏'];
+        let items = province.map((item, index) => {
+            return <li key={index} onClick={() => { this.selectProvince(item) }} style={{ float: 'left', color: this.state.province == item ? '#fff' : '#666', background: this.state.province == item ? '#1e1e1e' : '#fff', width: '.915rem', height: '.915rem', textAlign: 'center', lineHeight: '.92rem', borderRight: '1px solid #eee', borderBottom: '1px solid #eee' }}>{item}</li>
+        })
+        Popup.show(<Flex justify="center" align="center" style={{ background: '#eee' }}>
+            <ul className="clear" style={{ listStyle: 'none', width: '100%', borderTop: '1px solid #eee', borderLeft: '1px solid #eee' }}>
+                {items}
+            </ul>
+        </Flex>, { animationType: 'slide-up', maskClosable: true });
             }
     render() {
         return <div>
