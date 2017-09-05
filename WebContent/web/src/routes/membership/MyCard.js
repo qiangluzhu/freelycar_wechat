@@ -18,19 +18,10 @@ class MyCard extends React.Component {
     }
 
     componentDidMount(){
-        let myInit = {
-            method: 'get',
-            credentials: 'include',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type':'application/x-www-form-urlencoded;charset=utf-8' 
-            }
-        }
-
         getCardList({
             page:1,
 			number:10
-        },myInit).then((res)=>{
+        }).then((res)=>{
             console.log(res)
         }).catch((error)=>{
             console.log(error)
