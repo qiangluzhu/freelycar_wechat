@@ -60,4 +60,11 @@ public class CarDaoImpl implements CarDao {
 		getSession().update(car);		
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Car> findByClientId(int clientId) {
+		String hql = "from Car where clientId = :clientId";
+		return this.getSession().createQuery(hql).setInteger("clientId", clientId).list();
+	}
+
 }

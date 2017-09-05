@@ -57,8 +57,11 @@ public class WXUserController {
 	public String detail(int clientId){
 		return wxUserService.detail(clientId);
 	}
-	
-	@RequestMapping(value = "/addcar",method = RequestMethod.POST)
+	@RequestMapping(value = "/listCar",method = RequestMethod.GET)
+	public String addcar(int clientId){
+		return wxUserService.listCar(clientId);
+	}
+	@RequestMapping(value = "/addCar",method = RequestMethod.POST)
 	public String addcar(@RequestBody Car car){
 		log.debug(">>>>>>>> "+car);
 		return wxUserService.addCar(car);
@@ -75,6 +78,5 @@ public class WXUserController {
 	public String listCard(int clientId){
 		return wxUserService.listCard(clientId);
 	}
-
 }
 

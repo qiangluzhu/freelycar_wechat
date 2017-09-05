@@ -1,7 +1,9 @@
 package com.geariot.platform.freelycar_wechat.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.geariot.platform.freelycar_wechat.utils.Constants;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
+import com.geariot.platform.freelycar_wechat.utils.query.OrderBean;
 import com.geariot.platform.freelycar_wechat.dao.*;
 import com.geariot.platform.freelycar_wechat.entities.*;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
@@ -20,8 +23,7 @@ import net.sf.json.JsonConfig;
 
 @Service
 @Transactional
-public class ConsumOrderService {
-	//根据前端之前获取的单据ID调用接口，不需要验证单据不存在
+public class ConsumOrderService {	
 	@Autowired
 	private ConsumOrderDao consumOrderDao;
 	@Autowired
@@ -30,11 +32,28 @@ public class ConsumOrderService {
 	private WXUserDao wxUserDao;
 	@Autowired
 	private ClientDao clientDao;
-	
+	@Autowired
+	private CardDao cardDao;
+	//根据前端之前获取的单据ID调用接口，不需要验证单据不存在
 	public String detail(String consumOrderId){
+		ConsumOrder consumOrder = consumOrderDao.findById(consumOrderId);
+		Set<ProjectInfo> projects = consumOrder.getProjects();
+		List<OrderBean> projectsForRemaining = new ArrayList<OrderBean>();
+		for(ProjectInfo project : projects){
+			int remaining = (cardDao.getProjectRemainingInfo(Integer.parseInt(project.getCardId()), project.getProjectId())).getRemaining(); 
+						OrderBean orderBean = new OrderBean();
+			orderBean.setRemaining(remaining);
+			orderBean.setProjectInfo(project);
+			projectsForRemaining.add(orderBean);
+		}
+		System.out.println("<<<<<"+consumOrder);
 		JsonConfig config = JsonResFactory.dateConfig();
+		config.registerPropertyExclusions(ConsumOrder.class,new String[]{"projects"});
 		JSONObject obj = JSONObject.fromObject(consumOrderDao.findById(consumOrderId),config);	
+		obj.put("projects", projectsForRemaining);
+		System.out.println("<<<<<"+obj);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS, Constants.RESPONSE_CONSUMORDER_KEY, obj).toString();
+
 	}
 	
 	
