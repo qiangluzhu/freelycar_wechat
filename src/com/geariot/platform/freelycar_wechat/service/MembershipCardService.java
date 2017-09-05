@@ -38,8 +38,7 @@ public class MembershipCardService {
 		}
 		long realSize = serviceDao.getCount();
 		int size = (int)Math.ceil(realSize/number);
-		JsonConfig config = new JsonConfig();
-		config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor());
+		JsonConfig config = JsonResFactory.dateConfig();
 		JSONArray jsonArray = JSONArray.fromObject(exist, config);
 		net.sf.json.JSONObject obj= JsonResFactory.buildNetWithData(RESCODE.SUCCESS, jsonArray);
 		obj.put(Constants.RESPONSE_SIZE_KEY, size);
