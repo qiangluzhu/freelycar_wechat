@@ -16,4 +16,6 @@ public interface CarDao {
 	void save(Car car);
 
 	void update(Car car);
+	
+	List<Car> findByClientId(int clientId);
 }

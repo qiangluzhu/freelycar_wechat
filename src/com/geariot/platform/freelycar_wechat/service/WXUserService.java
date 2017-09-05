@@ -192,5 +192,15 @@ return 0;
 		JSONArray array = JSONArray.fromObject(Cards, config);
 		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, array).toString();
 	}
+
+	public String listCar(int clientId) {
+		List<Car> cars = carDao.findByClientId(clientId);
+		JsonConfig config = JsonResFactory.dateConfig();
+		config.registerPropertyExclusions(Car.class,new String[]{"client"});
+//		JsonPropertyFilter filter = new JsonPropertyFilter();
+//		config.setJsonPropertyFilter(filter);
+		JSONArray array = JSONArray.fromObject(cars, config);
+		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, array).toString();
+	}
 }
 
