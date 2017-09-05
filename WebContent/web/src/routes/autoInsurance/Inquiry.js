@@ -86,7 +86,7 @@ class Inquiry extends React.Component {
                 </Picker>
             </List>
             <div className="inquiry-button">
-                <span>立即询价 ></span>
+                <span style={{fontWeight:'bold'}}>立即询价 ></span>
                 <span className="secret">你的信息将被严格保密</span>
             </div>
             <div className="cooperative-agency">
