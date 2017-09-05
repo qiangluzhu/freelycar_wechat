@@ -32,6 +32,8 @@ public class WXUserService {
 	private PointDao pointDao;
 	@Autowired
 	private ConsumOrderDao consumOrderDao;
+	@Autowired
+	private	CardDao	cardDao;
 	
 	public double test(){
 return 0;
@@ -152,7 +154,7 @@ return 0;
 			for (Object[] exist : exists) {
 				pointBeans.add(new PointBean((int)Math.rint((Double)exist[1]),(Date)exist[0]));
 			}
-			return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONArray.fromObject(pointBeans,config)).toString();
+			return JsonResFactory.buildOrg(RESCODE.SUCCESS, Constants.RESPONSE_POINT_KEY, JSONArray.fromObject(pointBeans,config)).toString();
 		}
 	}
 	
@@ -182,6 +184,13 @@ return 0;
 		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
 		
 		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
+	}
+
+	public String listCard(int clientId) {
+		List<Card> Cards = cardDao.listCardByClientId(clientId);
+		JsonConfig config = JsonResFactory.dateConfig();
+		JSONArray array = JSONArray.fromObject(Cards, config);
+		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, array).toString();
 	}
 }
 
