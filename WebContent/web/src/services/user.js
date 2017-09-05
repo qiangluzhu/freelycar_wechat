@@ -19,7 +19,7 @@ export default {
     },//客户优惠券信息
 
     myPoints: (params) => {
-        return post('/api/user/points', params)
+        return get('/api/user/points', params)
     },
 
     addCar: (params) => {
