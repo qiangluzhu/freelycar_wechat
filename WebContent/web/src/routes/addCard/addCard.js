@@ -7,7 +7,7 @@ import wgold_card from '../../img/wgold_card.png'
 import diamonds_card from '../../img/diamonds_card.png'
 import extreme_card from '../../img/extreme_card.png'
 import times_card from '../../img/times_card.png'
-
+import { getCardList } from '../../services/service.js'
 
 
 class OrderDetail extends React.Component {
@@ -21,7 +21,9 @@ class OrderDetail extends React.Component {
                 { name: '钻石卡', src: diamonds_card },
                 { name: '至尊卡', src: extreme_card }
             ],
-            arrowIndex: -1
+            arrowIndex: 0,
+            arrowName: '次卡',
+            services: [],
         }
     }
     componentDidMount() {
@@ -33,11 +35,26 @@ class OrderDetail extends React.Component {
             centeredSlides: false
             // 如果需要分页器
         });
+
+        getCardList({
+            page: 1,
+            number: 22
+        }).then((res) => {
+            if (res.data.code == '0') {
+                this.setState({
+                    services: res.data.data,
+                })
+            }
+        }).catch((error) => { console.log(error) });
+
+
+
     }
 
-    onHanleArrowDisplay = (index) => {
+    onHanleArrowDisplay = (name, index) => {
         this.setState({
-            arrowIndex:index
+            arrowIndex: index,
+            arrowName: name,
         });
     }
     render() {
@@ -45,13 +62,29 @@ class OrderDetail extends React.Component {
         let cards = this.state.card;
 
         let cardList = cards.map((item, index) => {
-            return <div key={index} className="card-item swiper-slide" onClick={() => { this.onHanleArrowDisplay(index) }}>
+            return <div key={index} className="card-item swiper-slide" onClick={() => { this.onHanleArrowDisplay(item.name, index) }}>
                 <img src={item.src} />
                 <div className='label'>{item.name}</div>
-                <div className={`arrow ${this.state.arrowIndex==index?'':'hidden'}`}></div>
+                <div className={`arrow ${this.state.arrowIndex == index ? '' : 'hidden'}`}></div>
             </div>
 
-        })
+        });
+        let serviceItem = this.state.services.map((item, index) => {
+            let service = item
+            if (item.name == this.state.arrowName) {
+                let proInfos = service.projectInfos;
+                let item = proInfos.map((item1, index1) => {
+                    return <div key={index+''+index1} className='vip-service-item'>
+                        <div className='label-left'>{item1.project.name}</div>
+                        <div className='label-right'>
+                            <span className='count'>{item1.times}</span>
+                            <span className='unit'>次</span>
+                        </div>
+                    </div>
+                });
+                return item;
+            }
+        });
 
         return (<div>
             <NavBar title={'会员卡添加'}></NavBar>
@@ -64,28 +97,7 @@ class OrderDetail extends React.Component {
             <div className='vip-service'>
                 <div className='vip-service-div'>
                     <div className='vip-service-header'>会员专项</div>
-
-                    <div className='vip-service-item'>
-                        <div className='label-left'>洗车</div>
-                        <div className='label-right'>
-                            <span className='count'>25</span>
-                            <span className='unit'>次</span>
-                        </div>
-                    </div>
-                    <div className='vip-service-item'>
-                        <div className='label-left'>洗车</div>
-                        <div className='label-right'>
-                            <span className='count'>25</span>
-                            <span className='unit'>次</span>
-                        </div>
-                    </div>
-                    <div className='vip-service-item'>
-                        <div className='label-left'>洗车</div>
-                        <div className='label-right'>
-                            <span className='count'>25</span>
-                            <span className='unit'>次</span>
-                        </div>
-                    </div>
+                    {serviceItem}
                 </div>
             </div>
 
@@ -93,10 +105,10 @@ class OrderDetail extends React.Component {
             <div className='bottom-pay-button'>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='lable'>合计:</Flex.Item>
-                    <Flex.Item style={{color:'red'}}>￥999</Flex.Item>
+                    <Flex.Item style={{ color: 'red' }}><span style={{ fontSize: '12px' }}>￥</span><span style={{ fontSize: '16px' }}>999</span></Flex.Item>
                     <div className='pay-button'>
                         <Flex style={{ height: '100%' }}>
-                            <Flex.Item style={{textAlign:'center',color:'#fff'}}>立即购买</Flex.Item>
+                            <Flex.Item style={{ textAlign: 'center', color: '#fff' }}>立即购买</Flex.Item>
                         </Flex>
                     </div>
                 </Flex>
