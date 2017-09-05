@@ -46,4 +46,8 @@ export default {
         return get('/api/user/wxInfo',params)
     },
 
+    myCard:(params)=>{
+        return get('/api/user/listCard',params)
+    }
+
 }

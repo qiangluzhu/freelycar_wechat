@@ -21,7 +21,7 @@ class OrderTrack extends React.Component {
         orderDetail({
             consumOrderId: 'S201708104lfl5v'
         }).then((res) => {
-            let data = res.data.data.data
+            let data = res.data.orders
             console.log(res)
             if (res.data.code == '0') {
                 console.log(data)
