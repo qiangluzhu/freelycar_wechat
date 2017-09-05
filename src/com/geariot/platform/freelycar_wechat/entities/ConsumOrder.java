@@ -21,7 +21,6 @@ public class ConsumOrder {
 	private String carBrand;
 	private int clientId;
 	private String clientName;
-	private Card card;
 	private String gender;
 	private String phone;
 	private Set<ProjectInfo> projects;
@@ -49,14 +48,6 @@ public class ConsumOrder {
 	private Staff pickCarStaff;
 	private Store store;			//门店Id
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="cardId", foreignKey=@ForeignKey(name="none"))
-	public Card getCard() {
-		return card;
-	}
-	public void setCard(Card card) {
-		this.card = card;
-	}
 	public double getTotalPrice() {
 		return totalPrice;
 	}
