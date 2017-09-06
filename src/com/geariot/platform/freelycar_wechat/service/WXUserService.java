@@ -1,6 +1,8 @@
 package com.geariot.platform.freelycar_wechat.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -135,9 +137,13 @@ return 0;
 		}
 		return obj.toString();
 	}
-	public String modifyCar(int carId,Car car){
-		Car exist=carDao.findById(carId);
-		if(exist==null){
+	public String modifyCar(Car car){
+		Client client = clientDao.findById((car.getClient()).getId());
+		if (client == null) {
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
+		}
+		Car exist = carDao.findByLicense(car.getLicensePlate());
+		if (exist == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
 		carDao.update(car);
@@ -202,8 +208,30 @@ return 0;
 		config.registerPropertyExclusions(Car.class,new String[]{"client"});
 //		JsonPropertyFilter filter = new JsonPropertyFilter();
 //		config.setJsonPropertyFilter(filter);
-		JSONArray array = JSONArray.fromObject(cars, config);
-		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, array).toString();
+		List<Object> list =new ArrayList <Object> ();
+		
+		for(Car car:cars){
+			
+			JSONObject obj =new JSONObject();
+	         Date today=new Date(); 
+	         long result = 0;
+	         SimpleDateFormat format=new SimpleDateFormat("yy/MM/dd hh:mm:ss");	          	          
+				
+	         if(car.getInsuranceStarttime()==null){
+	        	 result = 365;
+			}
+			else{
+				  long intervalMilli = today.getTime() - car.getInsuranceStarttime().getTime();
+				  result = 365 - (intervalMilli / (24 * 60 * 60 * 1000));
+				  System.out.println(">>>>>"+result);
+			}	
+	        obj.put("car",obj.fromObject(car,config));
+	        System.out.println(">>>>>"+obj);
+			obj.put("time", result);
+			list.add(obj);
+		}
+		JSONArray.fromObject(list, config);
+		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, list).toString();
 	}
 }
 
