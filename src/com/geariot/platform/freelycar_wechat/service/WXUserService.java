@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+
 import com.geariot.platform.freelycar_wechat.dao.*;
 import com.geariot.platform.freelycar_wechat.entities.*;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
@@ -98,7 +100,8 @@ return 0;
 	}
 	
 	public String addCar(Car car){
-		Client client = clientDao.findById(car.getClient().getId());
+		Client client = clientDao.findById((car.getClient()).getId());
+		System.out.println("<<<<"+clientDao.findById(11));
 		if (client == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
