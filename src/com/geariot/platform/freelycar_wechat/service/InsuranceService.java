@@ -1,4 +1,4 @@
-package com.geariot.platform.freelycar_wechat.controller;
+package com.geariot.platform.freelycar_wechat.service;
 
 import java.util.Date;
 

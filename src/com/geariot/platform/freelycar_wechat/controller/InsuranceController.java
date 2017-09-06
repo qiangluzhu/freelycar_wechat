@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.geariot.platform.freelycar_wechat.entities.InsuranceOrder;
+import com.geariot.platform.freelycar_wechat.service.InsuranceService;
 
 @RestController
 @RequestMapping(value = "/insurance")
