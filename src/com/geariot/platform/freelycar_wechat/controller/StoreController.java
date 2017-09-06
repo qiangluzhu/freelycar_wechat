@@ -17,7 +17,7 @@ import com.geariot.platform.freelycar_wechat.service.StoreService;
 @RestController
 @RequestMapping(value = "/store")
 public class StoreController {
-
-	@Autowired
-	private StoreService storeService;
+//
+//	@Autowired
+//	private StoreService storeService;
 }
