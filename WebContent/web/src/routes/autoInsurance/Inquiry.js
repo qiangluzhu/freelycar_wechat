@@ -1,15 +1,17 @@
 import React from 'react';
 import NavBar from '../../components/NavBar'
 import './Inquiry.less'
-import { List, InputItem, WhiteSpace, Picker,Flex } from 'antd-mobile'
+import { List, InputItem, WhiteSpace, Picker,Flex ,Popup } from 'antd-mobile'
 const Item = List.Item;
 class Inquiry extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             data: [{ label: 'B', value: 'B' }, { value: 'A', label: '苏' }, { value: 'C', label: 'C' }, { value: 'D', label: 'D' }, { value: 'E', label: 'E' }],
-            province: ['A'],
-            city: ['B']
+            city: ['B'],
+            province: '苏',
+            carModel: '',
+            carPlate: ''
         }
     }
     componentDidMount() {
@@ -20,6 +22,25 @@ class Inquiry extends React.Component {
             pagination: '.swiper-pagination',
         });
     }
+
+    selectProvince(item) {
+        Popup.hide()
+        this.setState({
+            province: item
+        })
+    }
+
+    PopupModal() {
+        let province = ['京', '沪', '浙', '苏', '粤', '鲁', '晋', '冀', '豫', '川', '渝', '辽', '吉', '黑', '皖', '鄂', '湘', '赣', '闽', '陕', '甘', '宁', '蒙', '津', '贵', '云', '桂', '琼', '青', '新', '藏'];
+        let items = province.map((item, index) => {
+            return <li key={index} onClick={() => { this.selectProvince(item) }} style={{ float: 'left', color: this.state.province == item ? '#fff' : '#666', background: this.state.province == item ? '#1e1e1e' : '#fff', width: '.915rem', height: '.915rem', textAlign: 'center', lineHeight: '.92rem', borderRight: '1px solid #eee', borderBottom: '1px solid #eee' }}>{item}</li>
+        })
+        Popup.show(<Flex justify="center" align="center" style={{ background: '#eee' }}>
+            <ul className="clear" style={{ listStyle: 'none', width: '100%', borderTop: '1px solid #eee', borderLeft: '1px solid #eee' }}>
+                {items}
+            </ul>
+        </Flex>, { animationType: 'slide-up', maskClosable: true });
+            }
     render() {
         return <div>
 
@@ -40,32 +61,18 @@ class Inquiry extends React.Component {
 
                 </InputItem>
                 <InputItem
-                    type="number"
-                    clear
-                    placeholder="填写车牌号"
-                    maxLength="5"
-                    labelNumber="6"
-                >
-                    <div style={{ display: 'inline-block', marginLeft: '.24rem' }}>车牌号</div>
-                    <div className="card-number" style={{ display: 'inline-block', marginLeft: ' 2.25rem' }}>
-                        <Picker
-                            data={this.state.data} cols={1}
-                            value={this.state.province}
-                            onOk={v => this.setState({ province: v + '' })}
-                        >
-                            <List.Item arrow="down" style={{ display: 'inline-block' }}></List.Item>
-                        </Picker>
-                    </div><span className="parting-line">|</span>
-                    <div className="card-number" style={{ display: 'inline-block' }}>
-                        <Picker
-                            data={this.state.data} cols={1}
-                            value={this.state.city}
-                            onOk={v => this.setState({ city: v + '' })}
-                        >
-                            <List.Item arrow="down" style={{ display: 'inline-block' }}></List.Item>
-                        </Picker>
-                    </div><span className="parting-line">|</span>
-                </InputItem>
+                clear
+                placeholder="填写车牌号"
+                style={{marginLeft:'.24rem'}}
+                maxLength="6"
+                labelNumber="6"
+                onChange={(e) => { this.setState({ carPlate: e }) }}
+            >
+                <div style={{ display: 'inline-block' }}>车牌号</div>
+                <div className="card-number" style={{ display: 'inline-block', marginLeft: ' 3.3rem' }}>
+                    <List.Item extra={this.state.province} arrow="down" style={{ display: 'inline-block' }} onClick={() => { this.PopupModal() }}></List.Item>
+                </div>
+            </InputItem>
                 <InputItem
                     clear
                     type="number"
@@ -79,7 +86,7 @@ class Inquiry extends React.Component {
                 </Picker>
             </List>
             <div className="inquiry-button">
-                <span>立即询价 ></span>
+                <span style={{fontWeight:'bold'}}>立即询价 ></span>
                 <span className="secret">你的信息将被严格保密</span>
             </div>
             <div className="cooperative-agency">
