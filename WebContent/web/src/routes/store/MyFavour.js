@@ -3,6 +3,7 @@ import NavBar from '../../components/NavBar'
 import { Flex } from 'antd-mobile'
 import './CooperativeStore.less'
 import { myPoints } from '../../services/user'
+import {browserHistory} from 'dva/router'
 class MyFavour extends React.Component {
     constructor(props) {
         super(props)
@@ -29,8 +30,8 @@ class MyFavour extends React.Component {
                             <div style={{ fontSize: '.3rem',lineHeight:'.45rem', marginLeft: '.2rem' ,marginBottom:'.05rem'}}>洗车抵用券</div>
                             <div style={{ fontSize: '.2rem', lineHeight: '.25rem', marginLeft: '.2rem' }}>洗车项目时可直接抵扣</div>
                         </Flex>
-                        <div className="use-button" style={{width:'1rem',height:'.32rem',border:'1px  solid #ee5e5e',fontSize:'.22rem',lineHeight:'.32rem',borderRadius:'.05rem',color:'#ee5e5e',textAlign:'center'}}>
-                            立即使用 
+                        <div className="use-button" onClick={()=>{browserHistory.push('/store/detail')}} style={{width:'1rem',height:'.32rem',border:'1px  solid #ee5e5e',fontSize:'.22rem',lineHeight:'.32rem',borderRadius:'.05rem',color:'#ee5e5e',textAlign:'center'}}>
+                            到店使用 
                     </div>
                     </Flex>
                 </Flex>

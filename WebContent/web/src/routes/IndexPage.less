@@ -41,14 +41,22 @@ input {
   outline: none;
 }
 .body-bac {
+    box-sizing:border-box;
+    -moz-box-sizing:border-box; 
+    -webkit-box-sizing:border-box; 
     position: relative;
     width: 100%;
+    padding-top: .88rem;
     overflow: hidden;
     color: #1e1e1e;
     background: #f0f0f0;
 }
 
 .nav-bar-title{
+    position: fixed;
+    z-index: 1000;
+    top:0;
+    width: 100%;
     padding: 0 .22rem;
     margin-bottom: 2px;
     height: .86rem;

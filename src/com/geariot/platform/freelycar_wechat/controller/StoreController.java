@@ -36,4 +36,5 @@ public class StoreController {
 	public String storeComment(int storeId){
 		return null;
 	}
+
 }

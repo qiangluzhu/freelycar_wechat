@@ -4,6 +4,7 @@ import { Flex } from 'antd-mobile'
 import './OrderTrack.less'
 import { orderDetail } from '../../services/orders.js'
 import parseForm from '../../utils/parseToForm.js'
+import {browserHistory} from 'dva/router'
 class OrderTrack extends React.Component {
     constructor(props) {
         super(props)
@@ -44,7 +45,7 @@ class OrderTrack extends React.Component {
             return <Flex direction="column" style={{ width: '100%' }} key={index}>
                 <Flex className="Info">
                     <i className="circle"></i>
-                    <p>{item.name}</p>
+                    <p>{item.projectInfo.name}</p>
                     <Flex.Item className="total-money" >
                         <p className="actual-money"><span style={{ fontSize: '.08rem' }}>￥</span>200</p>
                         <p className="primary-money">
@@ -98,7 +99,7 @@ class OrderTrack extends React.Component {
                         </div>
                         <div>爱车已交回你的手中 快来评价获积分吧
                         </div>
-                        <div className="evaluate">
+                        <div className="evaluate" onClick={()=>{browserHistory.push('/store/comment')}}>
                             评价得200积分
                         </div>
                     </div>

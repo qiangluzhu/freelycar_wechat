@@ -1,6 +1,8 @@
 package com.geariot.platform.freelycar_wechat.service;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -8,7 +10,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 import com.geariot.platform.freelycar_wechat.utils.query.FavourOrderBean;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
@@ -17,6 +21,7 @@ import com.geariot.platform.freelycar_wechat.dao.FavourDao;
 import com.geariot.platform.freelycar_wechat.dao.FavourProjectInfosDao;
 import com.geariot.platform.freelycar_wechat.dao.ProjectDao;
 import com.geariot.platform.freelycar_wechat.dao.ServiceDao;
+import com.geariot.platform.freelycar_wechat.dao.WXPayOrderDao;
 import com.geariot.platform.freelycar_wechat.dao.WXUserDao;
 import com.geariot.platform.freelycar_wechat.entities.FavourToOrder;
 import com.geariot.platform.freelycar_wechat.entities.WXUser;
@@ -33,6 +38,8 @@ public class PayService {
 	private WXUserDao wxUserDao;
 	@Autowired
 	private ServiceDao serviceDao;
+	@Autowired
+	private WXPayOrderDao wxPayOrderDao;
 	
 	private static final Logger log = LogManager.getLogger(PayService.class);
 	
@@ -47,12 +54,13 @@ public class PayService {
 		Service service = serviceDao.findServiceById(serviceId);
 		wxPayOrder.setService(service);
 		wxPayOrder.setProductName(service.getName());
-		JSONObject obj = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
 		obj.put(Constants.RESPONSE_WXORDER_KEY,wxPayOrder);
-		
-		
-		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
+		wxPayOrderDao.saveWXPayOrder(wxPayOrder);
+		JsonConfig config = JsonResFactory.dateConfig();
+		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS,
+				net.sf.json.JSONObject.fromObject(obj, config)).toString();
 	}
 	
 	//create favour order
@@ -67,12 +75,12 @@ public class PayService {
 			productName += favour.getFavour().getName()+"*"+favour.getCount()+",";
 		wxPayOrder.setProductName(productName);
 		wxPayOrder.setFavours(favours);
-		JSONObject obj = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
 		obj.put(Constants.RESPONSE_WXORDER_KEY,wxPayOrder);
-		
-		
-		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
+		wxPayOrderDao.saveWXPayOrder(wxPayOrder);
+		JsonConfig config = JsonResFactory.dateConfig();
+		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS,net.sf.json.JSONObject.fromObject(obj, config)).toString();
 		
 	}
 	
@@ -80,6 +88,7 @@ public class PayService {
 	private WXPayOrder buildBasivOrders(String openId,double totalPrice){
 		WXPayOrder wxPayOrder = new WXPayOrder();
 		wxPayOrder.setId(IDGenerator.generate(IDGenerator.WX_CONSUM));
+		System.out.println(">>>>"+IDGenerator.generate(IDGenerator.WX_CONSUM));
 		wxPayOrder.setCreateDate(new Date());
 		wxPayOrder.setOpenId(openId);
 		wxPayOrder.setPayMethod(Constants.PAY_BY_WX);

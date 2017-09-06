@@ -79,6 +79,10 @@ class AddCar extends React.Component {
     }
     render() {
         const { getFieldProps } = this.props.form;
+        let greyButton = false
+        if(this.state.carPlate&&window.localStorage.getItem('brandType')) {
+            greyButton = true
+        }
         return <div className="body-bac">
             <NavBar title="添加爱车" />
             <List className="add-car-info">
@@ -106,9 +110,9 @@ class AddCar extends React.Component {
                 >
                     <Item arrow="horizontal">车型</Item>
                 </Picker>
-
             </List>
-            <div className="addCar-btn" onClick={() => { this.addCarInfos() }}>保存</div>
+    
+            <div className="addCar-btn" style={{background:greyButton?"#5a88e5":"rgba(153,153,153,0.5)"}} onClick={() => { this.addCarInfos() }}>保存</div>
         </div>
     }
 }

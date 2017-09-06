@@ -2,7 +2,6 @@ package com.geariot.platform.freelycar_wechat.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -102,8 +101,8 @@ return 0;
 	}
 	
 	public String addCar(Car car){
+		System.out.println("<<<"+car);
 		Client client = clientDao.findById((car.getClient()).getId());
-		System.out.println("<<<<"+clientDao.findById(11));
 		if (client == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
@@ -140,10 +139,6 @@ return 0;
 	public String modifyCar(Car car){
 		Client client = clientDao.findById((car.getClient()).getId());
 		if (client == null) {
-			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
-		}
-		Car exist = carDao.findByLicense(car.getLicensePlate());
-		if (exist == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
 		carDao.update(car);
@@ -226,7 +221,6 @@ return 0;
 				  System.out.println(">>>>>"+result);
 			}	
 	        obj.put("car",obj.fromObject(car,config));
-	        System.out.println(">>>>>"+obj);
 			obj.put("time", result);
 			list.add(obj);
 		}

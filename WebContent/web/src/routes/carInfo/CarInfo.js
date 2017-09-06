@@ -56,7 +56,7 @@ class CarInfo extends React.Component {
             <NavBar title="爱车信息" />
 
 
-            <div className="swiper-container carInfo" ref={self => this.swiperID = self}>
+            <div className="swiper-container carInfo container" ref={self => this.swiperID = self}>
                 <div className="swiper-wrapper">
                     <Flex className="swiper-slide carItem" >
                         <img className='car_icon' src={car_icon} alt="" />
