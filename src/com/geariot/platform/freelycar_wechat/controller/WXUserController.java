@@ -41,8 +41,9 @@ public class WXUserController {
 		return wxUserService.getPoint(clientId);
 	}
 	//设置时间
-	@RequestMapping(value = "/defaultCar",method = RequestMethod.POST)
+	@RequestMapping(value = "/defaultCar",method = RequestMethod.GET)
 	public String defaultCar(int carId){
+		System.out.println(carId);
 		return wxUserService.setDefaultCar(carId);
 	}
 	@RequestMapping(value = "/carInfo",method = RequestMethod.POST)
