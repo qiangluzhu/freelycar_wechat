@@ -101,7 +101,7 @@ class SelectCarBrand extends React.Component {
             <div className="body-bac" style={{height:'100%'}}>
                 <NavBar title="请选择品牌" />
                 <Drawer
-                    className="my-drawer"
+                    className="my-drawer container"
                     style={{ minHeight: document.documentElement.clientHeight - 200 }}
                     position={"right"}
                     contentStyle={{ color: '#1c1c1c', textAlign: 'center', paddingTop: 42 }}

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Flex ,ListView} from 'antd-mobile';
+import { Flex, ListView } from 'antd-mobile';
 import NavBar from '../../components/NavBar'
 import './CooperativeStore.less'
-import {storeList} from '../../services/store'
-const NUM_ROWS = 10;
+import { storeList } from '../../services/store'
+const NUM_ROWS = 100;
 let pageIndex = 0;
 let index = 20;
 class CooperativeStore extends React.Component {
@@ -14,71 +14,75 @@ class CooperativeStore extends React.Component {
         const getRowData = (dataBlob, sectionID, rowID) => dataBlob[rowID];
         const dataSource = new ListView.DataSource({
             rowHasChanged: (row1, row2) => row1 !== row2,
-          });
+        });
 
         this.state = {
-            dataSource:dataSource.cloneWithRows({}),
-            isLoading:true,
-            hasMore:true,
-            pageIndex:1,
-            data:['1','2']
+            dataSource: dataSource.cloneWithRows({}),
+            isLoading: true,
+            hasMore: true,
+            pageIndex: 1,
+            data: ['1']
         }
     }
 
     componentDidMount() {
-        storeList({
-            page:1,
-            number:10
-        }).then((res)=>{
-            console.log(res)
-        })
         setTimeout(() => {
             this.rData = this.genData();
             this.setState({
-              dataSource: this.state.dataSource.cloneWithRows(this.rData),
-              isLoading: false,
+                dataSource: this.state.dataSource.cloneWithRows(this.rData),
+                isLoading: false,
             });
-          }, 600);
+        }, 600);
     }
 
     genData = (pIndex = 0) => {
         const dataBlob = {};
         for (let i = 0; i < NUM_ROWS; i++) {
-          const ii = (pIndex * NUM_ROWS) + i;
-          dataBlob[`${ii}`] = `row - ${ii}`;
+            const ii = (pIndex * NUM_ROWS) + i;
+            dataBlob[`${ii}`] = `row - ${ii}`;
         }
         return dataBlob;
-      }
+
+        // storeList({
+        //     page: 1,
+        //     number: 10
+        // }).then((res) => {
+        //     console.log(res)
+        // })
+
+        // return ['11', '22','33','44','55']
+    }
 
     onEndReached = (event) => {
+        console.log('到底部啦')
         // load new data
         // hasMore: from backend data, indicates whether it is the last page, here is false
         if (this.state.isLoading && !this.state.hasMore) {
-          return;
+            return;
         }
         console.log('reach end', event);
         this.setState({ isLoading: true });
         setTimeout(() => {
             storeList({
-                page:1,
-                number:10
-            }).then((res)=>{
+                page: 1,
+                number: 10
+            }).then((res) => {
                 console.log(res)
                 this.rData = { ...this.rData, ...this.genData(++pageIndex) };
                 this.setState({
-                    pageIndex:this.state.pageIndex+1,
+                    pageIndex: this.state.pageIndex + 1,
                     dataSource: this.state.dataSource.cloneWithRows(this.rData),
                     isLoading: false,
-                    data:['1','2']
+                    data: ['1', '2']
                 })
             })
         }, 1000);
-      }
+    }
 
     render() {
         const row = (rowData, sectionID, rowID) => {
             if (index < 0) {
-              index = this.state.data.length - 1;
+                index = this.state.data.length - 1;
             }
             const obj = this.state.data[index--];
             return (
@@ -109,25 +113,31 @@ class CooperativeStore extends React.Component {
                     </Flex>
                 </Flex>
             );
-          };
-        
+        };
 
-        return <div>
+
+        return <div className="body-bac">
             <NavBar title="合作门店" />
-            <ListView 
+            <ListView
                 dataSource={this.state.dataSource}
                 renderBodyComponent={() => <MyBody />}
-                onEndReached={()=>this.onEndReached}
+                onEndReached={() => this.onEndReached()}
                 onEndReachedThreshold={10}
                 renderRow={row}
+                initialListSize={1}
                 pageSize={4}
+                onScroll={() => { console.log('scroll'); }}
+                scrollRenderAheadDistance={500}
+                scrollEventThrottle={200}
+                renderFooter={() => (<div style={{ padding: '.2rem', textAlign: 'center' }}>
+                    {this.state.isLoading ? 'Loading...' : 'Loaded'}
+                </div>)}
                 style={{
-          height: document.documentElement.clientHeight*3/4,
-          overflow: 'auto',
-          
-        }}
-             >
-            
+                    height:`${document.documentElement.clientHeight}`,
+                    overflow: 'auto',
+                }}
+            >
+
             </ListView>
         </div>
     }
@@ -135,9 +145,9 @@ class CooperativeStore extends React.Component {
 }
 
 
-const MyBody = (props)=> {
+const MyBody = (props) => {
     return (
         <div >{props.children}</div>
     );
-  }
+}
 export default CooperativeStore

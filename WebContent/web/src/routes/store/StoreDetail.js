@@ -33,7 +33,7 @@ class CooperativeStore extends React.Component {
         })
     }
     render() {
-        return <div className="store-detail">
+        return <div className="store-detail body-bac">
             <NavBar title="门店详情" />
             <div className="swiper-container" ref={self => this.swiperID = self}>
                 <div className="swiper-wrapper">
@@ -63,6 +63,7 @@ class CooperativeStore extends React.Component {
                             <div className="info-identify">
                                 <span className="identification">免费安全监测</span>
                                 <span className="identification">下雨保</span>
+
                             </div>
                         </div>
                     </Flex>

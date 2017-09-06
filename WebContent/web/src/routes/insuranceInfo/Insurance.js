@@ -45,7 +45,7 @@ class Insurance extends React.Component {
         return <div className="body-bac">
             <NavBar title="爱车信息" />
 
-            <List style={{ backgroundColor: 'white' }} className="picker-list">
+            <List style={{ backgroundColor: 'white' }} className="picker-list container">
                 <InputItem
                     clear
                     placeholder="填写真实姓名"
