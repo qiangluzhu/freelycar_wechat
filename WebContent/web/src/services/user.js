@@ -35,7 +35,7 @@ export default {
     },
 
     defaultCar:(params)=>{
-        return post('/api/user/defaultCar',params)
+        return get('/api/user/defaultCar',params)
     },
 
     modifyCarInfo:(params)=>{

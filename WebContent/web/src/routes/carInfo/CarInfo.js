@@ -7,7 +7,7 @@ import car_icon from '../../img/car_icon.jpg'
 import insurance from '../../img/insurance.png'
 import annualInspection from '../../img/annualInspection.png'
 import more_arrow from '../../img/more_arrow.png'
-import { myCar } from '../../services/user.js'
+import { myCar ,defaultCar} from '../../services/user.js'
 import { browserHistory } from 'dva/router'
 
 class CarInfo extends React.Component {
@@ -31,7 +31,6 @@ class CarInfo extends React.Component {
         myCar({
             clientId: 1,
         }).then((res) => {
-            console.log(res);
             if (res.data.code == '0') {
                 let data = res.data.data;
                 this.setState({
@@ -60,10 +59,17 @@ class CarInfo extends React.Component {
     }
 
 
-    setDefaultIndex = (index) =>{
+    setDefaultIndex = (id, index) =>{
         this.setState({
             defaultIndex:index
         });
+
+        defaultCar({
+            carId: 1
+        }).then((res) => {
+            console.log(res);
+           
+        }).catch((error) => { console.log(error) });
     }
 
 
@@ -92,7 +98,7 @@ class CarInfo extends React.Component {
                     <div className='licensePlate'>{item.car.licensePlate}</div>
                     <div className='type'>{item.car.carbrand}</div>
                 </div>
-                <div className={index==this.state.defaultIndex?'check':'no-check'} onClick={()=>{this.setDefaultIndex(index)}}>
+                <div className={index==this.state.defaultIndex?'check':'no-check'} onClick={()=>{this.setDefaultIndex(item.car.id, index)}}>
                     <Icon type='check-circle-o' />
                     <div className={index==this.state.defaultIndex?'':'hidden'}>默认</div>
                 </div>
