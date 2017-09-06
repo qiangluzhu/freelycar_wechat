@@ -48,6 +48,10 @@ export default {
 
     myCard:(params)=>{
         return get('/api/user/listCard',params)
+    },
+
+    myCar:(params)=>{
+        return get('/api/user/listCar',params)
     }
 
 }
