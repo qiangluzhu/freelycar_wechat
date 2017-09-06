@@ -32,7 +32,7 @@ import Insurance from './routes/insuranceInfo/Insurance'
 import CooperativeStore from './routes/store/CooperativeStore'
 import StoreDetail from './routes/store/StoreDetail'
 import CommentStore from './routes/store/CommentStore'
-
+import MyFavour from './routes/store/MyFavour'
 //404 not found页面
 import NotFound from './routes/NotFound'
 
@@ -59,7 +59,8 @@ function RouterConfig({ history }) {
       <Route path="/membership/mycard" component={MyCard} />
       <Route path="/membership/mycard/detail/:id" component={MyCardDetail}/>
       <Route path="/membership/mypoints" component={MyPoints}/>
-      
+      <Route path="/membership/myfavour" component={MyFavour}/>
+
       <Route path="/carInfo" component={CarInfo}/>
       <Route path="/store/cooperative-store" component={CooperativeStore}/>
       <Route path="/store/comment" component={CommentStore}/>

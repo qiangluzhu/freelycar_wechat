@@ -51,10 +51,10 @@ class MyPoints extends React.Component {
             </div>
             <div className="my-total-point-content">
                 <div className="wait">
-                    敬请期待...
+                    积分商城敬请期待...
                 </div>
                 <div className="title">
-                    积分明细
+                    积分明细30天内
                 </div>
                 {points}
             </div>

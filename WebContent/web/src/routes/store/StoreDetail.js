@@ -42,32 +42,30 @@ class CooperativeStore extends React.Component {
                 </div>
                 <div className="swiper-pagination circle-color"></div>
             </div>
-            <Flex className="cooperative-store-list">
-                <Flex className="picture">
-                    <img src="" alt="" />
-                </Flex>
+            <Flex className="cooperative-store-list" style={{paddingLeft:'.42rem'}}>
+  
                 <Flex direction="column" align="start" justify="between" style={{ height: '1.6rem', }}>
                     <div className="store-name">
                         小易爱车   <span style={{ fontSize: '.18rem', color: '#e42f2f', marginLeft: '.04rem' }}>5.0分</span>
                     </div>
-                    <Flex className="address">
-                        <div className="address-icon"></div>
-                        <p className="info-font">南京市苏宁诺富特酒店B2</p>
-
+                    <Flex className="info-font time">
+                        <div className="time-icon"></div>
+                        营业时间：8:20-20:00
                     </Flex>
                     <Flex className="time" align="end" >
                         <div>
-                            <Flex className="info-font">
-                                <div className="time-icon"></div>
-                                营业时间：8:20-20:00
-                                </Flex>
+                    
+                            <Flex className="address">
+                                <div className="address-icon"></div>
+                                <p className="info-font" style={{color:'#636363'}}>南京市苏宁诺富特酒店B2</p>
+
+                            </Flex>
                             <div className="info-identify">
                                 <span className="identification">免费安全监测</span>
                                 <span className="identification">下雨保</span>
                             </div>
                         </div>
                     </Flex>
-
                 </Flex>
                 <Flex className="icon">
                     <div className="hr"></div>
@@ -83,11 +81,14 @@ class CooperativeStore extends React.Component {
                     <div className="swiper-slide cooperative-store-coupon">
                         <Flex className="coupon" direction="column" align="start">
                             <Flex style={{ height: '1.16rem', background: '#fff', width: '100%' }}>
-                                <div className="money"><span style={{ fontSize: '.18rem' }}>￥</span>25</div>
+                                <Flex className="money" direction="column">
+                                    <div style={{ fontSize: '.4rem' }}><span style={{ fontSize: '.18rem' }}>￥</span>25</div>
+                                    <div style={{ color: '#8c8c8c', fontSize: '.22rem', marginTop: '.05rem' }}>代金券</div>
+                                </Flex>
                                 <div className="parting-line"></div>
                                 <Flex style={{ flex: 'auto' }}>
                                     <Flex direction="column" align="start">
-                                        <div style={{ fontSize: '.3rem', marginLeft: '.2rem' }}>洗车抵扣券</div>
+                                        <div style={{ fontSize: '.3rem', marginLeft: '.2rem' }}>洗车抵用券</div>
                                         <div style={{ fontSize: '.2rem', lineHeight: '.3rem', marginLeft: '.2rem' }}>洗车项目时可直接抵扣</div>
                                     </Flex>
                                     <Flex className="use-button">
@@ -110,7 +111,7 @@ class CooperativeStore extends React.Component {
                                 <div className="parting-line"></div>
                                 <Flex style={{ flex: 'auto', marginLeft: '.2rem' }}>
                                     <Flex direction="column" align="start">
-                                        <div style={{ fontSize: '.3rem', marginLeft: '.2rem' }}>洗车抵扣券</div>
+                                        <div style={{ fontSize: '.3rem', marginLeft: '.2rem' }}>洗车抵用券</div>
                                         <div style={{ fontSize: '.2rem', lineHeight: '.3rem', marginLeft: '.2rem' }}>洗车项目时可直接抵扣</div>
                                     </Flex>
                                     <div className="use-button">
@@ -203,10 +204,10 @@ class CooperativeStore extends React.Component {
             <div className='bottom-pay-button'>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='lable'>合计:</Flex.Item>
-                    <Flex.Item style={{color:'red'}}>￥999</Flex.Item>
+                    <Flex.Item style={{ color: 'red' }}>￥999</Flex.Item>
                     <div className='pay-button'>
                         <Flex style={{ height: '100%' }}>
-                            <Flex.Item style={{textAlign:'center',color:'#fff'}}>立即购买</Flex.Item>
+                            <Flex.Item style={{ textAlign: 'center', color: '#fff' }}>立即购买</Flex.Item>
                         </Flex>
                     </div>
                 </Flex>
