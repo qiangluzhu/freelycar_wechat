@@ -20,9 +20,7 @@ public interface StoreDao {
 	
 	void delete(int storeId);
 	
-	List<Store> query(String condition, int from, int pageSize);
-	
-	long getQueryCount(String andCondition);
+	List<Store> listStore(int from, int pageSize);
 	
 	Store findStoreById(int storeId);
 }

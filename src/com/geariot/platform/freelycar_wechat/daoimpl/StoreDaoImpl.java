@@ -50,18 +50,9 @@ public class StoreDaoImpl implements StoreDao{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Store> query(String condition, int from, int pageSize) {
-		StringBuffer basic = new StringBuffer("from Store");
-		String hql = QueryUtils.createQueryString(basic, condition, ORDER_CON.DESC_ORDER).toString();
-		return this.getSession().createQuery(hql).setFirstResult(from).setMaxResults(pageSize)
-				.setCacheable(Constants.SELECT_CACHE).list();
-	}
-
-	@Override
-	public long getQueryCount(String andCondition) {
-		StringBuffer basic = new StringBuffer("select count(*) from Store");
-		String hql = QueryUtils.createQueryString(basic, andCondition, ORDER_CON.NO_ORDER).toString();
-		return (long) this.getSession().createQuery(hql).setCacheable(Constants.SELECT_CACHE).uniqueResult();
+	public List<Store> listStore(int from, int pageSize) {
+		String hql = "from Store";
+		return this.getSession().createQuery(hql).setFirstResult(from).setMaxResults(pageSize).setCacheable(Constants.SELECT_CACHE).list();
 	}
 
 	@Override
