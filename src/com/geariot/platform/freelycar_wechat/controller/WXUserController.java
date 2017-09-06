@@ -46,8 +46,8 @@ public class WXUserController {
 		return wxUserService.setDefaultCar(carId);
 	}
 	@RequestMapping(value = "/carInfo",method = RequestMethod.POST)
-	public String carInfo(int carId,Car car){
-		return wxUserService.modifyCar(carId,car);
+	public String carInfo(Car car){
+		return wxUserService.modifyCar(car);
 	}
 	@RequestMapping(value="/test",method=RequestMethod.GET)
 	public void test(){
