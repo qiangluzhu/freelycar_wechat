@@ -34,7 +34,8 @@ public enum RESCODE {
 	CANNOT_CANCEL_INVOICES(29,"配件库存不足以退货"),
 	NOT_FOUND_WXUSER(30,"无openId对应微信用户"),
 	ORDER_ERROR(31,"微信下单接口失败"),
-	CALL_PORT_ERROR(32,"微信下单接口调用失败")
+	CALL_PORT_ERROR(32,"微信下单接口调用失败"),
+	INQUIRY_ALREADY(33,"该车辆近期已询价,待保险人员电话回访")
 	;
 	
 	// 定义私有变量
