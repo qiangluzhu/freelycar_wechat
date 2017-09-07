@@ -8,7 +8,8 @@ import car_icon from '../../img/car_icon.jpg'
 import insurance from '../../img/insurance.png'
 import annualInspection from '../../img/annualInspection.png'
 import more_arrow from '../../img/more_arrow.png'
-
+import { carDetail,modifyCarInfo} from '../../services/user.js'
+import { browserHistory } from 'dva/router'
 import cityJson from '../../data/city.json';
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -24,14 +25,47 @@ class Insurance extends React.Component {
         this.state = {
             insuredCompany: '',
             insuredCity: '',
-            compulsoryInsurance: '',//强制险
+            //compulsoryInsurance: '',//强制险
             commercialInsurance:'',//商业险
+            carPeopleName:'',
+            peopleIdNumber:'',//身份证
         }
     }
 
     componentDidMount() {
+        carDetail({
+            carId: this.props.params.carId,
+        }).then((res) => {
+            console.log(res);
+            let  dt = res.data.data;
+            let insuranceCity = dt.insuranceCity.split(',');
+            this.setState({
+                carPeopleName:res.data.clientName,
+                peopleIdNumber:res.data.idNumber,
+                insuredCity:insuranceCity,
+                insuredCompany:[dt.insuranceCompany],
+                //commercialInsurance:dt.insuranceEndtime,
+                commercialInsurance:moment(dt.insuranceEndtime, "YYYY-MM-DD"),
+
+            });
+        }).catch((error) => { console.log(error) });
+        
     }
 
+
+    modifyCarInfo=()=>{
+        modifyCarInfo({
+            clientId: this.props.params.clientId,
+            id:this.props.params.carId,
+            insuranceCompany:this.state.insuredCompany[0],
+            insuranceCity:this.state.insuredCity[0]+','+this.state.insuredCity[1],
+            insuranceEndtime:this.state.commercialInsurance.format('YYYY-MM-DD')
+        }).then((res) => {
+            if(res.data.code=='0'){
+                browserHistory.push('/carInfo')
+            }
+        }).catch((error) => { console.log(error) });
+    }
 
     render() {
 
@@ -50,13 +84,17 @@ class Insurance extends React.Component {
                     clear
                     placeholder="填写真实姓名"
                     autoFocus
-                >车主姓名</InputItem>
+                    value={this.state.carPeopleName}
+                    disabled
+                >真实姓名</InputItem>
 
                 <InputItem
                     clear
                     placeholder="填写身份证号"
                     autoFocus
-                >身份证号</InputItem>
+                    disabled
+                    value={this.state.peopleIdNumber}
+                >身份证</InputItem>
 
                 <Picker extra="填写投保公司"
                     data={insuredCompany}
@@ -76,29 +114,20 @@ class Insurance extends React.Component {
                 >
                     <List.Item arrow="horizontal">投保城市</List.Item>
                 </Picker>
-                <DatePicker
-                    mode="date"
-                    title="选择日期"
-                    minDate={minDate}
-                    maxDate={maxDate}
-                    value = {this.state.compulsoryInsurance}        
-                    onChange={(e)=>{this.setState({compulsoryInsurance:e})}}
-                >
-                    <List.Item arrow="horizontal">交强险到期时间</List.Item>
-                </DatePicker>
 
                 <DatePicker
                     mode="date"
                     title="选择日期"
-                    minDate={minDate}
-                    maxDate={maxDate}
                     value = {this.state.commercialInsurance}        
                     onChange={(e)=>{this.setState({commercialInsurance:e})}}
                 >
-                    <List.Item arrow="horizontal">商业险到期时间</List.Item>
+                    <List.Item arrow="horizontal">保险到期时间</List.Item>
                 </DatePicker>
             </List>
-
+            
+            <div style={{height:'1rem',width:'100%',backgroundColor:'#5a88e5',textAlign:'center',lineHeight:'1rem',color:'#fff',marginTop:'1.89rem'}}
+            onClick={()=>{this.modifyCarInfo()}}
+            >保存</div>
         </div>
     }
 
