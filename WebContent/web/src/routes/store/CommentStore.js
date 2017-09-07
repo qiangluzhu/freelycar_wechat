@@ -21,7 +21,7 @@ class CommentStore extends React.Component {
         console.log(document.documentElement.clientWidth)
     }
     render() {
-        return <div>
+        return <div className="body-bac">
             <NavBar title="合作门店" />
             <div className="comment-store">
                 <Flex className="comment-store-title">
