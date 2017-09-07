@@ -29,7 +29,11 @@ import com.geariot.platform.freelycar_wechat.utils.HttpRequest;
 import com.geariot.platform.freelycar_wechat.wxutils.WeChatSignatureUtil;
 import com.geariot.platform.freelycar_wechat.wxutils.XMLParser;
 import com.geariot.platform.freelycar_wechat.utils.Constants;
+import com.geariot.platform.freelycar_wechat.wxutils.IdentifyOrder;
 import com.geariot.platform.freelycar_wechat.wxutils.MD5;
+import com.geariot.platform.freelycar_wechat.dao.*;
+import com.geariot.platform.freelycar_wechat.entities.ConsumOrder;
+import com.geariot.platform.freelycar_wechat.entities.ProjectInfo;
 import com.geariot.platform.freelycar_wechat.entities.WXPayOrder;
 import com.geariot.platform.freelycar_wechat.service.PayService;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
@@ -41,21 +45,26 @@ public class PayController {
 	private static Logger log = LogManager.getLogger();
 	@Autowired
 	PayService payService;
+	@Autowired
+	WXPayOrderDao wxPayOrderDao;
+	@Autowired
+	ConsumOrderDao consumOrderDao;
 	
-	@RequestMapping(value="favour")
+	@RequestMapping(value="favour",method = RequestMethod.POST)
 	public String wechatFavour(FavourOrderBean favourOrderBean){
 			log.info("购买券");
 			return payService.createFavourOrder(favourOrderBean);
 	}
 
-	@RequestMapping(value="membershipCard")
+	@RequestMapping(value="membershipCard",method = RequestMethod.GET)
 	public String wechatCard(String openId,float totalPrice,int serviceId){
 			log.info("购买卡");
 			return payService.createCardOrder(openId,totalPrice,serviceId);
 		
 	}
-	
-	public String wechatPay(String openId,WXPayOrder wxPayOrder,double totalPrice,HttpServletRequest request){
+	@RequestMapping(value="payment",method = RequestMethod.GET)
+	public String wechatPay(String openId,String orderId,double totalPrice,HttpServletRequest request){
+
 		//微信支付
 		log.debug("微信支付");
 		JSONObject jsonObject = new JSONObject();
@@ -63,10 +72,23 @@ public class PayController {
 		//微信接口配置
 		String ip = request.getHeader("x-forwarded-for") == null ? request
 				.getRemoteAddr() : request.getHeader("x-forwarded-for");
-
+		//判断订单
+		if(IdentifyOrder.identify(orderId)){
+			ConsumOrder consumOrder = consumOrderDao.findById(orderId);
+			String productName = null;
+			for(ProjectInfo project:consumOrder.getProjects())
+				productName += project.getName()+" ";
+			map.put("body", productName);
+			map.put("out_trade_no", consumOrder.getId());
+		}
+		else{
+			WXPayOrder wxPayOrder = wxPayOrderDao.findById(orderId);
+			map.put("body", wxPayOrder.getProductName());
+			map.put("out_trade_no", wxPayOrder.getId());
+		}
 		log.debug("APP和网页支付提交用户端ip:" + ip);
 		map.put("appid", WechatConfig.APP_ID);
-		map.put("body", wxPayOrder.getProductName());
+
 		map.put("device_info", "WEB");
 		map.put("mch_id", WechatConfig.MCH_ID);// 商户号，微信商户平台里获取
 //随机32位			
@@ -75,7 +97,7 @@ public class PayController {
 //返回结果	自己掉自己的接口		
 		map.put("notify_url", "http://" + WechatConfig.APP_DOMAIN + "/api/pay/wechatresult");
 		map.put("openid", openId);
-		map.put("out_trade_no", wxPayOrder.getId());
+
 		map.put("spbill_create_ip", ip);
 		map.put("total_fee", (int) (totalPrice * 100));
 		map.put("trade_type", "JSAPI");
@@ -176,7 +198,7 @@ public class PayController {
 					String orderId = map.get("out_trade_no").toString();
 					// 支付成功，处理支付结果，同步到数据库
 					
-					JSONObject obj = payService.paySuccess(orderId);
+					org.json.JSONObject obj = payService.paySuccess(orderId);
 					log.debug("paySuccess本地处理结果:" + obj.toString());
 					if((RESCODE)obj.get(Constants.RESPONSE_CODE_KEY) != RESCODE.SUCCESS){
 						responseMap.put(Constants.RESPONSE_CODE_KEY, (RESCODE)obj.get(Constants.RESPONSE_CODE_KEY));

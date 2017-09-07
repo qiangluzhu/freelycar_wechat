@@ -65,7 +65,7 @@ function RouterConfig({ history }) {
       <Route path="/store/cooperative-store" component={CooperativeStore}/>
       <Route path="/store/comment" component={CommentStore}/>
       <Route path="/store/detail" component={StoreDetail}/>
-      <Route path="/insurance" component={Insurance}/>
+      <Route path="/insurance/:clientId/:carId" component={Insurance}/>
       <Route path="/insurance/inquiry" component={Inquiry}/>
       <Route path="/notFound" component={NotFound}/>
     </Router>

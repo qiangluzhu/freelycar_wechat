@@ -1,6 +1,9 @@
 
 package com.geariot.platform.freelycar_wechat.controller;
 
+import java.text.ParseException;
+import java.util.Date;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +49,9 @@ public class WXUserController {
 		System.out.println(carId);
 		return wxUserService.setDefaultCar(carId);
 	}
-	@RequestMapping(value = "/carInfo",method = RequestMethod.POST)
-	public String carInfo(@RequestBody Car car){
-		return wxUserService.modifyCar(car);
+	@RequestMapping(value = "/carInfo",method = RequestMethod.GET)
+	public String carInfo(int clientId, int id, String insuranceCity, String insuranceCompany, String insuranceEndtime) throws ParseException{
+		return wxUserService.modifyCar(clientId, id, insuranceCity, insuranceCompany, insuranceEndtime);
 	}
 	@RequestMapping(value="/test",method=RequestMethod.GET)
 	public void test(){
@@ -81,9 +84,9 @@ public class WXUserController {
 		return wxUserService.listCard(clientId);
 	}
 	
-	@RequestMapping(value ="/detailInfo")
-	public String smallDetail(int clientId){
-		return wxUserService.smallDetail(clientId);
+	@RequestMapping(value = "/carDetail", method = RequestMethod.GET)
+	public String carDetail(int carId){
+		return wxUserService.carDetail(carId);
 	}
 }
 

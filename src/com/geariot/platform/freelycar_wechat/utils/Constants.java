@@ -29,6 +29,7 @@ public class Constants {
 	public static final int PROJECT_WITH_CASH = 1;
 	
 	public static final String CARD_PROGRAM = "办卡";
+	public static final String WX_CARDANDFAVOUR = "微信卡券";
 	
 	public static final String STAFF_NAME_SPLIT = ";";
 	

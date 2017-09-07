@@ -39,7 +39,7 @@ export default {
     },
 
     modifyCarInfo:(params)=>{
-        return post('/api/user/carInfo',params)
+        return get('/api/user/carInfo',params)
     },
 
     wxInfo:(params)=>{
@@ -52,6 +52,12 @@ export default {
 
     myCar:(params)=>{
         return get('/api/user/listCar',params)
-    }
+    },
+    detailInfo:(params)=>{
+        return get('/api/user/detailInfo',params)
+    },
+    carDetail:(params)=>{
+        return get('/api/user/carDetail',params)
+    },
 
 }

@@ -33,8 +33,17 @@ class CarInfo extends React.Component {
         }).then((res) => {
             if (res.data.code == '0') {
                 let data = res.data.data;
+
+                //遍历找出默认的车辆
+                let defaultIndex = 0;
+                for(let d of data){
+                    if(d.car.defaultCar){
+                        defaultIndex++;
+                    }
+                }
                 this.setState({
-                    cars: data
+                    cars: data,
+                    defaultIndex:defaultIndex
                 })
                 //加载swiper
                 let mySwiper = new Swiper(this.swiperID, {
@@ -108,8 +117,10 @@ class CarInfo extends React.Component {
 
         let cars = this.state.cars;
         let time = 0;
+        let carId = -1;
         if(cars.length>0){
-            time = cars[0].time;
+            time = cars[this.state.currentIndex].time;
+            carId = cars[this.state.currentIndex].car.id;
         }
 
         return <div className="body-bac">
@@ -131,7 +142,7 @@ class CarInfo extends React.Component {
                         保险提醒
                     </Flex>
                 </List.Item>
-                <Flex className='remind-tip' style={{ display: this.state.insuranceTip ? '' : 'none' }}>
+                <Flex className='remind-tip' style={{ display: this.state.insuranceTip ? '' : 'none' }} onClick={()=>{browserHistory.push(`/insurance/1/${carId}`)}}>
                     <div>距离下次续保时间还有<span className='day'>{time}</span>天</div>
                     <img src={more_arrow} alt="" className='more' />
                 </Flex>
@@ -154,7 +165,7 @@ class CarInfo extends React.Component {
                         value={this.state.inspectionTime}
                         onChange={(e) => { this.setState({ inspectionTime: e }) }}
                     >
-                        <List.Item arrow="horizontal">请选择上一次年检的时间</List.Item>
+                        <List.Item arrow="horizontal"><span style={{fontSize:'.8em',marginLeft:'.27rem'}}>请选择上一次年检的时间</span></List.Item>
                     </DatePicker>
                 </div>
                 {/* <Flex className='remind-tip' style={{ display: this.state.inspectionTip ? '' : 'none' }}>
