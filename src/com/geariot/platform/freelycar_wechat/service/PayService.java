@@ -15,18 +15,10 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import com.geariot.platform.freelycar_wechat.utils.query.FavourOrderBean;
+import com.geariot.platform.freelycar_wechat.wxutils.IdentifyOrder;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
-import com.geariot.platform.freelycar_wechat.dao.CardDao;
-import com.geariot.platform.freelycar_wechat.dao.FavourDao;
-import com.geariot.platform.freelycar_wechat.dao.FavourProjectInfosDao;
-import com.geariot.platform.freelycar_wechat.dao.ProjectDao;
-import com.geariot.platform.freelycar_wechat.dao.ServiceDao;
-import com.geariot.platform.freelycar_wechat.dao.WXPayOrderDao;
-import com.geariot.platform.freelycar_wechat.dao.WXUserDao;
-import com.geariot.platform.freelycar_wechat.entities.FavourToOrder;
-import com.geariot.platform.freelycar_wechat.entities.WXUser;
-import com.geariot.platform.freelycar_wechat.entities.Service;
-import com.geariot.platform.freelycar_wechat.entities.WXPayOrder;
+import com.geariot.platform.freelycar_wechat.dao.*;
+import com.geariot.platform.freelycar_wechat.entities.*;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
 import com.geariot.platform.freelycar_wechat.utils.*;
 
@@ -40,6 +32,12 @@ public class PayService {
 	private ServiceDao serviceDao;
 	@Autowired
 	private WXPayOrderDao wxPayOrderDao;
+	@Autowired
+	private ConsumOrderDao consumOrderDao;
+	@Autowired
+	private ClientDao clientDao;
+	@Autowired
+	private IncomeOrderDao incomeOrderDao;
 	
 	private static final Logger log = LogManager.getLogger(PayService.class);
 	
@@ -55,6 +53,7 @@ public class PayService {
 		wxPayOrder.setService(service);
 		wxPayOrder.setProductName(service.getName());
 		Map<String, Object> obj = new HashMap<String, Object>();
+		//JSONObject obj = new JSONObject();
 		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
 		obj.put(Constants.RESPONSE_WXORDER_KEY,wxPayOrder);
 		wxPayOrderDao.saveWXPayOrder(wxPayOrder);
@@ -97,8 +96,63 @@ public class PayService {
 		return wxPayOrder;
 	}
 
-	public JSONObject paySuccess(String orderId) {
-		// TODO Auto-generated method stub
+	public org.json.JSONObject paySuccess(String orderId) {
+		log.debug("付款成功，进入paySuccess后续处理。");
+		float amount;
+		int clientId;
+		String licensePlate = null;
+		Date payDate = new Date();
+		int payMethod = Constants.PAY_BY_WX;
+		String programName;
+		if(IdentifyOrder.identify(orderId)){
+		ConsumOrder order = null;
+			synchronized(PayService.class)
+			{
+			order = consumOrderDao.findById(orderId);
+			if(order.getState() >= 1)
+				{
+				log.debug("已处理微信回调，订单已处理。直接返回成功。");
+				org.json.JSONObject res = new org.json.JSONObject();
+				res.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
+				res.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
+				return res;
+				}
+			order.setState(1); // 支付状态
+			amount=(float) order.getTotalPrice();
+			clientId = order.getClientId();
+			licensePlate = order.getLicensePlate();
+			programName = order.getProgramName();
+			}
+		
+		}
+		else{
+			WXPayOrder order = null;
+			synchronized(PayService.class)
+			{
+			order = wxPayOrderDao.findById(orderId);
+			if(order.getPayState() >= 1)
+				{
+				log.debug("已处理微信回调，订单已处理。直接返回成功。");
+				org.json.JSONObject res = new org.json.JSONObject();
+				res.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
+				res.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
+				return res;
+				}
+			order.setPayState(1); // 支付状态
+			amount=(float) order.getTotalPrice();
+			clientId = clientDao.findByPhone(wxUserDao.findUserByOpenId(order.getOpenId()).getPhone()).getId();
+			programName = Constants.WX_CARDANDFAVOUR;
+			}
+			IncomeOrder incomeOrder = new IncomeOrder();
+			incomeOrder.setAmount(amount);
+			incomeOrder.setClientId(clientId);
+			incomeOrder.setLicensePlate(licensePlate);
+			incomeOrder.setPayDate(payDate);
+			incomeOrder.setPayMethod(payMethod);
+			incomeOrder.setProgramName(programName);
+			incomeOrderDao.save(incomeOrder);
+			
+		}
 		return null;
 	}
 }
