@@ -95,7 +95,10 @@ return 0;
 		Car car=carDao.findById(carId);
 		if(car == null)
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
-		car.setDefaultDate(new Date());
+		for(Car cars :car.getClient().getCars()){
+			cars.setDefaultCar(false);
+		}
+		car.setDefaultCar(true);
 		carDao.update(car);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
