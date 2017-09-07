@@ -84,9 +84,9 @@ public class WXUserController {
 		return wxUserService.listCard(clientId);
 	}
 	
-	@RequestMapping(value ="/detailInfo")
-	public String smallDetail(int clientId){
-		return wxUserService.smallDetail(clientId);
+	@RequestMapping(value = "/carDetail", method = RequestMethod.GET)
+	public String carDetail(int carId){
+		return wxUserService.carDetail(carId);
 	}
 }
 

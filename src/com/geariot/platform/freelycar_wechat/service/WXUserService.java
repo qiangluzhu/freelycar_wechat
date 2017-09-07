@@ -3,6 +3,7 @@ package com.geariot.platform.freelycar_wechat.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -171,8 +172,17 @@ public class WXUserService {
 		modify.setInsuranceCity(insuranceCity);
 		modify.setInsuranceCompany(insuranceCompany);
 		modify.setInsuranceEndtime(sdf.parse(insuranceEndtime));
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(sdf.parse(insuranceEndtime));
+		cal.add(Calendar.YEAR, -1);
+		modify.setInsuranceStarttime(cal.getTime());
 		carDao.update(modify);
-		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
+		JsonConfig config = JsonResFactory.dateConfig();
+		config.registerPropertyExclusions(Car.class, new String[] { "client" });
+		JSONObject obj = JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONObject.fromObject(modify,config));
+		obj.put("clientName",client.getName());
+		obj.put("idNumber",client.getIdNumber());
+		return obj.toString();
 	}
 
 	public String getPoint(int clientId) {
@@ -263,17 +273,20 @@ public class WXUserService {
 		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, list)
 				.toString();
 	}
-
-	public String smallDetail(int clientId) {
-		List<Object[]> list = this.clientDao.getSmallDetail(clientId);
-		if (list != null && list.size() > 0) {
-			Object[] objects = list.get(0);
-			return JsonResFactory.buildNetWithData(
-					RESCODE.SUCCESS,
-					new ClientBean(String.valueOf(objects[0]), String
-							.valueOf(objects[1]))).toString();
-		} else {
+	
+	public String carDetail(int carId){
+		Car exist = carDao.findById(carId);
+		if(exist == null){
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
+		}
+		else{
+			Client client = exist.getClient();
+			JsonConfig config = JsonResFactory.dateConfig();
+			config.registerPropertyExclusions(Car.class, new String[] { "client" });
+			JSONObject obj = JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONObject.fromObject(exist,config));
+			obj.put("clientName",client.getName());
+			obj.put("idNumber",client.getIdNumber());
+			return obj.toString();
 		}
 	}
 }
