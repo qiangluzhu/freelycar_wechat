@@ -9,7 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +19,7 @@ import org.apache.logging.log4j.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.geariot.platform.freelycar_wechat.utils.query.FavourOrderBean;
@@ -28,8 +29,7 @@ import com.geariot.platform.freelycar_wechat.utils.HttpRequest;
 import com.geariot.platform.freelycar_wechat.wxutils.WeChatSignatureUtil;
 import com.geariot.platform.freelycar_wechat.wxutils.XMLParser;
 import com.geariot.platform.freelycar_wechat.utils.Constants;
-import com.geariot.platform.freelycar_wechat.entities.FavourToOrder;
-import com.geariot.platform.freelycar_wechat.entities.Service;
+import com.geariot.platform.freelycar_wechat.wxutils.MD5;
 import com.geariot.platform.freelycar_wechat.entities.WXPayOrder;
 import com.geariot.platform.freelycar_wechat.service.PayService;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
@@ -123,6 +123,40 @@ public class PayController {
 		return jsonObject.toString();
 			
 	}
+	
+    @RequestMapping(value = "/wx/getJSSDKConfig", method = RequestMethod.GET)
+    public String getJsSDKConfig(String targetUrl) {
+        log.debug("JSSDK Url:" + targetUrl);
+        if (targetUrl == null || targetUrl.isEmpty()) {
+            throw new RuntimeException("jsapiTicket获取失败,当前url为空！！");
+        }
+
+        String noncestr = UUID.randomUUID().toString();
+        org.json.JSONObject ticketJson = WechatConfig.getJsApiTicketByWX();
+        String ticket = ticketJson.getString("ticket");
+        String timestamp = String.valueOf(System.currentTimeMillis());
+
+        int index = targetUrl.indexOf("#");
+        if (index > 0) {
+            targetUrl = targetUrl.substring(0, index);
+        }
+
+        // 对给定字符串key手动排序
+        String param = "jsapi_ticket=" + ticket + "&noncestr=" + noncestr
+                + "&timestamp=" + timestamp + "&url=" + targetUrl;
+
+        String signature = MD5.encode("SHA1", param);
+
+        JSONObject jsSDKConfig = new JSONObject();
+
+        jsSDKConfig.put("appId", WechatConfig.APP_ID);
+        jsSDKConfig.put("nonceStr", noncestr);
+        jsSDKConfig.put("timestamp", timestamp);
+        jsSDKConfig.put("signature", signature);
+        return jsSDKConfig.toString();
+
+    }
+	
 	
 	@RequestMapping(value="wechatresult")
 	public void wechatResult(HttpServletRequest request,
