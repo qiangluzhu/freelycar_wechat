@@ -5,24 +5,31 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-
-import com.geariot.platform.freelycar_wechat.dao.*;
-import com.geariot.platform.freelycar_wechat.entities.*;
+import com.geariot.platform.freelycar_wechat.dao.CarDao;
+import com.geariot.platform.freelycar_wechat.dao.CardDao;
+import com.geariot.platform.freelycar_wechat.dao.ClientDao;
+import com.geariot.platform.freelycar_wechat.dao.ConsumOrderDao;
+import com.geariot.platform.freelycar_wechat.dao.PointDao;
+import com.geariot.platform.freelycar_wechat.dao.WXUserDao;
+import com.geariot.platform.freelycar_wechat.entities.Car;
+import com.geariot.platform.freelycar_wechat.entities.Card;
+import com.geariot.platform.freelycar_wechat.entities.Client;
+import com.geariot.platform.freelycar_wechat.entities.ConsumOrder;
+import com.geariot.platform.freelycar_wechat.entities.WXUser;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
 import com.geariot.platform.freelycar_wechat.utils.Constants;
 import com.geariot.platform.freelycar_wechat.utils.JsonPropertyFilter;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
 import com.geariot.platform.freelycar_wechat.utils.query.ClientBean;
 import com.geariot.platform.freelycar_wechat.utils.query.PointBean;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
 @Service
 @Transactional
 public class WXUserService {
@@ -234,11 +241,8 @@ return 0;
 	
 	public String smallDetail(int clientId){
 		List<Object[]> list = this.clientDao.getSmallDetail(clientId);
-		List<ClientBean> beans = new ArrayList<>();
-		for(Object[] object : list){
-			beans.add(new ClientBean(String.valueOf(object[0]),String.valueOf(object[1])));
-		}
-		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, beans).toString();
+		Object[] objects = list.get(0);
+		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, new ClientBean(String.valueOf(objects[0]),String.valueOf(objects[1]))).toString();
 	}
 }
 
