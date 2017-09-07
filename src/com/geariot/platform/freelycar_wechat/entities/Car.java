@@ -26,6 +26,8 @@ public class Car {
 	private Date insuranceStarttime;
 	private Date insuranceEndtime;
 	private float insuranceAmount;
+	private String insuranceCompany;
+	private String insuranceCity;
 	private String frameNumber;
 	private String engineNumber;
 	private Date licenseDate;
@@ -156,6 +158,18 @@ public class Car {
 	}
 	public void setDefaultCar(boolean defaultCar) {
 		this.defaultCar = defaultCar;
+	}
+	public String getInsuranceCity() {
+		return insuranceCity;
+	}
+	public void setInsuranceCity(String insuranceCity) {
+		this.insuranceCity = insuranceCity;
+	}
+	public String getInsuranceCompany() {
+		return insuranceCompany;
+	}
+	public void setInsuranceCompany(String insuranceCompany) {
+		this.insuranceCompany = insuranceCompany;
 	}
     
 	
