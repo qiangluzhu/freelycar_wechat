@@ -39,7 +39,7 @@ public class Client {
 	private Set<Card> cards;
 	private Set<Ticket> tickets;
 	private int consumTimes;
-	private float consumAmout;
+	private double consumAmout;
 	private Boolean isMember;  
 	@JsonDeserialize(using=JsonDateDeserialize.class)
 	private Date lastVisit;
@@ -60,7 +60,7 @@ public class Client {
 	public Set<Car> getCars() {
 		return cars;
 	}
-	public float getConsumAmout() {
+	public double getConsumAmout() {
 		return consumAmout;
 	}
 	public int getConsumTimes() {
@@ -113,7 +113,7 @@ public class Client {
 	public void setCars(Set<Car> cars) {
 		this.cars = cars;
 	}
-	public void setConsumAmout(float consumAmout) {
+	public void setConsumAmout(double consumAmout) {
 		this.consumAmout = consumAmout;
 	}
 	public void setConsumTimes(int consumTimes) {
@@ -167,4 +167,5 @@ public class Client {
 	public void setTickets(Set<Ticket> tickets) {
 		this.tickets = tickets;
 	}
+	
 }

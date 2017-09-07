@@ -26,6 +26,8 @@ public class Car {
 	private Date insuranceStarttime;
 	private Date insuranceEndtime;
 	private float insuranceAmount;
+	private String insuranceCompany;
+	private String insuranceCity;
 	private String frameNumber;
 	private String engineNumber;
 	private Date licenseDate;
@@ -34,8 +36,7 @@ public class Car {
 	private int miles;
 	@JsonDeserialize(using=JsonDateDeserialize.class)
 	private Date createDate;
-	@JsonDeserialize(using=JsonDateDeserialize.class)
-	private Date defaultDate;
+	private boolean defaultCar;
 	@ManyToOne(cascade={}, fetch=FetchType.EAGER)
 	@JoinColumn(name="clientId", foreignKey=@ForeignKey(name="none"))
 	public Client getClient() {
@@ -132,12 +133,7 @@ public class Car {
 	/*public void setType(CarType type) {
 		this.type = type;
 	}*/
-	public Date getDefaultDate() {
-		return defaultDate;
-	}
-	public void setDefaultDate(Date defaultDate) {
-		this.defaultDate = defaultDate;
-	}
+	
     public String getCartype() {
 		return cartype;
 	}
@@ -157,6 +153,24 @@ public class Car {
                 + insuranceStarttime + ", insuranceEndtime=" + insuranceEndtime
                 + "]";
     }
+	public boolean isDefaultCar() {
+		return defaultCar;
+	}
+	public void setDefaultCar(boolean defaultCar) {
+		this.defaultCar = defaultCar;
+	}
+	public String getInsuranceCity() {
+		return insuranceCity;
+	}
+	public void setInsuranceCity(String insuranceCity) {
+		this.insuranceCity = insuranceCity;
+	}
+	public String getInsuranceCompany() {
+		return insuranceCompany;
+	}
+	public void setInsuranceCompany(String insuranceCompany) {
+		this.insuranceCompany = insuranceCompany;
+	}
     
 	
 	

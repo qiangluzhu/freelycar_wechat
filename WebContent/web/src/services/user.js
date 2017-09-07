@@ -35,7 +35,7 @@ export default {
     },
 
     defaultCar:(params)=>{
-        return post('/api/user/defaultCar',params)
+        return get('/api/user/defaultCar',params)
     },
 
     modifyCarInfo:(params)=>{
@@ -48,6 +48,10 @@ export default {
 
     myCard:(params)=>{
         return get('/api/user/listCard',params)
+    },
+
+    myCar:(params)=>{
+        return get('/api/user/listCar',params)
     }
 
 }

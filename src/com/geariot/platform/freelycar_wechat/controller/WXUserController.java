@@ -80,5 +80,10 @@ public class WXUserController {
 	public String listCard(int clientId){
 		return wxUserService.listCard(clientId);
 	}
+	
+	@RequestMapping(value ="/detailInfo")
+	public String smallDetail(int clientId){
+		return wxUserService.smallDetail(clientId);
+	}
 }
 

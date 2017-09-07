@@ -5,23 +5,32 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-
-import com.geariot.platform.freelycar_wechat.dao.*;
-import com.geariot.platform.freelycar_wechat.entities.*;
+import com.geariot.platform.freelycar_wechat.dao.CarDao;
+import com.geariot.platform.freelycar_wechat.dao.CardDao;
+import com.geariot.platform.freelycar_wechat.dao.ClientDao;
+import com.geariot.platform.freelycar_wechat.dao.ConsumOrderDao;
+import com.geariot.platform.freelycar_wechat.dao.PointDao;
+import com.geariot.platform.freelycar_wechat.dao.WXUserDao;
+import com.geariot.platform.freelycar_wechat.entities.Car;
+import com.geariot.platform.freelycar_wechat.entities.Card;
+import com.geariot.platform.freelycar_wechat.entities.Client;
+import com.geariot.platform.freelycar_wechat.entities.ConsumOrder;
+import com.geariot.platform.freelycar_wechat.entities.WXUser;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
 import com.geariot.platform.freelycar_wechat.utils.Constants;
 import com.geariot.platform.freelycar_wechat.utils.JsonPropertyFilter;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
+import com.geariot.platform.freelycar_wechat.utils.query.ClientBean;
 import com.geariot.platform.freelycar_wechat.utils.query.PointBean;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
 @Service
 @Transactional
 public class WXUserService {
@@ -36,40 +45,44 @@ public class WXUserService {
 	@Autowired
 	private ConsumOrderDao consumOrderDao;
 	@Autowired
-	private	CardDao	cardDao;
-	
-	public double test(){
-return 0;
+	private CardDao cardDao;
+
+	public double test() {
+		return 0;
 	}
-	
-	public String deletWXUser(String openId){
+
+	public String deletWXUser(String openId) {
 		wxUserDao.deleteUser(openId);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
-	public String login(String openId){
-		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
-		if(wxUser == null){
+
+	public String login(String openId) {
+		WXUser wxUser = wxUserDao.findUserByOpenId(openId);
+		if (wxUser == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
 		}
 		Client client = new Client();
-		if(clientDao.findByPhone(wxUser.getPhone())==null){
+		if (clientDao.findByPhone(wxUser.getPhone()) == null) {
 			client.setPhone(wxUser.getPhone());
 			client.setBirthday(wxUser.getBirthday());
 			client.setGender(wxUser.getGender());
-			if(wxUser.getName()==null)
+			if (wxUser.getName() == null)
 				client.setName(wxUser.getNickName());
-			else	
+			else
 				client.setName(wxUser.getName());
 			clientDao.save(client);
 		}
 		JSONObject obj = new JSONObject();
 		obj.put(Constants.RESPONSE_CLIENT_KEY, client);
-		return JsonResFactory.buildNet(RESCODE.SUCCESS, Constants.RESPONSE_CLIENT_KEY, client.getId()).toString();
-		//return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
+		return JsonResFactory.buildNet(RESCODE.SUCCESS,
+				Constants.RESPONSE_CLIENT_KEY, client.getId()).toString();
+		// return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
-	//只做添加操作
-	public String addWXUser(String openId,String nickName,String headimgurl,String phone){
-		WXUser wxUser= new WXUser();
+
+	// 只做添加操作
+	public String addWXUser(String openId, String nickName, String headimgurl,
+			String phone) {
+		WXUser wxUser = new WXUser();
 		wxUser.setPhone(phone);
 		wxUser.setNickName(nickName);
 		wxUser.setHeadimgurl(headimgurl);
@@ -77,66 +90,77 @@ return 0;
 		wxUserDao.saveOrUpdateUser(wxUser);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
-	
-	public String listDiscount(int clientId){
+
+	public String listDiscount(int clientId) {
 		Client client = clientDao.findById(clientId);
-		if(client == null){
+		if (client == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
 		JsonConfig config = JsonResFactory.dateConfig();
 		JsonPropertyFilter filter = new JsonPropertyFilter(Client.class);
 		config.setJsonPropertyFilter(filter);
-		JSONObject obj = JsonResFactory.buildNet(RESCODE.SUCCESS, 
-				Constants.RESPONSE_CLIENT_KEY, JSONObject.fromObject(client, config));
+		JSONObject obj = JsonResFactory.buildNet(RESCODE.SUCCESS,
+				Constants.RESPONSE_CLIENT_KEY,
+				JSONObject.fromObject(client, config));
 		return obj.toString();
 	}
-	
-	public String setDefaultCar(int carId){
-		Car car=carDao.findById(carId);
-		if(car == null)
+
+	public String setDefaultCar(int carId) {
+		Car car = carDao.findById(carId);
+		if (car == null)
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
-		car.setDefaultDate(new Date());
+		for (Car cars : car.getClient().getCars()) {
+			cars.setDefaultCar(false);
+		}
+		car.setDefaultCar(true);
 		carDao.update(car);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
-	
-	public String addCar(Car car){
-		System.out.println("<<<"+car);
+
+	public String addCar(Car car) {
+		System.out.println("<<<" + car);
 		Client client = clientDao.findById((car.getClient()).getId());
 		if (client == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
 		Car exist = carDao.findByLicense(car.getLicensePlate());
 		if (exist != null) {
-			return JsonResFactory.buildOrg(RESCODE.CAR_LICENSE_EXIST).toString();
+			return JsonResFactory.buildOrg(RESCODE.CAR_LICENSE_EXIST)
+					.toString();
 		}
 		car.setCreateDate(new Date());
 		client.getCars().add(car);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
-	
-	public String deleteCar(int carId){
-		carDao.deleteById(carId);;
+
+	public String deleteCar(int carId) {
+		carDao.deleteById(carId);
+		;
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
-	//返回微信用户信息,client card
-	public String detail(int clientId){
+
+	// 返回微信用户信息,client card
+	public String detail(int clientId) {
 		Client client = clientDao.findById(clientId);
-		if(client == null){
+		if (client == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
 		JsonConfig config = JsonResFactory.dateConfig();
 		JsonPropertyFilter filter = new JsonPropertyFilter(Client.class);
 		config.setJsonPropertyFilter(filter);
-		JSONObject obj = JsonResFactory.buildNet(RESCODE.SUCCESS, 
-				Constants.RESPONSE_CLIENT_KEY, JSONObject.fromObject(client, config));
-		List<ConsumOrder> consumOrders = this.consumOrderDao.findWithClientId(clientId);
-		if(consumOrders != null){
-			obj.put(Constants.RESPONSE_CONSUMORDER_KEY, JSONArray.fromObject(consumOrders, config));
+		JSONObject obj = JsonResFactory.buildNet(RESCODE.SUCCESS,
+				Constants.RESPONSE_CLIENT_KEY,
+				JSONObject.fromObject(client, config));
+		List<ConsumOrder> consumOrders = this.consumOrderDao
+				.findWithClientId(clientId);
+		if (consumOrders != null) {
+			obj.put(Constants.RESPONSE_CONSUMORDER_KEY,
+					JSONArray.fromObject(consumOrders, config));
 		}
 		return obj.toString();
 	}
-	public String modifyCar(Car car){
+
+	public String modifyCar(Car car) {
 		Client client = clientDao.findById((car.getClient()).getId());
 		if (client == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
@@ -144,9 +168,10 @@ return 0;
 		carDao.update(car);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
-	public String getPoint(int clientId){
+
+	public String getPoint(int clientId) {
 		Client client = clientDao.findById(clientId);
-		if(client == null){
+		if (client == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
 		List<Object[]> exists = pointDao.getPoint(client.getId());
@@ -156,37 +181,40 @@ return 0;
 		} else {
 			List<PointBean> pointBeans = new ArrayList<>();
 			for (Object[] exist : exists) {
-				pointBeans.add(new PointBean((int)Math.rint((Double)exist[1]),(Date)exist[0]));
+				pointBeans.add(new PointBean(
+						(int) Math.rint((Double) exist[1]), (Date) exist[0]));
 			}
-			return JsonResFactory.buildOrg(RESCODE.SUCCESS, Constants.RESPONSE_POINT_KEY, JSONArray.fromObject(pointBeans,config)).toString();
+			return JsonResFactory.buildOrg(RESCODE.SUCCESS,
+					Constants.RESPONSE_POINT_KEY,
+					JSONArray.fromObject(pointBeans, config)).toString();
 		}
 	}
-	
-	
-	//point、wxuser、discount,复用性极差
-	public String getWXUser(String openId){
-		WXUser wxUser=wxUserDao.findUserByOpenId(openId);
-		if(wxUser == null){
+
+	// point、wxuser、discount,复用性极差
+	public String getWXUser(String openId) {
+		WXUser wxUser = wxUserDao.findUserByOpenId(openId);
+		if (wxUser == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
 		Client client = clientDao.findByPhone(wxUser.getPhone());
-		if(client == null){
+		if (client == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
-		//Object favour = favourRemainingsDao.getCountByClientId(client.getId());
-		Object point =pointDao.getSumPoint(client.getId()) ;
+		// Object favour =
+		// favourRemainingsDao.getCountByClientId(client.getId());
+		Object point = pointDao.getSumPoint(client.getId());
 		JSONObject obj = new JSONObject();
-//		if(favour==null){
-//			favour=0;
-//		}
-		if(point == null)
-			point=0;
+		// if(favour==null){
+		// favour=0;
+		// }
+		if (point == null)
+			point = 0;
 		else
-			point=(int)Math.rint((double)(point));
-		//obj.put(Constants.RESPONSE_FAVOUR_KEY, favour);
+			point = (int) Math.rint((double) (point));
+		// obj.put(Constants.RESPONSE_FAVOUR_KEY, favour);
 		obj.put("point", point);
 		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
-		
+
 		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
 	}
 
@@ -194,38 +222,52 @@ return 0;
 		List<Card> Cards = cardDao.listCardByClientId(clientId);
 		JsonConfig config = JsonResFactory.dateConfig();
 		JSONArray array = JSONArray.fromObject(Cards, config);
-		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, array).toString();
+		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, array)
+				.toString();
 	}
 
 	public String listCar(int clientId) {
 		List<Car> cars = carDao.findByClientId(clientId);
 		JsonConfig config = JsonResFactory.dateConfig();
-		config.registerPropertyExclusions(Car.class,new String[]{"client"});
-//		JsonPropertyFilter filter = new JsonPropertyFilter();
-//		config.setJsonPropertyFilter(filter);
-		List<Object> list =new ArrayList <Object> ();
-		
-		for(Car car:cars){
-			
-			JSONObject obj =new JSONObject();
-	         Date today=new Date(); 
-	         long result = 0;
-	         SimpleDateFormat format=new SimpleDateFormat("yy/MM/dd hh:mm:ss");	          	          
-				
-	         if(car.getInsuranceStarttime()==null){
-	        	 result = 365;
+		config.registerPropertyExclusions(Car.class, new String[] { "client" });
+		// JsonPropertyFilter filter = new JsonPropertyFilter();
+		// config.setJsonPropertyFilter(filter);
+		List<Object> list = new ArrayList<Object>();
+
+		for (Car car : cars) {
+
+			JSONObject obj = new JSONObject();
+			Date today = new Date();
+			long result = 0;
+			SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd hh:mm:ss");
+
+			if (car.getInsuranceStarttime() == null) {
+				result = 365;
+			} else {
+				long intervalMilli = today.getTime()
+						- car.getInsuranceStarttime().getTime();
+				result = 365 - (intervalMilli / (24 * 60 * 60 * 1000));
+				System.out.println(">>>>>" + result);
 			}
-			else{
-				  long intervalMilli = today.getTime() - car.getInsuranceStarttime().getTime();
-				  result = 365 - (intervalMilli / (24 * 60 * 60 * 1000));
-				  System.out.println(">>>>>"+result);
-			}	
-	        obj.put("car",obj.fromObject(car,config));
+			obj.put("car", obj.fromObject(car, config));
 			obj.put("time", result);
 			list.add(obj);
 		}
 		JSONArray.fromObject(list, config);
-		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, list).toString();
+		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, list)
+				.toString();
+	}
+
+	public String smallDetail(int clientId) {
+		List<Object[]> list = this.clientDao.getSmallDetail(clientId);
+		if (list != null && list.size() > 0) {
+			Object[] objects = list.get(0);
+			return JsonResFactory.buildNetWithData(
+					RESCODE.SUCCESS,
+					new ClientBean(String.valueOf(objects[0]), String
+							.valueOf(objects[1]))).toString();
+		} else {
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
+		}
 	}
 }
-
