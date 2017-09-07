@@ -1,5 +1,6 @@
 package com.geariot.platform.freelycar_wechat.service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -160,12 +161,17 @@ public class WXUserService {
 		return obj.toString();
 	}
 
-	public String modifyCar(Car car) {
-		Client client = clientDao.findById((car.getClient()).getId());
+	public String modifyCar(int clientId, int id, String insuranceCity, String insuranceCompany, String insuranceEndtime) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Client client = clientDao.findById(clientId);
 		if (client == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
-		carDao.update(car);
+		Car modify = this.carDao.findById(id);
+		modify.setInsuranceCity(insuranceCity);
+		modify.setInsuranceCompany(insuranceCompany);
+		modify.setInsuranceEndtime(sdf.parse(insuranceEndtime));
+		carDao.update(modify);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 
