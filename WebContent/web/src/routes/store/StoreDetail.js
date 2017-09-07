@@ -81,7 +81,7 @@ class CooperativeStore extends React.Component {
                 <div className="swiper-wrapper ">
                     <div className="swiper-slide cooperative-store-coupon">
                         <Flex className="coupon" direction="column" align="start">
-                            <Flex style={{ height: '1.16rem', background: '#fff', width: '100%' }}>
+                            <Flex style={{ height: '1.3rem', background: '#fff', width: '100%' }}>
                                 <Flex className="money" direction="column">
                                     <div style={{ fontSize: '.4rem' }}><span style={{ fontSize: '.18rem' }}>￥</span>25</div>
                                     <div style={{ color: '#8c8c8c', fontSize: '.22rem', marginTop: '.05rem' }}>代金券</div>
@@ -107,7 +107,7 @@ class CooperativeStore extends React.Component {
                     </div>
                     <div className="swiper-slide cooperative-store-coupon">
                         <Flex className="coupon" direction="column" align="start">
-                            <Flex style={{ height: '1.16rem', background: '#fff', width: '100%' }}>
+                            <Flex style={{ height: '1.3rem', background: '#fff', width: '100%' }}>
                                 <div className="money"><span style={{ fontSize: '.18rem' }}>￥</span>1000</div>
                                 <div className="parting-line"></div>
                                 <Flex style={{ flex: 'auto', marginLeft: '.2rem' }}>

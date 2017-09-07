@@ -4,7 +4,7 @@ import { Flex } from 'antd-mobile'
 import './OrderTrack.less'
 import { orderDetail } from '../../services/orders.js'
 import parseForm from '../../utils/parseToForm.js'
-import {browserHistory} from 'dva/router'
+import { browserHistory } from 'dva/router'
 class OrderTrack extends React.Component {
     constructor(props) {
         super(props)
@@ -30,11 +30,10 @@ class OrderTrack extends React.Component {
                     clientName: data.clientName,
                     licensePlate: data.licensePlate,
                     programName: data.programName,
-                    state: data.state == 0 ? '已接车' : (data.state == 1 ? '已完成' : '已交车'),
+                    state: data.state == 0 ? '已接车' : (data.state == 1 ? '已完工' : '已交车'),
                     projects: data.projects,
-                    payState: data.payState == 0 ? '未付款' : '已付款',
+                    payState: data.payState,
                     totalPrice: data.totalPrice,
-                    state: data.state
                 })
             }
         }).catch((error) => { console.log(error) })
@@ -42,50 +41,66 @@ class OrderTrack extends React.Component {
 
     render() {
         let projectItems = this.state.projects.map((item, index) => {
-            return <Flex direction="column" style={{ width: '100%' }} key={index}>
-                <Flex className="Info">
-                    <i className="circle"></i>
-                    <p>{item.projectInfo.name}</p>
-                    <Flex.Item className="total-money" >
-                        <p className="actual-money"><span style={{ fontSize: '.08rem' }}>￥</span>200</p>
+            return <Flex direction="column"  justify="center" style={{width:'100%',borderTop:'1px dashed #f0f0f0', height: '0.85rem'}} key={index} align="end" >
+                <Flex style={{width:'100%'}} >
+                    <div>{item.projectInfo.name}</div>
+                    <div style={{marginLeft:'auto'}}><span style={{ fontSize: '.24rem' }}>￥</span>200</div>
+                </Flex>
+                {/* <Flex.Item className="total-money" >
                         <p className="primary-money">
                             <span style={{ fontSize: '.08rem' }}>￥</span>200
                         <i>
-                        </i>
+                            </i>
                         </p>
-                    </Flex.Item>
+                    </Flex.Item> */}
+                <Flex  className="order-track-remain" style={{width:'100%'}}>
+                    <div>
+                        <p>已抵扣会员卡{item.cardNumber}，该项目还剩余{item.remaining}次</p>
+                    </div>
+                    <p style={{marginLeft:'auto',fontSize:'.22rem'}}>
+                        <span style={{ fontSize: '.22rem'}}>￥</span>200
+                        <i>
+                        </i>
+                    </p>
                 </Flex>
-                <div className="beauty overplus">
-                    <p>已抵扣会员卡{item.cardNumber} {item.name}项目1次，该项目还剩余{item.remaining}次</p>
-                </div>
             </Flex>
         })
         return <div className="body-bac">
             <NavBar title="订单跟踪" />
             <Flex className="order-track-baseinfo">
                 <Flex.Item className="Info">
-                    <p>姓名：{this.state.clientName}</p>
-                    <div>牌照号：{this.state.licensePlate}</div>
+                    <p>{this.state.clientName}</p>
+                    <div>{this.state.licensePlate}</div>
                 </Flex.Item>
                 <Flex.Item className="state">{this.state.state}</Flex.Item>
             </Flex>
             <div className="order-track-line"></div>
             <Flex className="order-track-program" direction="column">
-                <div className="beauty">
+                <div className="beauty special-font-size">
                     <p>{this.state.programName}</p>
                 </div>
-                {projectItems}
+                <div className="ordertrack-project">{projectItems}</div>
 
-                {this.state.payState != 0 && <Flex className="order-track-time" style={{ width: '100%', fontSize: '.22rem', color: '#8e8e8e' }}>
-                    <i className="circle2"></i>
-                    <p>2017/07/25 14:23</p>
-                </Flex>}
-                <div style={{ textAlign: 'right', width: '100%', marginBottom: '.1rem' }}><div style={{ marginRight: '.5rem', display: 'inline-block' }}>合计：<span style={{ fontSize: '.16rem', color: '#e42f2f' }}>￥</span><span style={{ color: '#e42f2f' }}>{this.state.totalPrice}</span></div>
+                <div style={{ textAlign: 'right', width: '100%', marginBottom: '.1rem' }}><div style={{ marginRight: '.5rem', display: 'inline-block' }}>合计：<span style={{ fontSize: '.24rem', color: '#e42f2f' }}>￥</span><span style={{ color: '#e42f2f' }}>{this.state.totalPrice}</span></div>
                     {this.state.payState == 0 && <div className="pay-btn">
                         <p>去付款</p>
                     </div>}
                 </div>
             </Flex>
+
+            <div className='order-list order-tarck-info'>
+                <Flex style={{ height: '100%' }}>
+                    <Flex.Item className='leftLable'>订单编号</Flex.Item>
+                    <Flex.Item className='rightText'>TH15289345 | <span style={{ color: '#7ba0ea' }}>复制</span></Flex.Item>
+                </Flex>
+
+            </div>
+            <div className='order-list order-tarck-info' style={{ marginTop: '0',borderTop:'1px dashed #f0f0f0' }}>
+                <Flex style={{ height: '100%' }}>
+                    <Flex.Item className='leftLable'>订单时间</Flex.Item>
+                    <Flex.Item className='rightText'>2017-08-07 10:00:00</Flex.Item>
+                </Flex>
+            </div>
             <div className="order-track-state">
                 <Flex className={this.state.state == 0 ? "order-track-state-box active" : "order-track-state-box"} align="start">
                     <div className="time">
@@ -99,7 +114,7 @@ class OrderTrack extends React.Component {
                         </div>
                         <div>爱车已交回你的手中 快来评价获积分吧
                         </div>
-                        <div className="evaluate" onClick={()=>{browserHistory.push('/store/comment')}}>
+                        <div className="evaluate" onClick={() => { browserHistory.push('/store/comment') }}>
                             评价得200积分
                         </div>
                     </div>

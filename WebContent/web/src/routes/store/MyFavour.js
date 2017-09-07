@@ -19,7 +19,7 @@ class MyFavour extends React.Component {
         return <div className='store-detail my-favour body-bac'>
             <NavBar title="我的优惠" />
             <Flex className="coupon" direction="column" align="start" style={{marginTop:'.2rem'}}>
-                <Flex style={{ height: '1.16rem', background: '#fff', width: '100%' }}>
+                <Flex style={{ height: '1.3rem', background: '#fff', width: '100%' }}>
                     <Flex className="money" direction="column">
                         <div style={{ fontSize: '.4rem' }}><span style={{ fontSize: '.18rem' }}>￥</span>25</div>
                         <div style={{ color: '#8c8c8c', fontSize: '.22rem'}}>代金券</div>
