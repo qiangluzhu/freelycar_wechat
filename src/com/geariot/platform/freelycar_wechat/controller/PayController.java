@@ -42,19 +42,19 @@ public class PayController {
 	@Autowired
 	PayService payService;
 	
-	@RequestMapping(value="favour")
+	@RequestMapping(value="favour",method = RequestMethod.POST)
 	public String wechatFavour(FavourOrderBean favourOrderBean){
 			log.info("购买券");
 			return payService.createFavourOrder(favourOrderBean);
 	}
 
-	@RequestMapping(value="membershipCard")
+	@RequestMapping(value="membershipCard",method = RequestMethod.GET)
 	public String wechatCard(String openId,float totalPrice,int serviceId){
 			log.info("购买卡");
 			return payService.createCardOrder(openId,totalPrice,serviceId);
 		
 	}
-	
+	@RequestMapping(value="payment",method = RequestMethod.GET)
 	public String wechatPay(String openId,WXPayOrder wxPayOrder,double totalPrice,HttpServletRequest request){
 		//微信支付
 		log.debug("微信支付");

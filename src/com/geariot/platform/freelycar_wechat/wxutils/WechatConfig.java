@@ -25,22 +25,18 @@ public class WechatConfig {
 	private static Logger log = LogManager.getLogger(WechatConfig.class);
 	
 	//自定义的token
-	public static final String TOKEN = "";
+	public static final String TOKEN = "freelycar20170901";
 	
-	public static final String APP_ID = "";
-	public static final String MCH_ID = "";   //商户号，微信商户平台里面获取
+	public static final String APP_ID = "wxfd188f8284ee297b";
+	public static final String MCH_ID = "1234616002";   //商户号，微信商户平台里面获取
 	//public static String secret = "da188683eaeacf8cde241aee8df3cb30";
-	public static final String APP_SECRET = "";
+	public static final String APP_SECRET = "70b5522f3ea3ab0071441efe33f37e6f";
 	
-	public static final String APP_DOMAIN = "";//ur域名
+	public static final String APP_DOMAIN = "";//url域名
 	
 	
 	//微信推送的ma
-	
-//推送码？？
-	public static final String PUSH_CODE = "L9Y9HHSN96_maQXSYUyYAbZf_fMeHB2EsR1hk2Eft0s";
-
-	public static final String KEY = "znbfitnesswechatcreatetime170320"; //签名秘钥，在微信商户平台里面设置z`z`
+	public static final String KEY = "F8B4D84CE5B3FF39A9695FA99B5BC9C3"; //签名秘钥，在微信商户平台里面设置z`z`
 
 	public static final String ORDER_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 
@@ -55,7 +51,7 @@ public class WechatConfig {
 	
 	public static String CERT_LOCAL_PATH = null; //证书路径
 	
-	public final static String CERT_PASSWORD = "1449654602"; //证书密码，默认与mch_id一样
+	public final static String CERT_PASSWORD = "1234616002"; //证书密码，默认与mch_id一样
 	
 	public final static String WECHAT_TEMPLATE_MESSAGE_URL = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=";
 	
