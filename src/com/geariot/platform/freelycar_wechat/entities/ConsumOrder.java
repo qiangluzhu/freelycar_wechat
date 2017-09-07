@@ -237,9 +237,6 @@ public class ConsumOrder {
 	public void setState(int state) {
 		this.state = state;
 	}
-	public void setTotalPrice(float totalPrice) {
-		this.totalPrice = totalPrice;
-	}
 	@Override
 	public String toString() {
 		return "ConsumOrder [id=" + id + ", carId=" + carId + ", licensePlate=" + licensePlate + ", carType=" + carType
