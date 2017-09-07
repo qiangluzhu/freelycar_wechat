@@ -3,6 +3,7 @@ package com.geariot.platform.freelycar_wechat.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -171,8 +172,14 @@ public class WXUserService {
 		modify.setInsuranceCity(insuranceCity);
 		modify.setInsuranceCompany(insuranceCompany);
 		modify.setInsuranceEndtime(sdf.parse(insuranceEndtime));
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(sdf.parse(insuranceEndtime));
+		cal.add(Calendar.YEAR, -1);
+		modify.setInsuranceStarttime(cal.getTime());
 		carDao.update(modify);
-		JSONObject obj = JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONObject.fromObject(modify,JsonResFactory.dateConfig()));
+		JsonConfig config = JsonResFactory.dateConfig();
+		config.registerPropertyExclusions(Car.class, new String[] { "client" });
+		JSONObject obj = JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONObject.fromObject(modify,config));
 		obj.put("clientName",client.getName());
 		obj.put("idNumber",client.getIdNumber());
 		return obj.toString();
