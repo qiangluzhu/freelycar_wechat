@@ -17,6 +17,7 @@ import com.geariot.platform.freelycar_wechat.model.RESCODE;
 import com.geariot.platform.freelycar_wechat.utils.Constants;
 import com.geariot.platform.freelycar_wechat.utils.JsonPropertyFilter;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
+import com.geariot.platform.freelycar_wechat.utils.query.ClientBean;
 import com.geariot.platform.freelycar_wechat.utils.query.PointBean;
 
 import net.sf.json.JSONArray;
@@ -229,6 +230,15 @@ return 0;
 		}
 		JSONArray.fromObject(list, config);
 		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, list).toString();
+	}
+	
+	public String smallDetail(int clientId){
+		List<Object[]> list = this.clientDao.getSmallDetail(clientId);
+		List<ClientBean> beans = new ArrayList<>();
+		for(Object[] object : list){
+			beans.add(new ClientBean(String.valueOf(object[0]),String.valueOf(object[1])));
+		}
+		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, beans).toString();
 	}
 }
 

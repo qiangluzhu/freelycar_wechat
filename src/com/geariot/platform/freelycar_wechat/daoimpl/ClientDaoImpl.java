@@ -84,5 +84,12 @@ public class ClientDaoImpl implements ClientDao {
 				.setCacheable(Constants.SELECT_CACHE).list();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object[]> getSmallDetail(int clientId) {
+		String sql = "select name, idNumber from Client where id = :id";
+		return this.getSession().createSQLQuery(sql).setInteger("id", clientId).setCacheable(Constants.SELECT_CACHE).list();
+	}
+
 
 }

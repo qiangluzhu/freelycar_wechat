@@ -23,4 +23,6 @@ public interface ClientDao {
 	long getQueryCount(String andCondition);
 
 	List<String> getClientNames(String name);
+	
+	List<Object[]> getSmallDetail(int clientId);
 }
