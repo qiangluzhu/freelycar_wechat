@@ -93,7 +93,6 @@ class OrderTrack extends React.Component {
                     <Flex.Item className='leftLable'>订单编号</Flex.Item>
                     <Flex.Item className='rightText'>TH15289345 | <span style={{ color: '#7ba0ea' }}>复制</span></Flex.Item>
                 </Flex>
-
             </div>
             <div className='order-list order-tarck-info' style={{ marginTop: '0',borderTop:'1px dashed #f0f0f0' }}>
                 <Flex style={{ height: '100%' }}>
