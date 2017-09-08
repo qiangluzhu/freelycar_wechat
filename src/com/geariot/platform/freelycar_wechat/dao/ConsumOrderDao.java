@@ -43,5 +43,8 @@ public interface ConsumOrderDao {
 	List<Object[]> programNameRange(Date startTime , Date endTime);
 
 	void update(ConsumOrder consumOrder);
+
+	List<ConsumOrder> findCommentByStoreId(int storeId);
+
 }
 

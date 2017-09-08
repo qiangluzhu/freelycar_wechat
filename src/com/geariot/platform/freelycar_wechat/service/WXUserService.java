@@ -255,8 +255,6 @@ public class WXUserService {
 			JSONObject obj = new JSONObject();
 			Date today = new Date();
 			long result = 0;
-			SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd hh:mm:ss");
-
 			if (car.getInsuranceStarttime() == null) {
 				result = 365;
 			} else {
@@ -265,7 +263,7 @@ public class WXUserService {
 				result = 365 - (intervalMilli / (24 * 60 * 60 * 1000));
 				System.out.println(">>>>>" + result);
 			}
-			obj.put("car", obj.fromObject(car, config));
+			obj.put("car", JSONObject.fromObject(car, config));
 			obj.put("time", result);
 			list.add(obj);
 		}

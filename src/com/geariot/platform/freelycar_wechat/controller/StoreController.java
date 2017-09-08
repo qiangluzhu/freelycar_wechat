@@ -24,17 +24,17 @@ public class StoreController {
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String listStore(int page, int number){
-		return null;
+		return storeService.listStore(page, number);
 	}
 	
-	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public String storeDetail(int storeId){
-		return null;
+	@RequestMapping(value="/detail", method=RequestMethod.GET)
+	public String detail(int storeId){
+		return storeService.detail(storeId);
 	}
 	
-	@RequestMapping(value = "/evaluation", method = RequestMethod.GET)
+	@RequestMapping(value = "/listComment", method = RequestMethod.GET)
 	public String storeComment(int storeId){
-		return null;
+		return storeService.listComment(storeId);
 	}
 
 }

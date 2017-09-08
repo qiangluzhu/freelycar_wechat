@@ -202,5 +202,14 @@ public class ConsumOrderDaoImpl implements ConsumOrderDao {
 		this.getSession().update(consumOrder);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ConsumOrder> findCommentByStoreId(int storeId) {
+		String hql = "from ConsumOrder where storeId = :storeId";
+		List<ConsumOrder> res = this.getSession().createQuery(hql).setInteger("storeId", storeId).list();
+		return res;
+	}
+
+
 }
 
