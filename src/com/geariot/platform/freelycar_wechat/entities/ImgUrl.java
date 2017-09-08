@@ -14,7 +14,7 @@ import javax.persistence.Id;
  */
 
 @Entity
-public class imgUrl {
+public class ImgUrl {
 	private int id;
 	private String url;
 	@Id

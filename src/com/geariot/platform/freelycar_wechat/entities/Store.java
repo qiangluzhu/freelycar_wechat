@@ -33,7 +33,7 @@ public class Store {
 	private String phone;					//门店联系方式
 	private Set<StoreProject> storeProjects;			//门店经营项目
 	private Set<StoreFavour> storefavours;			//门店优惠活动
-	private Set<imgUrl> imgUrls;			//门店图片
+	private Set<ImgUrl> ImgUrls;			//门店图片
 	private Date createDate;				//门店创建时间
 	
 	@Id
@@ -92,11 +92,11 @@ public class Store {
 	}
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	@JoinColumn(name="storeId", foreignKey=@ForeignKey(name="none"))
-	public Set<imgUrl> getImgUrls() {
-		return imgUrls;
+	public Set<ImgUrl> getImgUrls() {
+		return ImgUrls;
 	}
-	public void setImgUrls(Set<imgUrl> imgUrls) {
-		this.imgUrls = imgUrls;
+	public void setImgUrls(Set<ImgUrl> ImgUrls) {
+		this.ImgUrls = ImgUrls;
 	}
 	public Date getCreateDate() {
 		return createDate;
