@@ -43,5 +43,10 @@ public class DateHandler {
 		calendar.set(Calendar.MILLISECOND, 999);
 		return calendar;
 	}
+	
+	public static Calendar addValidMonth(Calendar calendar , int validMonth){
+		calendar.add(Calendar.MONTH, validMonth);
+		return calendar;
+	}
 
 }

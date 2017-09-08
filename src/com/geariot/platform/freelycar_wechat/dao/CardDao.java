@@ -21,4 +21,5 @@ public interface CardDao {
 
 	List<Card> listCardByClientId(int clientId);
 	
+	Card findByCardNumber(String cardNumber);
 }

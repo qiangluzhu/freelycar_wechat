@@ -78,4 +78,10 @@ public class CardDaoImpl implements CardDao {
 				.setTime("now", now).setCacheable(Constants.SELECT_CACHE).list();
 	}
 
+	@Override
+	public Card findByCardNumber(String cardNumber) {
+		String hql = "from Card where cardNumber = :cardNumber";
+		return (Card) this.getSession().createQuery(hql).setString("cardNumber", cardNumber).setCacheable(Constants.SELECT_CACHE).uniqueResult();
+	}
+
 }

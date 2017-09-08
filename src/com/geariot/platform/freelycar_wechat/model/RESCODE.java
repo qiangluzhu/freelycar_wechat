@@ -35,7 +35,8 @@ public enum RESCODE {
 	NOT_FOUND_WXUSER(30,"无openId对应微信用户"),
 	ORDER_ERROR(31,"微信下单接口失败"),
 	CALL_PORT_ERROR(32,"微信下单接口调用失败"),
-	INQUIRY_ALREADY(33,"该车辆近期已询价,待保险人员电话回访")
+	INQUIRY_ALREADY(33,"该车辆近期已询价,待保险人员电话回访"),
+	CARDNUMBER_EXIST(34,"会员卡号已存在"),
 	;
 	
 	// 定义私有变量

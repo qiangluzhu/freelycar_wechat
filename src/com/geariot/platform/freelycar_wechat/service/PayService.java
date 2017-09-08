@@ -1,7 +1,9 @@
 package com.geariot.platform.freelycar_wechat.service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,6 +19,8 @@ import net.sf.json.JsonConfig;
 import com.geariot.platform.freelycar_wechat.utils.query.FavourOrderBean;
 import com.geariot.platform.freelycar_wechat.wxutils.IdentifyOrder;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
+import com.geariot.platform.freelycar_wechat.utils.Constants;
+import com.geariot.platform.freelycar_wechat.utils.DateHandler;
 import com.geariot.platform.freelycar_wechat.dao.*;
 import com.geariot.platform.freelycar_wechat.entities.*;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
@@ -38,6 +42,8 @@ public class PayService {
 	private ClientDao clientDao;
 	@Autowired
 	private IncomeOrderDao incomeOrderDao;
+	@Autowired
+	private CardDao cardDao;
 	
 	private static final Logger log = LogManager.getLogger(PayService.class);
 	
@@ -117,7 +123,7 @@ public class PayService {
 				res.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
 				return res;
 				}
-			order.setState(1); // 支付状态
+			order.setPayState(1); // 支付状态
 			amount=(float) order.getTotalPrice();
 			clientId = order.getClientId();
 			licensePlate = order.getLicensePlate();
@@ -154,6 +160,90 @@ public class PayService {
 			
 		}
 		return null;
+	}
+	
+	public String buyCard(int clientId, Card card) {
+		if(card.getCardNumber() == null || card.getCardNumber().isEmpty() || card.getCardNumber().trim().isEmpty()){
+			String cardNumber = String.valueOf((int)((Math.random()*9+1)*100000));
+			while(cardDao.findByCardNumber(cardNumber) != null){
+				cardNumber = String.valueOf((int)((Math.random()*9+1)*100000));
+			}
+			card.setCardNumber(cardNumber);
+		}
+		else if(cardDao.findByCardNumber(card.getCardNumber()) != null){
+			return JsonResFactory.buildOrg(RESCODE.CARDNUMBER_EXIST).toString();
+		}
+		Client client = clientDao.findById(clientId);
+		Service service = this.serviceDao.findServiceById(card.getService().getId());
+		if(client == null || service == null){
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
+		}
+		//将优惠券信息添加到客户卡列表中
+		Set<Ticket> tickets = new HashSet<>();
+		for(FavourInfos favourInfos : service.getFavourInfos()){
+			Set<FavourProjectRemainingInfo> remainingInfos = new HashSet<>();
+			Ticket ticket = new Ticket();
+			ticket.setFavour(favourInfos.getFavour());
+			ticket.setExpirationDate(DateHandler.addValidMonth(DateHandler.toCalendar(new Date()), favourInfos.getFavour().getValidTime()).getTime());;
+			FavourProjectRemainingInfo projectRemainingInfo = new FavourProjectRemainingInfo();
+			for(FavourProjectInfos projectInfos : favourInfos.getFavour().getSet()){
+				projectRemainingInfo.setProject(projectInfos.getProject());
+				projectRemainingInfo.setRemaining(projectInfos.getTimes() * favourInfos.getCount());
+				remainingInfos.add(projectRemainingInfo);
+				log.debug("***************************"+projectRemainingInfo.toString());
+			}
+			ticket.setRemainingInfos(remainingInfos);
+			tickets.add(ticket);
+		}
+		Set<Ticket> set = client.getTickets();
+		if(set == null){
+			set = new HashSet<>();
+			client.setTickets(tickets);
+		}
+		for(Ticket add : tickets){
+			set.add(add);
+		}
+		//将服务信息次数复制到卡中
+		Set<CardProjectRemainingInfo> cardInfos = new HashSet<>();
+		for(ServiceProjectInfo info : service.getProjectInfos()){
+			CardProjectRemainingInfo cardInfo = new CardProjectRemainingInfo();
+			cardInfo.setProject(info.getProject());
+			cardInfo.setRemaining(info.getTimes());
+			cardInfos.add(cardInfo);
+			log.debug("***************************"+cardInfo.toString());
+		}
+		card.setProjectInfos(cardInfos);
+		log.debug("***************************"+card.toString());
+		//将新增卡增加到客户卡列表中
+		Set<Card> cards = client.getCards();
+		if(cards == null){
+			cards = new HashSet<>();
+			client.setCards(cards);
+		}
+		card.setPayDate(new Date());
+		Calendar exp = Calendar.getInstance();
+		exp.setTime(new Date());
+		exp.add(Calendar.YEAR, service.getValidTime());
+		card.setExpirationDate(exp.getTime());
+		cards.add(card);
+		//创建新的收入订单并保存
+		IncomeOrder order = new IncomeOrder();
+		order.setAmount(service.getPrice());
+		order.setClientId(clientId);
+		order.setLicensePlate(null);
+		order.setMember(true);
+		order.setPayDate(new Date());
+		order.setProgramName(Constants.CARD_PROGRAM);
+		order.setPayMethod(card.getPayMethod());
+		/*Admin admin = this.adminDao.findAdminById(card.getOrderMaker().getId());
+		order.setStaffNames(admin.getStaff().getName());*/
+		this.incomeOrderDao.save(order);
+		//更新客户的消费次数与消费情况信息。
+		client.setConsumTimes(client.getConsumTimes() + 1);
+		client.setConsumAmout(client.getConsumAmout() + order.getAmount());
+		client.setLastVisit(new Date());
+		client.setIsMember(true);
+		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 }
 
