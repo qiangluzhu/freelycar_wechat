@@ -41,7 +41,7 @@ class PersonalInfo extends React.Component {
             <NavBar title="个人信息" />
             <List className="add-car-info">
                 <Flex justify='center' style={{ height: '1.6rem' }}>
-                    <img className='logo' src={this.state.headimgurl} style={{ width: '1.16rem' }} />
+                    <img className='logo' src={login} style={{ width: '1.16rem' }} />
                 </Flex>
 
                 <InputItem
