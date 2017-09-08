@@ -70,8 +70,17 @@ class Insurance extends React.Component {
     render() {
 
         const insuredCompany = [
-            { label: "太平洋保险", value: "太平洋保险1" },
-            { label: "人寿保险", value: "人寿保险1" }
+            { label: "中国人保车险", value: "中国人保车险" },
+            { label: "平安车险", value: "平安车险" },
+            { label: "太平洋车险", value: "太平洋车险" },
+            { label: "中华联合车险", value: "中华联合车险" },
+            { label: "大地车险", value: "大地车险" },
+            { label: "天安车险", value: "天安车险" },
+            { label: "永安车险", value: "永安车险" },
+            { label: "阳光车险", value: "阳光车险" },
+            { label: "安邦车险", value: "安邦车险" },
+            { label: "太平车险", value: "太平车险" },
+            { label: "其他", value: "其他" },
         ];
 
         const insuredCity = cityJson;
