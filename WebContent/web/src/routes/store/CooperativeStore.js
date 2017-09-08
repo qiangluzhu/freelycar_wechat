@@ -21,7 +21,7 @@ class CooperativeStore extends React.Component {
             isLoading: true,
             hasMore: true,
             pageIndex: 1,
-            data: ['1']
+            data: []
         }
     }
 

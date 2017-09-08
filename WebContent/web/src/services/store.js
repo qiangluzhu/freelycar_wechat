@@ -5,9 +5,12 @@ export default {
         return get('/api/store/list', params);
     },
     storeDetail: (params) => {
-        return get('/api/store/detai/',params)
+        return get('/api/store/detail/',params)
     },
     storeComment: (params) => {
-        return get('/api/store/comment', option)
+        return get('/api/store/comment', params)
+    },
+    listComment:(params)=>{
+        return get('/api/store/listComment',params)
     }
 }

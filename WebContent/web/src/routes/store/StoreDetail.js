@@ -3,15 +3,23 @@ import { Flex, Tabs } from 'antd-mobile';
 import NavBar from '../../components/NavBar'
 import Star from '../../components/Star'
 import './CooperativeStore.less'
-
+import { storeDetail, listComment } from '../../services/store.js'
 const TabPane = Tabs.TabPane
 class CooperativeStore extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            focused: false,
-            focused1: false
+            name: '',
+            address: '',
+            phone: '',
+            star: '',
+            closingTime: '',
+            openingTime: '',
+            fix: [],
+            beauty: [],
+            storefavours: [],
+            comments:[]
         }
     }
 
@@ -22,17 +30,124 @@ class CooperativeStore extends React.Component {
             // 如果需要分页器
             pagination: '.swiper-pagination',
         });
-        let mySwiper2 = new Swiper(this.swiperID2, {
-            direction: 'horizontal',
-            loop: false,
-            slidesPerView: 1.2,
-            setWrapperSize: true,
-            spaceBetween: 10,
-            slidesOffsetBefore: 11,
-            slidesOffsetAfter: 10,
+
+        storeDetail({ storeId: '1' }).then((res) => {
+            console.log(res)
+            if (res.data.code == '0') {
+                let store = res.data.data.store
+                this.setState({
+                    name: store.name,
+                    address: store.address,
+                    phone: store.phone,
+                    star: res.data.data.star,
+                    closingTime: store.closingTime,
+                    openingTime: store.openingTime,
+                    beauty: res.data.data.beauty,
+                    fix: res.data.data.fix,
+                    storefavours: store.storefavours
+                })
+                let mySwiper2 = new Swiper(this.swiperID2, {
+                    direction: 'horizontal',
+                    loop: false,
+                    slidesPerView: 1.2,
+                    setWrapperSize: true,
+                    spaceBetween: 10,
+                    slidesOffsetBefore: 11,
+                    slidesOffsetAfter: 10,
+                })
+            }
+        }).catch((error) => {
+            console.log(error)
         })
+
+        listComment({
+            storeId: '1'
+        }).then((res) => {
+            console.log(res)
+            if (res.data.code == '0') {
+                let comments = []
+                for (let item of res.data.data) {
+                    let comment = {
+                        commentDate: item.commentDate,
+                        phone: item.phone.substring(0, 3) + '****' + item.phone.substring(7),
+                        star: item.stars,
+                        comment:item.comment
+                    }
+                    comments.push(comment)
+                }
+                this.setState({
+                    comments:comments
+                })
+            }
+        }).catch((error)=>{console.log(error)})
     }
     render() {
+        let sf = this.state.storefavours;
+        let couponList = sf.map((item, index) => {
+            return <div key={index} className="swiper-slide cooperative-store-coupon">
+                <Flex className="coupon" direction="column" align="start">
+                    <Flex style={{ height: '1.3rem', background: '#fff', width: '100%' }}>
+                        <Flex className="money" direction="column" align="end">
+                            <div style={{ fontSize: '.48rem' }}><span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set.buyPrice}</div>
+                            <div style={{ color: '#8c8c8c', fontSize: '.22rem', marginTop: '.05rem' }} className="money-buyprice">
+                                <span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set.presentPrice}
+                                 <i>
+                                </i>
+                            </div>
+                        </Flex>
+                        <div className="parting-line"></div>
+                        <Flex style={{ flex: 'auto' }}>
+                            <Flex direction="column" align="start">
+                                <div style={{ fontSize: '.32rem', marginLeft: '.2rem', lineHeight: '.4rem' }}>{item.favour.name}</div>
+                                <div style={{ fontSize: '.24rem', lineHeight: '.4rem', marginLeft: '.2rem' }}>{item.favour.content}</div>
+                            </Flex>
+                            <Flex className="use-button">
+                                <div className="use-button-plus">-</div>
+                                <div className="number">1</div>
+                                <div className="use-button-add" onClick={() => { this.setState() }}>+</div>
+                            </Flex>
+                        </Flex>
+                    </Flex>
+                    <div className="coupon-info">
+                        <span className="phone">限客户手机号：13951775978</span>
+                        <span className="time">截止日期：{item.favour.buyDeadline}</span>
+                    </div>
+                </Flex>
+            </div>
+        }), fixList = this.state.fix.map((item, index) => {
+            return <Flex index={index} style={{ width: '100%', borderBottom: '1px solid #dfdfe1' }} >
+                <div >
+                    <Flex direction="column" align="start" justify="center" style={{ height: '1.3rem' }}>
+                        <div className="beauty-title">{item.name}</div>
+                        <div className="beauty-aim">{item.comment}</div>
+                    </Flex>
+                </div>
+                <div className="money">
+                    <span style={{ fontSize: '.24rem' }}>￥</span>{item.price + item.pricePerUnit * item.referWorkTime}
+                </div>
+            </Flex>
+        }), beautyList = this.state.beauty.map((item, index) => {
+            return <Flex index={index} style={{ width: '100%', borderBottom: '1px solid #dfdfe1' }} >
+                <div>
+                    <Flex direction="column" align="start" justify="center" style={{ height: '1.3rem' }}>
+                        <div className="beauty-title">{item.name}</div>
+                        <div className="beauty-aim">{item.comment}</div>
+                    </Flex>
+                </div>
+                <div className="money">
+                    <span style={{ fontSize: '.24rem' }}>￥</span>{item.price + item.pricePerUnit * item.referWorkTime}
+                </div>
+            </Flex>
+        }),commentList = this.state.comments.map((item,index)=>{
+            return <Flex className="comment" align="start">
+            <div className="avatar"><img /></div>
+            <Flex.Item>
+                <div style={{ width: '100%' }}><span className="phone">{item.phone}</span><span className="time">{item.commentDate}</span></div>
+                <Star number={item.star}> </Star>
+                <div className="introduction">{item.comment} </div>
+            </Flex.Item>
+        </Flex>
+        })
         return <div className="store-detail body-bac">
             <NavBar title="门店详情" />
             <div className="swiper-container" ref={self => this.swiperID = self}>
@@ -42,28 +157,26 @@ class CooperativeStore extends React.Component {
                 </div>
                 <div className="swiper-pagination circle-color"></div>
             </div>
-            <Flex className="cooperative-store-list" style={{paddingLeft:'.42rem'}}>
-  
-                <Flex direction="column" align="start" justify="between" style={{ height: '1.6rem', }}>
+            <Flex className="cooperative-store-list" style={{ paddingLeft: '.42rem' }}>
+
+                <Flex direction="column" align="start" justify="between" >
                     <div className="store-name">
-                        小易爱车   <span style={{ fontSize: '.18rem', color: '#e42f2f', marginLeft: '.04rem' }}>5.0分</span>
+                        {this.state.name}   <span style={{ fontSize: '.18rem', color: '#e42f2f', marginLeft: '.04rem' }}>{this.state.star}分</span>
                     </div>
                     <Flex className="info-font time">
                         <div className="time-icon"></div>
-                        营业时间：8:20-20:00
+                        营业时间：{this.state.openingTime}-{this.state.closingTime}
                     </Flex>
                     <Flex className="time" align="end" >
                         <div>
-                    
                             <Flex className="address">
                                 <div className="address-icon"></div>
-                                <p className="info-font" style={{color:'#636363'}}>南京市苏宁诺富特酒店B2</p>
+                                <p className="info-font" style={{ color: '#636363' ,width:'5rem'}}>{this.state.address}(点我导航)</p>
 
                             </Flex>
                             <div className="info-identify">
                                 <span className="identification">免费安全监测</span>
                                 <span className="identification">下雨保</span>
-
                             </div>
                         </div>
                     </Flex>
@@ -79,53 +192,7 @@ class CooperativeStore extends React.Component {
             </Flex>
             <div className="swiper-container" ref={self => this.swiperID2 = self}>
                 <div className="swiper-wrapper ">
-                    <div className="swiper-slide cooperative-store-coupon">
-                        <Flex className="coupon" direction="column" align="start">
-                            <Flex style={{ height: '1.3rem', background: '#fff', width: '100%' }}>
-                                <Flex className="money" direction="column">
-                                    <div style={{ fontSize: '.4rem' }}><span style={{ fontSize: '.18rem' }}>￥</span>25</div>
-                                    <div style={{ color: '#8c8c8c', fontSize: '.22rem', marginTop: '.05rem' }}>代金券</div>
-                                </Flex>
-                                <div className="parting-line"></div>
-                                <Flex style={{ flex: 'auto' }}>
-                                    <Flex direction="column" align="start">
-                                        <div style={{ fontSize: '.3rem', marginLeft: '.2rem' }}>洗车抵用券</div>
-                                        <div style={{ fontSize: '.2rem', lineHeight: '.3rem', marginLeft: '.2rem' }}>洗车项目时可直接抵扣</div>
-                                    </Flex>
-                                    <Flex className="use-button">
-                                        <div className="use-button-plus">-</div>
-                                        <div className="number">1</div>
-                                        <div className="use-button-add">+</div>
-                                    </Flex>
-                                </Flex>
-                            </Flex>
-                            <div className="coupon-info">
-                                <span className="phone">限客户手机号：13951775978</span>
-                                <span className="time">截止日期：2018.11.11</span>
-                            </div>
-                        </Flex>
-                    </div>
-                    <div className="swiper-slide cooperative-store-coupon">
-                        <Flex className="coupon" direction="column" align="start">
-                            <Flex style={{ height: '1.3rem', background: '#fff', width: '100%' }}>
-                                <div className="money"><span style={{ fontSize: '.18rem' }}>￥</span>1000</div>
-                                <div className="parting-line"></div>
-                                <Flex style={{ flex: 'auto', marginLeft: '.2rem' }}>
-                                    <Flex direction="column" align="start">
-                                        <div style={{ fontSize: '.3rem', marginLeft: '.2rem' }}>洗车抵用券</div>
-                                        <div style={{ fontSize: '.2rem', lineHeight: '.3rem', marginLeft: '.2rem' }}>洗车项目时可直接抵扣</div>
-                                    </Flex>
-                                    <div className="use-button">
-                                        立即使用
-                                    </div>
-                                </Flex>
-                            </Flex>
-                            <div className="coupon-info">
-                                <span className="phone">限客户手机号：13951775978</span>
-                                <span className="time">截止日期：2018.11.11</span>
-                            </div>
-                        </Flex>
-                    </div>
+                    {couponList}
                 </div>
             </div>
             <div style={{ height: '.21rem', background: '#fff', marginTop: '.04rem' }}>
@@ -134,72 +201,15 @@ class CooperativeStore extends React.Component {
                 <TabPane tab='门店服务' key="1" >
                     <Tabs defaultActiveKey="1" swipeable underlineColor="#5a88e5" className="tabpane1" >
                         <TabPane tab='汽车美容' key="1" style={{ borderTop: '1px solid #dfdfe1' }} >
-                            <Flex style={{ width: '100%', borderBottom: '1px solid #dfdfe1' }} >
-                                <div >
-                                    <Flex direction="column" align="start" justify="center" style={{ height: '1.3rem' }}>
-                                        <div className="beauty-title">普洗</div>
-                                        <div className="beauty-aim">整车泡沫冲洗，车内洗尘，内饰简单清洁除尘</div>
-                                    </Flex>
-                                </div>
-                                <div className="money">
-                                    <span style={{ fontSize: '.18rem' }}>￥</span>1000
-                                </div>
-                            </Flex>
-                            <Flex style={{ width: '100%', borderBottom: '1px solid #dfdfe1' }} >
-                                <div >
-                                    <Flex direction="column" align="start" justify="center" style={{ height: '1.3rem' }}>
-                                        <div className="beauty-title">普洗</div>
-                                        <div className="beauty-aim">整车泡沫冲洗，车内洗尘，内饰简单清洁除尘</div>
-                                    </Flex>
-                                </div>
-                                <div className="money">
-                                    <span style={{ fontSize: '.18rem' }}>￥</span>25
-                                </div>
-                            </Flex>
+                            {beautyList}
                         </TabPane>
                         <TabPane tab='维修保养' key="2" style={{ borderTop: '1px solid #dfdfe1' }}>
-                            <Flex style={{ width: '100%', borderBottom: '1px solid #dfdfe1' }} >
-                                <div >
-                                    <Flex direction="column" align="start" justify="center" style={{ height: '1.3rem' }}>
-                                        <div className="beauty-title">普洗</div>
-                                        <div className="beauty-aim">整车泡沫冲洗，车内洗尘，内饰简单清洁除尘</div>
-                                    </Flex>
-                                </div>
-                                <div className="money">
-                                    <span style={{ fontSize: '.18rem' }}>￥</span>25
-                                </div>
-                            </Flex>
-                            <Flex style={{ width: '100%', borderBottom: '1px solid #dfdfe1' }} >
-                                <div >
-                                    <Flex direction="column" align="start" justify="center" style={{ height: '1.3rem' }}>
-                                        <div className="beauty-title">普洗</div>
-                                        <div className="beauty-aim">整车泡沫冲洗，车内洗尘，内饰简单清洁除尘</div>
-                                    </Flex>
-                                </div>
-                                <div className="money">
-                                    <span style={{ fontSize: '.18rem' }}>￥</span>25
-                                </div>
-                            </Flex>
+                            {fixList}
                         </TabPane>
                     </Tabs>
                 </TabPane>
                 <TabPane tab='门店评价' key="2" className="tabpane2">
-                    <Flex className="comment" align="start">
-                        <div className="avatar"><img /></div>
-                        <Flex.Item>
-                            <div style={{ width: '100%' }}><span className="phone">1559****5565</span><span className="time">2017-08-23</span></div>
-                            <Star number={1}> </Star>
-                            <div className="introduction">整车泡沫冲洗，车内洗尘，内饰简单清洁除尘 </div>
-                        </Flex.Item>
-                    </Flex>
-                    <Flex className="comment" align="start">
-                        <div className="avatar"><img /></div>
-                        <Flex.Item>
-                            <div style={{ width: '100%' }}><span className="phone">1559****5565</span><span className="time">2017-08-23</span></div>
-                            <Star number={1}> </Star>
-                            <div className="introduction">整车泡沫冲洗，车内洗尘，内饰简单清洁除尘 </div>
-                        </Flex.Item>
-                    </Flex>
+                   {commentList}
                 </TabPane>
             </Tabs>
             <div className='bottom-pay-button'>
@@ -213,7 +223,6 @@ class CooperativeStore extends React.Component {
                     </div>
                 </Flex>
             </div>
-
         </div>
     }
 
