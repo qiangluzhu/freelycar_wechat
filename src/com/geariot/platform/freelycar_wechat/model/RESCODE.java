@@ -37,6 +37,8 @@ public enum RESCODE {
 	CALL_PORT_ERROR(32,"微信下单接口调用失败"),
 	INQUIRY_ALREADY(33,"该车辆近期已询价,待保险人员电话回访"),
 	CARDNUMBER_EXIST(34,"会员卡号已存在"),
+	BINDED_WITH_OTHER_PHONE(35, "账号已绑定其他手机号"),
+	PHONE_BINDED_BY_OTHER(36, "手机号被其他账号绑定"),
 	;
 	
 	// 定义私有变量

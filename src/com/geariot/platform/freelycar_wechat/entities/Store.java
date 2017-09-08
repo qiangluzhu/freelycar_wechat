@@ -116,5 +116,13 @@ public class Store {
 	public void setClosingTime(String closingTime) {
 		this.closingTime = closingTime;
 	}
+	@Override
+	public String toString() {
+		return "Store [id=" + id + ", name=" + name + ", address=" + address + ", latitude=" + latitude + ", longitude="
+				+ longitude + ", openingTime=" + openingTime + ", closingTime=" + closingTime + ", phone=" + phone
+				+ ", storeProjects=" + storeProjects + ", storefavours=" + storefavours + ", imgUrls=" + imgUrls
+				+ ", createDate=" + createDate + "]";
+	}
+	
 	
 }
