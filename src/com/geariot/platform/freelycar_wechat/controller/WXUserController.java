@@ -23,8 +23,8 @@ public class WXUserController {
 	@Autowired
 	private WXUserService wxUserService;
 	@RequestMapping(value = "/addWxUser",method = RequestMethod.POST)
-	public String addWxUser(String openId,String nickName,String headimgurl,String phone){
-		return wxUserService.addWXUser(openId,nickName,headimgurl,phone);
+	public String addWxUser(String openId,String nickName,String headimgurl){
+		return wxUserService.addWXUser(openId,nickName,headimgurl);
 	}
 	@RequestMapping(value = "/login",method = RequestMethod.POST)
 	public String login(String openId){

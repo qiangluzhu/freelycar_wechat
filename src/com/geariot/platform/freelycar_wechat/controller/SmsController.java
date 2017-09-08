@@ -1,4 +1,4 @@
-/*package com.geariot.platform.freelycar_wechat.controller;
+package com.geariot.platform.freelycar_wechat.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,12 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
+import com.geariot.platform.freelycar_wechat.service.SmsService;
 import com.geariot.platform.freelycar_wechat.utils.Constants;
 import com.geariot.platform.freelycar_wechat.utils.HttpRequest;
 
 @RestController
 @RequestMapping("/sms")
 public class SmsController {
+	
+	@Autowired
+	private SmsService smsService;
 	
 	private String appid = "YPVPvcghD0yT1CtQKUOpOUGI-gzGzoHsz";
     private String appkey = "AnrwmLo01qL7RuKNbV0NwWR4";
@@ -40,7 +44,6 @@ public class SmsController {
 		Map<String,Object> head = setLeancloudHead();
 		String result = HttpRequest.postCall(leancouldUrlRes, entity, head);
 		log.debug("leancloud的返回码："+result);
-		
 		JSONObject json = null;
 		try {
 			json = new JSONObject(result);
@@ -69,45 +72,8 @@ public class SmsController {
 			return json.toString();
 		}
 		else {
-			String res = userService.bindUser(phone, openId);
+			String res = smsService.bindUser(phone, openId);
 			log.debug("绑定用户结果：" + res);
-			return res;
-		}
-	}
-	
-	//绑定验证结果请求
-	@RequestMapping(value = "/register",method=RequestMethod.POST)
-	public String verifyRegister(String phone, String smscode, String openId) {
-		JSONObject json = this.verifySmscode(phone, smscode);
-		if(json.getString("error") != null) {
-			log.debug(phone + ";code:" + smscode + " 验证失败。。。");
-			json.put(Constants.RESPONSE_CODE_KEY, json.getInt("code"));
-			json.put(Constants.RESPONSE_MSG_KEY, json.getString("error"));
-			return json.toString();
-		}
-		else {
-			return userService.phoneCheck(phone,openId);
-			//查询本地数据phone，如果有openid也一样，则 提示已经注册过并绑定
-			// 如果openid不一样，则提示该手机号已被其他账号绑定
-			//如果本地没有，查询mb系统，有一样的手机号，则提示该手机号已注册，请进行绑定
-			//如果本地没有，mb也没有，则成功进入下一步
-		}
-	}
-	
-	//帮同伴注册验证结果请求
-	@RequestMapping(value = "/registerPal",method=RequestMethod.POST)
-	public String veriftRegisterPal(User user, String smscode){
-		String phone = user.getPhone();
-		JSONObject json = this.verifySmscode(phone, smscode);
-		if(json.getString("error") != null) {
-			log.debug(phone + ";code:" + smscode + " 验证失败。。。");
-			json.put(Constants.RESPONSE_CODE_KEY, json.getInt("code"));
-			json.put(Constants.RESPONSE_MSG_KEY, json.getString("error"));
-			return json.toString();
-		}
-		else {
-			String res = userService.registerPal(user);
-			log.debug("RegisterPal结果：" + res);
 			return res;
 		}
 	}
@@ -136,4 +102,3 @@ public class SmsController {
 	}
 	
 }
-*/

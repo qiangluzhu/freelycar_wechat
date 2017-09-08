@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.geariot.platform.freelycar_wechat.entities.ConsumOrder;
+import com.geariot.platform.freelycar_wechat.entities.Project;
 import com.geariot.platform.freelycar_wechat.entities.Store;
+import com.geariot.platform.freelycar_wechat.entities.StoreProject;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
 import com.geariot.platform.freelycar_wechat.utils.StoreUtil;
@@ -67,6 +69,19 @@ public class StoreService {
 		} else {
 			JsonConfig config = JsonResFactory.dateConfig();
 			JSONObject obj = new JSONObject();
+			List<StoreProject> projects =  new ArrayList<StoreProject>(exist.getStoreProjects());
+			ArrayList<Project> array1 = new ArrayList<Project>();
+			ArrayList<Project> array2 = new ArrayList<Project>();
+			for(StoreProject storeproject:projects){
+				Project project = storeproject.getProject();
+				if(project.getProgram().getId()==1)
+					array1.add(project);
+				else
+					array2.add(project);				
+			}
+			obj.put("beauty", array1);
+			obj.put("fix", array2);
+			config.registerPropertyExclusion(Store.class, "storeProjects");
 			obj.put(Constants.RESPONSE_STORE_KEY,JSONObject.fromObject(exist, config));
 			obj.put(Constants.RESPONSE_STAR_KEY,StoreUtil.getCommentStar(exist.getId()));
 			return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj)
