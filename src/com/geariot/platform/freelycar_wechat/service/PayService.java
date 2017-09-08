@@ -1,9 +1,11 @@
 package com.geariot.platform.freelycar_wechat.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -135,20 +137,32 @@ public class PayService {
 			WXPayOrder order = null;
 			synchronized(PayService.class)
 			{
-			order = wxPayOrderDao.findById(orderId);
-			if(order.getPayState() >= 1)
-				{
-				log.debug("已处理微信回调，订单已处理。直接返回成功。");
-				org.json.JSONObject res = new org.json.JSONObject();
-				res.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
-				res.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
-				return res;
+				order = wxPayOrderDao.findById(orderId);
+				if(order.getPayState() >= 1)
+					{
+					log.debug("已处理微信回调，订单已处理。直接返回成功。");
+					org.json.JSONObject res = new org.json.JSONObject();
+					res.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
+					res.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
+					return res;
+					}
+				order.setPayState(1); // 支付状态
+				amount=(float) order.getTotalPrice();
+				clientId = clientDao.findByPhone(wxUserDao.findUserByOpenId(order.getOpenId()).getPhone()).getId();
+				programName = Constants.WX_CARDANDFAVOUR;
+				//更新card表和favour表
+				org.json.JSONObject result;
+				Service service = order.getService();
+				List<FavourToOrder> favours = new ArrayList<FavourToOrder>(order.getFavours());
+				if(order.getService()!=null){
+					Card card = new Card();
+					card.setPayDate(payDate);
+					card.setService(service);
+					card.setExpirationDate(getExpiration(service,payDate));
+					card.setPayMethod(payMethod);
+					card.setCardNumber(IDGenerator.generate(IDGenerator.WX_CARD));
+					result = buyCard(clientId,card);
 				}
-			order.setPayState(1); // 支付状态
-			amount=(float) order.getTotalPrice();
-			clientId = clientDao.findByPhone(wxUserDao.findUserByOpenId(order.getOpenId()).getPhone()).getId();
-			programName = Constants.WX_CARDANDFAVOUR;
-			}
 			IncomeOrder incomeOrder = new IncomeOrder();
 			incomeOrder.setAmount(amount);
 			incomeOrder.setClientId(clientId);
@@ -158,11 +172,20 @@ public class PayService {
 			incomeOrder.setProgramName(programName);
 			incomeOrderDao.save(incomeOrder);
 			
+			}
+		
 		}
 		return null;
+}	
+	public Date getExpiration(Service service,Date payDate){
+		Calendar curr = Calendar.getInstance();
+		curr.setTime(payDate);
+		curr.set(Calendar.YEAR,curr.get(Calendar.YEAR)+service.getValidTime());
+		Date date=curr.getTime(); 
+		return date;
 	}
 	
-	public String buyCard(int clientId, Card card) {
+	public org.json.JSONObject buyCard(int clientId, Card card) {
 		if(card.getCardNumber() == null || card.getCardNumber().isEmpty() || card.getCardNumber().trim().isEmpty()){
 			String cardNumber = String.valueOf((int)((Math.random()*9+1)*100000));
 			while(cardDao.findByCardNumber(cardNumber) != null){
@@ -171,12 +194,12 @@ public class PayService {
 			card.setCardNumber(cardNumber);
 		}
 		else if(cardDao.findByCardNumber(card.getCardNumber()) != null){
-			return JsonResFactory.buildOrg(RESCODE.CARDNUMBER_EXIST).toString();
+			return JsonResFactory.buildOrg(RESCODE.CARDNUMBER_EXIST);
 		}
 		Client client = clientDao.findById(clientId);
 		Service service = this.serviceDao.findServiceById(card.getService().getId());
 		if(client == null || service == null){
-			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND);
 		}
 		//将优惠券信息添加到客户卡列表中
 		Set<Ticket> tickets = new HashSet<>();
@@ -243,7 +266,7 @@ public class PayService {
 		client.setConsumAmout(client.getConsumAmout() + order.getAmount());
 		client.setLastVisit(new Date());
 		client.setIsMember(true);
-		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
+		return JsonResFactory.buildOrg(RESCODE.SUCCESS);
 	}
 }
 
