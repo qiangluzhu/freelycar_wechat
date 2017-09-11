@@ -41,9 +41,9 @@ class MyCard extends React.Component {
                 <div className="card-time">{item.service.createDate.slice(0,10)}</div>
             </div>
         })
-        return <div>
+        return <div className="body-bac">
             <div className="nav-bar-title" style={{marginBottom:'.3rem'}}>
-                <i className="back" onClick={() => { history.back() }}></i>
+                <i className="back" onClick={() => { history.back()}}></i>
                 我的会员卡
                 <span className="scan" onClick={()=>{browserHistory.push('/addCard')}}>添加</span>
             </div>

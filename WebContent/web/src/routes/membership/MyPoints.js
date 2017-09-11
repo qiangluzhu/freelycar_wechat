@@ -41,7 +41,7 @@ class MyPoints extends React.Component {
                 </Flex.Item>
             </Flex>
         })
-        return <div>
+        return <div className="body-bac">
             <NavBar title="我的积分" />
             <div className="my-total-point">
                 <Flex className="circle" justify="center" direction="column" >

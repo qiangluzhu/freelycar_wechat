@@ -46,7 +46,7 @@ class MyCardDetail extends React.Component {
                 <span className="list-time"><span className="number">{item.remaining}</span>次</span>
             </div>
         })
-        return <div>
+        return <div className="body-bac">
             <div className="nav-bar-title" style={{ marginBottom: '.3rem' }}>
                 <i className="back" onClick={() => { history.back() }}></i>
                 我的会员卡

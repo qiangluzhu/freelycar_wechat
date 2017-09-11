@@ -60,6 +60,8 @@ class Inquiry extends React.Component {
                 } else {
                     Toast.fail(req.data.msg, 5);
                 }
+            }).catch((error)=>{
+                console.log(error)
             })
     }
     selectProvince(item) {
