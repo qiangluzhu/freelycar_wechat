@@ -24,7 +24,7 @@ class OrderDetail extends React.Component {
 
     componentDidMount() {
         orderDetail({
-            consumOrderId: 'S2017090103h2fw',
+            consumOrderId:this.props.params.id,
         }).then((res) => {
             console.log(res);
             if (res.data.code == '0') {
