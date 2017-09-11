@@ -31,7 +31,7 @@ class CooperativeStore extends React.Component {
             pagination: '.swiper-pagination',
         });
 
-        storeDetail({ storeId: '1' }).then((res) => {
+        storeDetail({ storeId: this.props.params.storeId }).then((res) => {
             console.log(res)
             if (res.data.code == '0') {
                 let store = res.data.data.store
@@ -139,7 +139,7 @@ class CooperativeStore extends React.Component {
                 </div>
             </Flex>
         }),commentList = this.state.comments.map((item,index)=>{
-            return <Flex className="comment" align="start">
+            return <Flex className="comment" align="start" key={index}> 
             <div className="avatar"><img /></div>
             <Flex.Item>
                 <div style={{ width: '100%' }}><span className="phone">{item.phone}</span><span className="time">{item.commentDate}</span></div>

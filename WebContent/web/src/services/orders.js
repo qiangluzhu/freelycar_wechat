@@ -14,7 +14,7 @@ export default {
     },
     //单据评价
     orderComment:(params)=>{
-        return post('/api/orders/comment',params)
+        return get('/api/orders/comment',params)
     },
     orderDetail:(params)=>{
         return get('/api/orders/detail',params)

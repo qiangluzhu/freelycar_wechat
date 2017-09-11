@@ -35,6 +35,8 @@ class OrderTrack extends React.Component {
                     payState: data.payState,
                     totalPrice: data.totalPrice,
                 })
+                window.localStorage.setItem('storeName',data.store.name)
+                window.localStorage.setItem('imgUrl',data.store.imgUrls[0])
             }
         }).catch((error) => { console.log(error) })
     }

@@ -3,9 +3,9 @@ import { Flex, ListView } from 'antd-mobile';
 import NavBar from '../../components/NavBar'
 import './CooperativeStore.less'
 import { storeList } from '../../services/store'
-const NUM_ROWS = 100;
-let pageIndex = 0;
-let index = 20;
+const NUM_ROWS = 10;
+let pageIndex = 1;
+let index = 10;
 class CooperativeStore extends React.Component {
 
     constructor(props) {
@@ -20,8 +20,6 @@ class CooperativeStore extends React.Component {
             dataSource: dataSource.cloneWithRows({}),
             isLoading: true,
             hasMore: true,
-            pageIndex: 1,
-            data: []
         }
     }
 
@@ -36,55 +34,69 @@ class CooperativeStore extends React.Component {
     }
 
     genData = (pIndex = 0) => {
-        const dataBlob = {};
-        for (let i = 0; i < NUM_ROWS; i++) {
-            const ii = (pIndex * NUM_ROWS) + i;
-            dataBlob[`${ii}`] = `row - ${ii}`;
-        }
-        return dataBlob;
+        // const dataBlob = {};
+        // for (let i = 0; i < NUM_ROWS; i++) {
+        //     const ii = (pIndex * NUM_ROWS) + i;
+        //     dataBlob[`${ii}`] = `row - ${ii}`;
+        // }
+        // console.log(dataBlob)
+        // return dataBlob;
+        let dataBlob = {}
+        storeList({
+            page: pIndex,
+            number: 10
+        }).then((res) => {
+            if (res.data.code == '0') {
+                for (let i = 0; i < NUM_ROWS; i++) {
+                    const ii = (pIndex * NUM_ROWS) + i;
+                    dataBlob[`${ii}`] = res.data.data[i];
+                    this.setState({
+                        hasMore: true
+                    })
+                }
+            } else {
+                this.setState({
+                    hasMore: false,
+                    isLoading: false
+                })
+            }
 
-        // storeList({
-        //     page: 1,
-        //     number: 10
-        // }).then((res) => {
-        //     console.log(res)
-        // })
+        }).catch((error) => {
+            console.log(error)
+        })
 
+        return dataBlob
         // return ['11', '22','33','44','55']
     }
 
     onEndReached = (event) => {
+        console.log(this.state.isLoading, this.state.hasMore)
         console.log('到底部啦')
         // load new data
         // hasMore: from backend data, indicates whether it is the last page, here is false
-        if (this.state.isLoading && !this.state.hasMore) {
+        if ((!this.state.isLoading) && (!this.state.hasMore)) {
+            console.log('没有数据啦')
             return;
         }
         console.log('reach end', event);
         this.setState({ isLoading: true });
         setTimeout(() => {
-            storeList({
-                page: 1,
-                number: 10
-            }).then((res) => {
-                console.log(res)
-                this.rData = { ...this.rData, ...this.genData(++pageIndex) };
-                this.setState({
-                    pageIndex: this.state.pageIndex + 1,
-                    dataSource: this.state.dataSource.cloneWithRows(this.rData),
-                    isLoading: false,
-                    data: ['1', '2']
-                })
+            this.rData = { ...this.rData, ...this.genData(++pageIndex) };
+            this.setState({
+                pageIndex: this.state.pageIndex + 1,
+                dataSource: this.state.dataSource.cloneWithRows(this.rData),
+                isLoading: false
             })
         }, 1000);
     }
 
     render() {
         const row = (rowData, sectionID, rowID) => {
-            if (index < 0) {
-                index = this.state.data.length - 1;
-            }
-            const obj = this.state.data[index--];
+            console.log(rowData)
+            // if (index < 0) {
+            //     index = this.state.data.length - 1;
+            // }
+            // const obj = this.state.data[index--];
             return (
                 <Flex className="cooperative-store-list">
                     <Flex className="picture">
@@ -92,22 +104,22 @@ class CooperativeStore extends React.Component {
                     </Flex>
                     <Flex direction="column" align="start" justify="between" style={{ height: '1.6rem', width: '5.24rem' }}>
                         <div className="store-name">
-                            小易爱车   <span style={{ fontSize: '.18rem', color: '#e42f2f', marginLeft: '.14rem' }}>5.0分</span>
+                            {rowData.store.name}   <span style={{ fontSize: '.18rem', color: '#e42f2f', marginLeft: '.14rem' }}>{rowData.star}分</span>
                         </div>
                         <Flex className="address" style={{ width: "100%" }}>
                             <div className="address-icon"></div>
-                            <p className="info-font">南京市苏宁诺富特酒店B2</p>
+                            <p className="info-font" style={{width:'4.5rem'}}>{rowData.store.address}</p>
                         </Flex>
                         <Flex className="time" align="end" style={{ width: "100%" }}>
                             <div>
                                 <Flex className="info-font">
                                     <div className="time-icon"></div>
-                                    营业时间：8:20-20:00
-                            </Flex>
-                                <div className="info-identify">
+                                    营业时间：{rowData.store.openingTime}-{rowData.store.closingTime}
+                                </Flex>
+                                {rowData.store.id == 1 && <div className="info-identify">
                                     <span className="identification">免费安全监测</span>
                                     <span className="identification">下雨保</span>
-                                </div>
+                                </div>}
                             </div>
                         </Flex>
                     </Flex>
@@ -124,7 +136,7 @@ class CooperativeStore extends React.Component {
                 onEndReached={() => this.onEndReached()}
                 onEndReachedThreshold={10}
                 renderRow={row}
-                initialListSize={1}
+                initialListSize={10}
                 pageSize={4}
                 onScroll={() => { console.log('scroll'); }}
                 scrollRenderAheadDistance={500}
@@ -133,7 +145,7 @@ class CooperativeStore extends React.Component {
                     {this.state.isLoading ? 'Loading...' : 'Loaded'}
                 </div>)}
                 style={{
-                    height:`${document.documentElement.clientHeight}`,
+                    height: `${document.documentElement.clientHeight}`,
                     overflow: 'auto',
                 }}
             >
