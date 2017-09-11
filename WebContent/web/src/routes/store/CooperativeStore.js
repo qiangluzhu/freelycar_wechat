@@ -3,6 +3,7 @@ import { Flex, ListView } from 'antd-mobile';
 import NavBar from '../../components/NavBar'
 import './CooperativeStore.less'
 import { storeList } from '../../services/store'
+import { browserHistory } from 'dva/router'
 const NUM_ROWS = 10;
 let pageIndex = 1;
 let index = 10;
@@ -98,7 +99,7 @@ class CooperativeStore extends React.Component {
             // }
             // const obj = this.state.data[index--];
             return (
-                <Flex className="cooperative-store-list">
+                <Flex className="cooperative-store-list" onClick={() => { browserHistory.push(`/store/detail/${rowData.store.id}`) }}>
                     <Flex className="picture">
                         <img src="" alt="" />
                     </Flex>
@@ -108,7 +109,7 @@ class CooperativeStore extends React.Component {
                         </div>
                         <Flex className="address" style={{ width: "100%" }}>
                             <div className="address-icon"></div>
-                            <p className="info-font" style={{width:'4.5rem'}}>{rowData.store.address}</p>
+                            <p className="info-font" style={{ width: '4.5rem' }}>{rowData.store.address}</p>
                         </Flex>
                         <Flex className="time" align="end" style={{ width: "100%" }}>
                             <div>

@@ -1,28 +1,67 @@
 import React from 'react';
 import NavBar from '../../components/NavBar'
 import './Inquiry.less'
-import { List, InputItem, WhiteSpace, Picker,Flex ,Popup } from 'antd-mobile'
-const Item = List.Item;
+import { List, InputItem, WhiteSpace, Picker, Flex, Popup, Toast, Icon } from 'antd-mobile'
+import { insuranceAsk } from '../../services/insurance.js'
+const Item = List.Item,
+    insuredCompany = [
+        { label: "中国人保车险", value: "中国人保车险" },
+        { label: "平安车险", value: "平安车险" },
+        { label: "太平洋车险", value: "太平洋车险" },
+        { label: "中华联合车险", value: "中华联合车险" },
+        { label: "大地车险", value: "大地车险" },
+        { label: "天安车险", value: "天安车险" },
+        { label: "永安车险", value: "永安车险" },
+        { label: "阳光车险", value: "阳光车险" },
+        { label: "安邦车险", value: "安邦车险" },
+        { label: "太平车险", value: "太平车险" },
+        { label: "其他", value: "其他" },
+    ]
 class Inquiry extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            data: [{ label: 'B', value: 'B' }, { value: 'A', label: '苏' }, { value: 'C', label: 'C' }, { value: 'D', label: 'D' }, { value: 'E', label: 'E' }],
-            city: ['B'],
             province: '苏',
             carModel: '',
-            carPlate: ''
+            carPlate: '',
+            name: '',
+            insuredCompany: ''
         }
     }
     componentDidMount() {
-        let mySwiper4= new Swiper(this.swiperID, {
+        let mySwiper4 = new Swiper(this.swiperID, {
             direction: 'horizontal',
             loop: true,
             // 如果需要分页器
             pagination: '.swiper-pagination',
         });
+
     }
 
+    inquiry = () => {
+        let myHeaders = new Headers({
+            "Content-Type": "form-data",
+        })
+        insuranceAsk({
+            method: 'post',
+            headers: myHeaders,
+            mode: 'cors',
+            cache: 'default'
+        }, {
+                name: this.state.name,
+                licensePlate: this.state.province + this.state.carPlate,
+                phone: window.localStorage.getItem('phone'),
+                insuranceCompany: this.state.insuredCompany[0],
+                intent: ''
+            }).then((req) => {
+                console.log(req)
+                if (req.data.code == '0') {
+                    Toast.success('我们将尽快联系您，为您提供专业车险报价！', 5);
+                } else {
+                    Toast.fail(req.data.msg, 5);
+                }
+            })
+    }
     selectProvince(item) {
         Popup.hide()
         this.setState({
@@ -40,7 +79,7 @@ class Inquiry extends React.Component {
                 {items}
             </ul>
         </Flex>, { animationType: 'slide-up', maskClosable: true });
-            }
+    }
     render() {
         return <div>
 
@@ -56,37 +95,37 @@ class Inquiry extends React.Component {
                 <InputItem
                     clear
                     placeholder="填写车主姓名"
+                    onChange={(e) => { this.setState({ name: e }) }}
                 >
                     <div style={{ display: 'inline-block', marginLeft: '.24rem' }}>车主姓名</div>
 
                 </InputItem>
                 <InputItem
-                clear
-                placeholder="填写车牌号"
-                style={{marginLeft:'.24rem'}}
-                maxLength="6"
-                labelNumber="6"
-                onChange={(e) => { this.setState({ carPlate: e }) }}
-            >
-                <div style={{ display: 'inline-block' }}>车牌号</div>
-                <div className="card-number" style={{ display: 'inline-block', marginLeft: ' 3.3rem' }}>
-                    <List.Item extra={this.state.province} arrow="down" style={{ display: 'inline-block' }} onClick={() => { this.PopupModal() }}></List.Item>
-                </div>
-            </InputItem>
-                <InputItem
                     clear
-                    type="number"
-                    placeholder="填写手机号码"
-                    style={{ textAlign: 'right' }}
+                    placeholder="填写车牌号"
+                    style={{ marginLeft: '.24rem' }}
+                    maxLength="6"
+                    labelNumber="6"
+                    onChange={(e) => { this.setState({ carPlate: e }) }}
                 >
-                    <div style={{ display: 'inline-block', marginLeft: '.24rem' }}>手机号码</div>
+                    <div style={{ display: 'inline-block' }}>车牌号</div>
+                    <div className="card-number" style={{ display: 'inline-block', marginLeft: ' 3.3rem' }}>
+                        <List.Item extra={this.state.province} arrow="down" style={{ display: 'inline-block' }} onClick={() => { this.PopupModal() }}></List.Item>
+                    </div>
                 </InputItem>
-                <Picker data={this.state.data} cols={1} placeholder="选填">
+                <Item extra={window.localStorage.getItem('phone')} ><div style={{ display: 'inline-block', marginLeft: '.24rem' }}>手机号码</div></Item>
+                <Picker extra="选择保险公司"
+                    data={insuredCompany}
+                    onOk={e => this.setState({ insuredCompany: e })}
+                    cols={1}
+                    onDismiss={e => console.log('dismiss', e)}
+                    value={this.state.insuredCompany}
+                >
                     <List.Item arrow="horizontal" style={{ marginLeft: '.24rem' }}>保险公司</List.Item>
                 </Picker>
             </List>
             <div className="inquiry-button">
-                <span style={{fontWeight:'bold'}}>立即询价 ></span>
+                <span style={{ fontWeight: 'bold' }} onClick={() => { this.inquiry() }}>立即询价 ></span>
                 <span className="secret">你的信息将被严格保密</span>
             </div>
             <div className="cooperative-agency">
