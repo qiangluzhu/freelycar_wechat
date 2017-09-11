@@ -1,6 +1,7 @@
 package com.geariot.platform.freelycar_wechat.entities;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -37,7 +38,7 @@ public class Client {
 	private Date createDate;
 	private Set<Car> cars;
 	private Set<Card> cards;
-	private Set<Ticket> tickets;
+	private List<Ticket> tickets;
 	private int consumTimes;
 	private double consumAmout;
 	private Boolean isMember;  
@@ -161,11 +162,12 @@ public class Client {
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	@JoinColumn(name="clientId", foreignKey=@ForeignKey(name="none"))
 	@Where(clause="failed=0")
-	public Set<Ticket> getTickets() {
+	public List<Ticket> getTickets() {
 		return tickets;
 	}
-	public void setTickets(Set<Ticket> tickets) {
+	public void setTickets(List<Ticket> tickets) {
 		this.tickets = tickets;
 	}
+	
 	
 }
