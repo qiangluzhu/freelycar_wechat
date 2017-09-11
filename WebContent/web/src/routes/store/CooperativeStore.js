@@ -108,7 +108,7 @@ class CooperativeStore extends React.Component {
                         </div>
                         <Flex className="address" style={{ width: "100%" }}>
                             <div className="address-icon"></div>
-                            <p className="info-font">{rowData.store.address}</p>
+                            <p className="info-font" style={{width:'4.5rem'}}>{rowData.store.address}</p>
                         </Flex>
                         <Flex className="time" align="end" style={{ width: "100%" }}>
                             <div>
@@ -136,7 +136,7 @@ class CooperativeStore extends React.Component {
                 onEndReached={() => this.onEndReached()}
                 onEndReachedThreshold={10}
                 renderRow={row}
-                initialListSize={5}
+                initialListSize={10}
                 pageSize={4}
                 onScroll={() => { console.log('scroll'); }}
                 scrollRenderAheadDistance={500}
