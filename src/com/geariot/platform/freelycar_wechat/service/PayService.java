@@ -153,7 +153,7 @@ public class PayService {
 				//更新card表和favour表
 				org.json.JSONObject result;
 				Service service = order.getService();
-				List<FavourToOrder> favours = new ArrayList<FavourToOrder>(order.getFavours());
+				List<FavourToOrder> favourToOrders = new ArrayList<FavourToOrder>(order.getFavours());
 				if(order.getService()!=null){
 					Card card = new Card();
 					card.setPayDate(payDate);
@@ -162,6 +162,9 @@ public class PayService {
 					card.setPayMethod(payMethod);
 					card.setCardNumber(IDGenerator.generate(IDGenerator.WX_CARD));
 					result = buyCard(clientId,card);
+				}
+				else{
+					
 				}
 			IncomeOrder incomeOrder = new IncomeOrder();
 			incomeOrder.setAmount(amount);
