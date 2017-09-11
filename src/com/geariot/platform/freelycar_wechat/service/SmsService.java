@@ -29,6 +29,7 @@ public class SmsService {
 	public String bindUser(String phone, String openId){
 		log.debug("绑定用户的openId：" + openId);
 		WXUser userOpenId = wxUserDao.findUserByOpenId(openId);
+		WXUser userPhone = wxUserDao.findUserByPhone(phone);
 		JSONObject resultObj = new JSONObject();
 		//本地数据库没有openId的记录，不太可能出现的情况。
 		if(userOpenId == null){

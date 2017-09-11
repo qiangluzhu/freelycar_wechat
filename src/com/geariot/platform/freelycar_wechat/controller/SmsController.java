@@ -18,6 +18,7 @@ import com.geariot.platform.freelycar_wechat.model.RESCODE;
 import com.geariot.platform.freelycar_wechat.service.SmsService;
 import com.geariot.platform.freelycar_wechat.utils.Constants;
 import com.geariot.platform.freelycar_wechat.utils.HttpRequest;
+import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
 
 @RestController
 @RequestMapping("/sms")
@@ -62,8 +63,8 @@ public class SmsController {
 	}
 
 	//注册验证结果请求
-	@RequestMapping(value = "/bind",method=RequestMethod.POST)
-	public String verifySmsCode(String phone, String smscode, String openId) {
+	@RequestMapping(value = "/verifySmsCode",method=RequestMethod.POST)
+	public String verifySmsCode(String phone, String smscode) {
 		JSONObject json = this.verifySmscode(phone, smscode);
 		if(json.getString("error") != null) {
 			log.debug(phone + ";code:" + smscode + " 验证失败。。。");
@@ -72,9 +73,9 @@ public class SmsController {
 			return json.toString();
 		}
 		else {
-			String res = smsService.bindUser(phone, openId);
-			log.debug("绑定用户结果：" + res);
-			return res;
+			//String res = smsService.bindUser(phone, openId);
+			//log.debug("绑定用户结果：" + res);
+			return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 		}
 	}
 	
