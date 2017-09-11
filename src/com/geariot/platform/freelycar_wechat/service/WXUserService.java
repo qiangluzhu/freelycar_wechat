@@ -63,8 +63,8 @@ public class WXUserService {
 		if (wxUser == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
 		}
-		Client client = new Client();
-		if (clientDao.findByPhone(wxUser.getPhone()) == null) {
+		Client client = clientDao.findByPhone(wxUser.getPhone());
+		if (client == null) {
 			client.setPhone(wxUser.getPhone());
 			client.setBirthday(wxUser.getBirthday());
 			client.setGender(wxUser.getGender());
