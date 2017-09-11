@@ -164,10 +164,34 @@ public class PayService {
 					result = buyCard(clientId,card);
 				}
 				else{
+					//buy tickets
+					List<Ticket> tickets = new ArrayList<Ticket>();
 					for(FavourToOrder favourToOrder:favourToOrders){
-						FavourProjectRemainingInfo favourProjectRemainingInfo = new FavourProjectRemainingInfo();
-						favourToOrder.getFavour();
+						Favour favour = favourToOrder.getFavour();
+						int count = favourToOrder.getCount();
+						//ticket created
+						Ticket ticket = new Ticket();
+						ticket.setExpirationDate(getExpiration(favour,payDate));
+						ticket.setFailed(false);
+						ticket.setFavour(favour);
+						Set<FavourProjectRemainingInfo> listRemainingInfos = new HashSet<FavourProjectRemainingInfo>();
+						for(FavourProjectInfos favourProjectInfos : favour.getSet()){
+							FavourProjectRemainingInfo remainingInfos = new FavourProjectRemainingInfo();
+							remainingInfos.setProject(favourProjectInfos.getProject());
+							remainingInfos.setRemaining(favourProjectInfos.getTimes());
+							listRemainingInfos.add(remainingInfos);
+						}
+						ticket.setRemainingInfos(listRemainingInfos);
+						//register number of tickets
+						for(int i=0;i<count;i++){
+							tickets.add(ticket);
+						}						
 					}
+					Client client = clientDao.findById(clientId);
+					client.setTickets(tickets);
+					client.setConsumTimes(client.getConsumTimes() + 1);
+					client.setConsumAmout(client.getConsumAmout() + order.getTotalPrice());
+					client.setLastVisit(new Date());		
 				}
 			IncomeOrder incomeOrder = new IncomeOrder();
 			incomeOrder.setAmount(amount);
@@ -263,21 +287,9 @@ public class PayService {
 		exp.add(Calendar.YEAR, service.getValidTime());
 		card.setExpirationDate(exp.getTime());
 		cards.add(card);
-		//创建新的收入订单并保存
-		IncomeOrder order = new IncomeOrder();
-		order.setAmount(service.getPrice());
-		order.setClientId(clientId);
-		order.setLicensePlate(null);
-		order.setMember(true);
-		order.setPayDate(new Date());
-		order.setProgramName(Constants.CARD_PROGRAM);
-		order.setPayMethod(card.getPayMethod());
-		/*Admin admin = this.adminDao.findAdminById(card.getOrderMaker().getId());
-		order.setStaffNames(admin.getStaff().getName());*/
-		this.incomeOrderDao.save(order);
 		//更新客户的消费次数与消费情况信息。
 		client.setConsumTimes(client.getConsumTimes() + 1);
-		client.setConsumAmout(client.getConsumAmout() + order.getAmount());
+		client.setConsumAmout(client.getConsumAmout() + service.getPrice());
 		client.setLastVisit(new Date());
 		client.setIsMember(true);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS);
