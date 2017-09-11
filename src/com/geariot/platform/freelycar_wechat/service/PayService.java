@@ -154,7 +154,7 @@ public class PayService {
 				org.json.JSONObject result;
 				Service service = order.getService();
 				List<FavourToOrder> favourToOrders = new ArrayList<FavourToOrder>(order.getFavours());
-				if(order.getService()!=null){
+				if(service!=null){
 					Card card = new Card();
 					card.setPayDate(payDate);
 					card.setService(service);
@@ -164,7 +164,10 @@ public class PayService {
 					result = buyCard(clientId,card);
 				}
 				else{
-					
+					for(FavourToOrder favourToOrder:favourToOrders){
+						FavourProjectRemainingInfo favourProjectRemainingInfo = new FavourProjectRemainingInfo();
+						favourToOrder.getFavour();
+					}
 				}
 			IncomeOrder incomeOrder = new IncomeOrder();
 			incomeOrder.setAmount(amount);
@@ -180,12 +183,20 @@ public class PayService {
 		}
 		return null;
 }	
-	public Date getExpiration(Service service,Date payDate){
+	public Date getExpiration(Object object,Date payDate){
 		Calendar curr = Calendar.getInstance();
 		curr.setTime(payDate);
-		curr.set(Calendar.YEAR,curr.get(Calendar.YEAR)+service.getValidTime());
+		if(object instanceof Service)
+			curr.set(Calendar.YEAR,curr.get(Calendar.YEAR)+((Service)object).getValidTime());
+		if(object instanceof Favour)
+			curr.set(Calendar.YEAR,curr.get(Calendar.YEAR)+((Favour)object).getValidTime());
 		Date date=curr.getTime(); 
 		return date;
+	}
+	
+	public	org.json.JSONObject buyTickit(int clientId,Ticket tickiet){
+		Client client = clientDao.findById(clientId);
+		return null;
 	}
 	
 	public org.json.JSONObject buyCard(int clientId, Card card) {
