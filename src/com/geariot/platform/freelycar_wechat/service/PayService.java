@@ -216,7 +216,7 @@ public class PayService {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND);
 		}
 		//将优惠券信息添加到客户卡列表中
-		Set<Ticket> tickets = new HashSet<>();
+		List<Ticket> tickets = new ArrayList<>();
 		for(FavourInfos favourInfos : service.getFavourInfos()){
 			Set<FavourProjectRemainingInfo> remainingInfos = new HashSet<>();
 			Ticket ticket = new Ticket();
@@ -232,13 +232,13 @@ public class PayService {
 			ticket.setRemainingInfos(remainingInfos);
 			tickets.add(ticket);
 		}
-		Set<Ticket> set = client.getTickets();
-		if(set == null){
-			set = new HashSet<>();
-			client.setTickets(tickets);
+		List<Ticket> list = client.getTickets();
+		if(list == null){
+			list = new ArrayList<>();
+			client.setTickets(tickets);;
 		}
 		for(Ticket add : tickets){
-			set.add(add);
+			list.add(add);
 		}
 		//将服务信息次数复制到卡中
 		Set<CardProjectRemainingInfo> cardInfos = new HashSet<>();

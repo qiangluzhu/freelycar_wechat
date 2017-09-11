@@ -82,8 +82,9 @@ public class WXUserService {
 	}
 
 	// 只做添加操作
-	public String addWXUser(String openId, String nickName, String headimgurl) {
+	public String addWXUser(String openId, String nickName, String headimgurl, String phone) {
 		WXUser wxUser = new WXUser();
+		wxUser.setPhone(phone);
 		wxUser.setNickName(nickName);
 		wxUser.setHeadimgurl(headimgurl);
 		wxUser.setOpenId(openId);
