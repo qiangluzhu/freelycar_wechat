@@ -63,8 +63,8 @@ public class WXUserService {
 		if (wxUser == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
 		}
-		Client client = new Client();
-		if (clientDao.findByPhone(wxUser.getPhone()) == null) {
+		Client client = clientDao.findByPhone(wxUser.getPhone());
+		if (client == null) {
 			client.setPhone(wxUser.getPhone());
 			client.setBirthday(wxUser.getBirthday());
 			client.setGender(wxUser.getGender());
@@ -82,12 +82,11 @@ public class WXUserService {
 	}
 
 	// 只做添加操作
-	public String addWXUser(String openId, String nickName, String headimgurl, String phone) {
+	public String addWXUser(String openId, String nickName, String headimgurl) {
 		WXUser wxUser = new WXUser();
 		wxUser.setNickName(nickName);
 		wxUser.setHeadimgurl(headimgurl);
 		wxUser.setOpenId(openId);
-		wxUser.setPhone(phone);
 		wxUserDao.saveOrUpdateUser(wxUser);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
