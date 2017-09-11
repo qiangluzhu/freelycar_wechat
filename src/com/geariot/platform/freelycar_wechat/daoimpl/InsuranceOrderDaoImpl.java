@@ -38,6 +38,11 @@ public class InsuranceOrderDaoImpl implements InsuranceOrderDao{
 		String hql = "from InsuranceOrder where licensePlate = :licensePlate";
 		return (InsuranceOrder) this.getSession().createQuery(hql).setString("licensePlate", licensePlate).setCacheable(Constants.SELECT_CACHE).uniqueResult();
 	}
+
+	@Override
+	public void update(InsuranceOrder insuranceOrder) {
+		this.getSession().update(insuranceOrder);
+	}
 	
 
 }

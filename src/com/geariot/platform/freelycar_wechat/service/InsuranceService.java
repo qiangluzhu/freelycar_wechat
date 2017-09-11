@@ -22,14 +22,22 @@ public class InsuranceService {
 	
 	public String askInsurance(InsuranceOrder insuranceOrder){
 		InsuranceOrder exist = this.insuranceOrderDao.findByLicensePlate(insuranceOrder.getLicensePlate());
-		if(new Date().getTime() - exist.getCreateDate().getTime() > 15 * 86400000){
+		if(exist == null){
 			insuranceOrder.setCreateDate(new Date());
 			this.insuranceOrderDao.save(insuranceOrder);
 			JsonConfig config = JsonResFactory.dateConfig();
 			return JsonResFactory.buildNetWithData(RESCODE.SUCCESS,net.sf.json.JSONObject.fromObject(insuranceOrder, config)).toString();
 		}
 		else{
-			return JsonResFactory.buildOrg(RESCODE.INQUIRY_ALREADY).toString();
+			if(new Date().getTime() - exist.getCreateDate().getTime() > 15 * 86400000){
+				exist.setCreateDate(new Date());
+				this.insuranceOrderDao.update(exist);
+				JsonConfig config = JsonResFactory.dateConfig();
+				return JsonResFactory.buildNetWithData(RESCODE.SUCCESS,net.sf.json.JSONObject.fromObject(insuranceOrder, config)).toString();
+			}
+			else{
+				return JsonResFactory.buildOrg(RESCODE.INQUIRY_ALREADY).toString();
+			}
 		}
 	}
 	

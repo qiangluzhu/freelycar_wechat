@@ -14,4 +14,6 @@ public interface InsuranceOrderDao {
 	void save(InsuranceOrder insuranceOrder);
 	
 	InsuranceOrder findByLicensePlate(String licensePlate);
+
+	void update(InsuranceOrder insuranceOrder);
 }
