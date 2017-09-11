@@ -82,11 +82,12 @@ public class WXUserService {
 	}
 
 	// 只做添加操作
-	public String addWXUser(String openId, String nickName, String headimgurl) {
+	public String addWXUser(String openId, String nickName, String headimgurl, String phone) {
 		WXUser wxUser = new WXUser();
 		wxUser.setNickName(nickName);
 		wxUser.setHeadimgurl(headimgurl);
 		wxUser.setOpenId(openId);
+		wxUser.setPhone(phone);
 		wxUserDao.saveOrUpdateUser(wxUser);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
