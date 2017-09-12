@@ -1,4 +1,3 @@
-import post from '../utils/post';
 import get from '../utils/get';
 export default {
     storeList: (params) => {
