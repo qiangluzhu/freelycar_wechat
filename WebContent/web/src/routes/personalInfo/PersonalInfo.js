@@ -71,7 +71,6 @@ class PersonalInfo extends React.Component {
                 </Picker>
 
                 <InputItem
-
                     clear
                     placeholder="1990-08-08"
                     type='number'
