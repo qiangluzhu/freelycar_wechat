@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.geariot.platform.freelycar_wechat.entities.Car;
+import com.geariot.platform.freelycar_wechat.entities.WXUser;
 import com.geariot.platform.freelycar_wechat.service.WXUserService;
 
 @RestController
@@ -22,9 +23,9 @@ public class WXUserController {
 	private static final Logger log = LogManager.getLogger(WXUserController.class);
 	@Autowired
 	private WXUserService wxUserService;
-	@RequestMapping(value = "/addWxUser",method = RequestMethod.POST)
-	public String addWxUser(String openId,String nickName,String headimgurl,String phone){
-		return wxUserService.addWXUser(openId,nickName,headimgurl,phone);
+	@RequestMapping(value = "/addWXUser",method = RequestMethod.POST)
+	public String addWxUser(@RequestBody WXUser wxUser){
+		return wxUserService.addWXUser(wxUser);
 	}
 	@RequestMapping(value = "/login",method = RequestMethod.GET)
 	public String login(String openId){

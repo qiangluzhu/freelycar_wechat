@@ -58,6 +58,7 @@ public class WXUserService {
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 
+	@SuppressWarnings("null")
 	public String login(String openId) {
 		WXUser wxUser = wxUserDao.findUserByOpenId(openId);
 		if (wxUser == null) {
@@ -79,17 +80,6 @@ public class WXUserService {
 		return JsonResFactory.buildNet(RESCODE.SUCCESS,
 				Constants.RESPONSE_CLIENT_KEY, client.getId()).toString();
 		// return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
-	}
-
-	// 只做添加操作
-	public String addWXUser(String openId, String nickName, String headimgurl, String phone) {
-		WXUser wxUser = new WXUser();
-		wxUser.setPhone(phone);
-		wxUser.setNickName(nickName);
-		wxUser.setHeadimgurl(headimgurl);
-		wxUser.setOpenId(openId);
-		wxUserDao.saveOrUpdateUser(wxUser);
-		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 
 	public String listDiscount(int clientId) {
@@ -285,5 +275,15 @@ public class WXUserService {
 			obj.put("idNumber",client.getIdNumber());
 			return obj.toString();
 		}
+	}
+
+	public String addWXUser(WXUser wxUser) {
+		WXUser oldWXUser = wxUserDao.findUserByOpenId(wxUser.getOpenId());
+		if(wxUser.getName()!=null)
+			oldWXUser.setName(wxUser.getName());
+		oldWXUser.setBirthday(wxUser.getBirthday());
+		oldWXUser.setGender(wxUser.getGender());
+		wxUserDao.saveOrUpdateUser(oldWXUser);
+		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 }
