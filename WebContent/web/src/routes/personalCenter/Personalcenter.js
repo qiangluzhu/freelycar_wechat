@@ -101,7 +101,7 @@ class Personalcenter extends React.Component {
                 </Flex>
             </Flex.Item>
         })
-        return <div className="body-bac">
+        return <div className="body-bac" style={{paddingTop:'0'}}>
             <div className="top-gradient">
             </div>
             <div className="clear"><div className="center-login-out" onClick={() => {
