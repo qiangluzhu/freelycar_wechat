@@ -86,7 +86,7 @@ class OrderDetail extends React.Component {
             }
         });
 
-        return (<div>
+        return (<div className="body-bac">
             <NavBar title={'会员卡添加'}></NavBar>
             <div className="swiper-container all-card-list" ref={self => this.swiperID = self}>
                 <div className="swiper-wrapper">

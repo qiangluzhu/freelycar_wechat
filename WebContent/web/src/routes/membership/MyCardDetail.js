@@ -4,6 +4,8 @@ import './MyCard.less'
 import cika from '../../img/cika.png'
 import zhizun from '../../img/zhizun.png'
 import jinka from '../../img/jinka.png'
+import baijin from '../../img/baijin.png'
+import zuanshi from '../../img/zuanshi.png'
 import {cardDetail } from '../../services/service' 
 class MyCardDetail extends React.Component {
     constructor(props) {
@@ -36,9 +38,11 @@ class MyCardDetail extends React.Component {
     render() {
         let background
         switch (this.state.name) {
-            case '1': background = cika; break;
-            case '钻石卡': background = zhizun; break;
-            case '3': background = jinka; break;
+            case '洗车次卡': background = cika; break;
+            case '至尊卡': background = zhizun; break;
+            case '金卡': background = jinka; break;
+            case '白金卡': background = baijin; break;
+            case '钻石卡': background = zuanshi; break;
         }
         let detailList = this.state.projectInfos.map((item, index) => {
             return <div className="list" key={index}>
