@@ -5,7 +5,7 @@ import { createForm } from 'rc-form'
 import { Flex } from 'antd-mobile'
 import NavBar from '../../components/NavBar'
 import login from '../../img/logo.png';
-import {wxInfo}from '../../services/user.js'
+import { wxInfo } from '../../services/user.js'
 class PersonalInfo extends React.Component {
 
     constructor(props) {
@@ -45,13 +45,11 @@ class PersonalInfo extends React.Component {
                 </Flex>
 
                 <InputItem
-                    {...getFieldProps('autofocus') }
                     clear
                     placeholder="账户阅读,提醒信息"
                     autoFocus
                 >昵称</InputItem>
                 <InputItem
-                    {...getFieldProps('focus') }
                     clear
                     placeholder="账户信息"
                     focused={this.state.focused}
@@ -67,12 +65,13 @@ class PersonalInfo extends React.Component {
                     data={[
                         { label: '男', value: '男' },
                         { label: '女', value: '女' },
-                    ]} cols={1} {...getFieldProps('district3') } >
-                    <List.Item>性别</List.Item>
+                    ]} cols={1}
+                >
+                    <List.Item style={{ borderBottom: '1px solid #efefef' }}>性别</List.Item>
                 </Picker>
 
                 <InputItem
-                    {...getFieldProps('focus') }
+
                     clear
                     placeholder="1990-08-08"
                     type='number'
