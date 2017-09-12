@@ -13,19 +13,28 @@ export default {
       extraBabelPlugins: [
         "dva-hmr",
         "transform-runtime",
-        ["import", { "libraryName": "antd-mobile", "style": true }]
+        ["import", { "libraryName": "antd-mobile",'libraryDirectory':'lib', "style": true }]
       ],
       extraPostCSSPlugins: [
         pxtorem({
           rootValue: 100,
           propWhiteList: [],
         }),
-      ]
+      ],
+      proxy: {
+        "/api": {
+         "target": "http://172.17.3.122:8080/freelycar_wechat/api/",//赵冉
+            // "target": "http://192.168.0.104:8080/freelycar_wechat/api/",  //小轩
+          //"target": "http://172.0.0.1:8081/freelycar_wechat/api/",  //localhost
+          "changeOrigin": true,
+          "pathRewrite": { "^/api": "" }
+        }
+      }
     },
     production: {
       extraBabelPlugins: [
         "transform-runtime",
-        ["import", { "libraryName": "antd-mobile", "style": true }]
+        ["import", { "libraryName": "antd-mobile", 'libraryDirectory':'lib',"style": true }]
       ],
       extraPostCSSPlugins: [
         pxtorem({
@@ -35,15 +44,9 @@ export default {
       ]
     }
   },
-  proxy: {
-    "/api": {
-     "target": "http://172.17.3.122:8080/freelycar_wechat/api/",//赵冉
-        // "target": "http://192.168.0.104:8080/freelycar_wechat/api/",  //小轩
-      //"target": "http://172.0.0.1:8081/freelycar_wechat/api/",  //localhost
-      "changeOrigin": true,
-      "pathRewrite": { "^/api": "" }
-    }
-  },
+  // publicPath: "./",
+  hash: false,
+  
   autoprefixer: {
     "browsers": [
       "iOS >= 8", "Android >= 4"
