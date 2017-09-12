@@ -205,7 +205,10 @@ public class PayService {
 			}
 		
 		}
-		return null;
+		org.json.JSONObject res = new org.json.JSONObject();
+		res.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
+		res.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
+		return res;
 }	
 	public Date getExpiration(Object object,Date payDate){
 		Calendar curr = Calendar.getInstance();
@@ -216,11 +219,6 @@ public class PayService {
 			curr.set(Calendar.YEAR,curr.get(Calendar.YEAR)+((Favour)object).getValidTime());
 		Date date=curr.getTime(); 
 		return date;
-	}
-	
-	public	org.json.JSONObject buyTickit(int clientId,Ticket tickiet){
-		Client client = clientDao.findById(clientId);
-		return null;
 	}
 	
 	public org.json.JSONObject buyCard(int clientId, Card card) {

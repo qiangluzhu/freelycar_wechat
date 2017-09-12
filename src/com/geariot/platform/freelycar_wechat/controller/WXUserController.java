@@ -26,11 +26,11 @@ public class WXUserController {
 	public String addWxUser(String openId,String nickName,String headimgurl,String phone){
 		return wxUserService.addWXUser(openId,nickName,headimgurl,phone);
 	}
-	@RequestMapping(value = "/login",method = RequestMethod.POST)
+	@RequestMapping(value = "/login",method = RequestMethod.GET)
 	public String login(String openId){
 		return wxUserService.login(openId);
 	}
-	@RequestMapping(value = "/logout",method = RequestMethod.POST)
+	@RequestMapping(value = "/logout",method = RequestMethod.GET)
 	public String logout(String openId){
 		return wxUserService.deletWXUser(openId);
 	}
