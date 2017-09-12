@@ -20,6 +20,7 @@ import net.sf.json.JsonConfig;
 
 import com.geariot.platform.freelycar_wechat.utils.query.FavourOrderBean;
 import com.geariot.platform.freelycar_wechat.wxutils.IdentifyOrder;
+import com.geariot.platform.freelycar_wechat.wxutils.WechatTemplateMessage;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
 import com.geariot.platform.freelycar_wechat.utils.Constants;
 import com.geariot.platform.freelycar_wechat.utils.DateHandler;
@@ -131,7 +132,8 @@ public class PayService {
 			licensePlate = order.getLicensePlate();
 			programName = order.getProgramName();
 			}
-		
+			String openId = wxUserDao.findUserByPhone(clientDao.findById(clientId).getPhone()).getOpenId();
+			WechatTemplateMessage.paySuccess(order, openId);
 		}
 		else{
 			WXPayOrder order = null;
@@ -162,6 +164,9 @@ public class PayService {
 					card.setPayMethod(payMethod);
 					card.setCardNumber(IDGenerator.generate(IDGenerator.WX_CARD));
 					result = buyCard(clientId,card);
+					if((RESCODE)result.get(Constants.RESPONSE_CODE_KEY) != RESCODE.SUCCESS){
+						//WechatTemplateMessage.
+					}
 				}
 				else{
 					//buy tickets
@@ -193,6 +198,8 @@ public class PayService {
 					client.setConsumAmout(client.getConsumAmout() + order.getTotalPrice());
 					client.setLastVisit(new Date());		
 				}
+				WechatTemplateMessage.payWXSuccess(order);
+			}
 			IncomeOrder incomeOrder = new IncomeOrder();
 			incomeOrder.setAmount(amount);
 			incomeOrder.setClientId(clientId);
@@ -201,8 +208,6 @@ public class PayService {
 			incomeOrder.setPayMethod(payMethod);
 			incomeOrder.setProgramName(programName);
 			incomeOrderDao.save(incomeOrder);
-			
-			}
 		
 		}
 		org.json.JSONObject res = new org.json.JSONObject();
