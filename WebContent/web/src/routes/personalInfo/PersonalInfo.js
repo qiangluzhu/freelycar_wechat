@@ -39,7 +39,7 @@ class PersonalInfo extends React.Component {
         const { getFieldProps } = this.props.form;
         return <div className="body-bac">
             <NavBar title="个人信息" />
-            <List className="add-car-info">
+            <List className="add-car-info personal-info">
                 <Flex justify='center' style={{ height: '1.6rem' }}>
                     <img className='logo' src={login} style={{ width: '1.16rem' }} />
                 </Flex>
