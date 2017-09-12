@@ -1,0 +1,327 @@
+接口定义
+
+1 短信验证接口:/sms/
+	1.1 发送验证码
+		请求:POST
+		server_url/sms/verification
+		参数:{
+			phone=
+		}
+		响应:{
+		
+		}
+
+	1.2 验证短信码
+		请求:POST
+		server_url/sms/verifySmsCode
+		参数:{
+			phone=
+			smscode=
+		}
+
+2. 会员接口:/user/
+	2.1 保存微信用户
+		请求:POST
+		server_url/user/addWxUser
+		参数:{
+			wxUser(openId,nickName,headimgurl,phone)
+		
+		}
+		响应:{
+		
+		}
+	2.2 用户登录
+		请求:GET
+		server_url/user/login
+		参数:{
+			openId=
+		}
+		响应:{
+			"client" : clientId
+		}
+
+	2.3 用户登出
+		请求:GET
+		server_url/user/logout
+		参数:{
+			openId=
+		}
+		响应:{
+		
+		}
+	
+	2.4 客户优惠券信息
+		请求:GET
+		server_url/user/myDiscount
+		参数:{
+			clientId=
+
+		}
+		响应:{
+		
+		}
+	2.5 客户积分信息
+		请求:GET
+		server_url/user/points
+		参数:{
+			clientId=
+		}
+		响应:{
+		
+		}
+
+	2.6 客户详细信息:
+		请求:GET
+		server_url/user/detail
+		参数:{
+			clientId=
+		}
+		响应:{
+			"code":0
+			"msg":
+			"data":
+		}
+	2.7 客户新增车辆:
+		请求:POST
+		server_url/user/addcar
+		参数:{
+			car=Car(必须填入clientId)
+		}
+		响应:{
+			"code":0
+			"msg":
+		}
+	2.8 客户删除车辆:
+		请求:POST
+		server_url/user/delCar
+		参数:{
+			carId=
+		}	
+		响应:{
+			"code":0
+			"msg":
+		}
+	2.9 客户设置默认车辆
+		请求:POST
+		server_url/user/defaultCar
+		参数:{
+			carId=
+		}
+		响应:{
+		
+		
+		}
+	2.10 客户修改车辆信息:
+		请求:POST
+		server_url/user/carInfo
+		参数:{
+			clientId,id,insuranceCity,insuranceCompany,insuranceEndtime
+		}
+	
+	2.11 微信客户个人信息：
+		请求：Post
+		server_url/user/wxInfo
+		参数：{
+			openId=
+		}
+		响应：{
+		     data:WXUser,discount,point...
+		}
+
+	2.12 用户所有卡：
+		请求：Get
+		server_url/user/listCard
+		参数：{
+			clientId=
+		}
+		响应：{
+			data：service1...
+		}
+
+	2.13  用户所有车辆及保险：
+		请求：Get
+		server_url/user/listCar
+		参数：{
+			clientId=
+		}
+		响应：{
+			data：Car1...
+		}
+
+3. 会员卡种类相关接口:/service/
+	3.1 列出所有卡类信息:
+		请求:GET
+		server_url/service/list
+		参数:{
+			page=1
+			number=10
+		}
+		响应:{
+			"code":0
+			"msg":
+			"data":{Service1, Service2...}
+			"size":
+		}
+
+	3.2 列出卡类详细信息：
+		请求：GET
+		server_url/service/detail
+		参数：{
+			cardId=
+		}
+		响应：{
+		
+		}
+	
+
+4. 消费单据相关接口:/orders/
+	4.1 消费服务单据列表:
+		请求:GET
+		server_url/orders/listConsumOrder
+		参数:{
+			clientId=
+			page=1
+			number=10
+		}
+		响应:{
+			"code":0
+			"msg":
+			"data":{ConsumOrders1, ConsumOrders2...}
+			"size":
+		}
+
+	4.2 消费卡券单据列表：
+		请求:GET
+		server_url/orders/listWXPayOrder	
+				参数:{
+			clientId=
+			page=1
+			number=10
+		}
+		响应:{
+			"code":0
+			"msg":
+			"data":{WXPayOrder1, WXPayOrder2...}
+			"size":
+		}
+
+	4.3 购买卡券详情
+		请求:GET
+		server_url/orders/detailWXPayOrder
+		参数:{
+			wxPayOrderId=
+		
+		}
+		响应:{
+			"code":0
+			"msg":
+		}
+
+	//只有服务项目才有	
+	4.4 单据评价:
+		请求:POST
+		server_url/orders/comment
+		参数:{
+			consumOrderId=
+			comment=
+			stars= 
+		}
+		响应:{
+			"code":0
+			"msg":
+		}
+	
+	
+	4.5 服务单据详情:
+		请求:GET
+		server_url/orders/detail
+		参数:{
+			consumOrderId=
+		
+		}
+		响应:{
+			"code":0
+			"msg":
+		}
+
+	
+5. 结算接口:/pay/
+	5.1 生成会员卡购买单据:
+		请求:POST
+		server_url/pay/membershipCard
+		参数:{
+			openId=
+			serviceId =
+			totalprice =
+		}
+		响应:{
+			"code":0
+			"msg":
+		}
+
+
+	5.2 生成优惠活动购买单据:
+		请求:POST
+		server_url/pay/favour
+		参数:{
+			favourOrderBean = (String openId;
+								double totalPrice;
+								Set<FavourToOrder> favours)
+		}
+		响应:{
+			"code":
+			"msg":
+		}
+	5.3 卡券单据支付:
+		请求:POST
+		server_url/orders/payment
+		参数:{
+			openId=
+			WXPayOrderId=
+		}
+		响应:{
+			"code":0
+			"msg":
+		}
+
+6. 门店详情:/store/
+	6.1 合作门店列表:
+		请求:GET
+		server_url/store/list
+		参数:{
+			page =
+			number =
+		}
+		响应:{
+			
+		}
+	6.2 门店详情:
+		请求:GET
+		server_url/store/detail
+		参数:{
+			storeId=
+		}
+		响应:{
+		
+		}
+	6.3 门店服务评价查询:
+		请求:GET
+		server_url/store/listComment
+		参数:{
+			storeId= (默认传1)
+		}
+		响应:{
+			
+		}
+
+7. 门店详情:/insurance/
+	7.1 询价生成:
+		请求:POST
+		server_url/insurance/ask
+		参数:{
+			InsuranceOrder insuranceOrder =  
+		}
+		响应:{
+			"code":0,33
+			"msg":"成功","该车辆近期已询价,待保险人员电话回访"
+		}
