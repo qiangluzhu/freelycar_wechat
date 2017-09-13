@@ -78,6 +78,7 @@ public class PayController {
 			String productName = null;
 			for(ProjectInfo project:consumOrder.getProjects())
 				productName += project.getName()+" ";
+
 			map.put("body", productName);
 			map.put("out_trade_no", consumOrder.getId());
 		}
@@ -105,11 +106,18 @@ public class PayController {
 		String sig = WeChatSignatureUtil.getSig(map);
 		map.put("sign", sig);
 		// 请求微信支付接口
+//		HttpPost post = new HttpPost(uri);
+//		post.setEntity(new StringEntity(str,"utf-8"));
 		HttpEntity entity = HttpRequest.getEntity(XMLParser.getXmlFromMap(map));
 		log.debug("entity: " + XMLParser.getXmlFromMap(map));
 		String result = HttpRequest.postCall(WechatConfig.ORDER_URL, entity,
 				null);
-
+//第一步请求完成
+		
+		
+		
+		
+		
 		log.debug("请求微信支付结果：" + result);
 
 		Map<String, Object> resultMap = XMLParser.getMapFromXML(result);
