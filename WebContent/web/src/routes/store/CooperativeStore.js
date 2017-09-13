@@ -3,7 +3,7 @@ import { Flex, ListView } from 'antd-mobile';
 import NavBar from '../../components/NavBar'
 import './CooperativeStore.less'
 import { storeList } from '../../services/store'
-import { browserHistory } from 'dva/router'
+import PropTypes from 'prop-types';
 const NUM_ROWS = 10;
 let pageIndex = 1;
 let index = 10;
@@ -99,7 +99,7 @@ class CooperativeStore extends React.Component {
             // }
             // const obj = this.state.data[index--];
             return (
-                <Flex className="cooperative-store-list" onClick={() => { browserHistory.push(`/store/detail/${rowData.store.id}`) }}>
+                <Flex className="cooperative-store-list" onClick={() => { this.context.router.history.push(`/store/detail/${rowData.store.id}`) }}>
                     <Flex className="picture">
                         <img src="" alt="" />
                     </Flex>
@@ -164,3 +164,6 @@ const MyBody = (props) => {
     );
 }
 export default CooperativeStore
+CooperativeStore.contextTypes = {
+    router: PropTypes.object.isRequired
+}
