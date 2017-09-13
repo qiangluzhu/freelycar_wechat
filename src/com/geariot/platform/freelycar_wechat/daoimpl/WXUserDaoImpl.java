@@ -30,15 +30,21 @@ public class WXUserDaoImpl implements WXUserDao{
 		return (WXUser) getSession().createQuery(hql).setCacheable(Constants.SELECT_CACHE).setString("phone", phone).uniqueResult();
 	}
 
-	@Override
-	public void saveOrUpdateUser(WXUser wxUser) {
-		this.getSession().saveOrUpdate(wxUser);
-	}
 
 	@Override
 	public void deleteUser(String openId) {
 		String sql="update wxuser set openId=null,headimgurl=null where openId= :openId";
 		this.getSession().createSQLQuery(sql).setString("openId", openId).setCacheable(Constants.SELECT_CACHE).executeUpdate();
+	}
+
+	@Override
+	public void updateUser(WXUser oldWXUser) {
+		this.getSession().update(oldWXUser);
+	}
+
+	@Override
+	public void save(WXUser wxUser) {
+		this.getSession().save(wxUser);
 	}
 
 
