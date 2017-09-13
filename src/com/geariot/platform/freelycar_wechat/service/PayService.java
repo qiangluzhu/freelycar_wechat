@@ -14,8 +14,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import com.geariot.platform.freelycar_wechat.utils.query.FavourOrderBean;
@@ -198,7 +196,7 @@ public class PayService {
 					client.setConsumAmout(client.getConsumAmout() + order.getTotalPrice());
 					client.setLastVisit(new Date());		
 				}
-				WechatTemplateMessage.payWXSuccess(order);
+				WechatTemplateMessage.paySuccess(order);
 			}
 			IncomeOrder incomeOrder = new IncomeOrder();
 			incomeOrder.setAmount(amount);
@@ -208,7 +206,6 @@ public class PayService {
 			incomeOrder.setPayMethod(payMethod);
 			incomeOrder.setProgramName(programName);
 			incomeOrderDao.save(incomeOrder);
-		
 		}
 		org.json.JSONObject res = new org.json.JSONObject();
 		res.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);

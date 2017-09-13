@@ -38,7 +38,7 @@ public class WechatTemplateMessage {
 //时间：{{keyword4.DATA}}
 //备注：{{keyword5.DATA}}
 //{{remark.DATA}}
-	public static void payWXSuccess(WXPayOrder wxPayOrder){
+	public static void paySuccess(WXPayOrder wxPayOrder){
 		log.debug("准备支付成功模版消息。。。");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
 		JSONObject params = new JSONObject();
@@ -67,10 +67,7 @@ public class WechatTemplateMessage {
 		params.put("template_id", PAY_SUCCESS_TEMPLATE_ID);
 //		params.put("url", "http://www.geariot.com/fitness/class.html");
 		data.put("first", keywordFactory("支付成功", "#173177"));
-		String productName = "";
-		for(ProjectInfo projectInfo : consumOrder.getProjects())
-			productName+=projectInfo.getName();
-		data.put("keyword1", keywordFactory(productName, "#173177"));
+		data.put("keyword1", keywordFactory(getConsumOrderProductName(consumOrder), "#173177"));
 		data.put("keyword2", keywordFactory((float)(Math.round(consumOrder.getTotalPrice()*100))/100 + "元", "#173177"));
 		data.put("keyword3", keywordFactory("成功", "#173177"));
 		data.put("keyword4", keywordFactory(df.format(consumOrder.getFinishTime()), "#173177"));
@@ -88,10 +85,44 @@ public class WechatTemplateMessage {
 //	商品信息：{{keyword2.DATA}}
 //	失败原因：{{keyword3.DATA}}
 //	{{remark.DATA}}
-	public static void errorCancel(String error){
-
+	public static void errorCancel(WXPayOrder wxPayOrder){
+		log.debug("支付成功，数据库更新失败！");
+		JSONObject params = new JSONObject();
+		JSONObject data = new JSONObject();
+		params.put("touser", wxPayOrder.getId());
+		params.put("template_id", PAY_FAIL_ID);
+		
+		data.put("first", keywordFactory("支付失败", "#173177"));
+		data.put("keyword1", keywordFactory((float)(Math.round(wxPayOrder.getTotalPrice()*100))/100 + "元", "#173177"));
+		data.put("keyword2", keywordFactory(wxPayOrder.getProductName(), "#173177"));
+		data.put("keyword3", keywordFactory("服务异常", "#173177"));
+		data.put("remark", keywordFactory("请妥善保存单号，联系客服人员"));
+		params.put("data", data);
+		String result = invokeTemplateMessage(params);
+		log.debug("微信支付失败结果：" + result);
+	}
+	public static void errorWXCancel(ConsumOrder consumOrder,String openId){
+		log.debug("支付成功，数据库更新失败！");
+		JSONObject params = new JSONObject();
+		JSONObject data = new JSONObject();
+		params.put("touser", openId);
+		params.put("template_id", PAY_FAIL_ID);
+		data.put("first", keywordFactory("支付失败", "#173177"));
+		data.put("keyword1", keywordFactory((float)(Math.round(consumOrder.getTotalPrice()*100))/100 + "元", "#173177"));
+		data.put("keyword2", keywordFactory(getConsumOrderProductName(consumOrder), "#173177"));
+		data.put("keyword3", keywordFactory("服务异常", "#173177"));
+		data.put("remark", keywordFactory("请妥善保存单号，联系客服人员"));
+		params.put("data", data);
+		String result = invokeTemplateMessage(params);
+		log.debug("微信支付失败结果：" + result);
 	}
 	
+	private static String getConsumOrderProductName(ConsumOrder consumOrder){
+		String productName = "";
+		for(ProjectInfo projectInfo : consumOrder.getProjects())
+			productName+=projectInfo.getName();
+		return productName;
+	}
 	
 	private static JSONObject keywordFactory(String value){
 		JSONObject keyword = new JSONObject();
