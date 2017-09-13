@@ -23,7 +23,7 @@ export default {
     },
 
     addCar: (params) => {
-        return post('api/user/addcar', params)
+        return post('api/user/addCar', params)
     },
 
     userDetail:(params)=>{
