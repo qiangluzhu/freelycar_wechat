@@ -3,7 +3,7 @@ import { ListView, List, Flex, Drawer } from 'antd-mobile';
 import NavBar from '../../components/NavBar'
 import DasAuto from '../../img/das_auto.jpg'
 import fute from '../../img/fute.jpg'
-import car from '../../car.js'
+import car from '../../../public/car.js'
 const { Item } = List;
 
 class SelectCarBrand extends React.Component {
