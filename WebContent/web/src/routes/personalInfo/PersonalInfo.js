@@ -67,7 +67,7 @@ class PersonalInfo extends React.Component {
                         { label: '女', value: '女' },
                     ]} cols={1}
                 >
-                    <List.Item style={{ borderBottom: '1px solid #efefef' }}>性别</List.Item>
+                    <List.Item style={{ borderBottom: '1px solid #efefef' }} className={'personInfo-gender'}>性别</List.Item>
                 </Picker>
 
                 <InputItem
