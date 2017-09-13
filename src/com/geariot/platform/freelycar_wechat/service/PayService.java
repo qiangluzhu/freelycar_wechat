@@ -198,20 +198,22 @@ public class PayService {
 				}
 				WechatTemplateMessage.paySuccess(order);
 			}
-			IncomeOrder incomeOrder = new IncomeOrder();
-			incomeOrder.setAmount(amount);
-			incomeOrder.setClientId(clientId);
-			incomeOrder.setLicensePlate(licensePlate);
-			incomeOrder.setPayDate(payDate);
-			incomeOrder.setPayMethod(payMethod);
-			incomeOrder.setProgramName(programName);
-			incomeOrderDao.save(incomeOrder);
 		}
+		
+		//更新IncomeOrder表
+		IncomeOrder incomeOrder = new IncomeOrder();
+		incomeOrder.setAmount(amount);
+		incomeOrder.setClientId(clientId);
+		incomeOrder.setLicensePlate(licensePlate);
+		incomeOrder.setPayDate(payDate);
+		incomeOrder.setPayMethod(payMethod);
+		incomeOrder.setProgramName(programName);
+		incomeOrderDao.save(incomeOrder);
 		org.json.JSONObject res = new org.json.JSONObject();
 		res.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
 		res.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
 		return res;
-}	
+	}	
 	public Date getExpiration(Object object,Date payDate){
 		Calendar curr = Calendar.getInstance();
 		curr.setTime(payDate);

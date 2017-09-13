@@ -78,7 +78,6 @@ public class PayController {
 			String productName = null;
 			for(ProjectInfo project:consumOrder.getProjects())
 				productName += project.getName()+" ";
-
 			map.put("body", productName);
 			map.put("out_trade_no", consumOrder.getId());
 		}

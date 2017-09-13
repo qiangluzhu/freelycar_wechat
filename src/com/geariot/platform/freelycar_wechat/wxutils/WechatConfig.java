@@ -32,10 +32,9 @@ public class WechatConfig {
 	//public static String secret = "da188683eaeacf8cde241aee8df3cb30";
 	public static final String APP_SECRET = "70b5522f3ea3ab0071441efe33f37e6f";
 	
-	public static final String APP_DOMAIN = "";//url域名
+	public static final String APP_DOMAIN = "www.freelycar.com/freelycar_wechat";//url域名
 	
 	
-	//微信推送的ma
 	public static final String KEY = "F8B4D84CE5B3FF39A9695FA99B5BC9C3"; //签名秘钥，在微信商户平台里面设置z`z`
 
 	public static final String ORDER_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
