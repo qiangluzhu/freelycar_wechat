@@ -44,7 +44,7 @@ export default {
       ]
     }
   },
-  // publicPath: "./",
+  publicPath: "http://www.freelycar.com/freelycar_wechat/",
   hash: false,
   
   autoprefixer: {

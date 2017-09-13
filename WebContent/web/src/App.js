@@ -39,7 +39,7 @@ import MyFavour from './routes/store/MyFavour'
 //404 not found页面
 import NotFound from './routes/NotFound'
 const App = () => (
-    <div>
+    <div style={{height:'100%'}}>
         <Switch>
             <Route exact path="/" component={Personalcenter}/>
             <Route path="/center" component={Personalcenter} />

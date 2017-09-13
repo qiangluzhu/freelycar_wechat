@@ -98,13 +98,13 @@ class SelectCarBrand extends React.Component {
             })}
         </List>);
         return (
-            <div className="body-bac" style={{height:'100%'}}>
+            <div className="body-bac" style={{height:'100%',paddingTop:'0'}} >
                 <NavBar title="请选择品牌" />
                 <Drawer
                     className="my-drawer container"
-                    style={{ minHeight: document.documentElement.clientHeight - 200 }}
+                    style={{ minHeight: document.documentElement.clientHeight - 200,marginTop:'.88rem' }}
                     position={"right"}
-                    contentStyle={{ color: '#1c1c1c', textAlign: 'center', paddingTop: 42 }}
+                    contentStyle={{ color: '#1c1c1c', textAlign: 'center'}}
                     sidebar={sidebar}
                     open={this.state.open}
                     onOpenChange={(e) => { this.onOpenChange(e) }}
@@ -130,7 +130,7 @@ class SelectCarBrand extends React.Component {
                         }}
                         quickSearchBarStyle={{
                             position: 'absolute',
-                            top: 150,
+                            top: 100,
                         }}
                         delayTime={10}
                         delayActivityIndicator={<div style={{ padding: 25, textAlign: 'center' }}>rendering...</div>}
