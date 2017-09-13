@@ -8,14 +8,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
-import com.geariot.platform.freelycar_wechat.service.SmsService;
 import com.geariot.platform.freelycar_wechat.utils.Constants;
 import com.geariot.platform.freelycar_wechat.utils.HttpRequest;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
@@ -24,8 +22,6 @@ import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
 @RequestMapping("/sms")
 public class SmsController {
 	
-	@Autowired
-	private SmsService smsService;
 	
 	private String appid = "YPVPvcghD0yT1CtQKUOpOUGI-gzGzoHsz";
     private String appkey = "AnrwmLo01qL7RuKNbV0NwWR4";

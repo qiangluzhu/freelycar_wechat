@@ -27,10 +27,10 @@ public class WXUserController {
 	public String addWxUser(@RequestBody WXUser wxUser){
 		return wxUserService.addWXUser(wxUser);
 	}
-	@RequestMapping(value = "/login",method = RequestMethod.GET)
-	public String login(String openId){
-		return wxUserService.login(openId);
-	}
+//	@RequestMapping(value = "/login",method = RequestMethod.GET)
+//	public String login(String openId){
+//		return wxUserService.login(openId);
+//	}
 	@RequestMapping(value = "/logout",method = RequestMethod.GET)
 	public String logout(String openId){
 		return wxUserService.deletWXUser(openId);

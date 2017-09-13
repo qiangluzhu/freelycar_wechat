@@ -5,6 +5,7 @@ import com.geariot.platform.freelycar_wechat.entities.WXUser;
 public interface WXUserDao {
 	WXUser findUserByOpenId(String openId);
 	WXUser findUserByPhone(String phone);
-	void saveOrUpdateUser(WXUser wxUser);
 	void deleteUser(String openId);
+	void updateUser(WXUser oldWXUser);
+	void save(WXUser wxUser);
 }

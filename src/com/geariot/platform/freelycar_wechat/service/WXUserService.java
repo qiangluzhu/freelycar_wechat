@@ -278,12 +278,16 @@ public class WXUserService {
 	}
 
 	public String addWXUser(WXUser wxUser) {
-		WXUser oldWXUser = wxUserDao.findUserByOpenId(wxUser.getOpenId());
-		if(wxUser.getName()!=null)
-			oldWXUser.setName(wxUser.getName());
-		oldWXUser.setBirthday(wxUser.getBirthday());
-		oldWXUser.setGender(wxUser.getGender());
-		wxUserDao.saveOrUpdateUser(oldWXUser);
+		WXUser oldWXUser = wxUserDao.findUserByPhone(wxUser.getPhone());
+		if(oldWXUser!=null){
+			if(wxUser.getName()!=null)
+				oldWXUser.setName(wxUser.getName());
+			oldWXUser.setBirthday(wxUser.getBirthday());
+			oldWXUser.setGender(wxUser.getGender());
+			wxUserDao.save(oldWXUser);
+		}
+		else
+			wxUserDao.updateUser(oldWXUser);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 }
