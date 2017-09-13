@@ -74,11 +74,15 @@ class Login extends React.Component {
             mode: 'cors',
             cache: 'default'
         }, {
+                openId:'1',
                 phone: this.state.phone,
-                smscode: this.state.smscode
+                smscode: this.state.smscode,
+                headimgurl:'',
+                nickName:''
             }).then((res) => {
                 if(res.data.code=='0'){
                     console.log('注册成功')
+                    window.localStorage.setItem('phone',this.state.phone)
                     this.context.router.history.push('/personalInfo')
                 }
             })

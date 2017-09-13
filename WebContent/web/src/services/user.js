@@ -1,13 +1,12 @@
 import post from '../utils/post';
 import get from '../utils/get';
-
+import request from '../utils/request';
 export default {
     addWxUser: (params) => {
         return post('api/user/addWxUser', params)
     },
-
-    login: (params) => {
-        return post('api/user/login', params)
+    updateWXUser:(options,params)=>{
+        return request('api/user/updateWXUser',options,params)
     },
 
     logout: (params) => {
