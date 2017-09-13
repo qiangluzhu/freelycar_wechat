@@ -9,7 +9,7 @@ import Contactxiaoyi_icon from '../../img/Contactxiaoyi_icon.png'
 import avatar from '../../assets/yay.jpg'
 import banner from '../../img/member_banner.png'
 import { wxInfo, userDetail, modifyCarInfo, logout } from '../../services/user.js'
-import { browserHistory } from 'dva/router'
+import PropTypes from 'prop-types';
 
 const alert = Modal.alert
 class Personalcenter extends React.Component {
@@ -80,7 +80,7 @@ class Personalcenter extends React.Component {
                 text: '是', onPress: () => logout({
                     openId: '11'
                 }).then((res) => {
-                    browserHistory.push('/login')
+                    this.context.router.history.push('/login')
                 })
             },
         ]);
@@ -118,11 +118,11 @@ class Personalcenter extends React.Component {
                     </Flex.Item>
                 </Flex>
                 <Flex justify="between" style={{ width: '100%' }}>
-                    <Flex direction="column" justify="center" align="center" style={{ width: '50%' }} onClick={()=>{browserHistory.push('/membership/myfavour')}}>
+                    <Flex direction="column" justify="center" align="center" style={{ width: '50%' }} onClick={()=>{ this.context.router.history.push('/membership/myfavour')}}>
                         <div style={{ fontSize: '.36rem', color: '#37cedc' }}>{this.state.tickets}<span style={{ fontSize: '.16rem' }}>个</span></div>
                         <div style={{ fontSize: '.22rem', lineHeight: '.35rem', color: '#8e8e8e' }}>优惠</div>
                     </Flex>
-                    <Flex direction="column" justify="center" align="center" style={{ width: '50%' }} onClick={()=>{browserHistory.push('/membership/mypoints')}}>
+                    <Flex direction="column" justify="center" align="center" style={{ width: '50%' }} onClick={()=>{ this.context.router.history.push('/membership/mypoints')}}>
                         <div style={{ fontSize: '.36rem', color: '#37cedc' }}>{this.state.point}<span style={{ fontSize: '.16rem' }}>分</span></div>
                         <div style={{ fontSize: '.22rem', lineHeight: '.35rem', color: '#8e8e8e' }}>积分</div>
                     </Flex>
@@ -134,15 +134,15 @@ class Personalcenter extends React.Component {
             <div className="center-banner"><img src={banner} alt="" /></div>
             <Flex className="center-line-box" onClick={() => {
                 if (this.state.cars.length > 0) {
-                    browserHistory.push('/carInfo')
-                } else { browserHistory.push('/addcar') }
+                    this.context.router.history.push('/carInfo')
+                } else { this.context.router.history.push('/addcar') }
             }}>
                 <div className="center-icon1"><img src={Vehiclemanagement_icon} alt="" /></div>
                 <p>爱车管理</p>
                 <Flex.Item className="vip-card-more"><img src={more_arrow} alt="" /></Flex.Item>
             </Flex>
             <div className="vip-gold-card" onClick={() => {
-                browserHistory.push('/membership/mycard')
+                this.context.router.history.push('/membership/mycard')
             }}>
                 <Flex className="vip-card-line1">
                     <div className="icon-close"><img src={membershipcard} alt="" /></div>
@@ -153,7 +153,7 @@ class Personalcenter extends React.Component {
                     {programs}
                 </Flex>
             </div>
-            <Flex className="center-line-box" style={{ marginBottom: '0' }} onClick={() => { browserHistory.push('/serviceCard') }}>
+            <Flex className="center-line-box" style={{ marginBottom: '0' }} onClick={() => { this.context.router.history.push('/serviceCard') }}>
                 <div className="center-icon2"><img src={order_icon} alt="" /></div>
                 <p>订单</p>
                 <Flex.Item className="vip-card-more">全部订单 订单详情<img style={{ marginLeft: '.2rem' }} src={more_arrow} alt="" /></Flex.Item>
@@ -175,3 +175,6 @@ class Personalcenter extends React.Component {
 }
 
 export default Personalcenter
+Personalcenter.contextTypes = {
+    router: PropTypes.object.isRequired
+}

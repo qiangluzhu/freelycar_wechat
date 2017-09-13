@@ -3,7 +3,7 @@ import './AddCar.less'
 import { Popup, List, InputItem, WhiteSpace, Picker, Button, Flex, Icon } from 'antd-mobile'
 import { createForm } from 'rc-form'
 import NavBar from '../../components/NavBar'
-import { browserHistory } from 'react-router'
+import PropTypes from 'prop-types';
 import { addCar, userDetail } from '../../services/user.js'
 import parseForm from '../../utils/parseToForm.js'
 const Item = List.Item;
@@ -59,7 +59,7 @@ class AddCar extends React.Component {
         }).then((res)=>{
             console.log(res)
             if(res.data.code == '0') {
-                browserHistory.push('/carInfo')
+                this.context.router.history.push('/carInfo')
             }
         }).catch((Error)=>{
             console.log(Error)
@@ -99,7 +99,7 @@ class AddCar extends React.Component {
                         <List.Item extra={this.state.province} arrow="down" style={{ display: 'inline-block' }} onClick={() => { this.PopupModal() }}></List.Item>
                     </div>
                 </InputItem>
-                <Item className="addcar-listItem" extra={window.localStorage.getItem('brandType') ? <span style={{ color: '#000' }}>{window.localStorage.getItem('brandType')}</span> : "请选择品牌车系"} arrow="horizontal" onClick={() => browserHistory.push('/addcar/carbrand')}>品牌车系</Item>
+                <Item className="addcar-listItem" extra={window.localStorage.getItem('brandType') ? <span style={{ color: '#000' }}>{window.localStorage.getItem('brandType')}</span> : "请选择品牌车系"} arrow="horizontal" onClick={() => this.context.router.history.push('/carbrand')}>品牌车系</Item>
 
                 <Picker
                     data={this.state.carModels}
@@ -115,6 +115,9 @@ class AddCar extends React.Component {
             <div className="addCar-btn" style={{background:greyButton?"#5a88e5":"rgba(153,153,153,0.5)"}} onClick={() => { this.addCarInfos() }}>保存</div>
         </div>
     }
+}
+AddCar.contextTypes = {
+    router: PropTypes.object.isRequired
 }
 const AddCarInfo = createForm()(AddCar);
 // ReactDOM.render(<AddCarInfo />, mountNode);

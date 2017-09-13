@@ -7,7 +7,7 @@ import jinka from '../../img/jinka.png'
 import baijin from '../../img/baijin.png'
 import zuanshi from '../../img/zuanshi.png'
 import { myCard } from '../../services/user.js'
-import { browserHistory } from 'dva/router'
+import PropTypes from 'prop-types';
 class MyCard extends React.Component {
     constructor(props) {
         super(props)
@@ -39,7 +39,7 @@ class MyCard extends React.Component {
                 case '白金卡': background = baijin; break;
                 case '钻石卡': background = zuanshi; break;
             }
-            return <div key={index} className="membership-mycard" onClick={() => { browserHistory.push(`/membership/mycard/detail/${item.id}`) }} style={{ background: `url(${background})`, backgroundSize: '100% 100%' }}>
+            return <div key={index} className="membership-mycard" onClick={() => { this.context.router.history.push(`/membership/mycard/detail/${item.id}`) }} style={{ background: `url(${background})`, backgroundSize: '100% 100%' }}>
                 <div className="card-name">{item.service.name}</div>
                 <div className="card-number">{item.cardNumber}</div>
                 <div className="card-time">{item.service.createDate.slice(0, 10)}</div>
@@ -49,10 +49,13 @@ class MyCard extends React.Component {
             <div className="nav-bar-title" style={{ marginBottom: '.3rem' }}>
                 <i className="back" onClick={() => { history.back() }}></i>
                 我的会员卡
-                <span className="scan" onClick={() => { browserHistory.push('/addCard') }}>添加</span>
+                <span className="scan" onClick={() => { this.context.router.history.push('/addCard') }}>添加</span>
             </div>
             {card}
         </div>
     }
 }
 export default MyCard
+MyCard.contextTypes = {
+    router: PropTypes.object.isRequired
+}

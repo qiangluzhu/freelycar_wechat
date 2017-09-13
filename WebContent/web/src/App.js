@@ -46,7 +46,7 @@ const App = () => (
             <Route path="/login" component={Login} />
       
             <Route path="/addcar" component={AddCar} />
-            <Route path="/addcar/carbrand" component={CarBrand} />
+            <Route path="/carbrand" component={CarBrand} />
       
             <Route path="/ordertrack" component={OrderTrack} />
             <Route path="/personalInfo" component={PersonalInfo} />
@@ -56,17 +56,17 @@ const App = () => (
             <Route path="/orderDetail_nopay" component={OrderDetail_nopay} />
             <Route path="/orderDetail_vip" component={OrderDetail_vip} />
             <Route path="/addCard" component={AddCard} />
-            <Route path="/membership/mycard" component={MyCard} />
-            <Route path="/membership/mycard/detail/:id" component={MyCardDetail}/>
-            <Route path="/membership/mypoints" component={MyPoints}/>
-            <Route path="/membership/myfavour" component={MyFavour}/>
+            <Route path="/membership/mycard" exact component={MyCard} />
+            <Route path="/membership/mycard/detail/:id" exact component={MyCardDetail}/>
+            <Route path="/membership/mypoints" exact component={MyPoints}/>
+            <Route path="/membership/myfavour" exact component={MyFavour}/>
       
             <Route path="/carInfo" component={CarInfo}/>
-            <Route path="/store/cooperative-store" component={CooperativeStore}/>
-            <Route path="/store/comment/:consumerOrderId" component={CommentStore}/>
-            <Route path="/store/detail/:storeId" component={StoreDetail}/>
-            <Route path="/insurance/:clientId/:carId" component={Insurance}/>
-            <Route path="/insurance/inquiry" component={Inquiry}/>
+            <Route path="/store/cooperative-store" exact component={CooperativeStore}/>
+            <Route path="/store/comment/:consumerOrderId" exact component={CommentStore}/>
+            <Route path="/store/detail/:storeId" exact component={StoreDetail}/>
+            <Route path="/insurance/:clientId/:carId" exact component={Insurance}/>
+            <Route path="/insurance/inquiry" exact component={Inquiry}/>
             <Route path="/notFound" component={NotFound}/>
         </Switch>
     </div>

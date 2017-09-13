@@ -8,7 +8,7 @@ import insurance from '../../img/insurance.png'
 import annualInspection from '../../img/annualInspection.png'
 import more_arrow from '../../img/more_arrow.png'
 import { myCar ,defaultCar} from '../../services/user.js'
-import { browserHistory } from 'dva/router'
+import PropTypes from 'prop-types';
 
 class CarInfo extends React.Component {
 
@@ -129,7 +129,7 @@ class CarInfo extends React.Component {
                 <div className="swiper-container carInfo" ref={self => this.swiperID = self}>
                     <div className="swiper-wrapper">
                         {carlist}
-                        <div className="swiper-slide addItem" onClick={()=>{ browserHistory.push('/addCar')}} >+</div>
+                        <div className="swiper-slide addItem" onClick={()=>{  this.context.router.history.push('/addCar')}} >+</div>
                     </div>
                 </div>
             </div>
@@ -142,7 +142,7 @@ class CarInfo extends React.Component {
                         保险提醒
                     </Flex>
                 </List.Item>
-                <Flex className='remind-tip' style={{ display: this.state.insuranceTip ? '' : 'none' }} onClick={()=>{browserHistory.push(`/insurance/1/${carId}`)}}>
+                <Flex className='remind-tip' style={{ display: this.state.insuranceTip ? '' : 'none' }} onClick={()=>{ this.context.router.history.push(`/insurance/1/${carId}`)}}>
                     <div>距离下次续保时间还有<span className='day'>{time}</span>天</div>
                     <img src={more_arrow} alt="" className='more' />
                 </Flex>
@@ -179,3 +179,6 @@ class CarInfo extends React.Component {
 
 }
 export default CarInfo
+CarInfo.contextTypes = {
+    router: PropTypes.object.isRequired
+}

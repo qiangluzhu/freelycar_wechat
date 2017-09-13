@@ -9,7 +9,7 @@ import insurance from '../../img/insurance.png'
 import annualInspection from '../../img/annualInspection.png'
 import more_arrow from '../../img/more_arrow.png'
 import { carDetail,modifyCarInfo} from '../../services/user.js'
-import { browserHistory } from 'dva/router'
+import PropTypes from 'prop-types';
 import cityJson from '../../data/city.json';
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -62,7 +62,7 @@ class Insurance extends React.Component {
             insuranceEndtime:this.state.commercialInsurance.format('YYYY-MM-DD')
         }).then((res) => {
             if(res.data.code=='0'){
-                browserHistory.push('/carInfo')
+                this.context.router.history.push('/carInfo')
             }
         }).catch((error) => { console.log(error) });
     }
@@ -142,3 +142,6 @@ class Insurance extends React.Component {
 
 }
 export default Insurance
+Insurance.contextTypes = {
+    router: PropTypes.object.isRequired
+}

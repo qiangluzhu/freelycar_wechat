@@ -4,7 +4,7 @@ import { Flex } from 'antd-mobile'
 import './OrderTrack.less'
 import { orderDetail } from '../../services/orders.js'
 import parseForm from '../../utils/parseToForm.js'
-import { browserHistory } from 'dva/router'
+import PropTypes from 'prop-types';
 class OrderTrack extends React.Component {
     constructor(props) {
         super(props)
@@ -115,7 +115,7 @@ class OrderTrack extends React.Component {
                         </div>
                         <div>爱车已交回你的手中 快来评价获积分吧
                         </div>
-                        <div className="evaluate" onClick={() => { browserHistory.push('/store/comment') }}>
+                        <div className="evaluate" onClick={() => { this.context.router.history.push('/store/comment') }}>
                             评价得200积分
                         </div>
                     </div>
@@ -167,3 +167,6 @@ class OrderTrack extends React.Component {
     }
 }
 export default OrderTrack
+OrderTrack.contextTypes = {
+    router: PropTypes.object.isRequired
+}
