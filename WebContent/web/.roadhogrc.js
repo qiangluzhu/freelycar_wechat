@@ -35,6 +35,7 @@ export default {
       ]
     }
   },
+  publicPath:"http://www.freelycar.com/freelycar_wechat",
   proxy: {
     "/api": {
      "target": "http://172.17.3.122:8080/freelycar_wechat/api/",//赵冉
