@@ -325,7 +325,9 @@ public class HttpRequest {
 	}*/
 	
 	static {
-		KeyStore keyStore = null;
+		
+		//证书相关
+		/*KeyStore keyStore = null;
 		FileInputStream instream = null;
         try {
         	instream = new FileInputStream(new File(WechatConfig.CERT_LOCAL_PATH));//加载本地的证书进行https加密传输
@@ -341,17 +343,26 @@ public class HttpRequest {
 			}
         }
      // Trust own CA and all self-signed certs
-        SSLContext sslcontext = null;
+        SSLContext sslContext = null;
 		try {
-			sslcontext = SSLContexts.custom()
+			sslContext = SSLContexts.custom()
 			        .loadKeyMaterial(keyStore, WechatConfig.CERT_PASSWORD.toCharArray())
 			        .build();
 		} catch (KeyManagementException | UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
 			e.printStackTrace();
+		}*/
+		
+		
+		SSLContext sslContext = null;
+		try {
+			sslContext = SSLContexts.custom().build();
+		} catch (KeyManagementException | NoSuchAlgorithmException e) {
+			e.printStackTrace();
 		}
+		
         // Allow TLSv1 protocol only
         sslsf = new SSLConnectionSocketFactory(
-                sslcontext,
+                sslContext,
                 new String[]{"TLSv1", "TLSv1.1", "TLSv1.2"},
                 null,
                 new HostnameVerifier(){
