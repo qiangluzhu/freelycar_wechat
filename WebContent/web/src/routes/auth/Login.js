@@ -20,6 +20,7 @@ class Login extends React.Component {
     }
 
     componentDidMount() {
+        // console.log(this.props.match.params.openid)
 
     }
 
@@ -98,9 +99,8 @@ class Login extends React.Component {
         return <div className='loginbg'>
             <div className='panel' >
                 <Flex justify='center'>
-                    <img className='logo' src={login} />
+                    <img className='logo' src={decodeURIComponent(this.props.match.params.headimgurl)} />
                 </Flex>
-                <img className='shutdown' src={shutdown} />
                 <Flex justify='center'  >
                     <div className='input-up'>
                         <img src={phone} style={{ width: '.3rem', marginLeft: '.18rem', marginRight: '0.5rem', verticalAlign: 'middle' }} />

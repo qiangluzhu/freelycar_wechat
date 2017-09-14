@@ -64,10 +64,11 @@ public class WXUserController {
 				
 				boolean wxUser = wxUserService.isExistUserOpenId(openid);
 				String ret = "";
+				nickname = URLEncoder.encode(nickname,"utf-8");
+				headimgurl = URLEncoder.encode(headimgurl,"utf-8");
 				if(!wxUser){
 					ret = BASEURL+"login/" + openid+"/"+nickname+"/"+headimgurl;
 				}else{
-					nickname = URLEncoder.encode(nickname,"utf-8");
 					ret = BASEURL+htmlPage+"/" + openid+"/"+nickname+"/"+headimgurl;
 				}
 				return "redirect:"+ret;

@@ -42,8 +42,8 @@ const App = () => (
     <div style={{height:'100%'}}>
         <Switch>
             <Route exact path="/" component={Personalcenter}/>
-            <Route path="/center/:openid/:nickname/:headimgurl" component={Personalcenter} />
-            <Route path="/login/:openid/:nickname/:headimgurl" component={Login} />
+            <Route path="/center/:openid/:nickname/:headimgurl"  component={Personalcenter} />
+            <Route path="/login/:openid/:nickname/:headimgurl"  component={Login} />
       
             <Route path="/addcar" component={AddCar} />
             <Route path="/carbrand" component={CarBrand} />
