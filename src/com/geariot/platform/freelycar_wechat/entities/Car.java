@@ -37,6 +37,10 @@ public class Car {
 	@JsonDeserialize(using=JsonDateDeserialize.class)
 	private Date createDate;
 	private boolean defaultCar;
+	
+	private boolean needInsuranceRemind;
+	private boolean needInspectionRemind;
+	
 	@ManyToOne(cascade={}, fetch=FetchType.EAGER)
 	@JoinColumn(name="clientId", foreignKey=@ForeignKey(name="none"))
 	public Client getClient() {
@@ -170,6 +174,18 @@ public class Car {
 	}
 	public void setInsuranceCompany(String insuranceCompany) {
 		this.insuranceCompany = insuranceCompany;
+	}
+	public boolean isNeedInspectionRemind() {
+		return needInspectionRemind;
+	}
+	public void setNeedInspectionRemind(boolean needInspectionRemind) {
+		this.needInspectionRemind = needInspectionRemind;
+	}
+	public boolean isNeedInsuranceRemind() {
+		return needInsuranceRemind;
+	}
+	public void setNeedInsuranceRemind(boolean needInsuranceRemind) {
+		this.needInsuranceRemind = needInsuranceRemind;
 	}
     
 	

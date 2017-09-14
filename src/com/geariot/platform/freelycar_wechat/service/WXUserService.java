@@ -30,6 +30,7 @@ import com.geariot.platform.freelycar_wechat.model.RESCODE;
 import com.geariot.platform.freelycar_wechat.utils.Constants;
 import com.geariot.platform.freelycar_wechat.utils.JsonPropertyFilter;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
+import com.geariot.platform.freelycar_wechat.utils.NicknameFilter;
 import com.geariot.platform.freelycar_wechat.utils.query.ClientBean;
 import com.geariot.platform.freelycar_wechat.utils.query.PointBean;
 
@@ -67,6 +68,7 @@ public class WXUserService {
 
 
 	public org.json.JSONObject login(String phone,String openId,String headimgurl,String nickName) {
+		nickName=NicknameFilter.filter4BytesUTF8(nickName);
 		WXUser wxUser = wxUserDao.findUserByPhone(openId);
 		if(wxUser==null){
 			WXUser wxUserNew = new WXUser();
@@ -85,7 +87,7 @@ public class WXUserService {
 			wxUserDao.updateUser(wxUser);
 		}
 		Client exist = clientDao.findByPhone(phone);
-		System.out.print(">>>"+exist);
+
 		org.json.JSONObject obj = new org.json.JSONObject();
 		if (exist == null) {
 			System.out.print(">>>111");
@@ -101,6 +103,7 @@ public class WXUserService {
 			System.out.print(">>>"+client);
 			clientDao.save(client);
 			obj.put(Constants.RESPONSE_CLIENT_KEY, new org.json.JSONObject(client));
+			System.out.print(">>>"+obj);
 		}
 		else
 			obj.put(Constants.RESPONSE_CLIENT_KEY, new org.json.JSONObject(exist));
