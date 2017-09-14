@@ -18,9 +18,9 @@ public class WXUserDaoImpl implements WXUserDao{
     
 	@Override
 	public WXUser findUserByOpenId(String openId) {
-    	String hql = "from WXUser where openid= :openid ";
+    	String hql = "from WXUser where openId= :openId ";
     	//(Client) this.getSession().createQuery(hql).setString("phone", phone).uniqueResult()
-		WXUser wxuser= (WXUser) getSession().createQuery(hql).setString("openid", openId).setCacheable(Constants.SELECT_CACHE).uniqueResult();
+		WXUser wxuser= (WXUser) getSession().createQuery(hql).setString("openId", openId).setCacheable(Constants.SELECT_CACHE).uniqueResult();
 		return wxuser;
 	}
 
