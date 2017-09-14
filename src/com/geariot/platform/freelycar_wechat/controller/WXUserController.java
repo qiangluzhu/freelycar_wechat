@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.geariot.platform.freelycar_wechat.entities.Car;
-import com.geariot.platform.freelycar_wechat.entities.WXUser;
 import com.geariot.platform.freelycar_wechat.service.WXUserService;
 import com.geariot.platform.freelycar_wechat.wxutils.WechatLoginUse;
 
@@ -68,9 +67,9 @@ public class WXUserController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/addWXUser", method = RequestMethod.POST)
-	public String addWxUser(@RequestBody WXUser wxUser) {
-		return wxUserService.addWXUser(wxUser);
+	@RequestMapping(value = "/updateWXUser",method = RequestMethod.POST)
+	public String addWxUser(String phone,String name,String birthday,String gender) throws ParseException{
+		return wxUserService.addWXUser(phone,name,birthday,gender);
 	}
 
 	// @RequestMapping(value = "/login",method = RequestMethod.GET)
