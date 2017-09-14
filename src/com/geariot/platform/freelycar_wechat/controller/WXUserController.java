@@ -23,9 +23,9 @@ public class WXUserController {
 	private static final Logger log = LogManager.getLogger(WXUserController.class);
 	@Autowired
 	private WXUserService wxUserService;
-	@RequestMapping(value = "/addWXUser",method = RequestMethod.POST)
-	public String addWxUser(@RequestBody WXUser wxUser){
-		return wxUserService.addWXUser(wxUser);
+	@RequestMapping(value = "/updateWXUser",method = RequestMethod.POST)
+	public String addWxUser(String phone,String name,String birthday,String gender) throws ParseException{
+		return wxUserService.addWXUser(phone,name,birthday,gender);
 	}
 //	@RequestMapping(value = "/login",method = RequestMethod.GET)
 //	public String login(String openId){
