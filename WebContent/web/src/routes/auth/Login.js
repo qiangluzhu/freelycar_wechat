@@ -8,6 +8,7 @@ import password from '../../img/password.png';
 import button_login from '../../img/button_login.png';
 import { verification, verifySmsCode } from '../../services/sms.js'
 import PropTypes from 'prop-types';
+
 class Login extends React.Component {
 
     constructor(props) {
@@ -53,17 +54,18 @@ class Login extends React.Component {
                             }
                         }, 1000)
                     }
-                }).catch((error)=>{
+                }).catch((error) => {
                     console.log(error)
                 })
         }
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         clearInterval(this.timer)
     }
 
     Login() {
+        // const {openid, headimgurl,nickname} = this.context.router.params;
         let myHeaders = new Headers({
             "Content-Type": "form-data",
         })
@@ -74,15 +76,20 @@ class Login extends React.Component {
             mode: 'cors',
             cache: 'default'
         }, {
-                openId:'1',
+                openId: this.props.match.params.openid,
                 phone: this.state.phone,
                 smscode: this.state.smscode,
-                headimgurl:'',
-                nickName:''
+                headimgurl: this.props.match.params.headimgurl,
+                nickName: this.props.match.params.nickname
             }).then((res) => {
-                if(res.data.code=='0'){
+                console.log(res)
+                if (res.data.client.phone) {
                     console.log('注册成功')
-                    window.localStorage.setItem('phone',this.state.phone)
+                    window.localStorage.setItem('headimgurl', this.props.match.params.headimgurl)
+                    window.localStorage.setItem('nickName', this.props.match.params.nickname)
+                    window.localStorage.setItem('phone', res.data.client.phone)
+                    window.localStorage.getItem('openid', this.props.match.params.openid)
+                    window.localStorage.setItem('clientId', res.data.client.id)
                     this.context.router.history.push('/personalInfo')
                 }
             })
@@ -103,14 +110,14 @@ class Login extends React.Component {
                 <Flex justify='center'>
                     <div className='input-up'>
                         <img src={password} style={{ width: '.34rem', marginLeft: '.18rem', marginRight: '0.48rem', verticalAlign: 'middle' }} />
-                        <input className='no-border' placeholder="请输入验证码" style={{ display: 'inner-block', width: '2rem' }} onChange={(e)=>{this.setState({smscode:e.target.value})}}/>
+                        <input className='no-border' placeholder="请输入验证码" style={{ display: 'inner-block', width: '2rem' }} onChange={(e) => { this.setState({ smscode: e.target.value }) }} />
                         <div style={{ display: 'inline-block', color: '#5b87e5', verticalAlign: 'middle', paddingLeft: '.33rem', borderLeft: '1px solid #e8e8e8' }} onClick={() => { this.sendCode() }}>{this.state.allowSend ? '获取短信验证码' : `${this.state.wait}s后重新发送`}</div>
                     </div>
                 </Flex>
                 <div style={{ textAlign: 'center', color: "#cdcdcd", lineHeight: '0.98rem', fontSize: '.18rem' }}>
                     为了防止用户信息被盗,请使用本机号码
                 </div>
-                <div style={{ height: '0.98rem', textAlign: 'center', color: "#fff", borderRadius: '10rem', lineHeight: '0.98rem', margin: '0 .48rem 0 .48rem', background: '#5b87e5' }} onClick={() => {this.Login() }}>
+                <div style={{ height: '0.98rem', textAlign: 'center', color: "#fff", borderRadius: '10rem', lineHeight: '0.98rem', margin: '0 .48rem 0 .48rem', background: '#5b87e5' }} onClick={() => { this.Login() }}>
                     注 册
                 </div>
             </div>

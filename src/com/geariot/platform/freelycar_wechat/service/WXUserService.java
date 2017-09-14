@@ -65,13 +65,14 @@ public class WXUserService {
 	}
 	
 
-	@SuppressWarnings("null")
+
 	public org.json.JSONObject login(String phone,String openId,String headimgurl,String nickName) {
 		WXUser wxUser = wxUserDao.findUserByPhone(openId);
 		if(wxUser==null){
 			WXUser wxUserNew = new WXUser();
 			wxUserNew.setHeadimgurl(headimgurl);
 			wxUserNew.setNickName(nickName);
+			wxUserNew.setName(nickName);
 			wxUserNew.setOpenId(openId);		
 			wxUserDao.save(wxUserNew);
 		}
@@ -79,21 +80,30 @@ public class WXUserService {
 			wxUser.setHeadimgurl(headimgurl);
 			wxUser.setNickName(nickName);
 			wxUser.setOpenId(openId);
+			if (wxUser.getName() == null)
+				wxUser.setName(nickName);
+			wxUserDao.updateUser(wxUser);
 		}
 		Client exist = clientDao.findByPhone(phone);
+		System.out.print(">>>"+exist);
 		org.json.JSONObject obj = new org.json.JSONObject();
 		if (exist == null) {
+			System.out.print(">>>111");
 			Client client = new Client();
-			client.setPhone(wxUser.getPhone());
-			if (wxUser.getName() == null)
-				client.setName(wxUser.getNickName());
-			else
-				client.setName(wxUser.getName());
+			client.setPhone(phone);
+			client.setName(nickName);
+			client.setAge(0);
+			client.setConsumAmout(0);
+			client.setConsumTimes(0);
+			client.setIsMember(false);
+			client.setState(0);
+			client.setPoints(0);
+			System.out.print(">>>"+client);
 			clientDao.save(client);
-			obj.put(Constants.RESPONSE_CLIENT_KEY, client);
+			obj.put(Constants.RESPONSE_CLIENT_KEY, new org.json.JSONObject(client));
 		}
 		else
-			obj.put(Constants.RESPONSE_CLIENT_KEY, exist);
+			obj.put(Constants.RESPONSE_CLIENT_KEY, new org.json.JSONObject(exist));
 		return obj;
 		// return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}

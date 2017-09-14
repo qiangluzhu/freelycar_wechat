@@ -7,6 +7,7 @@ import jinka from '../../img/jinka.png'
 import baijin from '../../img/baijin.png'
 import zuanshi from '../../img/zuanshi.png'
 import {cardDetail } from '../../services/service' 
+import PropTypes from 'prop-types';
 class MyCardDetail extends React.Component {
     constructor(props) {
         super(props)
@@ -19,9 +20,9 @@ class MyCardDetail extends React.Component {
     }
 
     componentDidMount(){
-        console.log(this.props.params.id)
+        console.log(this.props.match.params.id)
         cardDetail({
-            cardId:this.props.params.id
+            cardId:this.props.match.params.id
         }).then((res)=>{
             console.log(res)
             if(res.data.code=='0') {
@@ -54,7 +55,7 @@ class MyCardDetail extends React.Component {
             <div className="nav-bar-title" style={{ marginBottom: '.3rem' }}>
                 <i className="back" onClick={() => { history.back() }}></i>
                 我的会员卡
-                <span className="scan">添加</span>
+                <span className="scan" onClick={()=>{this.context.router.history.push('/addCard')}}>添加</span>
             </div>
             <div className="membership-mycard" style={{backgroundImage:`url(${background}) `,backgroundSize:'100% 100%' }}>
                 <div className="card-name">{this.state.name}</div>
@@ -70,3 +71,6 @@ class MyCardDetail extends React.Component {
     }
 }
 export default MyCardDetail
+MyCardDetail.contextTypes = {
+    router: PropTypes.object.isRequired
+}

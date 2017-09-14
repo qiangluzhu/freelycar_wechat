@@ -13,7 +13,7 @@ class MyPoints extends React.Component {
 
     componentDidMount() {
         myPoints({
-            clientId: '10'
+            clientId:  window.localStorage.getItem('clientId')
         }).then((res) => {
             console.log(res)
             this.setState({

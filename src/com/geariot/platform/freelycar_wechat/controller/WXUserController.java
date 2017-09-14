@@ -131,8 +131,8 @@ public class WXUserController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public void test() {
-		log.info("test   " + wxUserService.test());
+	public void test(String phone,String openId,String headimgurl,String nickName) {
+		System.out.print( wxUserService.login(phone,openId,headimgurl,nickName));
 	}
 
 	
