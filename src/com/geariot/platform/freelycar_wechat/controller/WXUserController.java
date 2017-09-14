@@ -32,20 +32,15 @@ public class WXUserController {
 	private static String BASEURL = "http://www.freelycar.com/freelycar_wechat/index.html#/";
 	
 	@RequestMapping(value = "/wechatlogin")
-	public void wechatLogin(String htmlPage, String code) {
-		try {
-			getWechatInfo(htmlPage, code);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+	public String wechatLogin(String htmlPage, String code) {
+			return getWechatInfo(htmlPage, code);
 	}
 	
 	
-	public String getWechatInfo(String htmlPage, String code) throws UnsupportedEncodingException{
+	public String getWechatInfo(String htmlPage, String code) {
 		String wechatInfo = WechatLoginUse.wechatInfo(code);
 		JSONObject resultJson;
 		try {
-			log.debug("用户信息:"+wechatInfo);
 			resultJson = new JSONObject(wechatInfo);
 			if(resultJson.get("message").equals("success")){
 				String openid = resultJson.getString("openid");
@@ -53,27 +48,22 @@ public class WXUserController {
 				String headimgurl = resultJson.getString("headimgurl");
 				
 				
-				
 				boolean wxUser = wxUserService.isExistUserOpenId(openid);
-				//userService.register(openid,nickname);
-				//User user = userService.wechatLogin(openid, nickname);
-//				nickname = NicknameFilter.decodeNikename(user.getNickname());
-//				nickname = user.g                    etNickname();
 				String ret = "";
 				if(!wxUser){
-					ret = BASEURL+"login/" + openid+"/"+headimgurl;
+					ret = BASEURL+"login/" + openid+"/"+nickname+"/"+headimgurl;
 				}else{
 					nickname = URLEncoder.encode(nickname,"utf-8");
-					ret = BASEURL+htmlPage+"/" + openid+"/"+headimgurl;
+					ret = BASEURL+htmlPage+"/" + openid+"/"+nickname+"/"+headimgurl;
 				}
 				return "redirect:"+ret;
-			}else{
-				return "redirect:../../fail.html";    //重定向到失败页面
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-			return "redirect:../../fail.html";    //重定向到失败页面
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
+		return "redirect:../../fail.html";    //重定向到失败页面
 		
 	}
 	
