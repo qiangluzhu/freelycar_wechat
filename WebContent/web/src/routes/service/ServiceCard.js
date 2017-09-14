@@ -24,9 +24,9 @@ class ServiceCard extends React.Component {
 
     componentDidMount() {
         listConsumOrder({
-            clientId: 10,
-            page: 1,
-            number: 10
+            clientId:  window.localStorage.getItem('clientId'),
+            page:1,
+            number:99
         }).then((res) => {
             if (res.data.code == '0') {
                 let data = res.data.data;
@@ -38,9 +38,9 @@ class ServiceCard extends React.Component {
 
         //卡券
         listWXPayOrder({
-            clientId: 10,
-            page: 1,
-            number: 10
+            clientId:  window.localStorage.getItem('clientId'),
+            page:1,
+            number: 99
         }).then((res) => {
             console.log(res);
             if (res.data.code == '0') {

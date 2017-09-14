@@ -18,7 +18,7 @@ class MyCard extends React.Component {
 
     componentDidMount() {
         myCard({
-            clientId: '11'
+            clientId:  window.localStorage.getItem('clientId')
         }).then((res) => {
             console.log(res)
             this.setState({

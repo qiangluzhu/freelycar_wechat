@@ -42,8 +42,8 @@ const App = () => (
     <div style={{height:'100%'}}>
         <Switch>
             <Route exact path="/" component={Personalcenter}/>
-            <Route path="/center" component={Personalcenter} />
-            <Route path="/login" component={Login} />
+            <Route path="/center/:openid/:nickname/:headimgurl" component={Personalcenter} />
+            <Route path="/login/:openid/:nickname/:headimgurl" component={Login} />
       
             <Route path="/addcar" component={AddCar} />
             <Route path="/carbrand" component={CarBrand} />
@@ -65,7 +65,7 @@ const App = () => (
             <Route path="/store/cooperative-store" exact component={CooperativeStore}/>
             <Route path="/store/comment/:consumerOrderId" exact component={CommentStore}/>
             <Route path="/store/detail/:storeId" exact component={StoreDetail}/>
-            <Route path="/insurance/:clientId/:carId" exact component={Insurance}/>
+            <Route path="/insurance/:carId" exact component={Insurance}/>
             <Route path="/insurance/inquiry" exact component={Inquiry}/>
             <Route path="/notFound" component={NotFound}/>
         </Switch>

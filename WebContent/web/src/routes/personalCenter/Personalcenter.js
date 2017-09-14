@@ -19,7 +19,7 @@ class Personalcenter extends React.Component {
         this.state = {
             point: '',
             name: '',
-            headimgurl: '',
+            headimgurl: this.props.match.params.headimgurl,
             tickets: 0,
             card: [],
             cars: [],
@@ -30,7 +30,7 @@ class Personalcenter extends React.Component {
 
     componentDidMount() {
         wxInfo({
-            openId: '11'
+            openId: this.props.match.params.openid
         }).then((res) => {
             console.log(res)
             if (res.data.code == '0') {
@@ -56,7 +56,7 @@ class Personalcenter extends React.Component {
         //     console.log(res)
         // })
         userDetail({
-            clientId: '10'
+            clientId:  window.localStorage.getItem('clientId')
         }).then((res) => {
             console.log(res)
             if (res.data.code == '0') {

@@ -8,6 +8,7 @@ import password from '../../img/password.png';
 import button_login from '../../img/button_login.png';
 import { verification, verifySmsCode } from '../../services/sms.js'
 import PropTypes from 'prop-types';
+
 class Login extends React.Component {
 
     constructor(props) {
@@ -19,7 +20,7 @@ class Login extends React.Component {
     }
 
     componentDidMount() {
-
+    
     }
 
     sendCode() {
@@ -64,6 +65,7 @@ class Login extends React.Component {
     }
 
     Login() {
+        // const {openid, headimgurl,nickname} = this.context.router.params;
         let myHeaders = new Headers({
             "Content-Type": "form-data",
         })
@@ -74,11 +76,11 @@ class Login extends React.Component {
             mode: 'cors',
             cache: 'default'
         }, {
-                openId:'1',
+                openId:this.props.match.params.openid,
                 phone: this.state.phone,
                 smscode: this.state.smscode,
-                headimgurl:'',
-                nickName:''
+                headimgurl:this.props.match.params.headimgurl,
+                nickName:this.props.match.params.nickname
             }).then((res) => {
                 if(res.data.code=='0'){
                     console.log('注册成功')

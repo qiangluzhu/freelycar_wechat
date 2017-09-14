@@ -24,7 +24,7 @@ class CommentStore extends React.Component {
 
     comment() {
         orderComment({
-            consumOrderId: this.props.params.consumerOrderId,
+            consumOrderId: this.props.match.params.consumerOrderId,
             comment: this.state.comment,
             stars: this.state.nowStar
         })

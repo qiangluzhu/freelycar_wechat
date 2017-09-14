@@ -28,7 +28,7 @@ class CarInfo extends React.Component {
 
     componentDidMount() {
         myCar({
-            clientId: 11,
+            clientId: window.localStorage.getItem('clientId'),
         }).then((res) => {
             if (res.data.code == '0') {
                 let data = res.data.data;

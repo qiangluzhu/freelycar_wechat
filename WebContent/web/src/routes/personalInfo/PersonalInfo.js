@@ -50,9 +50,9 @@ class PersonalInfo extends React.Component {
         }, {
 
                 // openId: '1',
-                // phone: window.localStorage.getItem('phone'),
-                phone: '18362981113',
-                birthday: new Date(this.state.birthday),
+                phone: window.localStorage.getItem('phone'),
+                // phone: '110',
+                birthday: this.state.birthday,
                 name: this.state.name,
                 gender: this.state.gender[0]
 
