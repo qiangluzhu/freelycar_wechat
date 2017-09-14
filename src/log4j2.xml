@@ -55,16 +55,16 @@
 		</Async>
 	</Appenders>
 	<Loggers>
-		<Logger name="com.geariot.platform" level="debug">
+		<Logger name="com.geariot.platform" level="error">
 			<AppenderRef ref="async" />
 		</Logger>
-		<Logger name="org.apache.http" level="Warn">
+		<Logger name="org.apache.http" level="error">
 			<AppenderRef ref="async2" />
 		</Logger>
-		<Logger name="org.hibernate" level="Warn">
+		<Logger name="org.hibernate" level="error">
 			<AppenderRef ref="async3" />
 		</Logger>
-		<Root level="debug">
+		<Root level="error">
 			<AppenderRef ref="console" />
 		</Root>
 	</Loggers>

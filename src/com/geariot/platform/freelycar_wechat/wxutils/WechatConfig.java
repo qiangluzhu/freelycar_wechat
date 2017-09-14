@@ -48,9 +48,11 @@ public class WechatConfig {
 
 	public final static String REFUND_URL = "https://api.mch.weixin.qq.com/secapi/pay/refund";
 	
-	public static String CERT_LOCAL_PATH = null; //证书路径
 	
-	public final static String CERT_PASSWORD = "1234616002"; //证书密码，默认与mch_id一样
+	//暂时注释掉 证书相关
+	//public static String CERT_LOCAL_PATH = null; //证书路径
+	
+	//public final static String CERT_PASSWORD = "1234616002"; //证书密码，默认与mch_id一样
 	
 	public final static String WECHAT_TEMPLATE_MESSAGE_URL = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=";
 	
@@ -59,10 +61,10 @@ public class WechatConfig {
 	 * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842&token=&lang=zh_CN
 	 */
 	
-	static {
-		CERT_LOCAL_PATH = WechatConfig.class.getClassLoader().getResource("apiclient_cert.p12").getPath();
-		log.debug("Cert location:" + CERT_LOCAL_PATH);
-	}
+//	static {
+//		CERT_LOCAL_PATH = WechatConfig.class.getClassLoader().getResource("apiclient_cert.p12").getPath();
+//		log.debug("Cert location:" + CERT_LOCAL_PATH);
+//	}
 	
 	//用户缓存itoken openid 之类的变量
 	public static Map<String ,JSONObject> cacheVariable = new ConcurrentHashMap<String, JSONObject>();

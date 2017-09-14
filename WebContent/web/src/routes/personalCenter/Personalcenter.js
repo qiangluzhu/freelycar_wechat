@@ -131,7 +131,7 @@ class Personalcenter extends React.Component {
 
 
 
-            <div className="center-banner"><img src={banner} alt="" /></div>
+            {this.state.card.length==0&&<div className="center-banner"><img src={banner} alt="" /></div>}
             <Flex className="center-line-box" onClick={() => {
                 if (this.state.cars.length > 0) {
                     this.context.router.history.push('/carInfo')

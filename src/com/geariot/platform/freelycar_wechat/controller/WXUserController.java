@@ -1,93 +1,181 @@
-
 package com.geariot.platform.freelycar_wechat.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.ParseException;
-import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.geariot.platform.freelycar_wechat.entities.Car;
-import com.geariot.platform.freelycar_wechat.entities.WXUser;
 import com.geariot.platform.freelycar_wechat.service.WXUserService;
+import com.geariot.platform.freelycar_wechat.wxutils.WechatLoginUse;
 
-@RestController
+@Controller
 @RequestMapping("/user")
 public class WXUserController {
-	private static final Logger log = LogManager.getLogger(WXUserController.class);
+	private static final Logger log = LogManager
+			.getLogger(WXUserController.class);
 	@Autowired
 	private WXUserService wxUserService;
+
+	
+	private static String BASEURL = "http://www.freelycar.com/freelycar_wechat/index.html#/";
+	
+	@RequestMapping(value = "/wechatlogin")
+	public void wechatLogin(String htmlPage, String code) {
+		try {
+			getWechatInfo(htmlPage, code);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public String getWechatInfo(String htmlPage, String code) throws UnsupportedEncodingException{
+		String wechatInfo = WechatLoginUse.wechatInfo(code);
+		JSONObject resultJson;
+		try {
+			log.debug("用户信息:"+wechatInfo);
+			resultJson = new JSONObject(wechatInfo);
+			if(resultJson.get("message").equals("success")){
+				String openid = resultJson.getString("openid");
+				String nickname = resultJson.getString("nickname");
+				String headimgurl = resultJson.getString("headimgurl");
+				
+				
+				
+				boolean wxUser = wxUserService.isExistUserOpenId(openid);
+				//userService.register(openid,nickname);
+				//User user = userService.wechatLogin(openid, nickname);
+//				nickname = NicknameFilter.decodeNikename(user.getNickname());
+//				nickname = user.g                    etNickname();
+				String ret = "";
+				if(!wxUser){
+					ret = BASEURL+"login/" + openid+"/"+headimgurl;
+				}else{
+					nickname = URLEncoder.encode(nickname,"utf-8");
+					ret = BASEURL+htmlPage+"/" + openid+"/"+headimgurl;
+				}
+				return "redirect:"+ret;
+			}else{
+				return "redirect:../../fail.html";    //重定向到失败页面
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return "redirect:../../fail.html";    //重定向到失败页面
+		}
+		
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "/updateWXUser",method = RequestMethod.POST)
 	public String addWxUser(String phone,String name,String birthday,String gender) throws ParseException{
 		return wxUserService.addWXUser(phone,name,birthday,gender);
 	}
-//	@RequestMapping(value = "/login",method = RequestMethod.GET)
-//	public String login(String openId){
-//		return wxUserService.login(openId);
-//	}
-	@RequestMapping(value = "/logout",method = RequestMethod.GET)
-	public String logout(String openId){
+
+	// @RequestMapping(value = "/login",method = RequestMethod.GET)
+	// public String login(String openId){
+	// return wxUserService.login(openId);
+	// }
+	
+	@ResponseBody
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(String openId) {
 		return wxUserService.deletWXUser(openId);
 	}
-	@RequestMapping(value = "/myDiscount",method = RequestMethod.GET)
-	public String myDiscount(int clientId){
+
+	
+	@ResponseBody
+	@RequestMapping(value = "/myDiscount", method = RequestMethod.GET)
+	public String myDiscount(int clientId) {
 		return wxUserService.listDiscount(clientId);
 	}
-	//要显示积分记录查project
-	@RequestMapping(value = "/points",method = RequestMethod.GET)
-	public String points(int clientId){
+
+	// 要显示积分记录查project
+	@ResponseBody
+	@RequestMapping(value = "/points", method = RequestMethod.GET)
+	public String points(int clientId) {
 		return wxUserService.getPoint(clientId);
 	}
-	//设置时间
-	@RequestMapping(value = "/defaultCar",method = RequestMethod.GET)
-	public String defaultCar(int carId){
+
+	// 设置时间
+	@ResponseBody
+	@RequestMapping(value = "/defaultCar", method = RequestMethod.GET)
+	public String defaultCar(int carId) {
 		System.out.println(carId);
 		return wxUserService.setDefaultCar(carId);
 	}
-	@RequestMapping(value = "/carInfo",method = RequestMethod.GET)
-	public String carInfo(int clientId, int id, String insuranceCity, String insuranceCompany, String insuranceEndtime) throws ParseException{
-		return wxUserService.modifyCar(clientId, id, insuranceCity, insuranceCompany, insuranceEndtime);
+
+	@ResponseBody
+	@RequestMapping(value = "/carInfo", method = RequestMethod.GET)
+	public String carInfo(int clientId, int id, String insuranceCity,
+			String insuranceCompany, String insuranceEndtime)
+			throws ParseException {
+		return wxUserService.modifyCar(clientId, id, insuranceCity,
+				insuranceCompany, insuranceEndtime);
 	}
-	@RequestMapping(value="/test",method=RequestMethod.GET)
-	public void test(){
-		log.info("test   "+wxUserService.test());
-	}
+
 	
-	@RequestMapping(value = "/detail",method = RequestMethod.GET)
-	public String detail(int clientId){
+	@ResponseBody
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public void test() {
+		log.info("test   " + wxUserService.test());
+	}
+
+	
+	@ResponseBody
+	@RequestMapping(value = "/detail", method = RequestMethod.GET)
+	public String detail(int clientId) {
 		return wxUserService.detail(clientId);
 	}
-	@RequestMapping(value = "/listCar",method = RequestMethod.GET)
-	public String addcar(int clientId){
+
+	@ResponseBody
+	@RequestMapping(value = "/listCar", method = RequestMethod.GET)
+	public String addcar(int clientId) {
 		return wxUserService.listCar(clientId);
 	}
-	@RequestMapping(value = "/addCar",method = RequestMethod.POST)
-	public String addcar(@RequestBody Car car){
-		log.debug(">>>>>>>> "+car);
+
+	@ResponseBody
+	@RequestMapping(value = "/addCar", method = RequestMethod.POST)
+	public String addcar(@RequestBody Car car) {
+		log.debug(">>>>>>>> " + car);
 		return wxUserService.addCar(car);
 	}
-	@RequestMapping(value = "/delCar",method = RequestMethod.POST)
-	public String delCar(int carId){
+
+	
+	@ResponseBody
+	@RequestMapping(value = "/delCar", method = RequestMethod.POST)
+	public String delCar(int carId) {
 		return wxUserService.deleteCar(carId);
 	}
-	@RequestMapping(value = "/wxInfo",method = RequestMethod.GET)
-	public String wxInfo(String openId){
+
+	
+	@ResponseBody
+	@RequestMapping(value = "/wxInfo", method = RequestMethod.GET)
+	public String wxInfo(String openId) {
 		return wxUserService.getWXUser(openId);
 	}
-	@RequestMapping(value = "/listCard",method = RequestMethod.GET)
-	public String listCard(int clientId){
+
+	
+	@ResponseBody
+	@RequestMapping(value = "/listCard", method = RequestMethod.GET)
+	public String listCard(int clientId) {
 		return wxUserService.listCard(clientId);
 	}
+
 	
+	@ResponseBody
 	@RequestMapping(value = "/carDetail", method = RequestMethod.GET)
-	public String carDetail(int carId){
+	public String carDetail(int carId) {
 		return wxUserService.carDetail(carId);
 	}
 }
-

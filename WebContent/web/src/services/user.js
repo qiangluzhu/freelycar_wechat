@@ -1,63 +1,62 @@
 import post from '../utils/post';
 import get from '../utils/get';
-
+import request from '../utils/request';
 export default {
     addWxUser: (params) => {
-        return post('/api/user/addWxUser', params)
+        return post('api/user/addWxUser', params)
     },
-
-    login: (params) => {
-        return post('/api/user/login', params)
+    updateWXUser:(options,params)=>{
+        return request('api/user/updateWXUser',options,params)
     },
 
     logout: (params) => {
-        return post('/api/user/logout', params)
+        return post('api/user/logout', params)
     },
 
     myDiscount: (params) => {
-        return post('/api/user/myDiscount', params)
+        return post('api/user/myDiscount', params)
     },//客户优惠券信息
 
     myPoints: (params) => {
-        return get('/api/user/points', params)
+        return get('api/user/points', params)
     },
 
     addCar: (params) => {
-        return post('/api/user/addcar', params)
+        return post('api/user/addCar', params)
     },
 
     userDetail:(params)=>{
-        return get('/api/user/detail',params)
+        return get('api/user/detail',params)
     },
 
     delCar:(params)=>{
-        return post('/api/user/delCar',params)
+        return post('api/user/delCar',params)
     },
 
     defaultCar:(params)=>{
-        return get('/api/user/defaultCar',params)
+        return get('api/user/defaultCar',params)
     },
 
     modifyCarInfo:(params)=>{
-        return get('/api/user/carInfo',params)
+        return get('api/user/carInfo',params)
     },
 
     wxInfo:(params)=>{
-        return get('/api/user/wxInfo',params)
+        return get('api/user/wxInfo',params)
     },
 
     myCard:(params)=>{
-        return get('/api/user/listCard',params)
+        return get('api/user/listCard',params)
     },
 
     myCar:(params)=>{
-        return get('/api/user/listCar',params)
+        return get('api/user/listCar',params)
     },
     detailInfo:(params)=>{
-        return get('/api/user/detailInfo',params)
+        return get('api/user/detailInfo',params)
     },
     carDetail:(params)=>{
-        return get('/api/user/carDetail',params)
+        return get('api/user/carDetail',params)
     },
 
 }

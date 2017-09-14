@@ -57,6 +57,13 @@ public class WXUserService {
 		wxUserDao.deleteUser(openId);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
+	
+	
+	public boolean isExistUserOpenId (String openId){
+		WXUser wxUser = wxUserDao.findUserByOpenId(openId);
+		return wxUser!=null;
+	}
+	
 
 	@SuppressWarnings("null")
 	public org.json.JSONObject login(String phone,String openId,String headimgurl,String nickName) {
