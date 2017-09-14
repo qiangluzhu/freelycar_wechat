@@ -65,8 +65,8 @@ const App = () => (
             <Route path="/store/cooperative-store" exact component={CooperativeStore}/>
             <Route path="/store/comment/:consumerOrderId" exact component={CommentStore}/>
             <Route path="/store/detail/:storeId" exact component={StoreDetail}/>
-            <Route path="/insurance/:carId" exact component={Insurance}/>
-            <Route path="/insurance/inquiry" exact component={Inquiry}/>
+            <Route path="/insurance/:carId" exact  component={Insurance}/>
+            <Route path="/inquiry" exact component={Inquiry}/>
             <Route path="/notFound" component={NotFound}/>
         </Switch>
     </div>

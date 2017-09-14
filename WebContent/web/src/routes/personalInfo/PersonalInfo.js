@@ -6,6 +6,7 @@ import { Flex } from 'antd-mobile'
 import NavBar from '../../components/NavBar'
 import login from '../../img/logo.png';
 import { wxInfo, updateWXUser } from '../../services/user.js'
+import PropTypes from 'prop-types';
 class PersonalInfo extends React.Component {
 
     constructor(props) {
@@ -56,6 +57,8 @@ class PersonalInfo extends React.Component {
                 name: this.state.name,
                 gender: this.state.gender[0]
 
+            }).then(()=>{
+                this.context.router.history.push(`/center/${window.localStorage.getItem('openid')}/${window.localStorage.getItem('nickName')}/${window.localStorage.getItem('headimgurl')}`)
             })
     }
 
@@ -133,3 +136,6 @@ class PersonalInfo extends React.Component {
 }
 const Personal = createForm()(PersonalInfo);
 export default Personal
+Personal.contextTypes = {
+    router: PropTypes.object.isRequired
+}

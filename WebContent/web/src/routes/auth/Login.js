@@ -2,7 +2,7 @@ import React from 'react';
 import './login.less'
 import { Flex } from 'antd-mobile'
 import login from '../../img/logo.png';
-import shutdown from '../../img/shutdown.png';
+// import shutdown from '../../img/shutdown.png';
 import phone from '../../img/phone.png';
 import password from '../../img/password.png';
 import button_login from '../../img/button_login.png';
@@ -17,10 +17,10 @@ class Login extends React.Component {
             allowSend: true,
             wait: 60
         }
-    }
+    } 
 
     componentDidMount() {
-        // console.log(this.props.match.params.openid)
+        console.log(this.props.match.params.openid)
 
     }
 
@@ -85,11 +85,10 @@ class Login extends React.Component {
             }).then((res) => {
                 console.log(res)
                 if (res.data.client.phone) {
-                    console.log('注册成功')
                     window.localStorage.setItem('headimgurl', this.props.match.params.headimgurl)
                     window.localStorage.setItem('nickName', this.props.match.params.nickname)
                     window.localStorage.setItem('phone', res.data.client.phone)
-                    window.localStorage.getItem('openid', this.props.match.params.openid)
+                    window.localStorage.setItem('openid', this.props.match.params.openid)
                     window.localStorage.setItem('clientId', res.data.client.id)
                     this.context.router.history.push('/personalInfo')
                 }
@@ -99,7 +98,7 @@ class Login extends React.Component {
         return <div className='loginbg'>
             <div className='panel' >
                 <Flex justify='center'>
-                    <img className='logo' src={decodeURIComponent(this.props.match.params.headimgurl)} />
+                    <img className='logo' src={login} />
                 </Flex>
                 <Flex justify='center'  >
                     <div className='input-up'>
@@ -111,7 +110,7 @@ class Login extends React.Component {
                     <div className='input-up'>
                         <img src={password} style={{ width: '.34rem', marginLeft: '.18rem', marginRight: '0.48rem', verticalAlign: 'middle' }} />
                         <input className='no-border' placeholder="请输入验证码" style={{ display: 'inner-block', width: '2rem' }} onChange={(e) => { this.setState({ smscode: e.target.value }) }} />
-                        <div style={{ display: 'inline-block', color: '#5b87e5', verticalAlign: 'middle', paddingLeft: '.33rem', borderLeft: '1px solid #e8e8e8' }} onClick={() => { this.sendCode() }}>{this.state.allowSend ? '获取短信验证码' : `${this.state.wait}s后重新发送`}</div>
+                        <div style={{ display: 'inline-block', color: '#5b87e5', verticalAlign: 'middle', paddingLeft: '.33rem', borderLeft: '1px solid #e8e8e8' }} onClick={() => { this.sendCode() }}>{this.state.allowSend ? '获取验证码' : `${this.state.wait}s后重发`}</div>
                     </div>
                 </Flex>
                 <div style={{ textAlign: 'center', color: "#cdcdcd", lineHeight: '0.98rem', fontSize: '.18rem' }}>
