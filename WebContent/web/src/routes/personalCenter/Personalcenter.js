@@ -80,7 +80,7 @@ class Personalcenter extends React.Component {
                 text: '是', onPress: () => logout({
                     openId: this.props.match.params.openid
                 }).then((res) => {
-                    this.context.router.history.push('/login')
+                    this.context.router.history.push(  `/login/${window.localStorage.getItem('openid')}/${window.localStorage.getItem('nickName')}/${window.localStorage.getItem('headimgurl')}`)
                 })
             },
         ]);
@@ -109,10 +109,10 @@ class Personalcenter extends React.Component {
             }}></div><a href="tel:18512391863" className="center-line-phone"></a></div>
             <Flex justify="between" align='start' direction="column" className="person-info">
                 <Flex justify="between" align='start' style={{ height: '1.2rem' }} >
-                    <div className="avatar"><img src={avatar} alt="" /></div>
+                    <div className="avatar"><img src={window.localStorage.getItem('headimgurl')} alt="" /></div>
                     <Flex.Item style={{ marginLeft: '.3rem' }} direction="column">
                         <div className="info-name">{this.state.name}</div>
-                        <Flex justify="between">
+                        <Flex justify="between" onClick={()=>{this.context.router.history.push('/personalInfo')}}>
                             <Flex.Item>个人信息 ></Flex.Item>
                         </Flex>
                     </Flex.Item>

@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.geariot.platform.freelycar_wechat.entities.Car;
+import com.geariot.platform.freelycar_wechat.model.RESCODE;
 import com.geariot.platform.freelycar_wechat.service.WXUserService;
+import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
 import com.geariot.platform.freelycar_wechat.wxutils.WechatLoginUse;
 
 @Controller
@@ -62,10 +64,11 @@ public class WXUserController {
 				
 				boolean wxUser = wxUserService.isExistUserOpenId(openid);
 				String ret = "";
+				nickname = URLEncoder.encode(nickname,"utf-8");
+				headimgurl = URLEncoder.encode(headimgurl,"utf-8");
 				if(!wxUser){
 					ret = BASEURL+"login/" + openid+"/"+nickname+"/"+headimgurl;
 				}else{
-					nickname = URLEncoder.encode(nickname,"utf-8");
 					ret = BASEURL+htmlPage+"/" + openid+"/"+nickname+"/"+headimgurl;
 				}
 				return "redirect:"+ret;
@@ -131,7 +134,8 @@ public class WXUserController {
 	@ResponseBody
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public void test(String phone,String openId,String headimgurl,String nickName) {
-		System.out.print( wxUserService.login(phone,openId,headimgurl,nickName));
+		//System.out.print(JsonResFactory.buildNetWithData(RESCODE.SUCCESS, wxUserService.login(phone,openId,headimgurl,nickName)).toString());
+		System.out.print(wxUserService.login(phone,openId,headimgurl,nickName));
 	}
 
 	
