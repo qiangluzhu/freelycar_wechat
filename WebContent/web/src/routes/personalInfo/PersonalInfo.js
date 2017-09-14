@@ -21,6 +21,7 @@ class PersonalInfo extends React.Component {
     }
 
     componentDidMount() {
+        console.log(window.localStorage.getItem('openid'))
         wxInfo({
             openId: window.localStorage.getItem('openid')
         }).then((res) => {
@@ -57,7 +58,8 @@ class PersonalInfo extends React.Component {
                 name: this.state.name,
                 gender: this.state.gender[0]
 
-            }).then(()=>{
+            }).then((res)=>{
+                console.log(res)
                 this.context.router.history.push(`/center/${window.localStorage.getItem('openid')}/${window.localStorage.getItem('nickName')}/${window.localStorage.getItem('headimgurl')}`)
             })
     }
@@ -115,7 +117,7 @@ class PersonalInfo extends React.Component {
                     clear
                     placeholder="1990-08-08"
                     focused={this.state.focused}
-                    value={this.state.birthday}
+                    value={this.state.birthday?this.state.birthday.slice(0,10):this.state.birthday}
                     onFocus={() => {
                         this.setState({
                             focused: false,
@@ -134,8 +136,8 @@ class PersonalInfo extends React.Component {
     }
 
 }
-const Personal = createForm()(PersonalInfo);
-export default Personal
-Personal.contextTypes = {
+PersonalInfo.contextTypes = {
     router: PropTypes.object.isRequired
 }
+const Personal = createForm()(PersonalInfo);
+export default Personal

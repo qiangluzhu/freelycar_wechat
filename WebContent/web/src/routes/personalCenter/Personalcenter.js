@@ -120,11 +120,11 @@ class Personalcenter extends React.Component {
                 <Flex justify="between" style={{ width: '100%' }}>
                     <Flex direction="column" justify="center" align="center" style={{ width: '50%' }} onClick={() => { this.context.router.history.push('/membership/myfavour') }}>
                         <div style={{ fontSize: '.36rem', color: '#37cedc' }}>{this.state.tickets}<span style={{ fontSize: '.16rem' }}>个</span></div>
-                        <div style={{ fontSize: '.22rem', lineHeight: '.35rem', color: '#8e8e8e' }}>优惠</div>
+                        <div style={{ fontSize: '.22rem', lineHeight: '.35rem', color: '#8e8e8e',height:'.35rem' }}>优惠</div>
                     </Flex>
                     <Flex direction="column" justify="center" align="center" style={{ width: '50%' }} onClick={() => { this.context.router.history.push('/membership/mypoints') }}>
                         <div style={{ fontSize: '.36rem', color: '#37cedc' }}>{this.state.point}<span style={{ fontSize: '.16rem' }}>分</span></div>
-                        <div style={{ fontSize: '.22rem', lineHeight: '.35rem', color: '#8e8e8e' }}>积分</div>
+                        <div style={{ fontSize: '.22rem', lineHeight: '.35rem', color: '#8e8e8e',height:'.35rem'  }}>积分</div>
                     </Flex>
                 </Flex>
             </Flex>

@@ -130,7 +130,7 @@ class SelectCarBrand extends React.Component {
                         }}
                         quickSearchBarStyle={{
                             position: 'absolute',
-                            top: 100,
+                            top: 80,
                         }}
                         delayTime={10}
                         delayActivityIndicator={<div style={{ padding: 25, textAlign: 'center' }}>rendering...</div>}
