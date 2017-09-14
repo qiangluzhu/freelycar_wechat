@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.geariot.platform.freelycar_wechat.entities.Car;
+import com.geariot.platform.freelycar_wechat.model.RESCODE;
 import com.geariot.platform.freelycar_wechat.service.WXUserService;
+import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
 import com.geariot.platform.freelycar_wechat.wxutils.WechatLoginUse;
 
 @Controller
@@ -131,7 +133,8 @@ public class WXUserController {
 	@ResponseBody
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public void test(String phone,String openId,String headimgurl,String nickName) {
-		System.out.print( wxUserService.login(phone,openId,headimgurl,nickName));
+		//System.out.print(JsonResFactory.buildNetWithData(RESCODE.SUCCESS, wxUserService.login(phone,openId,headimgurl,nickName)).toString());
+		System.out.print(wxUserService.login(phone,openId,headimgurl,nickName));
 	}
 
 	
