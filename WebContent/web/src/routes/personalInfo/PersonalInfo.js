@@ -21,7 +21,7 @@ class PersonalInfo extends React.Component {
 
     componentDidMount() {
         wxInfo({
-            openId: '11'
+            openId: window.localStorage.getItem('openid')
         }).then((res) => {
             console.log(res)
             if (res.data.code == '0') {

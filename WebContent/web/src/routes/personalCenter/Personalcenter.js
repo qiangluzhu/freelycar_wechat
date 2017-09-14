@@ -78,7 +78,7 @@ class Personalcenter extends React.Component {
             { text: '否', onPress: () => console.log('cancel'), style: 'default' },
             {
                 text: '是', onPress: () => logout({
-                    openId: '11'
+                    openId: this.props.match.params.openid
                 }).then((res) => {
                     this.context.router.history.push('/login')
                 })
