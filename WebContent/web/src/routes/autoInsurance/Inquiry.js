@@ -133,11 +133,12 @@ class Inquiry extends React.Component {
             <div className="cooperative-agency">
                 <div className="title">合作机构</div>
                 <div className="list-body clear" >
-                    <div className="list-item"></div>
-                    <div className="list-item"></div>
-                    <div className="list-item"></div>
-                    <div className="list-item"></div>
-                    <div className="list-item"></div>
+                    <div className="list-item"><img src={require('../../img/taipingyang.png')} alt=""/></div>
+                    <div className="list-item"><img src={require('../../img/yangguang.png')} alt=""/></div>
+                    <div className="list-item"><img src={require('../../img/taiping.png')} alt=""/></div>
+                    <div className="list-item"><img src={require('../../img/renbao.png')} alt=""/></div>
+                    <div className="list-item"><img src={require('../../img/pingan.png')} alt=""/></div>
+                    <div className="list-item"><img src={require('../../img/dadi.png')} alt=""/></div>
                 </div>
             </div>
         </div>

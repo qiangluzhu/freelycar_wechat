@@ -31,7 +31,7 @@ class CooperativeStore extends React.Component {
             pagination: '.swiper-pagination',
         });
 
-        storeDetail({ storeId: this.props.params.storeId }).then((res) => {
+        storeDetail({ storeId: this.props.match.params.storeId }).then((res) => {
             console.log(res)
             if (res.data.code == '0') {
                 let store = res.data.data.store

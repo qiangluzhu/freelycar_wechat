@@ -30,10 +30,23 @@ public class WXUserController {
 	
 	private static String BASEURL = "http://www.freelycar.com/freelycar_wechat/index.html#/";
 	
+	
+	/*微信菜单转发*/
+	
+	//个人中心
 	@RequestMapping(value = "/wechatlogin")
 	public String wechatLogin(String htmlPage, String code) {
 			return getWechatInfo(htmlPage, code);
 	}
+	
+	//直接内部跳转
+	@RequestMapping(value = "/menuRedirect")
+	public String menuRedirect(String htmlPage, String code) {
+		String ret = BASEURL+htmlPage;
+		return "redirect:"+ret;
+	}
+	
+	
 	
 	
 	public String getWechatInfo(String htmlPage, String code) {

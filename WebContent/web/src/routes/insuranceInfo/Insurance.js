@@ -33,8 +33,9 @@ class Insurance extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.props.match.params.carId)
         carDetail({
-            carId: this.props.params.carId,
+            carId: this.props.match.params.carId,
         }).then((res) => {
             console.log(res);
             let  dt = res.data.data;
@@ -55,8 +56,8 @@ class Insurance extends React.Component {
 
     modifyCarInfo=()=>{
         modifyCarInfo({
-            clientId: this.props.params.clientId,
-            id:this.props.params.carId,
+            clientId: window.localStorage.getItem(clientId),
+            id:this.props.match.params.carId,
             insuranceCompany:this.state.insuredCompany[0],
             insuranceCity:this.state.insuredCity[0]+','+this.state.insuredCity[1],
             insuranceEndtime:this.state.commercialInsurance.format('YYYY-MM-DD')
