@@ -8,4 +8,5 @@ public interface WXUserDao {
 	void deleteUser(String openId);
 	void updateUser(WXUser oldWXUser);
 	void save(WXUser wxUser);
+	void saveOrUpdate(WXUser wxUser);
 }

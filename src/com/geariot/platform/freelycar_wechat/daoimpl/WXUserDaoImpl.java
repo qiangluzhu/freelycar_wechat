@@ -47,5 +47,11 @@ public class WXUserDaoImpl implements WXUserDao{
 		this.getSession().save(wxUser);
 	}
 
+	@Override
+	public void saveOrUpdate(WXUser wxUser) {
+		this.getSession().saveOrUpdate(wxUser);
+		
+	}
+
 
 }

@@ -66,26 +66,35 @@ public class WXUserService {
 	
 
 	@SuppressWarnings("null")
-	public String login(String openId) {
-		WXUser wxUser = wxUserDao.findUserByOpenId(openId);
-		if (wxUser == null) {
-			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND_WXUSER).toString();
+	public org.json.JSONObject login(String phone,String openId,String headimgurl,String nickName) {
+		WXUser wxUser = wxUserDao.findUserByPhone(openId);
+		if(wxUser==null){
+			WXUser wxUserNew = new WXUser();
+			wxUserNew.setHeadimgurl(headimgurl);
+			wxUserNew.setNickName(nickName);
+			wxUserNew.setOpenId(openId);		
+			wxUserDao.save(wxUserNew);
 		}
-		Client client = clientDao.findByPhone(wxUser.getPhone());
-		if (client == null) {
+		else{
+			wxUser.setHeadimgurl(headimgurl);
+			wxUser.setNickName(nickName);
+			wxUser.setOpenId(openId);
+		}
+		Client exist = clientDao.findByPhone(phone);
+		org.json.JSONObject obj = new org.json.JSONObject();
+		if (exist == null) {
+			Client client = new Client();
 			client.setPhone(wxUser.getPhone());
-			client.setBirthday(wxUser.getBirthday());
-			client.setGender(wxUser.getGender());
 			if (wxUser.getName() == null)
 				client.setName(wxUser.getNickName());
 			else
 				client.setName(wxUser.getName());
 			clientDao.save(client);
+			obj.put(Constants.RESPONSE_CLIENT_KEY, client);
 		}
-		JSONObject obj = new JSONObject();
-		obj.put(Constants.RESPONSE_CLIENT_KEY, client);
-		return JsonResFactory.buildNet(RESCODE.SUCCESS,
-				Constants.RESPONSE_CLIENT_KEY, client.getId()).toString();
+		else
+			obj.put(Constants.RESPONSE_CLIENT_KEY, exist);
+		return obj;
 		// return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 
@@ -284,17 +293,21 @@ public class WXUserService {
 		}
 	}
 
-	public String addWXUser(WXUser wxUser) {
-		WXUser oldWXUser = wxUserDao.findUserByPhone(wxUser.getPhone());
-		if(oldWXUser!=null){
-			if(wxUser.getName()!=null)
-				oldWXUser.setName(wxUser.getName());
-			oldWXUser.setBirthday(wxUser.getBirthday());
-			oldWXUser.setGender(wxUser.getGender());
-			wxUserDao.save(oldWXUser);
+	public String addWXUser(String phone,String name,String birthday,String gender) throws ParseException {
+		WXUser wxUser = wxUserDao.findUserByPhone(phone);
+		if(wxUser == null)
+			return JsonResFactory.buildNet(RESCODE.NOT_FOUND_WXUSER).toString();
+		else{
+			if(birthday!=null){
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
+				Date date = sdf.parse(birthday);
+				wxUser.setBirthday(date);
+			}
+			if(gender!=null)
+				wxUser.setGender(gender);
+			if(name!=null)
+				wxUser.setName(name);
+			return JsonResFactory.buildNet(RESCODE.SUCCESS).toString();
 		}
-		else
-			wxUserDao.updateUser(oldWXUser);
-		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 }

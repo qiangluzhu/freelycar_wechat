@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.geariot.platform.freelycar_wechat.entities.Car;
-import com.geariot.platform.freelycar_wechat.entities.WXUser;
 import com.geariot.platform.freelycar_wechat.service.WXUserService;
 import com.geariot.platform.freelycar_wechat.wxutils.WechatLoginUse;
 
@@ -31,21 +30,29 @@ public class WXUserController {
 	
 	private static String BASEURL = "http://www.freelycar.com/freelycar_wechat/index.html#/";
 	
+	
+	/*微信菜单转发*/
+	
+	//个人中心
 	@RequestMapping(value = "/wechatlogin")
-	public void wechatLogin(String htmlPage, String code) {
-		try {
-			getWechatInfo(htmlPage, code);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+	public String wechatLogin(String htmlPage, String code) {
+			return getWechatInfo(htmlPage, code);
+	}
+	
+	//直接内部跳转
+	@RequestMapping(value = "/menuRedirect")
+	public String menuRedirect(String htmlPage, String code) {
+		String ret = BASEURL+htmlPage;
+		return "redirect:"+ret;
 	}
 	
 	
-	public String getWechatInfo(String htmlPage, String code) throws UnsupportedEncodingException{
+	
+	
+	public String getWechatInfo(String htmlPage, String code) {
 		String wechatInfo = WechatLoginUse.wechatInfo(code);
 		JSONObject resultJson;
 		try {
-			log.debug("用户信息:"+wechatInfo);
 			resultJson = new JSONObject(wechatInfo);
 			if(resultJson.get("message").equals("success")){
 				String openid = resultJson.getString("openid");
@@ -53,34 +60,29 @@ public class WXUserController {
 				String headimgurl = resultJson.getString("headimgurl");
 				
 				
-				
 				boolean wxUser = wxUserService.isExistUserOpenId(openid);
-				//userService.register(openid,nickname);
-				//User user = userService.wechatLogin(openid, nickname);
-//				nickname = NicknameFilter.decodeNikename(user.getNickname());
-//				nickname = user.g                    etNickname();
 				String ret = "";
 				if(!wxUser){
-					ret = BASEURL+"login/" + openid+"/"+headimgurl;
+					ret = BASEURL+"login/" + openid+"/"+nickname+"/"+headimgurl;
 				}else{
 					nickname = URLEncoder.encode(nickname,"utf-8");
-					ret = BASEURL+htmlPage+"/" + openid+"/"+headimgurl;
+					ret = BASEURL+htmlPage+"/" + openid+"/"+nickname+"/"+headimgurl;
 				}
 				return "redirect:"+ret;
-			}else{
-				return "redirect:../../fail.html";    //重定向到失败页面
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-			return "redirect:../../fail.html";    //重定向到失败页面
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
+		return "redirect:../../fail.html";    //重定向到失败页面
 		
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/addWXUser", method = RequestMethod.POST)
-	public String addWxUser(@RequestBody WXUser wxUser) {
-		return wxUserService.addWXUser(wxUser);
+	@RequestMapping(value = "/updateWXUser",method = RequestMethod.POST)
+	public String addWxUser(String phone,String name,String birthday,String gender) throws ParseException{
+		return wxUserService.addWXUser(phone,name,birthday,gender);
 	}
 
 	// @RequestMapping(value = "/login",method = RequestMethod.GET)
