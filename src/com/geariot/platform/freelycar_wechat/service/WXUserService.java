@@ -299,7 +299,7 @@ public class WXUserService {
 			return JsonResFactory.buildNet(RESCODE.NOT_FOUND_WXUSER).toString();
 		else{
 			if(birthday!=null){
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd "); 
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
 				Date date = sdf.parse(birthday);
 				wxUser.setBirthday(date);
 			}
