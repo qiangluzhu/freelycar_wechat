@@ -31,7 +31,6 @@ import com.geariot.platform.freelycar_wechat.utils.Constants;
 import com.geariot.platform.freelycar_wechat.utils.JsonPropertyFilter;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
 import com.geariot.platform.freelycar_wechat.utils.NicknameFilter;
-import com.geariot.platform.freelycar_wechat.utils.query.ClientBean;
 import com.geariot.platform.freelycar_wechat.utils.query.PointBean;
 
 @Service
@@ -69,7 +68,7 @@ public class WXUserService {
 
 	public org.json.JSONObject login(String phone,String openId,String headimgurl,String nickName) {
 		nickName=NicknameFilter.filter4BytesUTF8(nickName);
-		WXUser wxUser = wxUserDao.findUserByPhone(openId);
+		WXUser wxUser = wxUserDao.findUserByPhone(phone);
 		if(wxUser==null){
 			WXUser wxUserNew = new WXUser();
 			wxUserNew.setPhone(phone);
@@ -247,8 +246,9 @@ public class WXUserService {
 		else
 			point = (int) Math.rint((double) (point));
 		// obj.put(Constants.RESPONSE_FAVOUR_KEY, favour);
+		JsonConfig config = JsonResFactory.dateConfig();
 		obj.put("point", point);
-		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
+		obj.put(Constants.RESPONSE_WXUSER_KEY, JSONObject.fromObject(wxUser, config));
 
 		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj).toString();
 	}
