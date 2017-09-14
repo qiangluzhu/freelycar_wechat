@@ -72,6 +72,7 @@ public class WXUserService {
 		WXUser wxUser = wxUserDao.findUserByPhone(openId);
 		if(wxUser==null){
 			WXUser wxUserNew = new WXUser();
+			wxUserNew.setPhone(phone);
 			wxUserNew.setHeadimgurl(headimgurl);
 			wxUserNew.setNickName(nickName);
 			wxUserNew.setName(nickName);
