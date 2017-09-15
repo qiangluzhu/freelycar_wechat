@@ -34,7 +34,7 @@ class CooperativeStore extends React.Component {
         }, 600);
     }
 
-    genData = (pIndex = 0) => {
+    genData = (pIndex = 1) => {
         // const dataBlob = {};
         // for (let i = 0; i < NUM_ROWS; i++) {
         //     const ii = (pIndex * NUM_ROWS) + i;
