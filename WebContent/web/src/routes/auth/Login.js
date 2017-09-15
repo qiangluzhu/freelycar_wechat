@@ -22,7 +22,7 @@ class Login extends React.Component {
 
     componentDidMount() {
         console.log(this.props.match.params.openid)
-
+        console.log(window.document.body.clientHeight)
     }
 
     sendCode() {
@@ -96,7 +96,7 @@ class Login extends React.Component {
             })
     }
     render() {
-        return <div className='loginbg'>
+        return <div className='loginbg' style={{height:window.document.body.clientHeight}} >
             <div className='panel' >
                 <Flex justify='center'>
                     <img className='logo' src={login} />
@@ -130,7 +130,7 @@ class Login extends React.Component {
                     为了防止用户信息被盗,请使用本机号码
                 </div>
                 <div style={{ height: '0.98rem', textAlign: 'center', color: "#fff", borderRadius: '10rem', lineHeight: '0.98rem', margin: '0 .48rem 0 .48rem', background: '#5b87e5' }} onClick={() => { this.Login() }}>
-                    注 册
+                    登 录
                 </div>
             </div>
         </div>

@@ -38,13 +38,18 @@ import CommentStore from './routes/store/CommentStore'
 import MyFavour from './routes/store/MyFavour'
 //404 not found页面
 import NotFound from './routes/NotFound'
+//活动
+import ReceiveCoupons from './routes/activity/ReceiveCoupons'
+import Activity from './routes/activity/Activity.js'
 const App = () => (
     <div style={{height:'100%'}}>
         <Switch>
             <Route exact path="/" component={Personalcenter}/>
+            <Route path="/activity"  component={Activity} />
+            <Route path="/receivecoupons" component={ReceiveCoupons}/>
             <Route path="/center/:openid/:nickname/:headimgurl"  component={Personalcenter} />
             <Route path="/login/:openid/:nickname/:headimgurl"  component={Login} />
-      
+            
             <Route path="/addcar/:select" component={AddCar} />
             <Route path="/carbrand" component={CarBrand} />
       
