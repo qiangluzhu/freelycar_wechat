@@ -17,7 +17,7 @@ class Personalcenter extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            point: '',
+            point: 0,
             name: '',
             headimgurl: this.props.match.params.headimgurl,
             tickets: 0,
