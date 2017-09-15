@@ -50,43 +50,42 @@ public class PayService {
 	
 	
 	//创建card订单	
-	public String createCardOrder(String openId,double totalPrice,
+	public org.json.JSONObject createCardOrder(String openId,double totalPrice,
 			int serviceId){
 		log.debug("create new order");
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
 		log.debug("id" + wxPayOrder.getId() + "总金额" + wxPayOrder.getTotalPrice() + "openId" + wxPayOrder.getOpenId() +"Date" + wxPayOrder.getCreateDate());
-		WXUser wxUser =  wxUserDao.findUserByOpenId(openId);
+		
 		Service service = serviceDao.findServiceById(serviceId);
 		wxPayOrder.setService(service);
 		wxPayOrder.setProductName(service.getName());
-		Map<String, Object> obj = new HashMap<String, Object>();
-		//JSONObject obj = new JSONObject();
-		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
-		obj.put(Constants.RESPONSE_WXORDER_KEY,wxPayOrder);
+
 		wxPayOrderDao.saveWXPayOrder(wxPayOrder);
-		JsonConfig config = JsonResFactory.dateConfig();
-		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS,
-				net.sf.json.JSONObject.fromObject(obj, config)).toString();
+		
+		org.json.JSONObject order = new org.json.JSONObject();
+		order.put(Constants.RESPONSE_DATA_KEY, wxPayOrder.getId());
+		return order;
+		
 	}
 	
 	//create favour order
-	public String createFavourOrder(FavourOrderBean favourOrderBean){
+	public org.json.JSONObject createFavourOrder(FavourOrderBean favourOrderBean){
 		String openId = favourOrderBean.getOpenId();
 		double totalPrice = favourOrderBean.getTotalPrice();
 		Set<FavourToOrder> favours = favourOrderBean.getFavours();
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
-		WXUser wxUser =  wxUserDao.findUserByOpenId(openId);
+
 		String productName = null;
 		for(FavourToOrder favour : favours)
 			productName += favour.getFavour().getName()+"*"+favour.getCount()+",";
 		wxPayOrder.setProductName(productName);
 		wxPayOrder.setFavours(favours);
-		Map<String, Object> obj = new HashMap<String, Object>();
-		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
-		obj.put(Constants.RESPONSE_WXORDER_KEY,wxPayOrder);
 		wxPayOrderDao.saveWXPayOrder(wxPayOrder);
-		JsonConfig config = JsonResFactory.dateConfig();
-		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS,net.sf.json.JSONObject.fromObject(obj, config)).toString();
+		
+		org.json.JSONObject order = new org.json.JSONObject();
+		order.put(Constants.RESPONSE_DATA_KEY, wxPayOrder.getId());
+		return order;
+		//return JsonResFactory.buildNetWithData(RESCODE.SUCCESS,net.sf.json.JSONObject.fromObject(obj, config)).toString();
 		
 	}
 	
