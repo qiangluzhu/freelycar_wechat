@@ -8,7 +8,7 @@ import diamonds_card from '../../img/diamonds_card.png'
 import extreme_card from '../../img/extreme_card.png'
 import times_card from '../../img/times_card.png'
 import { getCardList } from '../../services/service.js'
-import { payment } from '../../services/pay.js'
+import { payment, getWXConfig, membershipCard } from '../../services/pay.js'
 import PropTypes from 'prop-types';
 class OrderDetail extends React.Component {
     constructor(props) {
@@ -31,10 +31,10 @@ class OrderDetail extends React.Component {
 
 
         //通过后台对微信签名的验证。
-        getCardList({
+        getWXConfig({
             targetUrl: window.location.href,
         }).then((res) => {
-            console.log(res);
+            let data = res.data;
             //先注入配置JSSDK信息
             wx.config({
                 debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -92,6 +92,69 @@ class OrderDetail extends React.Component {
         });
     }
 
+
+    handlePay = () => {
+        if (!state) {
+            state = checkPayState();
+            if (!state) {
+                alert("不能发起支付");
+            }
+        }
+
+        if (state) {
+
+            membershipCard({//传递所需的参数
+                "openId": openId,
+                "serviceId": serviceId,
+                "totalPrice": totprice,
+                "programId": prgId
+            }).then((res) => {
+                console.log('wxxxxxxxxxxxxxxxx');
+                console.log(res);
+
+                onBridgeReady(res.data.appId, res.data.timeStamp,
+                    res.data.nonceStr, res.data.package,
+                    res.data.signType, res.data.paySign);
+            }).catch((error) => { console.log(error) });
+        }
+
+    }
+
+
+
+    checkPayState = () => {
+        if (typeof WeixinJSBridge == "undefined") {
+            if (document.addEventListener) {
+                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+            } else if (document.attachEvent) {
+                document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+            }
+            return true;
+        } else {
+            return true;
+        }
+    }
+
+
+    onBridgeReady = (appId, timeStamp, nonceStr, prepay_id, signType,
+        paySign, type) => {
+        WeixinJSBridge.invoke('getBrandWCPayRequest', {
+            "appId": appId, // 公众号名称，由商户传入
+            "timeStamp": timeStamp, // 时间戳，自1970年以来的秒数
+            "nonceStr": nonceStr, // 随机串
+            "package": prepay_id,
+            "signType": signType, // 微信签名方式：
+            "paySign": paySign
+            // 微信签名
+        }, function (res) {
+            console.log("支付结果:" + res);
+            if (res.err_msg == "get_brand_wcpay_request:ok") {
+                window.location.href = "policy.html?type=" + type;
+            }
+        });
+    }
+
     render() {
 
         let cards = this.state.card;
@@ -145,7 +208,7 @@ class OrderDetail extends React.Component {
                     <Flex.Item style={{ color: 'red' }}><span style={{ fontSize: '12px' }}>￥</span><span style={{ fontSize: '16px' }}>{price}</span></Flex.Item>
                     <div className='pay-button'>
                         <Flex style={{ height: '100%' }}>
-                            <Flex.Item style={{ textAlign: 'center', color: '#fff' }} onClick={() => { this.context.router.history.push('/store/detail/1') }}>立即支付</Flex.Item>
+                            <Flex.Item style={{ textAlign: 'center', color: '#fff' }} onClick={() => { this.handlePay() }}>立即支付</Flex.Item>
                         </Flex>
                     </div>
                 </Flex>

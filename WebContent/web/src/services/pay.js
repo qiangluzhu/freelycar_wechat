@@ -16,8 +16,12 @@ export default {
 
     getWXConfig:(option) =>{
         return get('api/pay/wx/getJSSDKConfig',option)
-    }
+    },
 
+    //购买会员卡
+    membershipCard:(option) =>{
+        return post('api/pay/membershipCard',option)
+    }
 
 
 }
