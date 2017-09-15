@@ -101,7 +101,7 @@ class OrderDetail extends React.Component {
                 <div className='order-list'>
                     <Flex style={{ height: '100%' }}>
                         <Flex.Item className='leftLable'>订单编号</Flex.Item>
-                        <span>{this.state.id} | <span style={{ color: '#7ba0ea' }}>复制</span></span>
+                        <span style={{paddingRight:'.42rem'}}>{this.state.id} | <span style={{ color: '#7ba0ea' }}>复制</span></span>
                     </Flex>
                 </div>
                 <div className='order-list'>
@@ -145,7 +145,7 @@ class OrderDetail extends React.Component {
                     <Flex.Item style={{ color: 'red' }}>￥{this.state.totalPrice}</Flex.Item>
                     <div className='pay-button'>
                         <Flex style={{ height: '100%' }}>
-                            <Flex.Item style={{ textAlign: 'center', color: '#fff' }}>立即购买</Flex.Item>
+                            <Flex.Item style={{ textAlign: 'center', color: '#fff' }}>立即支付</Flex.Item>
                         </Flex>
                     </div>
 

@@ -218,7 +218,7 @@ class CooperativeStore extends React.Component {
                     <Flex.Item style={{ color: 'red' }}>￥999</Flex.Item>
                     <div className='pay-button'>
                         <Flex style={{ height: '100%' }}>
-                            <Flex.Item style={{ textAlign: 'center', color: '#fff' }}>立即购买</Flex.Item>
+                            <Flex.Item style={{ textAlign: 'center', color: '#fff' }}>立即支付</Flex.Item>
                         </Flex>
                     </div>
                 </Flex>

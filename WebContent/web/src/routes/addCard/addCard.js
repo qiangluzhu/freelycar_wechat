@@ -8,8 +8,8 @@ import diamonds_card from '../../img/diamonds_card.png'
 import extreme_card from '../../img/extreme_card.png'
 import times_card from '../../img/times_card.png'
 import { getCardList } from '../../services/service.js'
-
-
+import { payment } from '../../services/pay.js'
+import PropTypes from 'prop-types';
 class OrderDetail extends React.Component {
     constructor(props) {
         super(props)
@@ -42,7 +42,7 @@ class OrderDetail extends React.Component {
         }).then((res) => {
             if (res.data.code == '0') {
                 this.setState({
-                    services: res.data.data,
+                    services: res.data.data
                 })
             }
         }).catch((error) => { console.log(error) });
@@ -57,6 +57,7 @@ class OrderDetail extends React.Component {
             arrowName: name,
         });
     }
+
     render() {
 
         let cards = this.state.card;
@@ -69,9 +70,13 @@ class OrderDetail extends React.Component {
             </div>
 
         });
+        let price 
         let serviceItem = this.state.services.map((item, index) => {
             let service = item
+            console.log(item.name,this.state.arrowName)
             if (item.name == this.state.arrowName) {
+                console.log('匹配上了')
+                price = service.price
                 let proInfos = service.projectInfos;
                 let item = proInfos.map((item1, index1) => {
                     return <div key={index+''+index1} className='vip-service-item'>
@@ -105,10 +110,10 @@ class OrderDetail extends React.Component {
             <div className='bottom-pay-button'>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='lable'>合计:</Flex.Item>
-                    <Flex.Item style={{ color: 'red' }}><span style={{ fontSize: '12px' }}>￥</span><span style={{ fontSize: '16px' }}>999</span></Flex.Item>
+                    <Flex.Item style={{ color: 'red' }}><span style={{ fontSize: '12px' }}>￥</span><span style={{ fontSize: '16px' }}>{price}</span></Flex.Item>
                     <div className='pay-button'>
                         <Flex style={{ height: '100%' }}>
-                            <Flex.Item style={{ textAlign: 'center', color: '#fff' }}>立即购买</Flex.Item>
+                            <Flex.Item style={{ textAlign: 'center', color: '#fff' }} onClick={()=>{this.context.router.history.push('/store/detail/1')}}>立即支付</Flex.Item>
                         </Flex>
                     </div>
                 </Flex>
@@ -120,3 +125,6 @@ class OrderDetail extends React.Component {
 }
 
 export default OrderDetail
+OrderDetail.contextTypes = {
+    router: PropTypes.object.isRequired
+}
