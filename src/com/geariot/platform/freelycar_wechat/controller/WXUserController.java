@@ -133,14 +133,14 @@ public class WXUserController {
 	}
 
 	
-	@ResponseBody
+	/*@ResponseBody
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public String test(String phone,String openId,String headimgurl,String nickName) {
 		//System.out.print(JsonResFactory.buildNetWithData(RESCODE.SUCCESS, wxUserService.login(phone,openId,headimgurl,nickName)).toString());
 	net.sf.json.JSONObject obj = wxUserService.login(phone,openId,headimgurl,nickName);
 		//return obj.toString();
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS, Constants.RESPONSE_CLIENT_KEY, obj).toString();
-	}
+	}*/
 
 	
 	@ResponseBody

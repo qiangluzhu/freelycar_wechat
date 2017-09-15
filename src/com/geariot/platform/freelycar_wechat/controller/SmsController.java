@@ -73,7 +73,7 @@ public class SmsController {
 		}
 		
 		else {
-			JSONObject obj = wxUserService.login(phone,openId,headimgurl,nickName);
+			net.sf.json.JSONObject obj = wxUserService.login(phone,openId,headimgurl,nickName);
 			//String res = smsService.bindUser(phone, openId);
 			//log.debug("绑定用户结果：" + res);
 			//return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, obj);

@@ -66,7 +66,7 @@ public class WXUserService {
 	
 
 
-	public org.json.JSONObject login(String phone,String openId,String headimgurl,String nickName) {
+	public JSONObject login(String phone,String openId,String headimgurl,String nickName) {
 		nickName=NicknameFilter.filter4BytesUTF8(nickName);
 		WXUser wxUser = wxUserDao.findUserByPhone(phone);
 		if(wxUser==null){
@@ -88,13 +88,14 @@ public class WXUserService {
 		}
 		Client exist = clientDao.findByPhone(phone);
 
-		org.json.JSONObject obj = new org.json.JSONObject();
+		JSONObject obj = new JSONObject();
 		if (exist == null) {
 			System.out.print(">>>111");
 			Client client = new Client();
 			client.setPhone(phone);
 			client.setName(nickName);
 			client.setAge(0);
+			client.setCreateDate(new Date());
 			client.setConsumAmout(0);
 			client.setConsumTimes(0);
 			client.setIsMember(false);
@@ -102,11 +103,11 @@ public class WXUserService {
 			client.setPoints(0);
 			System.out.print(">>>"+client);
 			clientDao.save(client);
-			obj.put(Constants.RESPONSE_CLIENT_KEY, new org.json.JSONObject(client));
+			obj.put(Constants.RESPONSE_CLIENT_KEY, JSONObject.fromObject(client,JsonResFactory.dateConfig()));
 			System.out.print(">>>"+obj);
 		}
 		else
-			obj.put(Constants.RESPONSE_CLIENT_KEY, new org.json.JSONObject(exist));
+			obj.put(Constants.RESPONSE_CLIENT_KEY, JSONObject.fromObject(exist,JsonResFactory.dateConfig()));
 		return obj;
 		// return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
