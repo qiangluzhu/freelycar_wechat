@@ -6,5 +6,8 @@ export default {
     },
     buySales:(option)=>{
         return post('api/pay/buysales',option)
+    },
+    payment:(option)=>{
+        return get('api/pay/payment',option)
     }
 }
