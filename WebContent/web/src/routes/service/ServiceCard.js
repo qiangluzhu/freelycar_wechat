@@ -24,9 +24,9 @@ class ServiceCard extends React.Component {
 
     componentDidMount() {
         listConsumOrder({
-            clientId:  window.localStorage.getItem('clientId'),
-            page:1,
-            number:99
+            clientId: window.localStorage.getItem('clientId'),
+            page: 1,
+            number: 99
         }).then((res) => {
             if (res.data.code == '0') {
                 let data = res.data.data;
@@ -38,8 +38,8 @@ class ServiceCard extends React.Component {
 
         //卡券
         listWXPayOrder({
-            clientId:  window.localStorage.getItem('clientId'),
-            page:1,
+            clientId: window.localStorage.getItem('clientId'),
+            page: 1,
             number: 99
         }).then((res) => {
             console.log(res);
@@ -62,7 +62,7 @@ class ServiceCard extends React.Component {
                 pName += p.name;
             }
 
-            return <Flex key={index} className="center-listItem" direction="column" onClick={()=>{this.context.router.history.push(`/orderDetail/${item.id}`)}}>
+            return <Flex key={index} className="center-listItem" direction="column" onClick={() => { this.context.router.history.push(`/orderDetail/${item.id}`) }}>
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.24rem', color: '#4b4b4b' }}>
                     <i className="circle"></i>
                     <p>{pName}</p>
@@ -82,7 +82,7 @@ class ServiceCard extends React.Component {
 
             </Flex>;
         }), cards = this.state.cards.map((item, index) => {
-            return <Flex className="center-listItem" key={index} direction="column" onClick={()=>{this.context.router.history.push(`/orderDetail/${item.id}`)}}>
+            return <Flex className="center-listItem" key={index} direction="column" onClick={() => { this.context.router.history.push(`/orderDetail/${item.id}`) }}>
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.24rem', color: '#4b4b4b' }}>
                     <i className="circle"></i>
                     <p>{item.productName}</p>
@@ -101,9 +101,11 @@ class ServiceCard extends React.Component {
             <Tabs defaultActiveKey="1" onChange={callback} onTabClick={handleTabClick}>
                 <TabPane tab='服务' key="1">
                     {services}
+                    {this.state.services.length == 0 && <div style={{ width: '4.21rem', height: '5.07rem', margin: '0 auto', background: 'url(../../img/empty.png)', backgroundSize: '100% 100%' }}></div>}
                 </TabPane>
                 <TabPane tab='卡券' key="2">
                     {cards}
+                    {this.state.cards.length == 0 && <div style={{ width: '4.21rem', height: '5.07rem', margin: '0 auto', background: 'url(../../img/empty.png)', backgroundSize: '100% 100%' }}></div>}
                 </TabPane>
             </Tabs>
             <WhiteSpace />

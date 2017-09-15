@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import login from '../../img/logo.png';
 import phone from '../../img/phone.png';
 import password from '../../img/password.png';
-import { verification, verifySmsCode, activity } from '../../services/sms.js'
+import { verification, verifySmsCode } from '../../services/sms.js'
+import { activity } from '../../services/pay.js'
 class Activity extends React.Component {
 
     constructor(props) {
