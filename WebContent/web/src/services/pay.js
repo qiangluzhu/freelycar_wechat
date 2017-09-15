@@ -9,5 +9,12 @@ export default {
     },
     payment:(option)=>{
         return get('api/pay/payment',option)
+    },
+
+    getWXConfig:(option) =>{
+        return get('api/pay/wx/getJSSDKConfig',option)
     }
+
+
+
 }
