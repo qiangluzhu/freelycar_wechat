@@ -50,43 +50,42 @@ public class PayService {
 	
 	
 	//创建card订单	
-	public String createCardOrder(String openId,double totalPrice,
+	public org.json.JSONObject createCardOrder(String openId,double totalPrice,
 			int serviceId){
 		log.debug("create new order");
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
 		log.debug("id" + wxPayOrder.getId() + "总金额" + wxPayOrder.getTotalPrice() + "openId" + wxPayOrder.getOpenId() +"Date" + wxPayOrder.getCreateDate());
-		WXUser wxUser =  wxUserDao.findUserByOpenId(openId);
+		
 		Service service = serviceDao.findServiceById(serviceId);
 		wxPayOrder.setService(service);
 		wxPayOrder.setProductName(service.getName());
-		Map<String, Object> obj = new HashMap<String, Object>();
-		//JSONObject obj = new JSONObject();
-		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
-		obj.put(Constants.RESPONSE_WXORDER_KEY,wxPayOrder);
+
 		wxPayOrderDao.saveWXPayOrder(wxPayOrder);
-		JsonConfig config = JsonResFactory.dateConfig();
-		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS,
-				net.sf.json.JSONObject.fromObject(obj, config)).toString();
+		
+		org.json.JSONObject order = new org.json.JSONObject();
+		order.put(Constants.RESPONSE_DATA_KEY, wxPayOrder.getId());
+		return order;
+		
 	}
 	
 	//create favour order
-	public String createFavourOrder(FavourOrderBean favourOrderBean){
+	public org.json.JSONObject createFavourOrder(FavourOrderBean favourOrderBean){
 		String openId = favourOrderBean.getOpenId();
 		double totalPrice = favourOrderBean.getTotalPrice();
 		Set<FavourToOrder> favours = favourOrderBean.getFavours();
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
-		WXUser wxUser =  wxUserDao.findUserByOpenId(openId);
+
 		String productName = null;
 		for(FavourToOrder favour : favours)
 			productName += favour.getFavour().getName()+"*"+favour.getCount()+",";
 		wxPayOrder.setProductName(productName);
 		wxPayOrder.setFavours(favours);
-		Map<String, Object> obj = new HashMap<String, Object>();
-		obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser);
-		obj.put(Constants.RESPONSE_WXORDER_KEY,wxPayOrder);
 		wxPayOrderDao.saveWXPayOrder(wxPayOrder);
-		JsonConfig config = JsonResFactory.dateConfig();
-		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS,net.sf.json.JSONObject.fromObject(obj, config)).toString();
+		
+		org.json.JSONObject order = new org.json.JSONObject();
+		order.put(Constants.RESPONSE_DATA_KEY, wxPayOrder.getId());
+		return order;
+		//return JsonResFactory.buildNetWithData(RESCODE.SUCCESS,net.sf.json.JSONObject.fromObject(obj, config)).toString();
 		
 	}
 	
@@ -251,7 +250,7 @@ public class PayService {
 			FavourProjectRemainingInfo projectRemainingInfo = new FavourProjectRemainingInfo();
 			for(FavourProjectInfos projectInfos : favourInfos.getFavour().getSet()){
 				projectRemainingInfo.setProject(projectInfos.getProject());
-				projectRemainingInfo.setRemaining(projectInfos.getTimes() * favourInfos.getCount());
+				projectRemainingInfo.setRemaining(projectInfos.getTimes());
 				remainingInfos.add(projectRemainingInfo);
 				log.debug("***************************"+projectRemainingInfo.toString());
 			}
@@ -295,6 +294,42 @@ public class PayService {
 		client.setLastVisit(new Date());
 		client.setIsMember(true);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS);
+	}
+	
+	public String activityPay(int clientId){
+		Service service = serviceDao.findServiceById(7);
+		Client client = clientDao.findById(clientId);
+		if(service == null){
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
+		}
+		else{
+			//将优惠券信息添加到客户卡列表中
+			List<Ticket> tickets = new ArrayList<>();
+			for(FavourInfos favourInfos : service.getFavourInfos()){
+				Set<FavourProjectRemainingInfo> remainingInfos = new HashSet<>();
+				Ticket ticket = new Ticket();
+				ticket.setFavour(favourInfos.getFavour());
+				ticket.setExpirationDate(DateHandler.addValidMonth(DateHandler.toCalendar(new Date()), favourInfos.getFavour().getValidTime()).getTime());;
+				FavourProjectRemainingInfo projectRemainingInfo = new FavourProjectRemainingInfo();
+				for(FavourProjectInfos projectInfos : favourInfos.getFavour().getSet()){
+					projectRemainingInfo.setProject(projectInfos.getProject());
+					projectRemainingInfo.setRemaining(projectInfos.getTimes());
+					remainingInfos.add(projectRemainingInfo);
+					log.debug("***************************"+projectRemainingInfo.toString());
+				}
+				ticket.setRemainingInfos(remainingInfos);
+				tickets.add(ticket);
+			}
+			List<Ticket> list = client.getTickets();
+			if(list == null){
+				list = new ArrayList<>();
+				client.setTickets(tickets);;
+			}
+			for(Ticket add : tickets){
+				list.add(add);
+			}
+			return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
+		}
 	}
 }
 

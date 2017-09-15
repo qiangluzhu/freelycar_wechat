@@ -13,5 +13,11 @@ export default {
 
     activity:(option)=>{
         return get('api/pay/activity',option)
+    },
+    getWXConfig:(option) =>{
+        return get('api/pay/wx/getJSSDKConfig',option)
     }
+
+
+
 }

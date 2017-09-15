@@ -49,17 +49,26 @@ public class PayController {
 	WXPayOrderDao wxPayOrderDao;
 	@Autowired
 	ConsumOrderDao consumOrderDao;
-	
-	@RequestMapping(value="favour",method = RequestMethod.POST)
-	public String wechatFavour(FavourOrderBean favourOrderBean){
-			log.info("购买券");
-			return payService.createFavourOrder(favourOrderBean);
-	}
 
+	@RequestMapping(value="favour",method = RequestMethod.POST)
+	public String wechatFavour(FavourOrderBean favourOrderBean,HttpServletRequest request){
+			log.info("购买券");
+			double totalPrice = favourOrderBean.getTotalPrice();
+			String openId = favourOrderBean.getOpenId();
+			org.json.JSONObject res=payService.createFavourOrder(favourOrderBean);
+			String orderId = res.getString(Constants.RESPONSE_DATA_KEY);
+			log.info(orderId);
+			return wechatPay(openId,orderId,totalPrice,request);
+	}
+	//String openId,String orderId,double totalPrice
 	@RequestMapping(value="membershipCard",method = RequestMethod.GET)
-	public String wechatCard(String openId,float totalPrice,int serviceId){
+	public String wechatCard(String openId,float totalPrice,int serviceId,HttpServletRequest request){
 			log.info("购买卡");
-			return payService.createCardOrder(openId,totalPrice,serviceId);
+			org.json.JSONObject res=payService.createCardOrder(openId,totalPrice,serviceId);
+			String orderId = res.getString(Constants.RESPONSE_DATA_KEY);
+			log.info(orderId);
+			return wechatPay(openId,orderId,totalPrice,request);
+			//return payService.createCardOrder(openId,totalPrice,serviceId);
 		
 	}
 	@RequestMapping(value="payment",method = RequestMethod.GET)
@@ -225,5 +234,10 @@ public class PayController {
 				}
 			}
 		}
+	}
+	
+	@RequestMapping(value = "/activity", method = RequestMethod.GET)
+	public String activityPay(int clientId){
+		return payService.activityPay(clientId);
 	}
 }

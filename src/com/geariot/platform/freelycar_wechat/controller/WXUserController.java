@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.geariot.platform.freelycar_wechat.entities.Car;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
 import com.geariot.platform.freelycar_wechat.service.WXUserService;
+import com.geariot.platform.freelycar_wechat.utils.Constants;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
 import com.geariot.platform.freelycar_wechat.wxutils.WechatLoginUse;
 
@@ -60,17 +61,18 @@ public class WXUserController {
 				String openid = resultJson.getString("openid");
 				String nickname = resultJson.getString("nickname");
 				String headimgurl = resultJson.getString("headimgurl");
-				
-				
-				boolean wxUser = wxUserService.isExistUserOpenId(openid);
-				String ret = "";
 				nickname = URLEncoder.encode(nickname,"utf-8");
 				headimgurl = URLEncoder.encode(headimgurl,"utf-8");
-				if(!wxUser){
-					ret = BASEURL+"login/" + openid+"/"+nickname+"/"+headimgurl;
-				}else{
-					ret = BASEURL+htmlPage+"/" + openid+"/"+nickname+"/"+headimgurl;
+				
+				String ret = "";
+				if("center".equals(htmlPage)){
+					boolean wxUser = wxUserService.isExistUserOpenId(openid);
+					if(!wxUser){
+						htmlPage = "login";
+					}
 				}
+				ret = BASEURL+htmlPage+"/" + openid+"/"+nickname+"/"+headimgurl;
+				
 				return "redirect:"+ret;
 			}
 		} catch (JSONException e) {
@@ -133,9 +135,11 @@ public class WXUserController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public void test(String phone,String openId,String headimgurl,String nickName) {
+	public String test(String phone,String openId,String headimgurl,String nickName) {
 		//System.out.print(JsonResFactory.buildNetWithData(RESCODE.SUCCESS, wxUserService.login(phone,openId,headimgurl,nickName)).toString());
-		System.out.print(wxUserService.login(phone,openId,headimgurl,nickName));
+	net.sf.json.JSONObject obj = wxUserService.login(phone,openId,headimgurl,nickName);
+		//return obj.toString();
+		return JsonResFactory.buildOrg(RESCODE.SUCCESS, Constants.RESPONSE_CLIENT_KEY, obj).toString();
 	}
 
 	
