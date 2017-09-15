@@ -75,13 +75,15 @@ class Personalcenter extends React.Component {
 
     logout = () => {
         const alertInstance = alert('', '确定退出登录吗?', [
-            { text: '否', onPress: () => console.log('cancel'), style: 'default' },
             {
                 text: '是', onPress: () => logout({
                     openId: this.props.match.params.openid
                 }).then((res) => {
                     this.context.router.history.push(`/login/${window.localStorage.getItem('openid')}/${window.localStorage.getItem('nickName')}/${window.localStorage.getItem('headimgurl')}`)
                 })
+            },
+            {
+                text: '否', onPress: () => console.log('cancel'), style: 'default'
             },
         ]);
         setTimeout(() => {
@@ -120,22 +122,22 @@ class Personalcenter extends React.Component {
                 <Flex justify="between" style={{ width: '100%' }}>
                     <Flex direction="column" justify="center" align="center" style={{ width: '50%' }} onClick={() => { this.context.router.history.push('/membership/myfavour') }}>
                         <div style={{ fontSize: '.36rem', color: '#37cedc' }}>{this.state.tickets}<span style={{ fontSize: '.16rem' }}>个</span></div>
-                        <div style={{ fontSize: '.22rem', lineHeight: '.35rem', color: '#8e8e8e',height:'.35rem' }}>优惠</div>
+                        <div style={{ fontSize: '.22rem', lineHeight: '.35rem', color: '#8e8e8e', height: '.35rem' }}>优惠</div>
                     </Flex>
                     <Flex direction="column" justify="center" align="center" style={{ width: '50%' }} onClick={() => { this.context.router.history.push('/membership/mypoints') }}>
                         <div style={{ fontSize: '.36rem', color: '#37cedc' }}>{this.state.point}<span style={{ fontSize: '.16rem' }}>分</span></div>
-                        <div style={{ fontSize: '.22rem', lineHeight: '.35rem', color: '#8e8e8e',height:'.35rem'  }}>积分</div>
+                        <div style={{ fontSize: '.22rem', lineHeight: '.35rem', color: '#8e8e8e', height: '.35rem' }}>积分</div>
                     </Flex>
                 </Flex>
             </Flex>
 
 
 
-            {this.state.card.length == 0 && <div className="center-banner"><img src={banner} alt="" /></div>}
+            {this.state.card.length == 0 && <div className="center-banner" onClick={() => { this.props.match.params.push('/addCard') }}><img src={banner} alt="" /></div>}
             <Flex className="center-line-box" onClick={() => {
                 if (this.state.cars.length > 0) {
                     this.context.router.history.push('/carInfo')
-                } else { this.context.router.history.push('/addcar') }
+                } else { this.context.router.history.push('/addcar/0') }
             }}>
                 <div className="center-icon1"><img src={Vehiclemanagement_icon} alt="" /></div>
                 <p>爱车管理</p>

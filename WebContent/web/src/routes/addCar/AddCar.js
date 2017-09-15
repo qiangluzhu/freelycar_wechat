@@ -54,7 +54,7 @@ class AddCar extends React.Component {
             cartype: this.state.carModel[0],
             licensePlate: this.state.province + this.state.carPlate,
             client: {
-                id: '11'
+                id: window.localStorage.getItem('clientId')
             }
         }).then((res)=>{
             console.log(res)
@@ -99,12 +99,13 @@ class AddCar extends React.Component {
                         <List.Item extra={this.state.province} arrow="down" style={{ display: 'inline-block' }} onClick={() => { this.PopupModal() }}></List.Item>
                     </div>
                 </InputItem>
-                <Item className="addcar-listItem" extra={window.localStorage.getItem('brandType') ? <span style={{ color: '#000' }}>{window.localStorage.getItem('brandType')}</span> : "请选择品牌车系"} arrow="horizontal" onClick={() => this.context.router.history.push('/carbrand')}>品牌车系</Item>
+                <Item className="addcar-listItem" extra={this.props.match.params.select==1 ? <span style={{ color: '#000' }}>{window.localStorage.getItem('brandType')}</span> : <span style={{ color: '#bbb' }}>请选择品牌车系</span>} arrow="horizontal" onClick={() => this.context.router.history.push('/carbrand')}>品牌车系</Item>
 
                 <Picker
                     data={this.state.carModels}
                     title="车型"
                     cols={1}
+                    extra="请选择(可选)"
                     onOk={v => { this.setState({ carModel: v }) }}
                     value={this.state.carModel}
                 >

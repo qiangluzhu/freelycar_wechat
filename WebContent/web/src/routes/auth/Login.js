@@ -15,9 +15,10 @@ class Login extends React.Component {
         super(props)
         this.state = {
             allowSend: true,
+            isphone:false,
             wait: 60
         }
-    } 
+    }
 
     componentDidMount() {
         console.log(this.props.match.params.openid)
@@ -103,14 +104,26 @@ class Login extends React.Component {
                 <Flex justify='center'  >
                     <div className='input-up'>
                         <img src={phone} style={{ width: '.3rem', marginLeft: '.18rem', marginRight: '0.5rem', verticalAlign: 'middle' }} />
-                        <input className='no-border' style={{ width: '4.3rem' }} onChange={(e) => { this.setState({ phone: e.target.value }) }} placeholder="请输入手机号码" />
+                        <input className='no-border' style={{ width: '4.3rem' }} onChange={(e) => {
+                            if ((/^1(3|4|5|7|8)\d{9}$/.test(e.target.value))) {
+                                this.setState({
+                                    phone: e.target.value,
+                                    isphone: true
+                                })
+                            } else {
+                                this.setState({
+                                    phone: e.target.value,
+                                    isphone: false
+                                })
+                            }
+                        }} placeholder="请输入手机号码" />
                     </div>
                 </Flex>
                 <Flex justify='center'>
                     <div className='input-up'>
                         <img src={password} style={{ width: '.34rem', marginLeft: '.18rem', marginRight: '0.48rem', verticalAlign: 'middle' }} />
                         <input className='no-border' placeholder="请输入验证码" style={{ display: 'inner-block', width: '2rem' }} onChange={(e) => { this.setState({ smscode: e.target.value }) }} />
-                        <div style={{ display: 'inline-block', color: '#5b87e5', verticalAlign: 'middle', paddingLeft: '.33rem', borderLeft: '1px solid #e8e8e8' }} onClick={() => { this.sendCode() }}>{this.state.allowSend ? '获取验证码' : `${this.state.wait}s后重发`}</div>
+                        <div style={{ display: 'inline-block', color:this.state.isphone?'#5b87e5':'#a9a9a9', verticalAlign: 'middle', paddingLeft: '.33rem', borderLeft: '1px solid #e8e8e8' }} onClick={() => { this.sendCode() }}>{this.state.allowSend ? '获取验证码' : `${this.state.wait}s后重发`}</div>
                     </div>
                 </Flex>
                 <div style={{ textAlign: 'center', color: "#cdcdcd", lineHeight: '0.98rem', fontSize: '.18rem' }}>

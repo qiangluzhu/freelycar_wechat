@@ -45,7 +45,7 @@ const App = () => (
             <Route path="/center/:openid/:nickname/:headimgurl"  component={Personalcenter} />
             <Route path="/login/:openid/:nickname/:headimgurl"  component={Login} />
       
-            <Route path="/addcar" component={AddCar} />
+            <Route path="/addcar/:select" component={AddCar} />
             <Route path="/carbrand" component={CarBrand} />
       
             <Route path="/ordertrack" component={OrderTrack} />

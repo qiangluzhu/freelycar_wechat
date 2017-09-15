@@ -4,6 +4,7 @@ import NavBar from '../../components/NavBar'
 import DasAuto from '../../img/das_auto.jpg'
 import fute from '../../img/fute.jpg'
 import car from '../../../public/car.js'
+import PropTypes from 'prop-types';
 const { Item } = List;
 
 class SelectCarBrand extends React.Component {
@@ -62,7 +63,7 @@ class SelectCarBrand extends React.Component {
             }
             window.localStorage.setItem("models", JSON.stringify(i.models))
             window.localStorage.setItem("brandType", this.state.carBrand + newType)
-            history.back()
+            this.context.router.history.push('/addCar/1')
         }
         this.setState(obj);
     }
@@ -130,7 +131,7 @@ class SelectCarBrand extends React.Component {
                         }}
                         quickSearchBarStyle={{
                             position: 'absolute',
-                            top: 80,
+                            top: 50,
                         }}
                         delayTime={10}
                         delayActivityIndicator={<div style={{ padding: 25, textAlign: 'center' }}>rendering...</div>}
@@ -142,3 +143,6 @@ class SelectCarBrand extends React.Component {
 }
 
 export default SelectCarBrand
+SelectCarBrand.contextTypes = {
+    router: PropTypes.object.isRequired
+}

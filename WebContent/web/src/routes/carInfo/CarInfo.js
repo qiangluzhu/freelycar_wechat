@@ -128,7 +128,7 @@ class CarInfo extends React.Component {
                 <div className="swiper-container carInfo" ref={self => this.swiperID = self}>
                     <div className="swiper-wrapper">
                         {carlist}
-                        <div className="swiper-slide addItem" onClick={()=>{  this.context.router.history.push('/addCar')}} >+</div>
+                        <div className="swiper-slide addItem" onClick={()=>{  this.context.router.history.push('/addCar/0')}} >+</div>
                     </div>
                 </div>
             </div>
