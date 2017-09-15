@@ -25,7 +25,8 @@ class Inquiry extends React.Component {
             carModel: '',
             carPlate: '',
             name: '',
-            insuredCompany: ''
+            insuredCompany: '',
+            phone:''
         }
     }
     componentDidMount() {
@@ -50,7 +51,7 @@ class Inquiry extends React.Component {
         }, {
                 name: this.state.name,
                 licensePlate: this.state.province + this.state.carPlate,
-                phone: window.localStorage.getItem('phone'),
+                phone: window.localStorage.getItem('phone')?window.localStorage.getItem('phone'):this.state.phone,
                 insuranceCompany: this.state.insuredCompany[0],
                 intent: ''
             }).then((req) => {
@@ -117,7 +118,15 @@ class Inquiry extends React.Component {
                         <List.Item extra={this.state.province} arrow="down" style={{ display: 'inline-block' }} onClick={() => { this.PopupModal() }}></List.Item>
                     </div>
                 </InputItem>
-                <Item extra={window.localStorage.getItem('phone')} ><div style={{ display: 'inline-block', marginLeft: '.24rem' }}>手机号码</div></Item>
+                {!window.localStorage.getItem('phone')? <InputItem
+                    clear
+                    placeholder="填写手机号码"
+                    maxLength="11"
+                    labelNumber="11"
+                    onChange={(e) => { this.setState({ phone: e }) }}
+                >
+                    <div style={{ display: 'inline-block', marginLeft: '.24rem' }}>手机号码</div>
+                </InputItem>: <Item extra={window.localStorage.getItem('phone')} ><div style={{ display: 'inline-block', marginLeft: '.24rem' }}>手机号码</div></Item>}
                 <Picker extra="选择保险公司"
                     data={insuredCompany}
                     onOk={e => this.setState({ insuredCompany: e })}
