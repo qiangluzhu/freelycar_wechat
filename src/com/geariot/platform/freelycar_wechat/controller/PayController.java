@@ -235,4 +235,9 @@ public class PayController {
 			}
 		}
 	}
+	
+	@RequestMapping(value = "/activity", method = RequestMethod.GET)
+	public String activityPay(int clientId){
+		return payService.activityPay(clientId);
+	}
 }

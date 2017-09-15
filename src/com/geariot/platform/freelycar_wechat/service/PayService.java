@@ -250,7 +250,7 @@ public class PayService {
 			FavourProjectRemainingInfo projectRemainingInfo = new FavourProjectRemainingInfo();
 			for(FavourProjectInfos projectInfos : favourInfos.getFavour().getSet()){
 				projectRemainingInfo.setProject(projectInfos.getProject());
-				projectRemainingInfo.setRemaining(projectInfos.getTimes() * favourInfos.getCount());
+				projectRemainingInfo.setRemaining(projectInfos.getTimes());
 				remainingInfos.add(projectRemainingInfo);
 				log.debug("***************************"+projectRemainingInfo.toString());
 			}
@@ -294,6 +294,42 @@ public class PayService {
 		client.setLastVisit(new Date());
 		client.setIsMember(true);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS);
+	}
+	
+	public String activityPay(int clientId){
+		Service service = serviceDao.findServiceById(7);
+		Client client = clientDao.findById(clientId);
+		if(service == null){
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
+		}
+		else{
+			//将优惠券信息添加到客户卡列表中
+			List<Ticket> tickets = new ArrayList<>();
+			for(FavourInfos favourInfos : service.getFavourInfos()){
+				Set<FavourProjectRemainingInfo> remainingInfos = new HashSet<>();
+				Ticket ticket = new Ticket();
+				ticket.setFavour(favourInfos.getFavour());
+				ticket.setExpirationDate(DateHandler.addValidMonth(DateHandler.toCalendar(new Date()), favourInfos.getFavour().getValidTime()).getTime());;
+				FavourProjectRemainingInfo projectRemainingInfo = new FavourProjectRemainingInfo();
+				for(FavourProjectInfos projectInfos : favourInfos.getFavour().getSet()){
+					projectRemainingInfo.setProject(projectInfos.getProject());
+					projectRemainingInfo.setRemaining(projectInfos.getTimes());
+					remainingInfos.add(projectRemainingInfo);
+					log.debug("***************************"+projectRemainingInfo.toString());
+				}
+				ticket.setRemainingInfos(remainingInfos);
+				tickets.add(ticket);
+			}
+			List<Ticket> list = client.getTickets();
+			if(list == null){
+				list = new ArrayList<>();
+				client.setTickets(tickets);;
+			}
+			for(Ticket add : tickets){
+				list.add(add);
+			}
+			return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
+		}
 	}
 }
 
