@@ -32,8 +32,7 @@ class OrderDetail extends React.Component {
 
         //通过后台对微信签名的验证。
         getCardList({
-            page: window.location.href,
-            number: 22
+            targetUrl: window.location.href,
         }).then((res) => {
             console.log(res);
             //先注入配置JSSDK信息
