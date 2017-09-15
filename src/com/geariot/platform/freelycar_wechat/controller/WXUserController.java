@@ -186,7 +186,7 @@ public class WXUserController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/carDetail", method = RequestMethod.GET)
-	public String carDetail(int carId) {
+	public String carDetail(int carId) { 
 		return wxUserService.carDetail(carId);
 	}
 }

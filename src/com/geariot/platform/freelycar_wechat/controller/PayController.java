@@ -18,6 +18,7 @@ import org.apache.http.HttpEntity;
 import org.apache.logging.log4j.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,6 +41,7 @@ import com.geariot.platform.freelycar_wechat.model.RESCODE;
 import net.sf.json.JSONObject;
 
 @RestController
+@Transactional
 @RequestMapping(value = "/pay")
 public class PayController {
 	private static Logger log = LogManager.getLogger();
@@ -238,6 +240,7 @@ public class PayController {
 	
 	@RequestMapping(value = "/activity", method = RequestMethod.GET)
 	public String activityPay(int clientId){
+		System.out.println("我被调用了!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		return payService.activityPay(clientId);
 	}
 }
