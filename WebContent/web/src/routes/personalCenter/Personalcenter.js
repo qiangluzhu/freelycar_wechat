@@ -20,7 +20,7 @@ class Personalcenter extends React.Component {
             point: 0,
             name: '',
             headimgurl: this.props.match.params.headimgurl,
-            tickets: 0,
+            tickets: [],
             card: [],
             cars: [],
             order: [],
@@ -48,10 +48,10 @@ class Personalcenter extends React.Component {
                 if (res.data.code == '0') {
                     let data = res.data
                     this.setState({
-                        card: data.client.cards[0],
+                        card: data.client.cards.length>0?data.client.cards[0]:[],
                         cars: data.client.cars,
-                        order: data.orders[0],
-                        tickets: data.client.tickets.length
+                        order: data.orders.length>0?data.orders[0]:[],
+                        tickets: data.client.tickets
                     })
                 }
             }).catch((error) => {
@@ -95,7 +95,7 @@ class Personalcenter extends React.Component {
 
     render() {
 
-        let projectInfos = this.state.card.projectInfos || []
+        let projectInfos = this.state.card.length>0 ? this.state.card.projectInfos : []
         let programs = projectInfos.map((item, index) => {
             return <Flex.Item key={index}>
                 <Flex direction="column" justify="center">
@@ -122,7 +122,7 @@ class Personalcenter extends React.Component {
                 </Flex>
                 <Flex justify="between" style={{ width: '100%' }}>
                     <Flex direction="column" justify="center" align="center" style={{ width: '50%' }} onClick={() => { this.context.router.history.push('/membership/myfavour') }}>
-                        <div style={{ fontSize: '.36rem', color: '#37cedc' }}>{this.state.tickets}<span style={{ fontSize: '.16rem' }}>个</span></div>
+                        <div style={{ fontSize: '.36rem', color: '#37cedc' }}>{this.state.tickets.length}<span style={{ fontSize: '.16rem' }}>个</span></div>
                         <div style={{ fontSize: '.22rem', lineHeight: '.35rem', color: '#8e8e8e', height: '.35rem' }}>优惠</div>
                     </Flex>
                     <Flex direction="column" justify="center" align="center" style={{ width: '50%' }} onClick={() => { this.context.router.history.push('/membership/mypoints') }}>
