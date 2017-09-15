@@ -41,6 +41,22 @@ class Personalcenter extends React.Component {
                     headimgurl: data.headimgurl
                 })
             }
+            userDetail({
+                clientId: window.localStorage.getItem('clientId')
+            }).then((res) => {
+                console.log(res)
+                if (res.data.code == '0') {
+                    let data = res.data
+                    this.setState({
+                        card: data.client.cards[0],
+                        cars: data.client.cars,
+                        order: data.orders[0],
+                        tickets: data.client.tickets.length
+                    })
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
         }).catch((error) => { console.log(error) })
         // modifyCarInfo({
         //     carId: '8',
@@ -55,22 +71,7 @@ class Personalcenter extends React.Component {
         // }).then((res) => {
         //     console.log(res)
         // })
-        userDetail({
-            clientId: window.localStorage.getItem('clientId')
-        }).then((res) => {
-            console.log(res)
-            if (res.data.code == '0') {
-                let data = res.data
-                this.setState({
-                    card: data.client.cards[0],
-                    cars: data.client.cars,
-                    order: data.orders[0],
-                    tickets: data.client.tickets.length
-                })
-            }
-        }).catch((error) => {
-            console.log(error)
-        })
+
     }
 
     logout = () => {
@@ -130,7 +131,7 @@ class Personalcenter extends React.Component {
                     </Flex>
                 </Flex>
             </Flex>
-            {this.state.card.length == 0 && <div className="center-banner" onClick={() => {  this.context.router.history.push('/addCard') }}><img src={banner} alt="" /></div>}
+            {this.state.card.length == 0 && <div className="center-banner" onClick={() => { this.context.router.history.push('/addCard') }}><img src={banner} alt="" /></div>}
             <Flex className="center-line-box" onClick={() => {
                 if (this.state.cars.length > 0) {
                     this.context.router.history.push('/carInfo')
