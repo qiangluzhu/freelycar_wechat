@@ -20,8 +20,6 @@ class ReceiveCoupons extends React.Component {
             <p className="rule" style={{ marginLeft: '1.21rem' }}>解释权，如有疑问，请联系客服。</p>
         </div>
     }
-
-
 }
 
 
