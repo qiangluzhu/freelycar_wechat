@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import login from '../../img/logo.png';
 import phone from '../../img/phone.png';
 import password from '../../img/password.png';
-import { verification, verifySmsCode } from '../../services/sms.js'
+import { verification, verifySmsCode, activity } from '../../services/sms.js'
 class Activity extends React.Component {
 
     constructor(props) {
@@ -82,9 +82,16 @@ class Activity extends React.Component {
                     window.localStorage.setItem('phone', res.data.client.phone)
                     window.localStorage.setItem('openid', this.props.match.params.openid)
                     window.localStorage.setItem('clientId', res.data.client.id)
-                    this.context.router.history.push('/receivecoupons')
+                    activity({
+                        clientId: res.data.client.id
+                    }).then((res) => {
+                        if (res.data.code == '0') {
+                            this.context.router.history.push('/receivecoupons')
+                        }
+                    }).catch((error) => { console.log(error) })
+
                 }
-            })
+            }).catch((error) => { console.log(error) })
     }
 
     render() {
@@ -130,7 +137,7 @@ class Activity extends React.Component {
                 <p className="rule">3. 每个服务项目一次只能使用一张劵，劵不找零。</p>
                 <p className="rule">4. 优惠券仅限关联此手机号的小易账户使用。</p>
                 <p className="rule">5. 在法律法规允许范围内，小易爱车对本次活动拥有</p>
-                <p className="rule" style={{marginLeft:'.82rem'}}>解释权，如有疑问，请联系客服。</p>
+                <p className="rule" style={{ marginLeft: '.82rem' }}>解释权，如有疑问，请联系客服。</p>
             </div>
         </div>
     }

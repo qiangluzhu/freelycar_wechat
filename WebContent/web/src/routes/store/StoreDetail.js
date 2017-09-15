@@ -109,7 +109,7 @@ class CooperativeStore extends React.Component {
                         </Flex>
                     </Flex>
                     <div className="coupon-info">
-                        <span className="phone">限客户手机号：13951775978</span>
+                        <span className="phone">限客户手机号：{window.localStorage.getItem('phone')}</span>
                         <span className="time">截止日期：{item.favour.buyDeadline}</span>
                     </div>
                 </Flex>

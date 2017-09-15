@@ -101,7 +101,7 @@ class OrderDetail extends React.Component {
                 <div className='order-list'>
                     <Flex style={{ height: '100%' }}>
                         <Flex.Item className='leftLable'>订单编号</Flex.Item>
-                        <span style={{paddingRight:'.42rem'}}>{this.state.id} | <span style={{ color: '#7ba0ea' }}>复制</span></span>
+                        <span style={{paddingRight:'.42rem'}}>{this.state.id}</span>
                     </Flex>
                 </div>
                 <div className='order-list'>

@@ -45,7 +45,7 @@ const App = () => (
     <div style={{height:'100%'}}>
         <Switch>
             <Route exact path="/" component={Personalcenter}/>
-            <Route path="/activity"  component={Activity} />
+            <Route path="/activity/:openid/:nickname/:headimgurl"  component={Activity} />
             <Route path="/receivecoupons" component={ReceiveCoupons}/>
             <Route path="/center/:openid/:nickname/:headimgurl"  component={Personalcenter} />
             <Route path="/login/:openid/:nickname/:headimgurl"  component={Login} />
@@ -53,7 +53,7 @@ const App = () => (
             <Route path="/addcar/:select" component={AddCar} />
             <Route path="/carbrand" component={CarBrand} />
       
-            <Route path="/ordertrack" component={OrderTrack} />
+            <Route path="/ordertrack/:id" component={OrderTrack} />
             <Route path="/personalInfo" component={PersonalInfo} />
             <Route path="/serviceCard" component={ServiceCard} />
       
