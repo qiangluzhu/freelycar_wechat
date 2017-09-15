@@ -19,7 +19,7 @@ class Activity extends React.Component {
 
     componentDidMount() {
         if (window.localStorage.getItem('hasget')) {
-            Toast.success('您已领取优惠券', 1, () => {
+            Toast.success('您已领取优惠券', 3, () => {
                 this.context.router.history.push('/receivecoupons')
             });
         }
