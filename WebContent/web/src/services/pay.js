@@ -20,7 +20,7 @@ export default {
 
     //购买会员卡
     membershipCard:(option) =>{
-        return post('api/pay/membershipCard',option)
+        return get('api/pay/membershipCard',option)
     }
 
 

@@ -94,25 +94,21 @@ class OrderDetail extends React.Component {
 
 
     handlePay = () => {
+        let state = this.checkPayState();
         if (!state) {
-            state = checkPayState();
-            if (!state) {
-                alert("不能发起支付");
-            }
+            alert("不能发起支付");
         }
 
         if (state) {
-
             membershipCard({//传递所需的参数
-                "openId": openId,
-                "serviceId": serviceId,
-                "totalPrice": totprice,
-                "programId": prgId
+                "openId": 'oBaSqs4RpSZNY7czNBcCRF8uYLKI',
+                "serviceId": 5,
+                "totalPrice": 0.01,
             }).then((res) => {
                 console.log('wxxxxxxxxxxxxxxxx');
                 console.log(res);
 
-                onBridgeReady(res.data.appId, res.data.timeStamp,
+                this.onBridgeReady(res.data.appId, res.data.timeStamp,
                     res.data.nonceStr, res.data.package,
                     res.data.signType, res.data.paySign);
             }).catch((error) => { console.log(error) });

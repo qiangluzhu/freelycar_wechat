@@ -17,12 +17,18 @@ class Activity extends React.Component {
         }
     }
 
-
+    componentDidMount() {
+        if (window.localStorage.getItem('hasget')) {
+            Toast.success('您已领取优惠券', 3, () => {
+                this.context.router.history.push('/receivecoupons')
+            });
+        }
+    }
     sendCode() {
         let myHeaders = new Headers({
             "Content-Type": "form-data",
         })
-        if (this.state.allowSend) {
+        if (this.state.allowSend && this.state.isphone) {
             verification({
                 method: 'post',
                 headers: myHeaders,
@@ -87,6 +93,7 @@ class Activity extends React.Component {
                         clientId: res.data.client.id
                     }).then((res) => {
                         if (res.data.code == '0') {
+                            window.localStorage.setItem('hasget', true)
                             this.context.router.history.push('/receivecoupons')
                         }
                     }).catch((error) => { console.log(error) })
