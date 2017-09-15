@@ -131,7 +131,6 @@ public class PayController {
 		log.debug("请求微信支付结果：" + result);
 
 		Map<String, Object> resultMap = XMLParser.getMapFromXML(result);
-		// log.debug("微信统一下单结果：" + new JSONObject(resultMap).toString());
 		if (!resultMap.isEmpty()) {
 			if (resultMap.get("return_code").toString().equals("SUCCESS")) {
 				// 预支付id
