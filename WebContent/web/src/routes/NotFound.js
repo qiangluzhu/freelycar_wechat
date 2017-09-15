@@ -11,7 +11,7 @@ class OrderDetail extends React.Component {
         }
     }
     render() {
-        return <div className="body-bac"  >
+        return <div className="body-bac" style={{height:'100%'}} >
         <Flex style={{height:'100%'}}>
             <Flex.Item>
                 <img src={NotFound} alt="404" style={{width:'100%'}}/>

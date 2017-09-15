@@ -73,6 +73,7 @@ const App = () => (
             <Route path="/insurance/:carId" exact  component={Insurance}/>
             <Route path="/inquiry" exact component={Inquiry}/>
             <Route path="/notFound" component={NotFound}/>
+            <Route component={NotFound}/>
         </Switch>
     </div>
 );

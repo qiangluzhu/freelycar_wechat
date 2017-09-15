@@ -133,7 +133,7 @@ class Personalcenter extends React.Component {
 
 
 
-            {this.state.card.length == 0 && <div className="center-banner" onClick={() => { this.props.match.params.push('/addCard') }}><img src={banner} alt="" /></div>}
+            {this.state.card.length == 0 && <div className="center-banner" onClick={() => {  this.context.router.history.push('/addCard') }}><img src={banner} alt="" /></div>}
             <Flex className="center-line-box" onClick={() => {
                 if (this.state.cars.length > 0) {
                     this.context.router.history.push('/carInfo')

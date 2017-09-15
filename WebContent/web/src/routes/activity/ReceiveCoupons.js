@@ -19,8 +19,8 @@ class ReceiveCoupons extends React.Component {
     render() {
         return <div className="receive-coupon"> 
             <div className="put-account">优惠券已放至账户 {window.localStorage.getItem('phone')}</div>
-            <div className="put-account" style={{lineHeight:'.6rem'}}>请到 <span style={{color:'#3fc6c6'}}>个人中心</span> 》 我的优惠券 查看</div>
-            <div className="use-btn">到店使用</div>
+            <div className="put-account" style={{lineHeight:'.6rem'}}>请到 <span onClick={()=>this.context.router.history.push(`/center/${window.localStorage.getItem('openid')}/${window.localStorage.getItem('nickName')}/${window.localStorage.getItem('headimgurl')}`) } style={{color:'#3fc6c6'}}>个人中心</span> 》 我的优惠券 查看</div>
+            <div className="use-btn" onClick={()=>{this.context.router.history.push('/store/detail/1')}}>到店使用</div>
             <div className="one-line">
                     <span>活动规则</span>
                 </div>
