@@ -19,7 +19,8 @@ class CooperativeStore extends React.Component {
             fix: [],
             beauty: [],
             storefavours: [],
-            comments:[]
+            comments: [],
+            imgs: []
         }
     }
 
@@ -38,6 +39,7 @@ class CooperativeStore extends React.Component {
                 this.setState({
                     name: store.name,
                     address: store.address,
+                    imgs: store.imgUrls,
                     phone: store.phone,
                     star: res.data.data.star,
                     closingTime: store.closingTime,
@@ -71,18 +73,21 @@ class CooperativeStore extends React.Component {
                         commentDate: item.commentDate,
                         phone: item.phone.substring(0, 3) + '****' + item.phone.substring(7),
                         star: item.stars,
-                        comment:item.comment
+                        comment: item.comment
                     }
                     comments.push(comment)
                 }
                 this.setState({
-                    comments:comments
+                    comments: comments
                 })
             }
-        }).catch((error)=>{console.log(error)})
+        }).catch((error) => { console.log(error) })
     }
     render() {
         let sf = this.state.storefavours;
+        let imgs = this.state.imgs.map((item, index) => {
+            return <div key={index} className="swiper-slide  banner-img "><img src={`http://www.freelycar.com/ROOT/store/${item.url}`} alt="" /></div>
+        })
         let couponList = sf.map((item, index) => {
             return <div key={index} className="swiper-slide cooperative-store-coupon">
                 <Flex className="coupon" direction="column" align="start">
@@ -91,7 +96,7 @@ class CooperativeStore extends React.Component {
                             <div style={{ fontSize: '.48rem' }}><span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set.buyPrice}</div>
                             <div style={{ color: '#8c8c8c', fontSize: '.22rem', marginTop: '.05rem' }} className="money-buyprice">
                                 <span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set.presentPrice}
-                                 <i>
+                                <i>
                                 </i>
                             </div>
                         </Flex>
@@ -138,22 +143,21 @@ class CooperativeStore extends React.Component {
                     <span style={{ fontSize: '.24rem' }}>￥</span>{item.price + item.pricePerUnit * item.referWorkTime}
                 </div>
             </Flex>
-        }),commentList = this.state.comments.map((item,index)=>{
-            return <Flex className="comment" align="start" key={index}> 
-            <div className="avatar"><img /></div>
-            <Flex.Item>
-                <div style={{ width: '100%' }}><span className="phone">{item.phone}</span><span className="time">{item.commentDate}</span></div>
-                <Star number={item.star}> </Star>
-                <div className="introduction">{item.comment} </div>
-            </Flex.Item>
-        </Flex>
+        }), commentList = this.state.comments.map((item, index) => {
+            return <Flex className="comment" align="start" key={index}>
+                <div className="avatar"><img /></div>
+                <Flex.Item>
+                    <div style={{ width: '100%' }}><span className="phone">{item.phone}</span><span className="time">{item.commentDate}</span></div>
+                    <Star number={item.star}> </Star>
+                    <div className="introduction">{item.comment} </div>
+                </Flex.Item>
+            </Flex>
         })
         return <div className="store-detail body-bac">
             <NavBar title="门店详情" />
             <div className="swiper-container" ref={self => this.swiperID = self}>
                 <div className="swiper-wrapper">
-                    <div className="swiper-slide  banner-img ">Slide 1</div>
-                    <div className="swiper-slide  banner-img">Slide 2</div>
+                    {imgs}
                 </div>
                 <div className="swiper-pagination circle-color"></div>
             </div>
@@ -171,7 +175,7 @@ class CooperativeStore extends React.Component {
                         <div>
                             <Flex className="address">
                                 <div className="address-icon"></div>
-                                <p className="info-font" style={{ color: '#636363' ,width:'5rem'}}>{this.state.address}(点我导航)</p>
+                                <p className="info-font" style={{ color: '#636363', width: '5rem' }}>{this.state.address}(点我导航)</p>
 
                             </Flex>
                             <div className="info-identify">
@@ -209,7 +213,7 @@ class CooperativeStore extends React.Component {
                     </Tabs>
                 </TabPane>
                 <TabPane tab='门店评价' key="2" className="tabpane2">
-                   {commentList}
+                    {commentList}
                 </TabPane>
             </Tabs>
             <div className='bottom-pay-button'>

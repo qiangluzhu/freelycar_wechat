@@ -60,7 +60,7 @@ class Inquiry extends React.Component {
                 } else {
                     Toast.fail(req.data.msg, 5);
                 }
-            }).catch((error)=>{
+            }).catch((error) => {
                 console.log(error)
             })
     }
@@ -83,13 +83,15 @@ class Inquiry extends React.Component {
         </Flex>, { animationType: 'slide-up', maskClosable: true });
     }
     render() {
-        return <div>
-
+        let show_btn = false
+        if (this.state.name && this.state.carPlate) {
+            show_btn = true
+        }
+        return <div className="body-bac">
             <NavBar title={'车险询价'}></NavBar>
             <div className="swiper-container" ref={self => this.swiperID = self}>
                 <div className="swiper-wrapper">
-                    <div className="swiper-slide  banner-img ">Slide 1</div>
-                    <div className="swiper-slide  banner-img">Slide 2</div>
+                    <div className="swiper-slide  banner-img "><img src={require('../../img/chexian.png')} alt="" /></div>
                 </div>
                 <div className="swiper-pagination circle-color"></div>
             </div>
@@ -127,18 +129,18 @@ class Inquiry extends React.Component {
                 </Picker>
             </List>
             <div className="inquiry-button">
-                <span style={{ fontWeight: 'bold' }} onClick={() => { this.inquiry() }}>立即询价 ></span>
+                <span style={{ fontWeight: 'bold', color: show_btn ? 'rgb(90, 136, 229)' : '#bbb' }} onClick={() => { if (show_btn) { this.inquiry() } }}>立即询价 ></span>
                 <span className="secret">你的信息将被严格保密</span>
             </div>
             <div className="cooperative-agency">
                 <div className="title">合作机构</div>
                 <div className="list-body clear" >
-                    <div className="list-item"><img src={require('../../img/taipingyang.png')} alt=""/></div>
-                    <div className="list-item"><img src={require('../../img/yangguang.png')} alt=""/></div>
-                    <div className="list-item"><img src={require('../../img/taiping.png')} alt=""/></div>
-                    <div className="list-item"><img src={require('../../img/renbao.png')} alt=""/></div>
-                    <div className="list-item"><img src={require('../../img/pingan.png')} alt=""/></div>
-                    <div className="list-item"><img src={require('../../img/dadi.png')} alt=""/></div>
+                    <div className="list-item"><img src={require('../../img/taipingyang.png')} alt="" /></div>
+                    <div className="list-item"><img src={require('../../img/yangguang.png')} alt="" /></div>
+                    <div className="list-item"><img src={require('../../img/taiping.png')} alt="" /></div>
+                    <div className="list-item"><img src={require('../../img/renbao.png')} alt="" /></div>
+                    <div className="list-item"><img src={require('../../img/pingan.png')} alt="" /></div>
+                    <div className="list-item"><img src={require('../../img/dadi.png')} alt="" /></div>
                 </div>
             </div>
         </div>
