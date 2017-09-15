@@ -30,7 +30,7 @@ import com.geariot.platform.freelycar_wechat.utils.*;
 @org.springframework.stereotype.Service
 @Transactional
 public class PayService {
-	
+
 	@Autowired
 	private WXUserDao wxUserDao;
 	@Autowired
@@ -45,55 +45,55 @@ public class PayService {
 	private IncomeOrderDao incomeOrderDao;
 	@Autowired
 	private CardDao cardDao;
-	
+
 	private static final Logger log = LogManager.getLogger(PayService.class);
-	
-	
-	//创建card订单	
-	public org.json.JSONObject createCardOrder(String openId,double totalPrice,
-			int serviceId){
+
+	// 创建card订单
+	public org.json.JSONObject createCardOrder(String openId, double totalPrice, int serviceId) {
 		log.debug("create new order");
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
-		log.debug("id" + wxPayOrder.getId() + "总金额" + wxPayOrder.getTotalPrice() + "openId" + wxPayOrder.getOpenId() +"Date" + wxPayOrder.getCreateDate());
-		
+		log.debug("id" + wxPayOrder.getId() + "总金额" + wxPayOrder.getTotalPrice() + "openId" + wxPayOrder.getOpenId()
+				+ "Date" + wxPayOrder.getCreateDate());
+
 		Service service = serviceDao.findServiceById(serviceId);
 		wxPayOrder.setService(service);
 		wxPayOrder.setProductName(service.getName());
 
 		wxPayOrderDao.saveWXPayOrder(wxPayOrder);
-		
+
 		org.json.JSONObject order = new org.json.JSONObject();
 		order.put(Constants.RESPONSE_DATA_KEY, wxPayOrder.getId());
 		return order;
-		
+
 	}
-	
-	//create favour order
-	public org.json.JSONObject createFavourOrder(FavourOrderBean favourOrderBean){
+
+	// create favour order
+	public org.json.JSONObject createFavourOrder(FavourOrderBean favourOrderBean) {
 		String openId = favourOrderBean.getOpenId();
 		double totalPrice = favourOrderBean.getTotalPrice();
 		Set<FavourToOrder> favours = favourOrderBean.getFavours();
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
 
 		String productName = null;
-		for(FavourToOrder favour : favours)
-			productName += favour.getFavour().getName()+"*"+favour.getCount()+",";
+		for (FavourToOrder favour : favours)
+			productName += favour.getFavour().getName() + "*" + favour.getCount() + ",";
 		wxPayOrder.setProductName(productName);
 		wxPayOrder.setFavours(favours);
 		wxPayOrderDao.saveWXPayOrder(wxPayOrder);
-		
+
 		org.json.JSONObject order = new org.json.JSONObject();
 		order.put(Constants.RESPONSE_DATA_KEY, wxPayOrder.getId());
 		return order;
-		//return JsonResFactory.buildNetWithData(RESCODE.SUCCESS,net.sf.json.JSONObject.fromObject(obj, config)).toString();
-		
+		// return
+		// JsonResFactory.buildNetWithData(RESCODE.SUCCESS,net.sf.json.JSONObject.fromObject(obj,
+		// config)).toString();
+
 	}
-	
-	
-	private WXPayOrder buildBasivOrders(String openId,double totalPrice){
+
+	private WXPayOrder buildBasivOrders(String openId, double totalPrice) {
 		WXPayOrder wxPayOrder = new WXPayOrder();
 		wxPayOrder.setId(IDGenerator.generate(IDGenerator.WX_CONSUM));
-		System.out.println(">>>>"+IDGenerator.generate(IDGenerator.WX_CONSUM));
+		System.out.println(">>>>" + IDGenerator.generate(IDGenerator.WX_CONSUM));
 		wxPayOrder.setCreateDate(new Date());
 		wxPayOrder.setOpenId(openId);
 		wxPayOrder.setPayMethod(Constants.PAY_BY_WX);
@@ -110,96 +110,90 @@ public class PayService {
 		Date payDate = new Date();
 		int payMethod = Constants.PAY_BY_WX;
 		String programName;
-		if(IdentifyOrder.identify(orderId)){
-		ConsumOrder order = null;
-			synchronized(PayService.class)
-			{
-			order = consumOrderDao.findById(orderId);
-			if(order.getState() >= 1)
-				{
-				log.debug("已处理微信回调，订单已处理。直接返回成功。");
-				org.json.JSONObject res = new org.json.JSONObject();
-				res.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
-				res.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
-				return res;
-				}
-			order.setPayState(1); // 支付状态
-			amount=(float) order.getTotalPrice();
-			clientId = order.getClientId();
-			licensePlate = order.getLicensePlate();
-			programName = order.getProgramName();
-			}
-			String openId = wxUserDao.findUserByPhone(clientDao.findById(clientId).getPhone()).getOpenId();
-			WechatTemplateMessage.paySuccess(order, openId);
-		}
-		else{
-			WXPayOrder order = null;
-			synchronized(PayService.class)
-			{
-				order = wxPayOrderDao.findById(orderId);
-				if(order.getPayState() >= 1)
-					{
+		if (IdentifyOrder.identify(orderId)) {
+			ConsumOrder order = null;
+			synchronized (PayService.class) {
+				order = consumOrderDao.findById(orderId);
+				if (order.getState() >= 1) {
 					log.debug("已处理微信回调，订单已处理。直接返回成功。");
 					org.json.JSONObject res = new org.json.JSONObject();
 					res.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
 					res.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
 					return res;
-					}
+				}
 				order.setPayState(1); // 支付状态
-				amount=(float) order.getTotalPrice();
+				amount = (float) order.getTotalPrice();
+				clientId = order.getClientId();
+				licensePlate = order.getLicensePlate();
+				programName = order.getProgramName();
+			}
+			String openId = wxUserDao.findUserByPhone(clientDao.findById(clientId).getPhone()).getOpenId();
+			WechatTemplateMessage.paySuccess(order, openId);
+		} else {
+			WXPayOrder order = null;
+			synchronized (PayService.class) {
+				order = wxPayOrderDao.findById(orderId);
+				if (order.getPayState() >= 1) {
+					log.debug("已处理微信回调，订单已处理。直接返回成功。");
+					org.json.JSONObject res = new org.json.JSONObject();
+					res.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
+					res.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
+					return res;
+				}
+				order.setPayState(1); // 支付状态
+				amount = (float) order.getTotalPrice();
 				clientId = clientDao.findByPhone(wxUserDao.findUserByOpenId(order.getOpenId()).getPhone()).getId();
 				programName = Constants.WX_CARDANDFAVOUR;
-				//更新card表和favour表
+				// 更新card表和favour表
 				org.json.JSONObject result;
 				Service service = order.getService();
 				List<FavourToOrder> favourToOrders = new ArrayList<FavourToOrder>(order.getFavours());
-				if(service!=null){
+				if (service != null) {
 					Card card = new Card();
 					card.setPayDate(payDate);
 					card.setService(service);
-					card.setExpirationDate(getExpiration(service,payDate));
+					card.setExpirationDate(getExpiration(service, payDate));
 					card.setPayMethod(payMethod);
 					card.setCardNumber(IDGenerator.generate(IDGenerator.WX_CARD));
-					result = buyCard(clientId,card);
-					if((RESCODE)result.get(Constants.RESPONSE_CODE_KEY) != RESCODE.SUCCESS){
-						//WechatTemplateMessage.
+					result = buyCard(clientId, card);
+					if ((RESCODE) result.get(Constants.RESPONSE_CODE_KEY) != RESCODE.SUCCESS) {
+						// WechatTemplateMessage.
 					}
-				}
-				else{
-					//buy tickets
+				} else {
+					// buy tickets
 					List<Ticket> tickets = new ArrayList<Ticket>();
-					for(FavourToOrder favourToOrder:favourToOrders){
+					for (FavourToOrder favourToOrder : favourToOrders) {
 						Favour favour = favourToOrder.getFavour();
 						int count = favourToOrder.getCount();
-						//ticket created
+						// ticket created
 						Ticket ticket = new Ticket();
-						ticket.setExpirationDate(getExpiration(favour,payDate));
+						ticket.setExpirationDate(getExpiration(favour, payDate));
 						ticket.setFailed(false);
 						ticket.setFavour(favour);
 						Set<FavourProjectRemainingInfo> listRemainingInfos = new HashSet<FavourProjectRemainingInfo>();
-						for(FavourProjectInfos favourProjectInfos : favour.getSet()){
+						for (FavourProjectInfos favourProjectInfos : favour.getSet()) {
 							FavourProjectRemainingInfo remainingInfos = new FavourProjectRemainingInfo();
 							remainingInfos.setProject(favourProjectInfos.getProject());
 							remainingInfos.setRemaining(favourProjectInfos.getTimes());
 							listRemainingInfos.add(remainingInfos);
 						}
 						ticket.setRemainingInfos(listRemainingInfos);
-						//register number of tickets
-						for(int i=0;i<count;i++){
+						// register number of tickets
+						for (int i = 0; i < count; i++) {
 							tickets.add(ticket);
-						}						
+						}
 					}
 					Client client = clientDao.findById(clientId);
 					client.setTickets(tickets);
 					client.setConsumTimes(client.getConsumTimes() + 1);
 					client.setConsumAmout(client.getConsumAmout() + order.getTotalPrice());
-					client.setLastVisit(new Date());		
+					client.setLastVisit(new Date());
 				}
 				WechatTemplateMessage.paySuccess(order);
 			}
 		}
-		
-		//更新IncomeOrder表
+
+		// 更新IncomeOrder表
 		IncomeOrder incomeOrder = new IncomeOrder();
 		incomeOrder.setAmount(amount);
 		incomeOrder.setClientId(clientId);
@@ -212,73 +206,77 @@ public class PayService {
 		res.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
 		res.put(Constants.RESPONSE_MSG_KEY, RESCODE.SUCCESS.getMsg());
 		return res;
-	}	
-	public Date getExpiration(Object object,Date payDate){
+	}
+
+	public Date getExpiration(Object object, Date payDate) {
 		Calendar curr = Calendar.getInstance();
 		curr.setTime(payDate);
-		if(object instanceof Service)
-			curr.set(Calendar.YEAR,curr.get(Calendar.YEAR)+((Service)object).getValidTime());
-		if(object instanceof Favour)
-			curr.set(Calendar.YEAR,curr.get(Calendar.YEAR)+((Favour)object).getValidTime());
-		Date date=curr.getTime(); 
+		if (object instanceof Service)
+			curr.set(Calendar.YEAR, curr.get(Calendar.YEAR) + ((Service) object).getValidTime());
+		if (object instanceof Favour)
+			curr.set(Calendar.YEAR, curr.get(Calendar.YEAR) + ((Favour) object).getValidTime());
+		Date date = curr.getTime();
 		return date;
 	}
-	
+
 	public org.json.JSONObject buyCard(int clientId, Card card) {
-		if(card.getCardNumber() == null || card.getCardNumber().isEmpty() || card.getCardNumber().trim().isEmpty()){
-			String cardNumber = String.valueOf((int)((Math.random()*9+1)*100000));
-			while(cardDao.findByCardNumber(cardNumber) != null){
-				cardNumber = String.valueOf((int)((Math.random()*9+1)*100000));
+		if (card.getCardNumber() == null || card.getCardNumber().isEmpty() || card.getCardNumber().trim().isEmpty()) {
+			String cardNumber = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
+			while (cardDao.findByCardNumber(cardNumber) != null) {
+				cardNumber = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
 			}
 			card.setCardNumber(cardNumber);
-		}
-		else if(cardDao.findByCardNumber(card.getCardNumber()) != null){
+		} else if (cardDao.findByCardNumber(card.getCardNumber()) != null) {
 			return JsonResFactory.buildOrg(RESCODE.CARDNUMBER_EXIST);
 		}
 		Client client = clientDao.findById(clientId);
 		Service service = this.serviceDao.findServiceById(card.getService().getId());
-		if(client == null || service == null){
+		if (client == null || service == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND);
 		}
-		//将优惠券信息添加到客户卡列表中
+		// 将优惠券信息添加到客户卡列表中
 		List<Ticket> tickets = new ArrayList<>();
-		for(FavourInfos favourInfos : service.getFavourInfos()){
+		for (FavourInfos favourInfos : service.getFavourInfos()) {
 			Set<FavourProjectRemainingInfo> remainingInfos = new HashSet<>();
 			Ticket ticket = new Ticket();
 			ticket.setFavour(favourInfos.getFavour());
-			ticket.setExpirationDate(DateHandler.addValidMonth(DateHandler.toCalendar(new Date()), favourInfos.getFavour().getValidTime()).getTime());;
+			ticket.setExpirationDate(DateHandler
+					.addValidMonth(DateHandler.toCalendar(new Date()), favourInfos.getFavour().getValidTime())
+					.getTime());
+			;
 			FavourProjectRemainingInfo projectRemainingInfo = new FavourProjectRemainingInfo();
-			for(FavourProjectInfos projectInfos : favourInfos.getFavour().getSet()){
+			for (FavourProjectInfos projectInfos : favourInfos.getFavour().getSet()) {
 				projectRemainingInfo.setProject(projectInfos.getProject());
 				projectRemainingInfo.setRemaining(projectInfos.getTimes());
 				remainingInfos.add(projectRemainingInfo);
-				log.debug("***************************"+projectRemainingInfo.toString());
+				log.debug("***************************" + projectRemainingInfo.toString());
 			}
 			ticket.setRemainingInfos(remainingInfos);
 			tickets.add(ticket);
 		}
 		List<Ticket> list = client.getTickets();
-		if(list == null){
+		if (list == null) {
 			list = new ArrayList<>();
-			client.setTickets(tickets);;
+			client.setTickets(tickets);
+			;
 		}
-		for(Ticket add : tickets){
+		for (Ticket add : tickets) {
 			list.add(add);
 		}
-		//将服务信息次数复制到卡中
+		// 将服务信息次数复制到卡中
 		Set<CardProjectRemainingInfo> cardInfos = new HashSet<>();
-		for(ServiceProjectInfo info : service.getProjectInfos()){
+		for (ServiceProjectInfo info : service.getProjectInfos()) {
 			CardProjectRemainingInfo cardInfo = new CardProjectRemainingInfo();
 			cardInfo.setProject(info.getProject());
 			cardInfo.setRemaining(info.getTimes());
 			cardInfos.add(cardInfo);
-			log.debug("***************************"+cardInfo.toString());
+			log.debug("***************************" + cardInfo.toString());
 		}
 		card.setProjectInfos(cardInfos);
-		log.debug("***************************"+card.toString());
-		//将新增卡增加到客户卡列表中
+		log.debug("***************************" + card.toString());
+		// 将新增卡增加到客户卡列表中
 		Set<Card> cards = client.getCards();
-		if(cards == null){
+		if (cards == null) {
 			cards = new HashSet<>();
 			client.setCards(cards);
 		}
@@ -288,48 +286,51 @@ public class PayService {
 		exp.add(Calendar.YEAR, service.getValidTime());
 		card.setExpirationDate(exp.getTime());
 		cards.add(card);
-		//更新客户的消费次数与消费情况信息。
+		// 更新客户的消费次数与消费情况信息。
 		client.setConsumTimes(client.getConsumTimes() + 1);
 		client.setConsumAmout(client.getConsumAmout() + service.getPrice());
 		client.setLastVisit(new Date());
 		client.setIsMember(true);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS);
 	}
-	
-	public String activityPay(int clientId){
+
+	public String activityPay(int clientId) {
 		Service service = serviceDao.findServiceById(7);
 		Client client = clientDao.findById(clientId);
-		if(service == null){
+		if (service == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
-		}
-		else{
-			//将优惠券信息添加到客户卡列表中
+		} else {
+			// 将优惠券信息添加到客户卡列表中
 			List<Ticket> tickets = new ArrayList<>();
-			for(FavourInfos favourInfos : service.getFavourInfos()){
+			for (FavourInfos favourInfos : service.getFavourInfos()) {
 				Set<FavourProjectRemainingInfo> remainingInfos = new HashSet<>();
-				Ticket ticket = new Ticket();
-				ticket.setFavour(favourInfos.getFavour());
-				ticket.setExpirationDate(DateHandler.addValidMonth(DateHandler.toCalendar(new Date()), favourInfos.getFavour().getValidTime()).getTime());;
-				FavourProjectRemainingInfo projectRemainingInfo = new FavourProjectRemainingInfo();
-				for(FavourProjectInfos projectInfos : favourInfos.getFavour().getSet()){
-					projectRemainingInfo.setProject(projectInfos.getProject());
-					projectRemainingInfo.setRemaining(projectInfos.getTimes());
-					remainingInfos.add(projectRemainingInfo);
-					log.debug("***************************"+projectRemainingInfo.toString());
+				for (int i = 0; i < favourInfos.getCount(); i++) {
+					Ticket ticket = new Ticket();
+					ticket.setFavour(favourInfos.getFavour());
+					ticket.setExpirationDate(DateHandler
+							.addValidMonth(DateHandler.toCalendar(new Date()), favourInfos.getFavour().getValidTime())
+							.getTime());
+					FavourProjectRemainingInfo projectRemainingInfo = new FavourProjectRemainingInfo();
+					for (FavourProjectInfos projectInfos : favourInfos.getFavour().getSet()) {
+						projectRemainingInfo.setProject(projectInfos.getProject());
+						projectRemainingInfo.setRemaining(projectInfos.getTimes());
+						remainingInfos.add(projectRemainingInfo);
+						log.debug("***************************" + projectRemainingInfo.toString());
+					}
+					ticket.setRemainingInfos(remainingInfos);
+					tickets.add(ticket);
 				}
-				ticket.setRemainingInfos(remainingInfos);
-				tickets.add(ticket);
 			}
 			List<Ticket> list = client.getTickets();
-			if(list == null){
+			if (list == null) {
 				list = new ArrayList<>();
-				client.setTickets(tickets);;
+				client.setTickets(tickets);
+				;
 			}
-			for(Ticket add : tickets){
+			for (Ticket add : tickets) {
 				list.add(add);
 			}
 			return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 		}
 	}
 }
-

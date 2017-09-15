@@ -86,7 +86,7 @@ class CooperativeStore extends React.Component {
     render() {
         let sf = this.state.storefavours;
         let imgs = this.state.imgs.map((item, index) => {
-            return <div key={index} className="swiper-slide  banner-img "><img src={`http://www.freelycar.com/ROOT/store/${item.url}`} alt="" /></div>
+            return <div key={index} className="swiper-slide  banner-img "><img src={`http://www.freelycar.com/store/${item.url}`} alt="" /></div>
         })
         let couponList = sf.map((item, index) => {
             return <div key={index} className="swiper-slide cooperative-store-coupon">
@@ -165,7 +165,8 @@ class CooperativeStore extends React.Component {
 
                 <Flex direction="column" align="start" justify="between" >
                     <div className="store-name">
-                        {this.state.name}   <span style={{ fontSize: '.18rem', color: '#e42f2f', marginLeft: '.04rem' }}>{this.state.star}分</span>
+                        {this.state.name}  
+                         {/* <span style={{ fontSize: '.18rem', color: '#e42f2f', marginLeft: '.04rem' }}>{this.state.star}分</span> */}
                     </div>
                     <Flex className="info-font time">
                         <div className="time-icon"></div>
@@ -175,7 +176,7 @@ class CooperativeStore extends React.Component {
                         <div>
                             <Flex className="address">
                                 <div className="address-icon"></div>
-                                <p className="info-font" style={{ color: '#636363', width: '5rem' }}>{this.state.address}(点我导航)</p>
+                                <p className="info-font" style={{ color: '#636363', width: '5rem' }}>{this.state.address}</p>
 
                             </Flex>
                             <div className="info-identify">
@@ -187,10 +188,10 @@ class CooperativeStore extends React.Component {
                 </Flex>
                 <Flex className="icon">
                     <div className="hr"></div>
-                    <div className="tel-icon"></div>
+                    <a href="tel:18512591863" style={{display:'inline-block'}}><div className="tel-icon" ></div></a>
                 </Flex>
             </Flex>
-            <Flex className="store-detail-title">
+            {/* <Flex className="store-detail-title">
                 <div className="sign"></div>
                 <div className="title">优惠活动</div>
             </Flex>
@@ -226,7 +227,7 @@ class CooperativeStore extends React.Component {
                         </Flex>
                     </div>
                 </Flex>
-            </div>
+            </div> */}
         </div>
     }
 
