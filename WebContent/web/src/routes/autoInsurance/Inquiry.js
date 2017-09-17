@@ -1,6 +1,7 @@
 import React from 'react';
 import NavBar from '../../components/NavBar'
 import './Inquiry.less'
+import '../addCar/AddCar.less'
 import { List, InputItem, WhiteSpace, Picker, Flex, Popup, Toast, Icon } from 'antd-mobile'
 import { insuranceAsk } from '../../services/insurance.js'
 const Item = List.Item,

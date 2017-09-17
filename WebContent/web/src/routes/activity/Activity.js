@@ -6,6 +6,7 @@ import phone from '../../img/phone.png';
 import password from '../../img/password.png';
 import { verification, verifySmsCode } from '../../services/sms.js'
 import { activity } from '../../services/pay.js'
+import '../auth/login.less'
 class Activity extends React.Component {
 
     constructor(props) {

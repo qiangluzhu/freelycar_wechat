@@ -1,5 +1,4 @@
 import React from 'react';
-import { Flex } from 'antd-mobile'
 import PropTypes from 'prop-types';
 import './activity.less'
 class ReceiveCoupons extends React.Component {
