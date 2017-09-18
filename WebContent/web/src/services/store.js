@@ -4,7 +4,7 @@ export default {
         return get('api/store/list', params);
     },
     storeDetail: (params) => {
-        return get('api/store/detail/',params)
+        return get('api/store/detail',params)
     },
     storeComment: (params) => {
         return get('api/store/comment', params)
