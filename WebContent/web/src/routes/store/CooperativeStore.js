@@ -21,6 +21,7 @@ class CooperativeStore extends React.Component {
             dataSource: dataSource.cloneWithRows({}),
             isLoading: true,
             hasMore: true,
+            pageIndex:1
         }
     }
 
@@ -85,7 +86,7 @@ class CooperativeStore extends React.Component {
         console.log('reach end', event);
         this.setState({ isLoading: true });
         setTimeout(() => {
-            this.rData = { ...this.rData, ...this.genData(++pageIndex) };
+            this.rData = { ...this.rData, ...this.genData(++this.state.pageIndex) };
             this.setState({
                 pageIndex: this.state.pageIndex + 1,
                 dataSource: this.state.dataSource.cloneWithRows(this.rData),
