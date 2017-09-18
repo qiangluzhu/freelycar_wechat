@@ -43,6 +43,7 @@ class CooperativeStore extends React.Component {
         // }
         // console.log(dataBlob)
         // return dataBlob;
+        console.log(pIndex);
         let dataBlob = {} 
         storeList({
             page: pIndex,
@@ -51,7 +52,7 @@ class CooperativeStore extends React.Component {
             if (res.data.code == '0') {
                 console.log(res)
                 for (let i = 0; i <res.data.data.length; i++) {
-                    const ii = (pIndex * NUM_ROWS) + i;
+                    const ii = ((pIndex -1)* NUM_ROWS) + i;
                     dataBlob[`${ii}`] = res.data.data[i];
                 }
                 this.setState({
