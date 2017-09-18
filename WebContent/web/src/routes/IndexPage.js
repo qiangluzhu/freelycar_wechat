@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-// import styles from './IndexPage.less';
+import './IndexPage.less';
 import Example from '../components/Example.js'
 function IndexPage() {
    console.log(document.documentElement.clientWidth)

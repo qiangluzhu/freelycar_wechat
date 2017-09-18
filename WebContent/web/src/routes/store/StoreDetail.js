@@ -3,6 +3,7 @@ import { Flex, Tabs } from 'antd-mobile';
 import NavBar from '../../components/NavBar'
 import Star from '../../components/Star'
 import './CooperativeStore.less'
+import '../autoInsurance/Inquiry.less'
 import { storeDetail, listComment } from '../../services/store.js'
 const TabPane = Tabs.TabPane
 class CooperativeStore extends React.Component {
@@ -25,12 +26,6 @@ class CooperativeStore extends React.Component {
     }
 
     componentDidMount() {
-        let mySwiper1 = new Swiper(this.swiperID, {
-            direction: 'horizontal',
-            loop: true,
-            // 如果需要分页器
-            pagination: '.swiper-pagination',
-        });
 
         storeDetail({ storeId: this.props.match.params.storeId }).then((res) => {
             console.log(res)
@@ -57,6 +52,16 @@ class CooperativeStore extends React.Component {
                     slidesOffsetBefore: 11,
                     slidesOffsetAfter: 10,
                 })
+
+
+
+                let mySwiper1 = new Swiper(this.swiperID, {
+                    direction: 'horizontal',
+                    loop: true,
+                    // 如果需要分页器
+                    pagination: '.swiper-pagination',
+                });
+        
             }
         }).catch((error) => {
             console.log(error)
@@ -86,7 +91,7 @@ class CooperativeStore extends React.Component {
     render() {
         let sf = this.state.storefavours;
         let imgs = this.state.imgs.map((item, index) => {
-            return <div key={index} className="swiper-slide  banner-img "><img src={`http://www.freelycar.com/store/${item.url}`} alt="" /></div>
+            return <div key={index} className="swiper-slide  banner-img"><img src={`http://www.freelycar.com/store/${item.url}`} alt="" /></div>
         })
         let couponList = sf.map((item, index) => {
             return <div key={index} className="swiper-slide cooperative-store-coupon">

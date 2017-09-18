@@ -3,7 +3,6 @@ import { ListView, List, Flex, Drawer } from 'antd-mobile';
 import NavBar from '../../components/NavBar'
 import DasAuto from '../../img/das_auto.jpg'
 import fute from '../../img/fute.jpg'
-import car from '../../../public/car.js'
 import PropTypes from 'prop-types';
 const { Item } = List;
 

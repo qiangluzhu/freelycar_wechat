@@ -22,7 +22,7 @@ import AddCard from './routes/addCard/addCard'
 import MyCardDetail from './routes/membership/MyCardDetail'
 import MyCard from './routes/membership/MyCard'
 import MyPoints from './routes/membership/MyPoints'
-//车险询价
+// //车险询价
 import Inquiry from './routes/autoInsurance/Inquiry'
 
 //爱车信息
@@ -36,7 +36,7 @@ import CooperativeStore from './routes/store/CooperativeStore'
 import StoreDetail from './routes/store/StoreDetail'
 import CommentStore from './routes/store/CommentStore'
 import MyFavour from './routes/store/MyFavour'
-//404 not found页面
+
 import NotFound from './routes/NotFound'
 //活动
 import ReceiveCoupons from './routes/activity/ReceiveCoupons'
@@ -44,7 +44,7 @@ import Activity from './routes/activity/Activity.js'
 const App = () => (
     <div style={{height:'100%'}}>
         <Switch>
-            <Route exact path="/" component={Personalcenter}/>
+            <Route exact path="/" component={Activity}/>
             <Route path="/activity/:openid/:nickname/:headimgurl"  component={Activity} />
             <Route path="/receivecoupons" component={ReceiveCoupons}/>
             <Route path="/center/:openid/:nickname/:headimgurl"  component={Personalcenter} />
@@ -69,10 +69,12 @@ const App = () => (
             <Route path="/carInfo" component={CarInfo}/>
             <Route path="/store/cooperative-store" exact component={CooperativeStore}/>
             <Route path="/store/comment/:consumerOrderId" exact component={CommentStore}/>
-            <Route path="/store/detail/:storeId" exact component={StoreDetail}/>
+           
             <Route path="/insurance/:carId" exact  component={Insurance}/>
-            <Route path="/inquiry" exact component={Inquiry}/>
+           
             <Route path="/notFound" component={NotFound}/>
+            <Route path="/inquiry" exact component={Inquiry}/>
+            <Route path="/store/detail/:storeId" exact component={StoreDetail}/>
             <Route component={NotFound}/>
         </Switch>
     </div>

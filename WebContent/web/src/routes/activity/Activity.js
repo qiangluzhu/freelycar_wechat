@@ -1,11 +1,12 @@
 import React from 'react';
-import { Flex } from 'antd-mobile'
+import { Flex ,Toast} from 'antd-mobile'
 import PropTypes from 'prop-types';
 import login from '../../img/logo.png';
 import phone from '../../img/phone.png';
 import password from '../../img/password.png';
 import { verification, verifySmsCode } from '../../services/sms.js'
 import { activity } from '../../services/pay.js'
+import '../auth/login.less'
 class Activity extends React.Component {
 
     constructor(props) {

@@ -5,7 +5,7 @@ import './CooperativeStore.less'
 import { storeList } from '../../services/store'
 import PropTypes from 'prop-types';
 const NUM_ROWS = 10;
-let pageIndex = 1;
+// let pageIndex = 1;
 let index = 10;
 class CooperativeStore extends React.Component {
 
@@ -21,17 +21,19 @@ class CooperativeStore extends React.Component {
             dataSource: dataSource.cloneWithRows({}),
             isLoading: true,
             hasMore: true,
+            pageIndex:1
         }
     }
 
     componentDidMount() {
         setTimeout(() => {
-            this.rData = this.genData();
+            this.rData = this.genData(this.state.pageIndex);
             this.setState({
+                pageIndex: this.state.pageIndex + 1,
                 dataSource: this.state.dataSource.cloneWithRows(this.rData),
-                isLoading: false,
+                isLoading: false
             });
-        }, 600);
+        }, 1000);
     }
 
     genData = (pIndex = 1) => {
@@ -42,19 +44,22 @@ class CooperativeStore extends React.Component {
         // }
         // console.log(dataBlob)
         // return dataBlob;
-        let dataBlob = {}
+        let dataBlob = {} 
         storeList({
             page: pIndex,
             number: 10
         }).then((res) => {
             if (res.data.code == '0') {
-                for (let i = 0; i < NUM_ROWS; i++) {
-                    const ii = (pIndex * NUM_ROWS) + i;
+                console.log(res)
+                for (let i = 0; i <res.data.data.length; i++) {
+                    const ii = ((pIndex -1)* NUM_ROWS) + i;
                     dataBlob[`${ii}`] = res.data.data[i];
-                    this.setState({
-                        hasMore: true
-                    })
                 }
+                this.setState({
+                    hasMore: true
+                })
+                console.log(dataBlob)
+            
             } else {
                 this.setState({
                     hasMore: false,
@@ -65,8 +70,8 @@ class CooperativeStore extends React.Component {
         }).catch((error) => {
             console.log(error)
         })
-
         return dataBlob
+       
         // return ['11', '22','33','44','55']
     }
 
@@ -82,7 +87,7 @@ class CooperativeStore extends React.Component {
         console.log('reach end', event);
         this.setState({ isLoading: true });
         setTimeout(() => {
-            this.rData = { ...this.rData, ...this.genData(++pageIndex) };
+            this.rData = { ...this.rData, ...this.genData(++this.state.pageIndex) };
             this.setState({
                 pageIndex: this.state.pageIndex + 1,
                 dataSource: this.state.dataSource.cloneWithRows(this.rData),
@@ -93,11 +98,11 @@ class CooperativeStore extends React.Component {
 
     render() {
         const row = (rowData, sectionID, rowID) => {
-            console.log(rowData)
             // if (index < 0) {
             //     index = this.state.data.length - 1;
             // }
             // const obj = this.state.data[index--];
+            console.log(rowData)
             return (
                 <Flex className="cooperative-store-list" onClick={() => { this.context.router.history.push(`/store/detail/${rowData.store.id}`) }}>
                     <Flex className="picture">
