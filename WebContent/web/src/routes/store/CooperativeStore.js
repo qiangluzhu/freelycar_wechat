@@ -5,7 +5,7 @@ import './CooperativeStore.less'
 import { storeList } from '../../services/store'
 import PropTypes from 'prop-types';
 const NUM_ROWS = 10;
-let pageIndex = 1;
+// let pageIndex = 1;
 let index = 10;
 class CooperativeStore extends React.Component {
 
