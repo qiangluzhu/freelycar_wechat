@@ -27,7 +27,7 @@ class CooperativeStore extends React.Component {
 
     componentDidMount() {
         setTimeout(() => {
-            this.rData = this.genData();
+            this.rData = this.genData(this.state.pageIndex);
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(this.rData),
                 isLoading: false,
