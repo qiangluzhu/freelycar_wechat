@@ -52,10 +52,10 @@ class CooperativeStore extends React.Component {
                 for (let i = 0; i <res.data.data.length; i++) {
                     const ii = (pIndex * NUM_ROWS) + i;
                     dataBlob[`${ii}`] = res.data.data[i];
-                    this.setState({
-                        hasMore: true
-                    })
                 }
+                this.setState({
+                    hasMore: true
+                })
                 console.log(dataBlob)
             
             } else {
