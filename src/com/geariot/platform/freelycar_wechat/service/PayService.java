@@ -303,8 +303,8 @@ public class PayService {
 			// 将优惠券信息添加到客户卡列表中
 			List<Ticket> tickets = new ArrayList<>();
 			for (FavourInfos favourInfos : service.getFavourInfos()) {
-				Set<FavourProjectRemainingInfo> remainingInfos = new HashSet<>();
 				for (int i = 0; i < favourInfos.getCount(); i++) {
+					Set<FavourProjectRemainingInfo> remainingInfos = new HashSet<>();
 					Ticket ticket = new Ticket();
 					ticket.setFavour(favourInfos.getFavour());
 					ticket.setExpirationDate(DateHandler

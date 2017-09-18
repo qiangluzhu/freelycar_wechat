@@ -2,6 +2,7 @@ package com.geariot.platform.freelycar_wechat.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import org.apache.http.HttpEntity;
 import org.apache.logging.log4j.LogManager;

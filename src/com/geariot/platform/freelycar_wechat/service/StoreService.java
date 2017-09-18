@@ -34,7 +34,7 @@ public class StoreService {
 	@Autowired
 	private StoreDao storeDao;
 	@Autowired
-	ConsumOrderDao consumOrderDao;
+	private ConsumOrderDao consumOrderDao;
 	
 	public String listStore(int page, int number){
 		int from = (page - 1) * number;
