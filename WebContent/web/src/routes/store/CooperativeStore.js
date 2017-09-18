@@ -42,7 +42,7 @@ class CooperativeStore extends React.Component {
         // }
         // console.log(dataBlob)
         // return dataBlob;
-        let dataBlob = {}
+        let dataBlob = {} 
         storeList({
             page: pIndex,
             number: 10
