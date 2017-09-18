@@ -29,10 +29,11 @@ class CooperativeStore extends React.Component {
         setTimeout(() => {
             this.rData = this.genData(this.state.pageIndex);
             this.setState({
+                pageIndex: this.state.pageIndex + 1,
                 dataSource: this.state.dataSource.cloneWithRows(this.rData),
-                isLoading: false,
+                isLoading: false
             });
-        }, 600);
+        }, 1000);
     }
 
     genData = (pIndex = 1) => {
@@ -43,7 +44,6 @@ class CooperativeStore extends React.Component {
         // }
         // console.log(dataBlob)
         // return dataBlob;
-        console.log(pIndex);
         let dataBlob = {} 
         storeList({
             page: pIndex,
@@ -102,6 +102,7 @@ class CooperativeStore extends React.Component {
             //     index = this.state.data.length - 1;
             // }
             // const obj = this.state.data[index--];
+            console.log(rowData)
             return (
                 <Flex className="cooperative-store-list" onClick={() => { this.context.router.history.push(`/store/detail/${rowData.store.id}`) }}>
                     <Flex className="picture">
