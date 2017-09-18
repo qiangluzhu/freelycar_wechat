@@ -48,13 +48,16 @@ class CooperativeStore extends React.Component {
             number: 10
         }).then((res) => {
             if (res.data.code == '0') {
-                for (let i = 0; i < NUM_ROWS; i++) {
+                console.log(res)
+                for (let i = 0; i <res.data.data.length; i++) {
                     const ii = (pIndex * NUM_ROWS) + i;
                     dataBlob[`${ii}`] = res.data.data[i];
                     this.setState({
                         hasMore: true
                     })
                 }
+                console.log(dataBlob)
+            
             } else {
                 this.setState({
                     hasMore: false,
@@ -65,8 +68,8 @@ class CooperativeStore extends React.Component {
         }).catch((error) => {
             console.log(error)
         })
-
         return dataBlob
+       
         // return ['11', '22','33','44','55']
     }
 
@@ -93,7 +96,6 @@ class CooperativeStore extends React.Component {
 
     render() {
         const row = (rowData, sectionID, rowID) => {
-            console.log(rowData)
             // if (index < 0) {
             //     index = this.state.data.length - 1;
             // }
