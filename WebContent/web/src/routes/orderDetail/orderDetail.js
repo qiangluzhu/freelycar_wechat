@@ -139,7 +139,7 @@ class OrderDetail extends React.Component {
                 </div>
             </div>
 
-            {this.state.payState == 0 && <div className='bottom-pay-button'>
+            {/* {this.state.payState == 0 && <div className='bottom-pay-button'>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='lable'>合计:</Flex.Item>
                     <Flex.Item style={{ color: 'red' }}>￥{this.state.totalPrice}</Flex.Item>
@@ -150,7 +150,7 @@ class OrderDetail extends React.Component {
                     </div>
 
                 </Flex>
-            </div>}
+            </div>} */}
 
 
         </div>

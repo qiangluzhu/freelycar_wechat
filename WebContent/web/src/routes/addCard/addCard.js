@@ -198,7 +198,7 @@ class OrderDetail extends React.Component {
             </div>
 
 
-            <div className='bottom-pay-button'>
+            {/* <div className='bottom-pay-button'>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='lable'>合计:</Flex.Item>
                     <Flex.Item style={{ color: 'red' }}><span style={{ fontSize: '12px' }}>￥</span><span style={{ fontSize: '16px' }}>{price}</span></Flex.Item>
@@ -208,7 +208,7 @@ class OrderDetail extends React.Component {
                         </Flex>
                     </div>
                 </Flex>
-            </div>
+            </div> */}
 
         </div>
         );
