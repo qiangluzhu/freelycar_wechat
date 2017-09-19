@@ -134,8 +134,8 @@ class CooperativeStore extends React.Component {
             //longitude: 121.454897, // 经度，浮点数，范围为180 ~ -180。
             latitude: this.state.latitude, // 纬度，浮点数，范围为90 ~ -90
             longitude: this.state.longitude, // 经度，浮点数，范围为180 ~ -180。
-            name: '静安区陕西北路278号金鹰国际购物广场6楼', // 位置名
-            address: '278 North Shaanxi Road,6th Floor', // 地址详情说明
+            name: this.state.name, // 位置名
+            address: this.state.address, // 地址详情说明
             scale: 20, // 地图缩放级别,整形值,范围从1~28。默认为最大
             infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
         });
