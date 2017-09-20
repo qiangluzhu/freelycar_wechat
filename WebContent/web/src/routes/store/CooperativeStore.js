@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 const NUM_ROWS = 10;
 // let pageIndex = 1;
 let index = 10;
-let dataBlob ={}
+let dataBlob = {}
 class CooperativeStore extends React.Component {
 
     constructor(props) {
@@ -31,14 +31,14 @@ class CooperativeStore extends React.Component {
 
     }
 
-    getData = (dataBlob)=>{
-        this.rData =  { ...this.rData, ...dataBlob }
+    getData = (dataBlob) => {
+        this.rData = { ...this.rData, ...dataBlob }
         this.setState({
-          pageIndex:this.state.pageIndex+1,
-          dataSource: this.state.dataSource.cloneWithRows(this.rData),
-          isLoading: false
+            pageIndex: this.state.pageIndex + 1,
+            dataSource: this.state.dataSource.cloneWithRows(this.rData),
+            isLoading: false
         })
-      }
+    }
 
     genData = (pIndex = 1) => {
 
@@ -99,7 +99,8 @@ class CooperativeStore extends React.Component {
                     </Flex>
                     <Flex direction="column" align="start" justify="between" style={{ height: '1.6rem', width: '5.24rem' }}>
                         <div className="store-name">
-                            {rowData.store.name}   <span style={{ fontSize: '.18rem', color: '#e42f2f', marginLeft: '.14rem' }}>{rowData.star}分</span>
+                            {rowData.store.name}
+                            {/* <span style={{ fontSize: '.18rem', color: '#e42f2f', marginLeft: '.14rem' }}>{rowData.star}分</span> */}
                         </div>
                         <Flex className="address" style={{ width: "100%" }}>
                             <div className="address-icon"></div>
@@ -131,13 +132,13 @@ class CooperativeStore extends React.Component {
                 renderBodyComponent={() => <MyBody />}
                 onEndReached={() => this.onEndReached()}
                 onEndReachedThreshold={10}
-                initialListSize={2}
+                initialListSize={6}
                 pageSize={4}
                 onScroll={() => { console.log('scroll'); }}
                 scrollRenderAheadDistance={500}
                 scrollEventThrottle={200}
                 renderFooter={() => (<div style={{ padding: '.2rem', textAlign: 'center' }}>
-                    {this.state.isLoading ? 'Loading...' : 'Loaded'}
+                    {this.state.isLoading ? '加载中...' : '已显示全部门店'}
                 </div>)}
                 style={{
                     height: `${document.documentElement.clientHeight}`,
