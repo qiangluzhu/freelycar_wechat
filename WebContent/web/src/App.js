@@ -60,7 +60,7 @@ const App = () => (
             <Route path="/orderDetail/:id" component={OrderDetail} />
             <Route path="/orderDetail_nopay" component={OrderDetail_nopay} />
             <Route path="/orderDetail_vip" component={OrderDetail_vip} />
-            <Route path="/addCard" component={AddCard} />
+            <Route path="/addCard/:openid/:nickname/:headimgurl" component={AddCard} />
             <Route path="/membership/mycard" exact component={MyCard} />
             <Route path="/membership/mycard/detail/:id" exact component={MyCardDetail}/>
             <Route path="/membership/mypoints" exact component={MyPoints}/>
