@@ -24,7 +24,7 @@ class OrderDetail extends React.Component {
 
     componentDidMount() {
         orderDetail({
-            consumOrderId:this.props.match.params.id,
+            consumOrderId: this.props.match.params.id,
         }).then((res) => {
             console.log(res);
             if (res.data.code == '0') {
@@ -100,7 +100,7 @@ class OrderDetail extends React.Component {
                 <div className='order-list'>
                     <Flex style={{ height: '100%' }}>
                         <Flex.Item className='leftLable'>订单编号</Flex.Item>
-                        <span style={{paddingRight:'.42rem'}}>{this.state.id}</span>
+                        <span style={{ paddingRight: '.42rem' }}>{this.state.id}</span>
                     </Flex>
                 </div>
                 <div className='order-list'>
@@ -118,7 +118,7 @@ class OrderDetail extends React.Component {
                 <div className='order-list'>
                     <Flex style={{ height: '100%' }}>
                         <Flex.Item className='leftLable'>支付状态</Flex.Item>
-                        <Flex.Item className='rightText'>{this.state.payState == 0 ? '未完成' : '已完成'}</Flex.Item>
+                        <Flex.Item className='rightText'>{this.state.payState == 0 ? '未支付' : '已支付'}</Flex.Item>
                     </Flex>
                 </div>
             </div>

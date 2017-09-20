@@ -145,7 +145,6 @@ class CooperativeStore extends React.Component {
                     overflow: 'auto',
                 }}
             >
-
             </ListView>
         </div>
     }

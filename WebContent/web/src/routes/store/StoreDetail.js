@@ -260,17 +260,17 @@ class CooperativeStore extends React.Component {
             <Tabs defaultActiveKey="1" swipeable underlineColor="#5a88e5" className="store-service">
                 <TabPane tab='门店服务' key="1" >
                     <Tabs defaultActiveKey="1" swipeable underlineColor="#5a88e5" className="tabpane1" >
-                        <TabPane tab='汽车美容' key="1" style={{ borderTop: '1px solid #dfdfe1' }} >
+                        {beautyList && <TabPane tab='汽车美容' key="1" style={{ borderTop: '1px solid #dfdfe1' }} >
                             {beautyList}
-                        </TabPane>
-                        <TabPane tab='维修保养' key="2" style={{ borderTop: '1px solid #dfdfe1' }}>
+                        </TabPane>}
+                        {fixList && <TabPane tab='维修保养' key="2" style={{ borderTop: '1px solid #dfdfe1' }}>
                             {fixList}
-                        </TabPane>
+                        </TabPane>}
                     </Tabs>
                 </TabPane>
-                <TabPane tab='门店评价' key="2" className="tabpane2">
+                {commentList && <TabPane tab='门店评价' key="2" className="tabpane2">
                     {commentList}
-                </TabPane>
+                </TabPane>}
             </Tabs>
             {/* <div className='bottom-pay-button'>
                 <Flex style={{ height: '100%' }}>
