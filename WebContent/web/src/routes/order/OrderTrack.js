@@ -41,6 +41,7 @@ class OrderTrack extends React.Component {
                     projects: data.projects,
                     payState: data.payState,
                     totalPrice: data.totalPrice,
+  
                 })
                 window.localStorage.setItem('storeName',data.store.name)
                 window.localStorage.setItem('imgUrl',data.store.imgUrls[0])
@@ -106,7 +107,7 @@ class OrderTrack extends React.Component {
             <div className='order-list order-tarck-info' style={{ marginTop: '0',borderTop:'1px dashed #f0f0f0' }}>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='leftLable'>订单时间</Flex.Item>
-                    <Flex.Item className='rightText'>2017-08-07 10:00:00</Flex.Item>
+                    <Flex.Item className='rightText'>{this.state.createDate}</Flex.Item>
                 </Flex>
             </div>
             <div className="order-track-state">

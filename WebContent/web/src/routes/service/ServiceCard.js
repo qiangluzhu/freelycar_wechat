@@ -62,7 +62,7 @@ class ServiceCard extends React.Component {
                 pName += p.name;
             }
 
-            return <Flex key={index} className="center-listItem" direction="column" onClick={() => { this.context.router.history.push(`/orderDetail/${item.id}`) }}>
+            return <Flex key={index} className="center-listItem" direction="column" onClick={() => { this.context.router.history.push(`/ordertrack/${item.id}`) }}>
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.24rem', color: '#4b4b4b' }}>
                     <i className="circle"></i>
                     <p>{pName}</p>
@@ -76,7 +76,7 @@ class ServiceCard extends React.Component {
 
                 {item.state == 1 ? <Flex style={{ width: '100%', fontSize: '.18rem', textAlign: 'right' }}>
                     <Flex.Item className="comments-div">
-                        <div className='comments'>评价得30积分</div>
+                        <div className='comments'>评价得{item.totalPrice}积分</div>
                     </Flex.Item >
                 </Flex> : ''}
 

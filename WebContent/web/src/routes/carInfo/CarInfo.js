@@ -101,6 +101,7 @@ class CarInfo extends React.Component {
 
         const carlist = this.state.cars.map((item, index) => {
             return <Flex key={index} className="swiper-slide carItem">
+                删除
                 <img className='car_icon' src={car_icon} alt="" />
                 <div>
                     <div className='licensePlate'>{item.car.licensePlate}</div>
