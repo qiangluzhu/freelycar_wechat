@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -103,11 +104,11 @@ public class WXUserService {
 			client.setPoints(0);
 			System.out.print(">>>"+client);
 			clientDao.save(client);
-			obj.put(Constants.RESPONSE_CLIENT_KEY, JSONObject.fromObject(client,JsonResFactory.dateConfig()));
+			obj.put(Constants.RESPONSE_CLIENT_KEY, JSONObject.fromObject(client,JsonResFactory.dateConfig(Collection.class)));
 			System.out.print(">>>"+obj);
 		}
 		else
-			obj.put(Constants.RESPONSE_CLIENT_KEY, JSONObject.fromObject(exist,JsonResFactory.dateConfig()));
+			obj.put(Constants.RESPONSE_CLIENT_KEY, JSONObject.fromObject(exist,JsonResFactory.dateConfig(Collection.class)));
 		return obj;
 		// return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
