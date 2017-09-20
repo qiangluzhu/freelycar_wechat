@@ -105,7 +105,7 @@ public class WXUserService {
 			System.out.print(">>>"+client);
 			clientDao.save(client);
 			obj.put(Constants.RESPONSE_CLIENT_KEY, JSONObject.fromObject(client,JsonResFactory.dateConfig(Collection.class)));
-			System.out.print(">>>"+obj);
+			System.out.print(">>>"+obj); 
 		}
 		else
 			obj.put(Constants.RESPONSE_CLIENT_KEY, JSONObject.fromObject(exist,JsonResFactory.dateConfig(Collection.class)));

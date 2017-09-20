@@ -40,8 +40,12 @@ public class ConsumOrderService {
 		Set<ProjectInfo> projects = consumOrder.getProjects();
 		List<OrderBean> projectsForRemaining = new ArrayList<OrderBean>();
 		for(ProjectInfo project : projects){
-			int remaining = (cardDao.getProjectRemainingInfo(Integer.parseInt(project.getCardId()), project.getProjectId())).getRemaining(); 
-						OrderBean orderBean = new OrderBean();
+			CardProjectRemainingInfo cardProjectRemainingInfo = cardDao.getProjectRemainingInfo(Integer.parseInt(project.getCardId()), project.getProjectId());
+			int remaining = 0;
+			if(cardProjectRemainingInfo != null){
+				remaining = cardProjectRemainingInfo.getRemaining();
+			}
+			OrderBean orderBean = new OrderBean();
 			orderBean.setRemaining(remaining);
 			orderBean.setProjectInfo(project);
 			projectsForRemaining.add(orderBean);
