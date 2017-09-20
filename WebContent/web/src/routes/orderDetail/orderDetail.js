@@ -42,7 +42,6 @@ class OrderDetail extends React.Component {
                 })
             }
         }).catch((error) => { console.log(error) });
-
     }
 
     render() {
