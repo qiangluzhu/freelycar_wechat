@@ -4,7 +4,7 @@ import NavBar from '../../components/NavBar'
 import './CooperativeStore.less'
 import CommentStar from '../../components/CommentStar'
 import { orderComment } from '../../services/orders'
-
+import PropTypes from 'prop-types';
 class CommentStore extends React.Component {
 
     constructor(props) {
@@ -27,6 +27,11 @@ class CommentStore extends React.Component {
             consumOrderId: this.props.match.params.consumerOrderId,
             comment: this.state.comment,
             stars: this.state.nowStar
+        }).then((res) => {
+            console.log(res)
+            if (res.data.code == '0') {
+                this.context.router.history.push(`/center/${window.localStorage.getItem('openid')}/${window.localStorage.getItem('nickName')}/${window.localStorage.getItem('headimgurl')}`)
+            }
         })
     }
     render() {
@@ -48,5 +53,8 @@ class CommentStore extends React.Component {
         </div>
     }
 
+}
+CommentStore.contextTypes = {
+    router: PropTypes.object.isRequired
 }
 export default CommentStore
