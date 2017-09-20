@@ -23,9 +23,9 @@ class AddCar extends React.Component {
             focused: false,
             focused1: false,
             carModels: [],
-            province: '苏',
+            province: window.localStorage.getItem('province') ? window.localStorage.getItem('province') : '苏',
             carModel: '',
-            carPlate: ''
+            carPlate: window.localStorage.getItem('carPlate')
         }
     }
 
@@ -46,22 +46,23 @@ class AddCar extends React.Component {
         this.setState({
             province: item
         })
+        window.localStorage.setItem('province', item)
     }
 
     addCarInfos() {
-       addCar({
+        addCar({
             carbrand: window.localStorage.getItem('brandType'),
             cartype: this.state.carModel[0],
             licensePlate: this.state.province + this.state.carPlate,
             client: {
                 id: window.localStorage.getItem('clientId')
             }
-        }).then((res)=>{
+        }).then((res) => {
             console.log(res)
-            if(res.data.code == '0') {
+            if (res.data.code == '0') {
                 this.context.router.history.push('/carInfo')
             }
-        }).catch((Error)=>{
+        }).catch((Error) => {
             console.log(Error)
         })
     }
@@ -80,7 +81,7 @@ class AddCar extends React.Component {
     render() {
         const { getFieldProps } = this.props.form;
         let greyButton = false
-        if(this.state.carPlate&&window.localStorage.getItem('brandType')) {
+        if (this.state.carPlate && window.localStorage.getItem('brandType')) {
             greyButton = true
         }
         return <div className="body-bac">
@@ -92,14 +93,15 @@ class AddCar extends React.Component {
                     placeholder="填写车牌号"
                     maxLength="6"
                     labelNumber="6"
-                    onChange={(e) => { this.setState({ carPlate: e }) }}
+                    defaultValue = {window.localStorage.getItem('carPlate') }
+                    onChange={(e) => { this.setState({ carPlate: e }); window.localStorage.setItem('carPlate', e) }}
                 >
                     <div style={{ display: 'inline-block' }}>车牌号</div>
                     <div className="card-number" style={{ display: 'inline-block', marginLeft: ' 3.3rem' }}>
                         <List.Item extra={this.state.province} arrow="down" style={{ display: 'inline-block' }} onClick={() => { this.PopupModal() }}></List.Item>
                     </div>
                 </InputItem>
-                <Item className="addcar-listItem" extra={this.props.match.params.select==1 ? <span style={{ color: '#000' }}>{window.localStorage.getItem('brandType')}</span> : <span style={{ color: '#bbb' }}>请选择品牌车系</span>} arrow="horizontal" onClick={() => this.context.router.history.push('/carbrand')}>品牌车系</Item>
+                <Item className="addcar-listItem" extra={this.props.match.params.select == 1 ? <span style={{ color: '#000' }}>{window.localStorage.getItem('brandType')}</span> : <span style={{ color: '#bbb' }}>请选择品牌车系</span>} arrow="horizontal" onClick={() => this.context.router.history.push('/carbrand')}>品牌车系</Item>
 
                 <Picker
                     data={this.state.carModels}
@@ -112,8 +114,8 @@ class AddCar extends React.Component {
                     <Item arrow="horizontal">车型</Item>
                 </Picker>
             </List>
-    
-            <div className="addCar-btn" style={{background:greyButton?"#5a88e5":"rgba(153,153,153,0.5)"}} onClick={() => { this.addCarInfos() }}>保存</div>
+
+            <div className="addCar-btn" style={{ background: greyButton ? "#5a88e5" : "rgba(153,153,153,0.5)" }} onClick={() => { this.addCarInfos() }}>保存</div>
         </div>
     }
 }
