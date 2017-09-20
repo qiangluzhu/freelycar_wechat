@@ -16,7 +16,7 @@ class PersonalInfo extends React.Component {
             focused1: false,
             name: '',
             headimgurl: '',
-            nickName: ''
+            nickName: window.localStorage.getItem('nickName')
         }
     }
 
@@ -58,7 +58,7 @@ class PersonalInfo extends React.Component {
                 name: this.state.name,
                 gender: this.state.gender[0]
 
-            }).then((res)=>{
+            }).then((res) => {
                 console.log(res)
                 this.context.router.history.push(`/center/${window.localStorage.getItem('openid')}/${window.localStorage.getItem('nickName')}/${window.localStorage.getItem('headimgurl')}`)
             })
@@ -117,7 +117,7 @@ class PersonalInfo extends React.Component {
                     clear
                     placeholder="1990-08-08"
                     focused={this.state.focused}
-                    value={this.state.birthday?this.state.birthday.slice(0,10):this.state.birthday}
+                    value={this.state.birthday ? this.state.birthday.slice(0, 10) : this.state.birthday}
                     onFocus={() => {
                         this.setState({
                             focused: false,

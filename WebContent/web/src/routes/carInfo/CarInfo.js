@@ -175,7 +175,6 @@ class CarInfo extends React.Component {
 
         </div>
     }
-
 }
 export default CarInfo
 CarInfo.contextTypes = {
