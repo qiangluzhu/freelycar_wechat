@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 const NUM_ROWS = 10;
 // let pageIndex = 1;
 let index = 10;
+let dataBlob ={}
 class CooperativeStore extends React.Component {
 
     constructor(props) {
@@ -16,63 +17,56 @@ class CooperativeStore extends React.Component {
         const dataSource = new ListView.DataSource({
             rowHasChanged: (row1, row2) => row1 !== row2,
         });
-
         this.state = {
             dataSource: dataSource.cloneWithRows({}),
             isLoading: true,
             hasMore: true,
-            pageIndex:1
+            pageIndex: 1
         }
     }
 
     componentDidMount() {
-        setTimeout(() => {
-            this.rData = this.genData(this.state.pageIndex);
-            this.setState({
-                pageIndex: this.state.pageIndex + 1,
-                dataSource: this.state.dataSource.cloneWithRows(this.rData),
-                isLoading: false
-            });
-        }, 1000);
+
+        this.genData(1)
+
     }
 
+    getData = (dataBlob)=>{
+        this.rData =  { ...this.rData, ...dataBlob }
+        this.setState({
+          pageIndex:this.state.pageIndex+1,
+          dataSource: this.state.dataSource.cloneWithRows(this.rData),
+          isLoading: false
+        })
+      }
+
     genData = (pIndex = 1) => {
-        // const dataBlob = {};
-        // for (let i = 0; i < NUM_ROWS; i++) {
-        //     const ii = (pIndex * NUM_ROWS) + i;
-        //     dataBlob[`${ii}`] = `row - ${ii}`;
-        // }
-        // console.log(dataBlob)
-        // return dataBlob;
-        let dataBlob = {} 
+
+        let dataBlob = []
         storeList({
             page: pIndex,
             number: 10
         }).then((res) => {
-            if (res.data.code == '0') {
+            if (res.data.code == "0") {
                 console.log(res)
-                for (let i = 0; i <res.data.data.length; i++) {
-                    const ii = ((pIndex -1)* NUM_ROWS) + i;
+                for (let i = 0; i < res.data.data.length; i++) {
+                    const ii = ((pIndex - 1) * NUM_ROWS) + i;
                     dataBlob[`${ii}`] = res.data.data[i];
                 }
                 this.setState({
                     hasMore: true
                 })
-                console.log(dataBlob)
-            
+
             } else {
                 this.setState({
                     hasMore: false,
                     isLoading: false
                 })
             }
-
+            this.getData(dataBlob)
         }).catch((error) => {
             console.log(error)
         })
-        return dataBlob
-       
-        // return ['11', '22','33','44','55']
     }
 
     onEndReached = (event) => {
@@ -87,12 +81,7 @@ class CooperativeStore extends React.Component {
         console.log('reach end', event);
         this.setState({ isLoading: true });
         setTimeout(() => {
-            this.rData = { ...this.rData, ...this.genData(++this.state.pageIndex) };
-            this.setState({
-                pageIndex: this.state.pageIndex + 1,
-                dataSource: this.state.dataSource.cloneWithRows(this.rData),
-                isLoading: false
-            })
+            this.genData(++this.state.pageIndex);
         }, 1000);
     }
 
@@ -138,11 +127,11 @@ class CooperativeStore extends React.Component {
             <NavBar title="合作门店" />
             <ListView
                 dataSource={this.state.dataSource}
+                renderRow={row}
                 renderBodyComponent={() => <MyBody />}
                 onEndReached={() => this.onEndReached()}
                 onEndReachedThreshold={10}
-                renderRow={row}
-                initialListSize={10}
+                initialListSize={2}
                 pageSize={4}
                 onScroll={() => { console.log('scroll'); }}
                 scrollRenderAheadDistance={500}

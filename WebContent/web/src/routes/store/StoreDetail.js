@@ -5,6 +5,7 @@ import Star from '../../components/Star'
 import './CooperativeStore.less'
 import '../autoInsurance/Inquiry.less'
 import { storeDetail, listComment } from '../../services/store.js'
+import { getWXConfig } from '../../services/pay.js'
 const TabPane = Tabs.TabPane
 class CooperativeStore extends React.Component {
 
@@ -21,11 +22,43 @@ class CooperativeStore extends React.Component {
             beauty: [],
             storefavours: [],
             comments: [],
-            imgs: []
+            imgs: [],
+            latitude: 0, // 纬度，浮点数，范围为90 ~ -90
+            longitude: 0, // 经度，浮点数，范围为180 ~ -180。
         }
     }
 
     componentDidMount() {
+
+
+        //通过后台对微信签名的验证。
+        //这块的jsapi主要针对地图位置信息
+
+        getWXConfig({ "targetUrl": window.location.href }).then((res) => {
+            //if (res.data.code == '0') 
+                let data = res.data;
+                //先注入配置JSSDK信息
+                wx.config({
+                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: data.appId, // 必填，公众号的唯一标识
+                    timestamp: data.timestamp, // 必填，生成签名的时间戳
+                    nonceStr: data.nonceStr, // 必填，生成签名的随机串
+                    signature: data.signature,// 必填，签名，见附录1
+                    jsApiList: ["getLocation", "openLocation"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                });
+
+                wx.ready(function () {
+                    console.log("验证微信接口成功");
+                });
+
+
+        }).catch((error) => {
+            console.log(error)
+        })
+
+
+
+
 
         storeDetail({ storeId: this.props.match.params.storeId }).then((res) => {
             console.log(res)
@@ -41,7 +74,9 @@ class CooperativeStore extends React.Component {
                     openingTime: store.openingTime,
                     beauty: res.data.data.beauty,
                     fix: res.data.data.fix,
-                    storefavours: store.storefavours
+                    storefavours: store.storefavours,
+                    latitude: store.latitude, // 纬度，浮点数，范围为90 ~ -90
+                    longitude: store.longitude, // 经度，浮点数，范围为180 ~ -180。
                 })
                 let mySwiper2 = new Swiper(this.swiperID2, {
                     direction: 'horizontal',
@@ -61,7 +96,7 @@ class CooperativeStore extends React.Component {
                     // 如果需要分页器
                     pagination: '.swiper-pagination',
                 });
-        
+
             }
         }).catch((error) => {
             console.log(error)
@@ -70,7 +105,7 @@ class CooperativeStore extends React.Component {
         listComment({
             storeId: '1'
         }).then((res) => {
-            console.log(res)
+            //console.log(res)
             if (res.data.code == '0') {
                 let comments = []
                 for (let item of res.data.data) {
@@ -88,6 +123,27 @@ class CooperativeStore extends React.Component {
             }
         }).catch((error) => { console.log(error) })
     }
+
+
+
+
+    //打开微信内置地图
+    openWXMap = () => {
+        wx.openLocation({
+            //latitude: 31.228201, // 纬度，浮点数，范围为90 ~ -90
+            //longitude: 121.454897, // 经度，浮点数，范围为180 ~ -180。
+            latitude: this.state.latitude, // 纬度，浮点数，范围为90 ~ -90
+            longitude: this.state.longitude, // 经度，浮点数，范围为180 ~ -180。
+            name: this.state.name, // 位置名
+            address: this.state.address, // 地址详情说明
+            scale: 20, // 地图缩放级别,整形值,范围从1~28。默认为最大
+            infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
+        });
+
+    }
+
+
+
     render() {
         let sf = this.state.storefavours;
         let imgs = this.state.imgs.map((item, index) => {
@@ -170,8 +226,8 @@ class CooperativeStore extends React.Component {
 
                 <Flex direction="column" align="start" justify="between" >
                     <div className="store-name">
-                        {this.state.name}  
-                         {/* <span style={{ fontSize: '.18rem', color: '#e42f2f', marginLeft: '.04rem' }}>{this.state.star}分</span> */}
+                        {this.state.name}
+                        {/* <span style={{ fontSize: '.18rem', color: '#e42f2f', marginLeft: '.04rem' }}>{this.state.star}分</span> */}
                     </div>
                     <Flex className="info-font time">
                         <div className="time-icon"></div>
@@ -181,7 +237,7 @@ class CooperativeStore extends React.Component {
                         <div>
                             <Flex className="address">
                                 <div className="address-icon"></div>
-                                <p className="info-font" style={{ color: '#636363', width: '5rem' }}>{this.state.address}</p>
+                                <p className="info-font" style={{ color: '#636363', width: '5rem' }} onClick={() => { this.openWXMap() }} >{this.state.address}</p>
 
                             </Flex>
                             <div className="info-identify">
@@ -193,10 +249,10 @@ class CooperativeStore extends React.Component {
                 </Flex>
                 <Flex className="icon">
                     <div className="hr"></div>
-                    <a href="tel:18512591863" style={{display:'inline-block'}}><div className="tel-icon" ></div></a>
+                    <a href="tel:18512591863" style={{ display: 'inline-block' }}><div className="tel-icon" ></div></a>
                 </Flex>
             </Flex>
-            {/* <Flex className="store-detail-title">
+            <Flex className="store-detail-title">
                 <div className="sign"></div>
                 <div className="title">优惠活动</div>
             </Flex>
@@ -222,7 +278,7 @@ class CooperativeStore extends React.Component {
                     {commentList}
                 </TabPane>
             </Tabs>
-            <div className='bottom-pay-button'>
+            {/* <div className='bottom-pay-button'>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='lable'>合计:</Flex.Item>
                     <Flex.Item style={{ color: 'red' }}>￥999</Flex.Item>
