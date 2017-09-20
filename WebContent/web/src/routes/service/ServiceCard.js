@@ -101,11 +101,11 @@ class ServiceCard extends React.Component {
             <Tabs defaultActiveKey="1" onChange={callback} onTabClick={handleTabClick}>
                 <TabPane tab='服务' key="1">
                     {services}
-                    {this.state.services.length == 0 && <div style={{ width: '4.21rem', height: '5.07rem', margin: '0 auto', background: 'url(../../img/empty.png)', backgroundSize: '100% 100%' }}></div>}
+                    {this.state.services.length<1&&<div className="empty-bac" ></div>}
                 </TabPane>
                 <TabPane tab='卡券' key="2">
                     {cards}
-                    {this.state.cards.length == 0 && <div style={{ width: '4.21rem', height: '5.07rem', margin: '0 auto', background: 'url(../../img/empty.png)', backgroundSize: '100% 100%' }}></div>}
+                    {this.state.cards.length<1&&<div className="empty-bac" ></div>}
                 </TabPane>
             </Tabs>
             <WhiteSpace />
