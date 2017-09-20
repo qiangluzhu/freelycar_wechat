@@ -246,17 +246,17 @@ class CooperativeStore extends React.Component {
                     <a href="tel:18512591863" style={{ display: 'inline-block' }}><div className="tel-icon" ></div></a>
                 </Flex>
             </Flex>
-            <Flex className="store-detail-title">
+            {this.state.storefavours.length > 0 && <Flex className="store-detail-title">
                 <div className="sign"></div>
                 <div className="title">优惠活动</div>
-            </Flex>
-            <div className="swiper-container" ref={self => this.swiperID2 = self}>
+            </Flex>}
+            {this.state.storefavours.length > 0 && <div className="swiper-container" ref={self => this.swiperID2 = self}>
                 <div className="swiper-wrapper ">
                     {couponList}
                 </div>
-            </div>
-            <div style={{ height: '.21rem', background: '#fff', marginTop: '.04rem' }}>
-            </div>
+            </div>}
+            {this.state.storefavours.length > 0 && <div style={{ height: '.21rem', background: '#fff', marginTop: '.04rem' }}>
+            </div>}
             <Tabs defaultActiveKey="1" swipeable underlineColor="#5a88e5" className="store-service">
                 <TabPane tab='门店服务' key="1" >
                     <Tabs defaultActiveKey="1" swipeable underlineColor="#5a88e5" className="tabpane1" >
