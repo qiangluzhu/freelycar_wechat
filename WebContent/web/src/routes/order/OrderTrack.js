@@ -15,9 +15,9 @@ class OrderTrack extends React.Component {
             programName: '',
             licensePlate: '',
             clientName: '',
-            deliverTime:'',
-            finishTime:'',
-            createDate:''
+            deliverTime: '',
+            finishTime: '',
+            createDate: ''
         }
     }
 
@@ -32,29 +32,29 @@ class OrderTrack extends React.Component {
                 this.setState({
                     clientName: data.clientName,
                     licensePlate: data.licensePlate,
-                    createDate:data.createDate,
-                    deliverTime:data.deliverTime,
-                    finishTime:data.finishTime,
+                    createDate: data.createDate,
+                    deliverTime: data.deliverTime,
+                    finishTime: data.finishTime,
                     programName: data.programName,
                     // state: data.state == 0 ? '已接车' : (data.state == 1 ? '已完工' : '已交车'),
                     state: data.state,
                     projects: data.projects,
                     payState: data.payState,
                     totalPrice: data.totalPrice,
-  
+
                 })
-                window.localStorage.setItem('storeName',data.store.name)
-                window.localStorage.setItem('imgUrl',data.store.imgUrls[0])
+                window.localStorage.setItem('storeName', data.store.name)
+                window.localStorage.setItem('imgUrl', data.store.imgUrls[0])
             }
         }).catch((error) => { console.log(error) })
     }
 
     render() {
         let projectItems = this.state.projects.map((item, index) => {
-            return <Flex direction="column"  justify="center" style={{width:'100%',borderTop:'1px dashed #f0f0f0', height: '0.85rem'}} key={index} align="end" >
-                <Flex style={{width:'100%'}} >
+            return <Flex direction="column" justify="center" style={{ width: '100%', borderTop: '1px dashed #f0f0f0', height: '0.85rem' }} key={index} align="end" >
+                <Flex style={{ width: '100%' }} >
                     <div>{item.projectInfo.name}</div>
-                    <div style={{marginLeft:'auto'}}><span style={{ fontSize: '.24rem' }}>￥</span>200</div>
+                    <div style={{ marginLeft: 'auto' }}><span style={{ fontSize: '.24rem' }}>￥</span>200</div>
                 </Flex>
                 {/* <Flex.Item className="total-money" >
                         <p className="primary-money">
@@ -63,12 +63,12 @@ class OrderTrack extends React.Component {
                             </i>
                         </p>
                     </Flex.Item> */}
-                <Flex  className="order-track-remain" style={{width:'100%'}}>
+                <Flex className="order-track-remain" style={{ width: '100%' }}>
                     <div>
                         <p>已抵扣会员卡{item.cardNumber}，该项目还剩余{item.remaining}次</p>
                     </div>
-                    <p style={{marginLeft:'auto',fontSize:'.22rem'}}>
-                        <span style={{ fontSize: '.22rem'}}>￥</span>200
+                    <p style={{ marginLeft: 'auto', fontSize: '.22rem' }}>
+                        <span style={{ fontSize: '.22rem' }}>￥</span>200
                         <i>
                         </i>
                     </p>
@@ -82,7 +82,7 @@ class OrderTrack extends React.Component {
                     <p>{this.state.clientName}</p>
                     <div>{this.state.licensePlate}</div>
                 </Flex.Item>
-                <Flex.Item className="state">{this.state.state==1?'已接车':(this.state.state==2?'已完成':'已交车')}</Flex.Item>
+                <Flex.Item className="state">{this.state.state == 1 ? '已接车' : (this.state.state == 2 ? '已完成' : '已交车')}</Flex.Item>
             </Flex>
             <div className="order-track-line"></div>
             <Flex className="order-track-program" direction="column">
@@ -104,7 +104,7 @@ class OrderTrack extends React.Component {
                     <Flex.Item className='rightText'>{this.props.match.params.id}</Flex.Item>
                 </Flex>
             </div>
-            <div className='order-list order-tarck-info' style={{ marginTop: '0',borderTop:'1px dashed #f0f0f0' }}>
+            <div className='order-list order-tarck-info' style={{ marginTop: '0', borderTop: '1px dashed #f0f0f0' }}>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='leftLable'>订单时间</Flex.Item>
                     <Flex.Item className='rightText'>{this.state.createDate}</Flex.Item>
@@ -113,8 +113,8 @@ class OrderTrack extends React.Component {
             <div className="order-track-state">
                 <Flex className={this.state.state == 3 ? "order-track-state-box active" : "order-track-state-box"} align="start">
                     <div className="time">
-                        <p>{this.state.deliverTime.slice(5,10)}</p>
-                        <p style={{ marginLeft: '.22rem' }}>{this.state.deliverTime.slice(11,16)}</p>
+                        <p>{this.state.deliverTime.slice(5, 10)}</p>
+                        <p style={{ marginLeft: '.22rem' }}>{this.state.deliverTime.slice(11, 16)}</p>
                     </div>
                     <div className="right-box">
                         <div className="circle">
@@ -123,15 +123,15 @@ class OrderTrack extends React.Component {
                         </div>
                         <div>爱车已交回你的手中 快来评价获积分吧
                         </div>
-                        <div className="evaluate" onClick={() => { this.context.router.history.push('/store/comment') }}>
+                        {this.state.state == 3 && <div className="evaluate" onClick={() => { this.context.router.history.push(`/store/comment/${this.props.match.params.id}`) }}>
                             评价得200积分
-                        </div>
+                        </div>}
                     </div>
                 </Flex>
                 <Flex className={this.state.state == 2 ? "order-track-state-box active" : "order-track-state-box"} align="start">
                     <div className="time">
-                        <p>{this.state.finishTime.slice(5,10)}</p>
-                        <p style={{ marginLeft: '.22rem' }}>{this.state.finishTime.slice(11,16)}</p>
+                        <p>{this.state.finishTime.slice(5, 10)}</p>
+                        <p style={{ marginLeft: '.22rem' }}>{this.state.finishTime.slice(11, 16)}</p>
                     </div>
                     <div className="right-box">
                         <div className="circle">
@@ -144,8 +144,8 @@ class OrderTrack extends React.Component {
                 </Flex>
                 <Flex className={this.state.state == 1 ? "order-track-state-box active" : "order-track-state-box"} align="start">
                     <div className="time">
-                        <p>{this.state.createDate.slice(5,10)}</p>
-                        <p style={{ marginLeft: '.22rem' }}>{this.state.createDate.slice(11,16)}</p>
+                        <p>{this.state.createDate.slice(5, 10)}</p>
+                        <p style={{ marginLeft: '.22rem' }}>{this.state.createDate.slice(11, 16)}</p>
                     </div>
                     <div className="right-box">
                         <div className="circle">
@@ -158,8 +158,8 @@ class OrderTrack extends React.Component {
                 </Flex>
                 <Flex className={this.state.state == 1 ? "order-track-state-box active" : "order-track-state-box"} align="start">
                     <div className="time">
-                        <p>{this.state.createDate.slice(5,10)}</p>
-                        <p style={{ marginLeft: '.22rem' }}>{this.state.createDate.slice(11,16)}</p>
+                        <p>{this.state.createDate.slice(5, 10)}</p>
+                        <p style={{ marginLeft: '.22rem' }}>{this.state.createDate.slice(11, 16)}</p>
                     </div>
                     <div className="right-box last">
                         <div className="circle">
