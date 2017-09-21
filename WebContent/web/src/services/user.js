@@ -5,8 +5,8 @@ export default {
     addWxUser: (params) => {
         return post('api/user/addWxUser', params)
     },
-    updateWXUser:(options,params)=>{
-        return request('api/user/updateWXUser',options,params)
+    updateWXUser: (options, params) => {
+        return request('api/user/updateWXUser', options, params)
     },
 
     logout: (params) => {
@@ -25,42 +25,42 @@ export default {
         return post('api/user/addCar', params)
     },
 
-    userDetail:(params)=>{
-        return get('api/user/detail',params)
+    userDetail: (params) => {
+        return get('api/user/detail', params)
     },
 
-    delCar:(params)=>{
-        return post('api/user/delCar',params)
+    delCar: (params) => {
+        return get('api/user/delCar', params)
     },
 
-    defaultCar:(params)=>{
-        return get('api/user/defaultCar',params)
+    defaultCar: (params) => {
+        return get('api/user/defaultCar', params)
     },
 
-    modifyCarInfo:(params)=>{
-        return get('api/user/carInfo',params)
+    modifyCarInfo: (params) => {
+        return get('api/user/carInfo', params)
     },
 
-    wxInfo:(params)=>{
-        return get('api/user/wxInfo',params)
+    wxInfo: (params) => {
+        return get('api/user/wxInfo', params)
     },
 
-    myCard:(params)=>{
-        return get('api/user/listCard',params)
+    myCard: (params) => {
+        return get('api/user/listCard', params)
     },
 
-    myCar:(params)=>{
-        return get('api/user/listCar',params)
+    myCar: (params) => {
+        return get('api/user/listCar', params)
     },
-    detailInfo:(params)=>{
-        return get('api/user/detailInfo',params)
+    detailInfo: (params) => {
+        return get('api/user/detailInfo', params)
     },
-    carDetail:(params)=>{
-        return get('api/user/carDetail',params)
+    carDetail: (params) => {
+        return get('api/user/carDetail', params)
     },
 
-    annualCheck:(params)=>{
-        return get('api/user/annualCheck',params)
+    annualCheck: (params) => {
+        return get('api/user/annualCheck', params)
     },
 
 
