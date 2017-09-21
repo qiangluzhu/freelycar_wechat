@@ -132,7 +132,11 @@ public class WXUserController {
 				insuranceCompany, insuranceEndtime);
 	}
 
-	
+	@ResponseBody
+	@RequestMapping(value = "/annualCheck", method = RequestMethod.GET)
+	public String annualCheck(int clientId, int id, String licenseDate)throws ParseException{
+		return wxUserService.annualCheck(clientId, id, licenseDate);
+	}
 	/*@ResponseBody
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public String test(String phone,String openId,String headimgurl,String nickName) {
@@ -164,7 +168,7 @@ public class WXUserController {
 
 	
 	@ResponseBody
-	@RequestMapping(value = "/delCar", method = RequestMethod.POST)
+	@RequestMapping(value = "/delCar", method = RequestMethod.GET)
 	public String delCar(int carId) {
 		return wxUserService.deleteCar(carId);
 	}
