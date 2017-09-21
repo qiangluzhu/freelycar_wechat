@@ -27,9 +27,6 @@ class OrderDetail extends React.Component {
         }
     }
     componentDidMount() {
-
-
-
         //通过后台对微信签名的验证。
         getWXConfig({
             targetUrl: window.location.href,
@@ -46,27 +43,19 @@ class OrderDetail extends React.Component {
                     'checkJsApi',
                 ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
             });
-
-
             wx.ready(function () {
                 console.log("验证微信接口成功");
             });
 
         }).catch((error) => { console.log(error) });
 
-
-
-
-
-
-
-
         let mySwiper3 = new Swiper(this.swiperID, {
             direction: 'horizontal',
             loop: false,
             slidesPerView: 4,
             slidesPerGroup: 1,
-            centeredSlides: false
+            centeredSlides: false,
+            pagination : '.swiper-pagination'
             // 如果需要分页器
         });
 
@@ -101,21 +90,25 @@ class OrderDetail extends React.Component {
 
         if (state) {
             membershipCard({//传递所需的参数
-                "openId": 'oBaSqs4RpSZNY7czNBcCRF8uYLKI',
+                //"openId": 'oBaSqs4THtZ-QRs1IQk-b8YKxH28',
+                "openId":  window.localStorage.getItem('openid'),
                 "serviceId": 5,
                 "totalPrice": 0.01,
             }).then((res) => {
-                console.log('wxxxxxxxxxxxxxxxx');
-                console.log(res);
+                if (res.data.code == 0) {
+                    let data = res.data.data;
+                    console.log(data);
+                    this.onBridgeReady(data.appId, data.timeStamp,
+                        data.nonceStr, data.package,
+                        data.signType, data.paySign);
+                } else {
+                    alert('支付失败');
+                }
 
-                this.onBridgeReady(res.data.appId, res.data.timeStamp,
-                    res.data.nonceStr, res.data.package,
-                    res.data.signType, res.data.paySign);
             }).catch((error) => { console.log(error) });
         }
 
     }
-
 
 
     checkPayState = () => {
@@ -144,7 +137,8 @@ class OrderDetail extends React.Component {
             "paySign": paySign
             // 微信签名
         }, function (res) {
-            console.log("支付结果:" + res);
+            console.log("支付结果:");
+            console.log(res);
             if (res.err_msg == "get_brand_wcpay_request:ok") {
                 window.location.href = "policy.html?type=" + type;
             }
@@ -198,7 +192,7 @@ class OrderDetail extends React.Component {
             </div>
 
 
-            {/* <div className='bottom-pay-button'>
+            <div className='bottom-pay-button'>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='lable'>合计:</Flex.Item>
                     <Flex.Item style={{ color: 'red' }}><span style={{ fontSize: '12px' }}>￥</span><span style={{ fontSize: '16px' }}>{price}</span></Flex.Item>
@@ -208,7 +202,7 @@ class OrderDetail extends React.Component {
                         </Flex>
                     </div>
                 </Flex>
-            </div> */}
+            </div>
 
         </div>
         );

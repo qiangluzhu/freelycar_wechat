@@ -5,6 +5,7 @@ import './OrderTrack.less'
 import { orderDetail } from '../../services/orders.js'
 import parseForm from '../../utils/parseToForm.js'
 import PropTypes from 'prop-types';
+import { payment, getWXConfig, membershipCard } from '../../services/pay.js'
 class OrderTrack extends React.Component {
     constructor(props) {
         super(props)
@@ -15,13 +16,38 @@ class OrderTrack extends React.Component {
             programName: '',
             licensePlate: '',
             clientName: '',
-            deliverTime:'',
-            finishTime:'',
-            createDate:''
+            deliverTime: '',
+            finishTime: '',
+            createDate: ''
         }
     }
 
     componentDidMount() {
+
+         //通过后台对微信签名的验证。
+         getWXConfig({
+            targetUrl: window.location.href,
+        }).then((res) => {
+            let data = res.data;
+            //先注入配置JSSDK信息
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: data.appId, // 必填，公众号的唯一标识
+                timestamp: data.timestamp, // 必填，生成签名的时间戳
+                nonceStr: data.nonceStr, // 必填，生成签名的随机串
+                signature: data.signature,// 必填，签名，见附录1
+                jsApiList: [
+                    'checkJsApi',
+                ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+            wx.ready(function () {
+                console.log("验证微信接口成功");
+            });
+
+        }).catch((error) => { console.log(error) });
+
+
+
         orderDetail({
             consumOrderId: this.props.match.params.id
         }).then((res) => {
@@ -32,9 +58,9 @@ class OrderTrack extends React.Component {
                 this.setState({
                     clientName: data.clientName,
                     licensePlate: data.licensePlate,
-                    createDate:data.createDate,
-                    deliverTime:data.deliverTime,
-                    finishTime:data.finishTime,
+                    createDate: data.createDate,
+                    deliverTime: data.deliverTime,
+                    finishTime: data.finishTime,
                     programName: data.programName,
                     // state: data.state == 0 ? '已接车' : (data.state == 1 ? '已完工' : '已交车'),
                     state: data.state,
@@ -42,18 +68,82 @@ class OrderTrack extends React.Component {
                     payState: data.payState,
                     totalPrice: data.totalPrice,
                 })
-                window.localStorage.setItem('storeName',data.store.name)
-                window.localStorage.setItem('imgUrl',data.store.imgUrls[0])
+                window.localStorage.setItem('storeName', data.store.name)
+                window.localStorage.setItem('imgUrl', data.store.imgUrls[0])
             }
         }).catch((error) => { console.log(error) })
     }
 
+
+    handlePay = () => {
+        let state = this.checkPayState();
+        if (!state) {
+            alert("不能发起支付");
+        }
+
+        if (state) {
+            membershipCard({//传递所需的参数
+                //"openId": 'oBaSqs4THtZ-QRs1IQk-b8YKxH28',
+                "openId":  window.localStorage.getItem('openid'),
+                "serviceId": 5,
+                "totalPrice": 0.01,
+            }).then((res) => {
+                if (res.data.code == 0) {
+                    let data = res.data.data;
+                    console.log(data);
+                    this.onBridgeReady(data.appId, data.timeStamp,
+                        data.nonceStr, data.package,
+                        data.signType, data.paySign);
+                } else {
+                    alert('支付失败');
+                }
+
+            }).catch((error) => { console.log(error) });
+        }
+
+    }
+
+
+    checkPayState = () => {
+        if (typeof WeixinJSBridge == "undefined") {
+            if (document.addEventListener) {
+                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+            } else if (document.attachEvent) {
+                document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+            }
+            return true;
+        } else {
+            return true;
+        }
+    }
+
+
+    onBridgeReady = (appId, timeStamp, nonceStr, prepay_id, signType,
+        paySign, type) => {
+        WeixinJSBridge.invoke('getBrandWCPayRequest', {
+            "appId": appId, // 公众号名称，由商户传入
+            "timeStamp": timeStamp, // 时间戳，自1970年以来的秒数
+            "nonceStr": nonceStr, // 随机串
+            "package": prepay_id,
+            "signType": signType, // 微信签名方式：
+            "paySign": paySign
+            // 微信签名
+        }, function (res) {
+            console.log("支付结果:");
+            console.log(res);
+            if (res.err_msg == "get_brand_wcpay_request:ok") {
+                window.location.href = "policy.html?type=" + type;
+            }
+        });
+    }
+
     render() {
         let projectItems = this.state.projects.map((item, index) => {
-            return <Flex direction="column"  justify="center" style={{width:'100%',borderTop:'1px dashed #f0f0f0', height: '0.85rem'}} key={index} align="end" >
-                <Flex style={{width:'100%'}} >
+            return <Flex direction="column" justify="center" style={{ width: '100%', borderTop: '1px dashed #f0f0f0', height: '0.85rem' }} key={index} align="end" >
+                <Flex style={{ width: '100%' }} >
                     <div>{item.projectInfo.name}</div>
-                    <div style={{marginLeft:'auto'}}><span style={{ fontSize: '.24rem' }}>￥</span>200</div>
+                    <div style={{ marginLeft: 'auto' }}><span style={{ fontSize: '.24rem' }}>￥</span>{item.projectInfo.price}</div>
                 </Flex>
                 {/* <Flex.Item className="total-money" >
                         <p className="primary-money">
@@ -62,12 +152,12 @@ class OrderTrack extends React.Component {
                             </i>
                         </p>
                     </Flex.Item> */}
-                <Flex  className="order-track-remain" style={{width:'100%'}}>
+                <Flex className="order-track-remain" style={{ width: '100%' }}>
                     <div>
                         <p>已抵扣会员卡{item.cardNumber}，该项目还剩余{item.remaining}次</p>
                     </div>
-                    <p style={{marginLeft:'auto',fontSize:'.22rem'}}>
-                        <span style={{ fontSize: '.22rem'}}>￥</span>200
+                    <p style={{ marginLeft: 'auto', fontSize: '.22rem' }}>
+                        <span style={{ fontSize: '.22rem' }}>￥</span>{item.projectInfo.presentPrice}
                         <i>
                         </i>
                     </p>
@@ -81,7 +171,7 @@ class OrderTrack extends React.Component {
                     <p>{this.state.clientName}</p>
                     <div>{this.state.licensePlate}</div>
                 </Flex.Item>
-                <Flex.Item className="state">{this.state.state==1?'已接车':(this.state.state==2?'已完成':'已交车')}</Flex.Item>
+                <Flex.Item className="state">{this.state.state == 1 ? '已接车' : (this.state.state == 2 ? '已完成' : '已交车')}</Flex.Item>
             </Flex>
             <div className="order-track-line"></div>
             <Flex className="order-track-program" direction="column">
@@ -91,7 +181,7 @@ class OrderTrack extends React.Component {
                 <div className="ordertrack-project">{projectItems}</div>
 
                 <div style={{ textAlign: 'right', width: '100%', marginBottom: '.1rem' }}><div style={{ marginRight: '.5rem', display: 'inline-block' }}>合计：<span style={{ fontSize: '.24rem', color: '#e42f2f' }}>￥</span><span style={{ color: '#e42f2f' }}>{this.state.totalPrice}</span></div>
-                    {this.state.payState == 0 && <div className="pay-btn">
+                    {this.state.payState == 0 && <div className="pay-btn" onClick={()=>{this.handlePay()}}>
                         <p>去付款</p>
                     </div>}
                 </div>
@@ -103,17 +193,17 @@ class OrderTrack extends React.Component {
                     <Flex.Item className='rightText'>{this.props.match.params.id}</Flex.Item>
                 </Flex>
             </div>
-            <div className='order-list order-tarck-info' style={{ marginTop: '0',borderTop:'1px dashed #f0f0f0' }}>
+            <div className='order-list order-tarck-info' style={{ marginTop: '0', borderTop: '1px dashed #f0f0f0' }}>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='leftLable'>订单时间</Flex.Item>
-                    <Flex.Item className='rightText'>2017-08-07 10:00:00</Flex.Item>
+                    <Flex.Item className='rightText'>{this.state.createDate}</Flex.Item>
                 </Flex>
             </div>
             <div className="order-track-state">
                 <Flex className={this.state.state == 3 ? "order-track-state-box active" : "order-track-state-box"} align="start">
                     <div className="time">
-                        <p>{this.state.deliverTime.slice(5,10)}</p>
-                        <p style={{ marginLeft: '.22rem' }}>{this.state.deliverTime.slice(11,16)}</p>
+                        <p>{this.state.deliverTime ? this.state.deliverTime.slice(5, 10) : ''}</p>
+                        <p style={{ marginLeft: '.22rem' }}>{this.state.deliverTime ? this.state.deliverTime.slice(11, 16) : ''}</p>
                     </div>
                     <div className="right-box">
                         <div className="circle">
@@ -122,15 +212,15 @@ class OrderTrack extends React.Component {
                         </div>
                         <div>爱车已交回你的手中 快来评价获积分吧
                         </div>
-                        <div className="evaluate" onClick={() => { this.context.router.history.push('/store/comment') }}>
+                        {this.state.state == 3 && <div className="evaluate" onClick={() => { this.context.router.history.push(`/store/comment/${this.props.match.params.id}`) }}>
                             评价得200积分
-                        </div>
+                        </div>}
                     </div>
                 </Flex>
                 <Flex className={this.state.state == 2 ? "order-track-state-box active" : "order-track-state-box"} align="start">
                     <div className="time">
-                        <p>{this.state.finishTime.slice(5,10)}</p>
-                        <p style={{ marginLeft: '.22rem' }}>{this.state.finishTime.slice(11,16)}</p>
+                        <p>{this.state.finishTime ? this.state.finishTime.slice(5, 10) : ''}</p>
+                        <p style={{ marginLeft: '.22rem' }}>{this.state.finishTime ? this.state.finishTime.slice(11, 16) : ''}</p>
                     </div>
                     <div className="right-box">
                         <div className="circle">
@@ -143,8 +233,8 @@ class OrderTrack extends React.Component {
                 </Flex>
                 <Flex className={this.state.state == 1 ? "order-track-state-box active" : "order-track-state-box"} align="start">
                     <div className="time">
-                        <p>{this.state.createDate.slice(5,10)}</p>
-                        <p style={{ marginLeft: '.22rem' }}>{this.state.createDate.slice(11,16)}</p>
+                        <p>{this.state.createDate ? this.state.createDate.slice(5, 10) : ''}</p>
+                        <p style={{ marginLeft: '.22rem' }}>{this.state.createDate ? this.state.createDate.slice(11, 16) : ''}</p>
                     </div>
                     <div className="right-box">
                         <div className="circle">
@@ -157,8 +247,8 @@ class OrderTrack extends React.Component {
                 </Flex>
                 <Flex className={this.state.state == 1 ? "order-track-state-box active" : "order-track-state-box"} align="start">
                     <div className="time">
-                        <p>{this.state.createDate.slice(5,10)}</p>
-                        <p style={{ marginLeft: '.22rem' }}>{this.state.createDate.slice(11,16)}</p>
+                        <p>{this.state.createDate ? this.state.createDate.slice(5, 10) : ''}</p>
+                        <p style={{ marginLeft: '.22rem' }}>{this.state.createDate ? this.state.createDate.slice(11, 16) : ''}</p>
                     </div>
                     <div className="right-box last">
                         <div className="circle">
