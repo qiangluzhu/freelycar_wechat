@@ -27,9 +27,6 @@ class OrderDetail extends React.Component {
         }
     }
     componentDidMount() {
-
-
-
         //通过后台对微信签名的验证。
         getWXConfig({
             targetUrl: window.location.href,
@@ -46,8 +43,6 @@ class OrderDetail extends React.Component {
                     'checkJsApi',
                 ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
             });
-
-
             wx.ready(function () {
                 console.log("验证微信接口成功");
             });
@@ -101,17 +96,17 @@ class OrderDetail extends React.Component {
 
         if (state) {
             membershipCard({//传递所需的参数
-                "openId": this.props.match.params.openid,
+                "openId": 'oBaSqs4THtZ-QRs1IQk-b8YKxH28',
                 "serviceId": 5,
                 "totalPrice": 0.01,
             }).then((res) => {
-                if(res.data.code==0){
+                if (res.data.code == 0) {
                     let data = res.data.data;
                     console.log(data);
                     this.onBridgeReady(data.appId, data.timeStamp,
                         data.nonceStr, data.package,
                         data.signType, data.paySign);
-                }else{
+                } else {
                     alert('支付失败');
                 }
 
@@ -148,7 +143,7 @@ class OrderDetail extends React.Component {
             // 微信签名
         }, function (res) {
             console.log("支付结果:");
-            console.log(res );
+            console.log(res);
             if (res.err_msg == "get_brand_wcpay_request:ok") {
                 window.location.href = "policy.html?type=" + type;
             }
