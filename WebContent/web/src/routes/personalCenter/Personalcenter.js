@@ -48,9 +48,9 @@ class Personalcenter extends React.Component {
                 if (res.data.code == '0') {
                     let data = res.data
                     this.setState({
-                        card: data.client.cards.length>0?data.client.cards[0]:[],
+                        card: data.client.cards.length > 0 ? data.client.cards[0] : [],
                         cars: data.client.cars,
-                        order: data.orders.length>0?data.orders[0]:[],
+                        order: data.orders.length > 0 ? data.orders[0] : [],
                         tickets: data.client.tickets
                     })
                 }
@@ -95,7 +95,7 @@ class Personalcenter extends React.Component {
 
     render() {
 
-        let projectInfos = this.state.card.length>0 ? this.state.card.projectInfos : []
+        let projectInfos = this.state.card.length > 0 ? this.state.card.projectInfos : []
         let programs = projectInfos.map((item, index) => {
             return <Flex.Item key={index}>
                 <Flex direction="column" justify="center">
@@ -161,7 +161,7 @@ class Personalcenter extends React.Component {
             {this.state.order.projects && <Flex className="center-listItem" direction="column">
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.24rem', color: '#4b4b4b' }}>
                     <i className="circle"></i>
-                    <p>{this.state.order.projects ? (this.state.order.projects[0].name + (this.state.order.projects.length > 1 ? <span style={{ color: '#1e1e1e', opacity: '0.5' }}>...</span> : '')) : ''}</p>
+                    <p>{this.state.order.projects[0] ? (this.state.order.projects[0].name) : ''} {this.state.order.projects.length > 1 ? <span style={{ color: '#1e1e1e', opacity: '0.5' }}>...</span> : ''}</p>
                     <Flex.Item className="finish-state">{this.state.order.state == 1 ? '已接车' : (this.state.order.state == 2 ? '已完成' : '已交车')}</Flex.Item>
                 </Flex>
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.18rem', color: '#8e8e8e' }}>

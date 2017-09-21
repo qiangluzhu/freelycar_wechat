@@ -113,8 +113,8 @@ class OrderTrack extends React.Component {
             <div className="order-track-state">
                 <Flex className={this.state.state == 3 ? "order-track-state-box active" : "order-track-state-box"} align="start">
                     <div className="time">
-                        <p>{this.state.deliverTime.slice(5, 10)}</p>
-                        <p style={{ marginLeft: '.22rem' }}>{this.state.deliverTime.slice(11, 16)}</p>
+                        <p>{this.state.deliverTime ? this.state.deliverTime.slice(5, 10) : ''}</p>
+                        <p style={{ marginLeft: '.22rem' }}>{this.state.deliverTime ? this.state.deliverTime.slice(11, 16) : ''}</p>
                     </div>
                     <div className="right-box">
                         <div className="circle">
@@ -130,8 +130,8 @@ class OrderTrack extends React.Component {
                 </Flex>
                 <Flex className={this.state.state == 2 ? "order-track-state-box active" : "order-track-state-box"} align="start">
                     <div className="time">
-                        <p>{this.state.finishTime.slice(5, 10)}</p>
-                        <p style={{ marginLeft: '.22rem' }}>{this.state.finishTime.slice(11, 16)}</p>
+                        <p>{this.state.finishTime ? this.state.finishTime.slice(5, 10) : ''}</p>
+                        <p style={{ marginLeft: '.22rem' }}>{this.state.finishTime ? this.state.finishTime.slice(11, 16) : ''}</p>
                     </div>
                     <div className="right-box">
                         <div className="circle">
@@ -144,8 +144,8 @@ class OrderTrack extends React.Component {
                 </Flex>
                 <Flex className={this.state.state == 1 ? "order-track-state-box active" : "order-track-state-box"} align="start">
                     <div className="time">
-                        <p>{this.state.createDate.slice(5, 10)}</p>
-                        <p style={{ marginLeft: '.22rem' }}>{this.state.createDate.slice(11, 16)}</p>
+                        <p>{this.state.createDate ? this.state.createDate.slice(5, 10) : ''}</p>
+                        <p style={{ marginLeft: '.22rem' }}>{this.state.createDate ? this.state.createDate.slice(11, 16) : ''}</p>
                     </div>
                     <div className="right-box">
                         <div className="circle">
@@ -158,8 +158,8 @@ class OrderTrack extends React.Component {
                 </Flex>
                 <Flex className={this.state.state == 1 ? "order-track-state-box active" : "order-track-state-box"} align="start">
                     <div className="time">
-                        <p>{this.state.createDate.slice(5, 10)}</p>
-                        <p style={{ marginLeft: '.22rem' }}>{this.state.createDate.slice(11, 16)}</p>
+                        <p>{this.state.createDate ? this.state.createDate.slice(5, 10) : ''}</p>
+                        <p style={{ marginLeft: '.22rem' }}>{this.state.createDate ? this.state.createDate.slice(11, 16) : ''}</p>
                     </div>
                     <div className="right-box last">
                         <div className="circle">
