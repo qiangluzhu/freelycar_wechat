@@ -49,13 +49,6 @@ class OrderDetail extends React.Component {
 
         }).catch((error) => { console.log(error) });
 
-
-
-
-
-
-
-
         let mySwiper3 = new Swiper(this.swiperID, {
             direction: 'horizontal',
             loop: false,
