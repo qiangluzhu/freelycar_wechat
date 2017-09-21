@@ -54,7 +54,7 @@ class OrderTrack extends React.Component {
             return <Flex direction="column" justify="center" style={{ width: '100%', borderTop: '1px dashed #f0f0f0', height: '0.85rem' }} key={index} align="end" >
                 <Flex style={{ width: '100%' }} >
                     <div>{item.projectInfo.name}</div>
-                    <div style={{ marginLeft: 'auto' }}><span style={{ fontSize: '.24rem' }}>￥</span>{item.price}</div>
+                    <div style={{ marginLeft: 'auto' }}><span style={{ fontSize: '.24rem' }}>￥</span>{item.projectInfo.price}</div>
                 </Flex>
                 {/* <Flex.Item className="total-money" >
                         <p className="primary-money">
@@ -68,7 +68,7 @@ class OrderTrack extends React.Component {
                         <p>已抵扣会员卡{item.cardNumber}，该项目还剩余{item.remaining}次</p>
                     </div>
                     <p style={{ marginLeft: 'auto', fontSize: '.22rem' }}>
-                        <span style={{ fontSize: '.22rem' }}>￥</span>{item.presentPrice}
+                        <span style={{ fontSize: '.22rem' }}>￥</span>{item.projectInfo.presentPrice}
                         <i>
                         </i>
                     </p>
