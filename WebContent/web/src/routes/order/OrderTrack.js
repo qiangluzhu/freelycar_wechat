@@ -5,6 +5,7 @@ import './OrderTrack.less'
 import { orderDetail } from '../../services/orders.js'
 import parseForm from '../../utils/parseToForm.js'
 import PropTypes from 'prop-types';
+import { payment, getWXConfig, membershipCard } from '../../services/pay.js'
 class OrderTrack extends React.Component {
     constructor(props) {
         super(props)
@@ -22,6 +23,31 @@ class OrderTrack extends React.Component {
     }
 
     componentDidMount() {
+
+         //通过后台对微信签名的验证。
+         getWXConfig({
+            targetUrl: window.location.href,
+        }).then((res) => {
+            let data = res.data;
+            //先注入配置JSSDK信息
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: data.appId, // 必填，公众号的唯一标识
+                timestamp: data.timestamp, // 必填，生成签名的时间戳
+                nonceStr: data.nonceStr, // 必填，生成签名的随机串
+                signature: data.signature,// 必填，签名，见附录1
+                jsApiList: [
+                    'checkJsApi',
+                ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+            wx.ready(function () {
+                console.log("验证微信接口成功");
+            });
+
+        }).catch((error) => { console.log(error) });
+
+
+
         orderDetail({
             consumOrderId: this.props.match.params.id
         }).then((res) => {
@@ -46,6 +72,70 @@ class OrderTrack extends React.Component {
                 window.localStorage.setItem('imgUrl', data.store.imgUrls[0])
             }
         }).catch((error) => { console.log(error) })
+    }
+
+
+    handlePay = () => {
+        let state = this.checkPayState();
+        if (!state) {
+            alert("不能发起支付");
+        }
+
+        if (state) {
+            membershipCard({//传递所需的参数
+                //"openId": 'oBaSqs4THtZ-QRs1IQk-b8YKxH28',
+                "openId":  window.localStorage.getItem('openid'),
+                "serviceId": 5,
+                "totalPrice": 0.01,
+            }).then((res) => {
+                if (res.data.code == 0) {
+                    let data = res.data.data;
+                    console.log(data);
+                    this.onBridgeReady(data.appId, data.timeStamp,
+                        data.nonceStr, data.package,
+                        data.signType, data.paySign);
+                } else {
+                    alert('支付失败');
+                }
+
+            }).catch((error) => { console.log(error) });
+        }
+
+    }
+
+
+    checkPayState = () => {
+        if (typeof WeixinJSBridge == "undefined") {
+            if (document.addEventListener) {
+                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+            } else if (document.attachEvent) {
+                document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+            }
+            return true;
+        } else {
+            return true;
+        }
+    }
+
+
+    onBridgeReady = (appId, timeStamp, nonceStr, prepay_id, signType,
+        paySign, type) => {
+        WeixinJSBridge.invoke('getBrandWCPayRequest', {
+            "appId": appId, // 公众号名称，由商户传入
+            "timeStamp": timeStamp, // 时间戳，自1970年以来的秒数
+            "nonceStr": nonceStr, // 随机串
+            "package": prepay_id,
+            "signType": signType, // 微信签名方式：
+            "paySign": paySign
+            // 微信签名
+        }, function (res) {
+            console.log("支付结果:");
+            console.log(res);
+            if (res.err_msg == "get_brand_wcpay_request:ok") {
+                window.location.href = "policy.html?type=" + type;
+            }
+        });
     }
 
     render() {
@@ -91,7 +181,7 @@ class OrderTrack extends React.Component {
                 <div className="ordertrack-project">{projectItems}</div>
 
                 <div style={{ textAlign: 'right', width: '100%', marginBottom: '.1rem' }}><div style={{ marginRight: '.5rem', display: 'inline-block' }}>合计：<span style={{ fontSize: '.24rem', color: '#e42f2f' }}>￥</span><span style={{ color: '#e42f2f' }}>{this.state.totalPrice}</span></div>
-                    {this.state.payState == 0 && <div className="pay-btn">
+                    {this.state.payState == 0 && <div className="pay-btn" onClick={()=>{this.handlePay()}}>
                         <p>去付款</p>
                     </div>}
                 </div>

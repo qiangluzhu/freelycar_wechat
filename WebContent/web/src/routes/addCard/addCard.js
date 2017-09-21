@@ -61,7 +61,8 @@ class OrderDetail extends React.Component {
             loop: false,
             slidesPerView: 4,
             slidesPerGroup: 1,
-            centeredSlides: false
+            centeredSlides: false,
+            pagination : '.swiper-pagination'
             // 如果需要分页器
         });
 
@@ -96,7 +97,8 @@ class OrderDetail extends React.Component {
 
         if (state) {
             membershipCard({//传递所需的参数
-                "openId": 'oBaSqs4THtZ-QRs1IQk-b8YKxH28',
+                //"openId": 'oBaSqs4THtZ-QRs1IQk-b8YKxH28',
+                "openId":  window.localStorage.getItem('openid'),
                 "serviceId": 5,
                 "totalPrice": 0.01,
             }).then((res) => {

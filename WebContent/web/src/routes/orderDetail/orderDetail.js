@@ -80,7 +80,7 @@ class OrderDetail extends React.Component {
 
         if (state) {
             membershipCard({//传递所需的参数
-                "openId":  window.localStorage.getItem('openId'),
+                "openId":  window.localStorage.getItem('openid'),
                 "serviceId": 5,
                 "totalPrice": 0.01,
             }).then((res) => {
