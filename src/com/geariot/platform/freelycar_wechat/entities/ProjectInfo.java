@@ -22,10 +22,11 @@ public class ProjectInfo {
 	private int projectId;
 	private String name;
 	private float price;
-	private int payMethod;			//0,1=扣卡次，付现金
+	private float presentPrice;     //项目现价
+	private int payMethod;			//0,1,2=扣卡次，付现金，扣券
 	private String cardId;
 	private String cardName;
-	private String favourRemainingsId;
+	private String ticketId;
 	private String favourName;
 	private int payCardTimes;
 	private float referWorkTime;
@@ -132,11 +133,11 @@ public class ProjectInfo {
 	public void setStaffs(Set<Staff> staffs) {
 		this.staffs = staffs;
 	}
-	public String getFavourRemainingsId() {
-		return favourRemainingsId;
+	public String getTicketId() {
+		return ticketId;
 	}
-	public void setFavourRemainingsId(String favourRemainingsId) {
-		this.favourRemainingsId = favourRemainingsId;
+	public void setTicketId(String ticketId) {
+		this.ticketId = ticketId;
 	}
 	public String getFavourName() {
 		return favourName;
@@ -147,11 +148,17 @@ public class ProjectInfo {
 	@Override
 	public String toString() {
 		return "ProjectInfo [id=" + id + ", projectId=" + projectId + ", name=" + name + ", price=" + price
-				+ ", payMethod=" + payMethod + ", cardId=" + cardId + ", cardName=" + cardName + ", favourRemainingsId="
-				+ favourRemainingsId + ", favourName=" + favourName + ", payCardTimes=" + payCardTimes
+				+ ", payMethod=" + payMethod + ", cardId=" + cardId + ", cardName=" + cardName + ", ticketId="
+				+ ticketId + ", favourName=" + favourName + ", payCardTimes=" + payCardTimes
 				+ ", referWorkTime=" + referWorkTime + ", pricePerUnit=" + pricePerUnit + ", staffs=" + staffs
 				+ ", clientName=" + clientName + ", licensePlate=" + licensePlate + ", brandName=" + brandName
 				+ ", createDate=" + createDate + "]";
+	}
+	public float getPresentPrice() {
+		return presentPrice;
+	}
+	public void setPresentPrice(float presentPrice) {
+		this.presentPrice = presentPrice;
 	}
 	
 }

@@ -6,7 +6,7 @@ import com.geariot.platform.freelycar_wechat.entities.FavourToOrder;
 
 public class FavourOrderBean {
 	String openId;
-	double totalPrice;
+	float totalPrice;
 	Set<FavourToOrder> favours;
 	public String getOpenId() {
 		return openId;
@@ -14,10 +14,10 @@ public class FavourOrderBean {
 	public void setOpenId(String openId) {
 		this.openId = openId;
 	}
-	public double getTotalPrice() {
+	public float getTotalPrice() {
 		return totalPrice;
 	}
-	public void setTotalPrice(double totalPrice) {
+	public void setTotalPrice(float totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 	public Set<FavourToOrder> getFavours() {
