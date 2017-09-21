@@ -7,7 +7,7 @@ import car_icon from '../../img/car_icon.jpg'
 import insurance from '../../img/insurance.png'
 import annualInspection from '../../img/annualInspection.png'
 import more_arrow from '../../img/more_arrow.png'
-import { myCar, defaultCar } from '../../services/user.js'
+import { myCar, defaultCar,annualCheck } from '../../services/user.js'
 import PropTypes from 'prop-types';
 
 class CarInfo extends React.Component {
@@ -40,6 +40,7 @@ class CarInfo extends React.Component {
                         defaultIndex++;
                     }
                 }
+
                 this.setState({
                     cars: data,
                     defaultIndex: defaultIndex
@@ -146,7 +147,7 @@ class CarInfo extends React.Component {
                         保险提醒
                     </Flex>
                 </List.Item>
-                <Flex className='remind-tip' style={{ display: this.state.insuranceTip ? '' : 'none' }} onClick={() => { this.context.router.history.push(`/insurance/1/${carId}`) }}>
+                <Flex className='remind-tip' style={{ display: this.state.insuranceTip ? '' : 'none' }} onClick={() => { this.context.router.history.push(`/insurance/${carId}`) }}>
                     <div>距离下次续保时间还有<span className='day'>{time}</span>天</div>
                     <img src={more_arrow} alt="" className='more' />
                 </Flex>
@@ -161,21 +162,39 @@ class CarInfo extends React.Component {
                     </Flex>
                 </List.Item>
 
-                <div style={{ display: this.state.inspectionTip ? '' : 'none' }}>
+                <div style={{ display: (this.state.inspectionTip && this.state.cars[this.state.currentIndex].day==-1) ? '' : 'none' }}>
                     <DatePicker
                         mode="date"
                         title="选择日期"
                         extra=""
                         value={this.state.inspectionTime}
-                        onChange={(e) => { this.setState({ inspectionTime: e }) }}
+                        onChange={(e) => {
+                            annualCheck({
+                                //clientId: 157,
+                                clientId: window.localStorage.getItem('clientId'),
+                                id:carId,
+                                licenseDate: e.format('YYYY-MM-DD'),
+                            }).then((res) => {
+                                if (res.data.code == '0') {
+                                    let cars = this.state.cars;
+                                    let car = cars[this.state.currentIndex];
+                                    car.day = res.data.day;
+                                    this.setState({
+                                       cars:cars
+                                    })
+                                }
+                            }).catch((error) => { console.log(error) });
+                           // this.setState({ inspectionTime: e })
+                        }}
                     >
-                        <List.Item arrow="horizontal"><span style={{ fontSize: '.8em', marginLeft: '.27rem' }}>请选择上一次年检的时间</span></List.Item>
+                        <List.Item arrow="horizontal"><span style={{ fontSize: '.8em', marginLeft: '.27rem' }}>请选择车辆注册日期</span></List.Item>
                     </DatePicker>
                 </div>
-                {/* <Flex className='remind-tip' style={{ display: this.state.inspectionTip ? '' : 'none' }}>
-                    <div>距离下次续保时间还有<span className='day'>28</span>天</div>
+
+                <Flex className='remind-tip' style={{ display: (this.state.inspectionTip && this.state.cars[this.state.currentIndex].day>=0) ? '' : 'none' }}>
+                    <div>距离下次续保时间还有<span className='day'>{this.state.cars.length>0?this.state.cars[this.state.currentIndex].day:0}</span>天</div>
                     <img src={more_arrow} alt="" className='more' />
-                </Flex> */}
+                </Flex>
             </List>
 
         </div>
