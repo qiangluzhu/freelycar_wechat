@@ -59,4 +59,9 @@ export default {
         return get('api/user/carDetail',params)
     },
 
+    annualCheck:(params)=>{
+        return get('api/user/annualCheck',params)
+    },
+
+
 }

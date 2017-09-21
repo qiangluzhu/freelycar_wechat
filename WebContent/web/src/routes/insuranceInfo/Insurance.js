@@ -33,7 +33,6 @@ class Insurance extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props.match.params.carId)
         carDetail({
             carId: this.props.match.params.carId,
         }).then((res) => {
