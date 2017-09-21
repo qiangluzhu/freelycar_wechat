@@ -97,7 +97,7 @@ class CooperativeStore extends React.Component {
         })
 
         listComment({
-            storeId: '1'
+            storeId: this.props.match.params.storeId
         }).then((res) => {
             //console.log(res)
             if (res.data.code == '0') {
@@ -268,9 +268,9 @@ class CooperativeStore extends React.Component {
                         </TabPane>}
                     </Tabs>
                 </TabPane>
-                {commentList && <TabPane tab='门店评价' key="2" className="tabpane2">
+                <TabPane tab={commentList.length > 0 ? '门店评价' : ''} key="2" className="tabpane2">
                     {commentList}
-                </TabPane>}
+                </TabPane>
             </Tabs>
             {/* <div className='bottom-pay-button'>
                 <Flex style={{ height: '100%' }}>
