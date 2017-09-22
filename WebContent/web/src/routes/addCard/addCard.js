@@ -141,7 +141,7 @@ class OrderDetail extends React.Component {
             console.log("支付结果:");
             console.log(res);
             if (res.err_msg == "get_brand_wcpay_request:ok") {
-                window.location.href = "policy.html?type=" + type;
+                this.context.router.history.push('/result')
             }
         });
     }

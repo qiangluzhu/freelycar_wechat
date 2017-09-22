@@ -19,15 +19,11 @@ const SuccessMsg = (props) => {
     <Page className="msg_success">
         <Msg
             type="success"
-            title="Action Success"
+            title="支付成功"
             description="We have received your feedback"
-            buttons={[{
+            buttons={[{//数组,可以再加按钮
                 type: 'primary',
-                label: 'Ok',
-                onClick: props.history ? props.history.goBack : false
-            }, {
-                type: 'default',
-                label: 'Cancel',
+                label: '确认',
                 onClick: props.history ? props.history.goBack : false
             }]}
             footer={SuccessFooter}
