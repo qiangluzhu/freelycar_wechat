@@ -22,6 +22,7 @@ public class ProjectInfo {
 	private int projectId;
 	private String name;
 	private float price;
+	private int clientId;
 	private float presentPrice;     //项目现价
 	private int payMethod;			//0,1,2=扣卡次，付现金，扣券
 	private String cardId;
@@ -159,6 +160,12 @@ public class ProjectInfo {
 	}
 	public void setPresentPrice(float presentPrice) {
 		this.presentPrice = presentPrice;
+	}
+	public int getClientId() {
+		return clientId;
+	}
+	public void setClientId(int clientId) {
+		this.clientId = clientId;
 	}
 	
 }

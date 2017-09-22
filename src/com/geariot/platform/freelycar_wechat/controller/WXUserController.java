@@ -71,6 +71,18 @@ public class WXUserController {
 						htmlPage = "login";
 					}
 				}
+				if("serviceCard".equals(htmlPage)){
+					boolean wxUser = wxUserService.isExistUserOpenId(openid);
+					if(!wxUser){
+						htmlPage = "login";
+					}
+				}
+				if("inquiry".equals(htmlPage)){
+					boolean wxUser = wxUserService.isExistUserOpenId(openid);
+					if(!wxUser){
+						htmlPage = "login";
+					}
+				}
 				ret = BASEURL+htmlPage+"/" + openid+"/"+nickname+"/"+headimgurl;
 				
 				return "redirect:"+ret;

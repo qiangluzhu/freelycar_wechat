@@ -70,7 +70,7 @@ public class PayService {
 	// create favour order
 	public org.json.JSONObject createFavourOrder(FavourOrderBean favourOrderBean) {
 		String openId = favourOrderBean.getOpenId();
-		double totalPrice = favourOrderBean.getTotalPrice();
+		float totalPrice = favourOrderBean.getTotalPrice();
 		Set<FavourToOrder> favours = favourOrderBean.getFavours();
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
 
@@ -80,7 +80,6 @@ public class PayService {
 		wxPayOrder.setProductName(productName);
 		wxPayOrder.setFavours(favours);
 		wxPayOrderDao.saveWXPayOrder(wxPayOrder);
-
 		org.json.JSONObject order = new org.json.JSONObject();
 		order.put(Constants.RESPONSE_DATA_KEY, wxPayOrder.getId());
 		return order;
