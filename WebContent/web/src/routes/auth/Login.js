@@ -15,7 +15,7 @@ class Login extends React.Component {
         super(props)
         this.state = {
             allowSend: true,
-            isphone:false,
+            isphone: false,
             wait: 60
         }
     }
@@ -96,7 +96,7 @@ class Login extends React.Component {
             })
     }
     render() {
-        return <div className='loginbg' style={{height:window.document.body.clientHeight}} >
+        return <div className='loginbg' style={{ height: window.document.body.clientHeight }} >
             <div className='panel' >
                 <Flex justify='center'>
                     <img className='logo' src={login} />
@@ -123,7 +123,7 @@ class Login extends React.Component {
                     <div className='input-up'>
                         <img src={password} style={{ width: '.34rem', marginLeft: '.18rem', marginRight: '0.48rem', verticalAlign: 'middle' }} />
                         <input className='no-border' placeholder="请输入验证码" style={{ display: 'inner-block', width: '2rem' }} onChange={(e) => { this.setState({ smscode: e.target.value }) }} />
-                        <div style={{ display: 'inline-block', color:this.state.isphone?'#5b87e5':'#a9a9a9', verticalAlign: 'middle', paddingLeft: '.33rem', borderLeft: '1px solid #e8e8e8' }} onClick={() => { this.sendCode() }}>{this.state.allowSend ? '获取验证码' : `${this.state.wait}s后重发`}</div>
+                        <div style={{ display: 'inline-block', color: this.state.isphone ? '#5b87e5' : '#a9a9a9', verticalAlign: 'middle', paddingLeft: '.33rem', borderLeft: '1px solid #e8e8e8' }} onClick={() => { if (this.state.isphone) { this.sendCode() } }}>{this.state.allowSend ? '获取验证码' : `${this.state.wait}s后重发`}</div>
                     </div>
                 </Flex>
                 <div style={{ textAlign: 'center', color: "#cdcdcd", lineHeight: '0.98rem', fontSize: '.18rem' }}>

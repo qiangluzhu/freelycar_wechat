@@ -55,7 +55,8 @@ class OrderDetail extends React.Component {
             slidesPerView: 4,
             slidesPerGroup: 1,
             centeredSlides: false,
-            pagination : '.swiper-pagination'
+            prevButton:'.swiper-button-prev',
+            nextButton:'.swiper-button-next'
             // 如果需要分页器
         });
 
@@ -91,7 +92,7 @@ class OrderDetail extends React.Component {
         if (state) {
             membershipCard({//传递所需的参数
                 //"openId": 'oBaSqs4THtZ-QRs1IQk-b8YKxH28',
-                "openId":  window.localStorage.getItem('openid'),
+                "openId": window.localStorage.getItem('openid'),
                 "serviceId": 5,
                 "totalPrice": 0.01,
             }).then((res) => {
@@ -182,6 +183,8 @@ class OrderDetail extends React.Component {
                 <div className="swiper-wrapper">
                     {cardList}
                 </div>
+                <div className="swiper-button-prev swiper-button-white"></div>
+                <div className="swiper-button-next swiper-button-white"></div>
             </div>
 
             <div className='vip-service'>

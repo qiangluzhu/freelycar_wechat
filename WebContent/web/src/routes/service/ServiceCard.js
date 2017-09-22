@@ -56,10 +56,15 @@ class ServiceCard extends React.Component {
     render() {
         const services = this.state.services.map((item, index) => {
             let projects = item.projects;
-
             let pName = '';
-            for (let p of projects) {
-                pName += p.name;
+            for (let i in projects) {
+                if (i < 2) {
+                    pName += projects[i].name + '、';
+                }
+            }
+            pName = pName.slice(0, -1)
+            if (projects.length > 2) {
+                pName = pName + '...'
             }
 
             return <Flex key={index} className="center-listItem" direction="column" onClick={() => { this.context.router.history.push(`/ordertrack/${item.id}`) }}>
@@ -76,7 +81,7 @@ class ServiceCard extends React.Component {
 
                 {item.state == 3 ? <Flex style={{ width: '100%', fontSize: '.18rem', textAlign: 'right' }}>
                     <Flex.Item className="comments-div">
-                        <div className='comments' onClick={(e)=>{e.stopPropagation(); this.context.router.history.push(`/store/comment/${item.id}`)}}>评价得{item.totalPrice}积分</div>
+                        <div className='comments' onClick={(e) => { e.stopPropagation(); this.context.router.history.push(`/store/comment/${item.id}`) }}>评价得{item.totalPrice}积分</div>
                     </Flex.Item >
                 </Flex> : ''}
             </Flex>;
