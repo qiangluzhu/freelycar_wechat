@@ -56,7 +56,6 @@ class ServiceCard extends React.Component {
     render() {
         const services = this.state.services.map((item, index) => {
             let projects = item.projects;
-
             let pName = '';
             for (let i in projects) {
                 if (i < 2) {
