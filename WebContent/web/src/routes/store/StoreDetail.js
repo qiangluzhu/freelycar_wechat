@@ -46,7 +46,7 @@ class CooperativeStore extends React.Component {
                 timestamp: data.timestamp, // 必填，生成签名的时间戳
                 nonceStr: data.nonceStr, // 必填，生成签名的随机串
                 signature: data.signature,// 必填，签名，见附录1
-                jsApiList: ["getLocation", "openLocation"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                jsApiList: ["getLocation", "openLocation",'checkJsApi'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
             });
 
             wx.ready(function () {
@@ -157,24 +157,81 @@ class CooperativeStore extends React.Component {
         }
     }
 
+
     payFavour = (price) => {
-        let favours =[]
-        for(let item of this.state.favours) {
-            if(item) {
-                favours.push(item)
-            }
+        let state = this.checkPayState();
+        if (!state) {
+            alert("不能发起支付");
         }
-        favour({
-            openId: this.props.match.params.storeId,
-            totalPrice: price,
-            favours: favours
-        }).then((res) => {
-            console.log(res)
-            
-        }).catch((error)=>{
-            console.log(error)
-        })
+
+        if (state) {
+            let favours =[]
+            for(let item of this.state.favours) {
+                if(item) {
+                    favours.push(item)
+                }
+            }
+
+            favour({//传递所需的参数
+                //"openId": 'oBaSqs4THtZ-QRs1IQk-b8YKxH28',
+                "openId": window.localStorage.getItem('openid'),
+                "favours": favours,
+                "totalPrice":price,
+            }).then((res) => {
+                if (res.data.code == 0) {
+                    let data = res.data.data;
+                    console.log(data);
+                    this.onBridgeReady(data.appId, data.timeStamp,
+                        data.nonceStr, data.package,
+                        data.signType, data.paySign);
+                } else {
+                    alert('支付失败');
+                }
+
+            }).catch((error) => { console.log(error) });
+        }
+
     }
+
+
+    checkPayState = () => {
+        if (typeof WeixinJSBridge == "undefined") {
+            if (document.addEventListener) {
+                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+            } else if (document.attachEvent) {
+                document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+            }
+            return true;
+        } else {
+            return true;
+        }
+    }
+
+
+    onBridgeReady = (appId, timeStamp, nonceStr, prepay_id, signType,
+        paySign, type) => {
+        WeixinJSBridge.invoke('getBrandWCPayRequest', {
+            "appId": appId, // 公众号名称，由商户传入
+            "timeStamp": timeStamp, // 时间戳，自1970年以来的秒数
+            "nonceStr": nonceStr, // 随机串
+            "package": prepay_id,
+            "signType": signType, // 微信签名方式：
+            "paySign": paySign
+            // 微信签名
+        }, function (res) {
+            console.log("支付结果:");
+            console.log(res);
+            if (res.err_msg == "get_brand_wcpay_request:ok") {
+                this.context.router.history.push('/result')
+            }
+        });
+    }
+
+
+
+
+
     render() {
         let sf = this.state.storefavours;
         let imgs = this.state.imgs.map((item, index) => {
