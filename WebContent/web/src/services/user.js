@@ -10,7 +10,7 @@ export default {
     },
 
     logout: (params) => {
-        return post('api/user/logout', params)
+        return get('api/user/logout', params)
     },
 
     myDiscount: (params) => {

@@ -5,7 +5,7 @@ import Star from '../../components/Star'
 import './CooperativeStore.less'
 import '../autoInsurance/Inquiry.less'
 import { storeDetail, listComment } from '../../services/store.js'
-import { getWXConfig } from '../../services/pay.js'
+import { getWXConfig, favour } from '../../services/pay.js'
 import update from 'immutability-helper'
 const TabPane = Tabs.TabPane
 class CooperativeStore extends React.Component {
@@ -152,9 +152,25 @@ class CooperativeStore extends React.Component {
             }, () => { console.log(this.state.favours) })
         } else {
             this.setState({
-                favours: update(this.state.favours, { $merge: { [id]: { count: 1, price: price } } })
+                favours: update(this.state.favours, { $merge: { [id]: { count: 1, price: price, favour: { id: id } } } })
             }, () => { console.log(this.state.favours) })
         }
+    }
+
+    payFavour = (price) => {
+        let favours =[]
+        for(let item of this.state.favours) {
+            if(item) {
+                favours.push(item)
+            }
+        }
+        favour({
+            openId: this.props.match.params.storeId,
+            totalPrice: price,
+            favours: favours
+        }).then((res) => {
+            console.log(res)
+        })
     }
     render() {
         let sf = this.state.storefavours;
@@ -163,7 +179,7 @@ class CooperativeStore extends React.Component {
         })
         let totalPrice = 0
         for (let item of this.state.favours) {
-            if(item) {
+            if (item) {
                 totalPrice = totalPrice + item.price * item.count
             }
         }
@@ -303,7 +319,7 @@ class CooperativeStore extends React.Component {
                     <Flex.Item style={{ color: 'red' }}>￥{totalPrice}</Flex.Item>
                     <div className='pay-button'>
                         <Flex style={{ height: '100%' }}>
-                            <Flex.Item style={{ textAlign: 'center', color: '#fff' }}>立即支付</Flex.Item>
+                            <Flex.Item style={{ textAlign: 'center', color: '#fff' }} onClick={() => { this.payFavour(totalPrice) }}>立即支付</Flex.Item>
                         </Flex>
                     </div>
                 </Flex>
