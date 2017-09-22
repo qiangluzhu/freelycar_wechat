@@ -23,6 +23,6 @@ export default {
         return get('api/pay/membershipCard', option)
     },
     favour: (option) => {
-        return post('api/pay/membershipCard', option)
+        return post('api/pay/favour', option)
     }
 }
