@@ -3,6 +3,7 @@ import './orderDetail.less'
 import { Flex } from 'antd-mobile'
 import NavBar from '../../components/NavBar'
 import { orderDetail } from '../../services/orders.js'
+import PropTypes from 'prop-types';
 import { payment, getWXConfig, membershipCard } from '../../services/pay.js'
 class OrderDetail extends React.Component {
 
@@ -129,7 +130,7 @@ class OrderDetail extends React.Component {
             console.log("支付结果:");
             console.log(res);
             if (res.err_msg == "get_brand_wcpay_request:ok") {
-                window.location.href = "policy.html?type=" + type;
+                this.context.router.history.push('/result');
             }
         });
     }
@@ -247,3 +248,6 @@ class OrderDetail extends React.Component {
 }
 
 export default OrderDetail
+OrderDetail.contextTypes = {
+    router: PropTypes.object.isRequired
+}
