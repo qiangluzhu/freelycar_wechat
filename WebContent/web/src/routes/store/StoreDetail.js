@@ -170,6 +170,9 @@ class CooperativeStore extends React.Component {
             favours: favours
         }).then((res) => {
             console.log(res)
+            
+        }).catch((error)=>{
+            console.log(error)
         })
     }
     render() {
