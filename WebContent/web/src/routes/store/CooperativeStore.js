@@ -113,7 +113,7 @@ class CooperativeStore extends React.Component {
                                     营业时间：{rowData.store.openingTime}-{rowData.store.closingTime}
                                 </Flex>
                                 {rowData.store.id == 1 && <div className="info-identify">
-                                    <span className="identification">免费安全监测</span>
+                                    <span className="identification">免费安全检测</span>
                                     <span className="identification">下雨保</span>
                                 </div>}
                             </div>

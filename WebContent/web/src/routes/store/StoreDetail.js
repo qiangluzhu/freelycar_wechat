@@ -82,15 +82,12 @@ class CooperativeStore extends React.Component {
                     slidesOffsetAfter: 10,
                 })
 
-
-
                 let mySwiper1 = new Swiper(this.swiperID, {
                     direction: 'horizontal',
                     loop: true,
                     // 如果需要分页器
                     pagination: '.swiper-pagination',
                 });
-
             }
         }).catch((error) => {
             console.log(error)
@@ -118,9 +115,6 @@ class CooperativeStore extends React.Component {
         }).catch((error) => { console.log(error) })
     }
 
-
-
-
     //打开微信内置地图
     openWXMap = () => {
         wx.openLocation({
@@ -136,21 +130,20 @@ class CooperativeStore extends React.Component {
 
     }
 
-
-
     render() {
         let sf = this.state.storefavours;
         let imgs = this.state.imgs.map((item, index) => {
             return <div key={index} className="swiper-slide  banner-img"><img src={`http://www.freelycar.com/store/${item.url}`} alt="" /></div>
         })
         let couponList = sf.map((item, index) => {
+            console.log(item)
             return <div key={index} className="swiper-slide cooperative-store-coupon">
                 <Flex className="coupon" direction="column" align="start">
                     <Flex style={{ height: '1.3rem', background: '#fff', width: '100%' }}>
                         <Flex className="money" direction="column" align="end">
-                            <div style={{ fontSize: '.48rem' }}><span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set.buyPrice}</div>
+                            <div style={{ fontSize: '.48rem' }}><span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set[0].buyPrice}</div>
                             <div style={{ color: '#8c8c8c', fontSize: '.22rem', marginTop: '.05rem' }} className="money-buyprice">
-                                <span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set.presentPrice}
+                                <span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set[0].presentPrice}
                                 <i>
                                 </i>
                             </div>
@@ -164,7 +157,7 @@ class CooperativeStore extends React.Component {
                             <Flex className="use-button">
                                 <div className="use-button-plus">-</div>
                                 <div className="number">1</div>
-                                <div className="use-button-add" onClick={() => { this.setState() }}>+</div>
+                                <div className="use-button-add" onClick={() => {  }}>+</div>
                             </Flex>
                         </Flex>
                     </Flex>
@@ -235,7 +228,7 @@ class CooperativeStore extends React.Component {
 
                             </Flex>
                             {this.props.match.params.storeId == 1 && <div className="info-identify">
-                                <span className="identification">免费安全监测</span>
+                                <span className="identification">免费安全检测</span>
                                 <span className="identification">下雨保</span>
                             </div>}
                         </div>
