@@ -70,7 +70,7 @@ class PersonalInfo extends React.Component {
             <NavBar title="个人信息" />
             <List className="add-car-info personal-info">
                 <Flex justify='center' style={{ height: '1.6rem' }}>
-                    <img className='logo' src={window.localStorage.getItem('headimgurl')} style={{ width: '1.16rem' }} />
+                    <img className='logo' src={decodeURIComponent(window.localStorage.getItem('headimgurl'))} style={{ width: '1.16rem' }} />
                 </Flex>
 
                 <List.Item
