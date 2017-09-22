@@ -41,6 +41,13 @@ import NotFound from './routes/NotFound'
 //活动
 import ReceiveCoupons from './routes/activity/ReceiveCoupons'
 import Activity from './routes/activity/Activity.js'
+
+//weui page
+
+
+//结果页面
+import Result from './routes/weui/Result'
+
 const App = () => (
     <div style={{height:'100%'}}>
         <Switch>
@@ -75,6 +82,9 @@ const App = () => (
             <Route path="/notFound" component={NotFound}/>
             <Route path="/inquiry" exact component={Inquiry}/>
             <Route path="/store/detail/:storeId" exact component={StoreDetail}/>
+
+
+            <Route path="/result" exact component={Result}/>
             <Route component={NotFound}/>
         </Switch>
     </div>
