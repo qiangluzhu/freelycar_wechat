@@ -175,7 +175,7 @@ class CooperativeStore extends React.Component {
                 </Flex>
             </div>
         }), fixList = this.state.fix.map((item, index) => {
-            return <Flex index={index} style={{ width: '100%', borderBottom: '1px solid #dfdfe1' }} >
+            return <Flex key={index} style={{ width: '100%', borderBottom: '1px solid #dfdfe1' }} >
                 <div >
                     <Flex direction="column" align="start" justify="center" style={{ height: '1.3rem' }}>
                         <div className="beauty-title">{item.name}</div>
@@ -187,7 +187,7 @@ class CooperativeStore extends React.Component {
                 </div>
             </Flex>
         }), beautyList = this.state.beauty.map((item, index) => {
-            return <Flex index={index} style={{ width: '100%', borderBottom: '1px solid #dfdfe1' }} >
+            return <Flex key={index} style={{ width: '100%', borderBottom: '1px solid #dfdfe1' }} >
                 <div>
                     <Flex direction="column" align="start" justify="center" style={{ height: '1.3rem' }}>
                         <div className="beauty-title">{item.name}</div>
@@ -234,10 +234,10 @@ class CooperativeStore extends React.Component {
                                 <p className="info-font" style={{ color: '#636363', width: '5rem' }} onClick={() => { this.openWXMap() }} >{this.state.address}(点我导航)</p>
 
                             </Flex>
-                            <div className="info-identify">
+                            {this.props.match.params.storeId == 1 && <div className="info-identify">
                                 <span className="identification">免费安全监测</span>
                                 <span className="identification">下雨保</span>
-                            </div>
+                            </div>}
                         </div>
                     </Flex>
                 </Flex>
