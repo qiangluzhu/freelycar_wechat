@@ -152,7 +152,7 @@ class OrderTrack extends React.Component {
                             </i>
                         </p>
                     </Flex.Item> */}
-                <Flex className="order-track-remain" style={{ width: '100%' }}>
+                {item.payMethod=='1'&&<Flex className="order-track-remain" style={{ width: '100%' }}>
                     <div>
                         <p>已抵扣会员卡{item.cardNumber}，该项目还剩余{item.remaining}次</p>
                     </div>
@@ -161,7 +161,17 @@ class OrderTrack extends React.Component {
                         <i>
                         </i>
                     </p>
-                </Flex>
+                </Flex>}
+                {item.payMethod=='2'&&<Flex className="order-track-remain" style={{ width: '100%' }}>
+                    <div>
+                        <p>已抵扣{item.cardNumber}，该项目还剩余{item.remaining}次</p>
+                    </div>
+                    <p style={{ marginLeft: 'auto', fontSize: '.22rem' }}>
+                        <span style={{ fontSize: '.22rem' }}>￥</span>{item.projectInfo.presentPrice}
+                        <i>
+                        </i>
+                    </p>
+                </Flex>}
             </Flex>
         })
         return <div className="body-bac">
@@ -171,7 +181,7 @@ class OrderTrack extends React.Component {
                     <p>{this.state.clientName}</p>
                     <div>{this.state.licensePlate}</div>
                 </Flex.Item>
-                <Flex.Item className="state">{this.state.state == 1 ? '已接车' : (this.state.state == 2 ? '已完成' : '已交车')}</Flex.Item>
+                <Flex.Item className="state">{this.state.state == 1 ? '已接车' : (this.state.state == 2 ? '已完工' : '已交车')}</Flex.Item>
             </Flex>
             <div className="order-track-line"></div>
             <Flex className="order-track-program" direction="column">
@@ -227,7 +237,7 @@ class OrderTrack extends React.Component {
                         </div>
                         <div className="car-state">已完工
                         </div>
-                        <div>爱车已交回你的手中 快来评价获积分吧
+                        <div>您的汽车已爱护完毕 期待您的带回
                         </div>
                     </div>
                 </Flex>
@@ -241,7 +251,7 @@ class OrderTrack extends React.Component {
                         </div>
                         <div className="car-state">商家已接车
                         </div>
-                        <div>爱车已交回你的手中 快来评价获积分吧
+                        <div>汽车已入库
                         </div>
                     </div>
                 </Flex>
@@ -255,7 +265,7 @@ class OrderTrack extends React.Component {
                         </div>
                         <div className="car-state">已下单
                         </div>
-                        <div>爱车已交回你的手中 快来评价获积分吧
+                        <div>清理商品已经下单
                         </div>
                     </div>
                 </Flex>
