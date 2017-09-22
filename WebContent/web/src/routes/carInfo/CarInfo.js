@@ -214,7 +214,7 @@ class CarInfo extends React.Component {
                     </Flex>
                 </List.Item>
 
-                <div style={{ display: (this.state.inspectionTip && this.state.cars[this.state.currentIndex].day == -1) ? '' : 'none' }}>
+                <div style={{display: this.state.inspectionTip ? '' : 'none' }}>
                     <DatePicker
                         mode="date"
                         title="选择日期"
@@ -239,14 +239,19 @@ class CarInfo extends React.Component {
                             // this.setState({ inspectionTime: e })
                         }}
                     >
-                        <List.Item arrow="horizontal"><span style={{ fontSize: '.8em', marginLeft: '.27rem' }}>请选择车辆注册日期</span></List.Item>
+                        <List.Item arrow="horizontal">
+                            <span style={{ fontSize: '.8em', marginLeft: '.27rem', display: (this.state.inspectionTip && this.state.cars[this.state.currentIndex].day == -1) ? '' : 'none'}}>请选择车辆注册日期</span>
+                            <span style={{ fontSize: '.8em', marginLeft: '.27rem', display: (this.state.inspectionTip && this.state.cars[this.state.currentIndex].day >= 0) ? '' : 'none' }}>距离下次续保时间还有<span className='day'>{this.state.cars.length > 0 ? this.state.cars[this.state.currentIndex].day : 0}</span>天</span>
+                        </List.Item>
+
+
                     </DatePicker>
                 </div>
 
-                <Flex className='remind-tip' style={{ display: (this.state.inspectionTip && this.state.cars[this.state.currentIndex].day >= 0) ? '' : 'none' }}>
+                {/* <Flex className='remind-tip' style={{ display: (this.state.inspectionTip && this.state.cars[this.state.currentIndex].day >= 0) ? '' : 'none' }}>
                     <div>距离下次续保时间还有<span className='day'>{this.state.cars.length > 0 ? this.state.cars[this.state.currentIndex].day : 0}</span>天</div>
                     <img src={more_arrow} alt="" className='more' />
-                </Flex>
+                </Flex> */}
             </List>
 
         </div>
