@@ -10,7 +10,7 @@ import times_card from '../../img/times_card.png'
 import { getCardList } from '../../services/service.js'
 import { payment, getWXConfig, membershipCard } from '../../services/pay.js'
 import PropTypes from 'prop-types';
-class OrderDetail extends React.Component {
+class AddCard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -212,7 +212,7 @@ class OrderDetail extends React.Component {
     }
 }
 
-export default OrderDetail
-OrderDetail.contextTypes = {
+export default AddCard
+AddCard.contextTypes = {
     router: PropTypes.object.isRequired
 }
