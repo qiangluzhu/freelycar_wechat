@@ -95,7 +95,7 @@ class CooperativeStore extends React.Component {
             return (
                 <Flex className="cooperative-store-list" onClick={() => { this.context.router.history.push(`/store/detail/${rowData.store.id}`) }}>
                     <Flex className="picture">
-                        <img src="" alt="" />
+                        <img src={`http://www.freelycar.com/store/${rowData.store.imgUrls[0].url}`} alt="" />
                     </Flex>
                     <Flex direction="column" align="start" justify="between" style={{ height: '1.6rem', width: '5.24rem' }}>
                         <div className="store-name">
@@ -113,7 +113,7 @@ class CooperativeStore extends React.Component {
                                     营业时间：{rowData.store.openingTime}-{rowData.store.closingTime}
                                 </Flex>
                                 {rowData.store.id == 1 && <div className="info-identify">
-                                    <span className="identification">免费安全监测</span>
+                                    <span className="identification">免费安全检测</span>
                                     <span className="identification">下雨保</span>
                                 </div>}
                             </div>

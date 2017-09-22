@@ -162,7 +162,7 @@ class Personalcenter extends React.Component {
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.24rem', color: '#4b4b4b' }}>
                     <i className="circle"></i>
                     <p>{this.state.order.projects[0] ? (this.state.order.projects[0].name) : ''} {this.state.order.projects.length > 1 ? <span style={{ color: '#1e1e1e', opacity: '0.5' }}>...</span> : ''}</p>
-                    <Flex.Item className="finish-state">{this.state.order.state == 1 ? '已接车' : (this.state.order.state == 2 ? '已完成' : '已交车')}</Flex.Item>
+                    <Flex.Item className="finish-state">{this.state.order.state == 1 ? '已接车' : (this.state.order.state == 2 ? '已完工' : '已交车')}</Flex.Item>
                 </Flex>
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.18rem', color: '#8e8e8e' }}>
                     <i className="circle2"></i>

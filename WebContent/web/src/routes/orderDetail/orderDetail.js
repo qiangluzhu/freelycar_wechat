@@ -176,7 +176,7 @@ class OrderDetail extends React.Component {
                     <p>姓名：{this.state.clientName}</p>
                     <div>牌照号：{this.state.licensePlate}</div>
                 </Flex.Item>
-                <Flex.Item className="state">{this.state.state == 1 ? '已完成' : (this.state.state == 0 ? '已接车' : '已交车')}</Flex.Item>
+                <Flex.Item className="state">{this.state.state == 1 ? '已完工' : (this.state.state == 0 ? '已接车' : '已交车')}</Flex.Item>
             </Flex>
             <div className="order-track-line"></div>
 
