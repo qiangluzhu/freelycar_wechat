@@ -59,13 +59,14 @@ class ServiceCard extends React.Component {
 
             let pName = '';
             for (let i in projects) {
-                if(i<2){
+                if (i < 2) {
                     pName += projects[i].name + '、';
-                } else {
-                    pName = pName+ '...' 
                 }
             }
             pName = pName.slice(0, -1)
+            if (projects.length > 2) {
+                pName = pName + '...'
+            }
 
             return <Flex key={index} className="center-listItem" direction="column" onClick={() => { this.context.router.history.push(`/ordertrack/${item.id}`) }}>
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.24rem', color: '#4b4b4b' }}>
