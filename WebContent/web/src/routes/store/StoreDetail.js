@@ -6,6 +6,7 @@ import './CooperativeStore.less'
 import '../autoInsurance/Inquiry.less'
 import { storeDetail, listComment } from '../../services/store.js'
 import { getWXConfig } from '../../services/pay.js'
+import update from 'immutability-helper'
 const TabPane = Tabs.TabPane
 class CooperativeStore extends React.Component {
 
@@ -21,6 +22,7 @@ class CooperativeStore extends React.Component {
             fix: [],
             beauty: [],
             storefavours: [],
+            favours: [],
             comments: [],
             imgs: [],
             latitude: 0, // 纬度，浮点数，范围为90 ~ -90
@@ -130,11 +132,41 @@ class CooperativeStore extends React.Component {
 
     }
 
+    plusCount = (id, price) => {
+        if (this.state.favours[id].count > 1) {
+            this.setState({
+                favours: update(this.state.favours, { [id]: { count: { $set: this.state.favours[id].count - 1 } } })
+            })
+        } else if (this.state.favours[id].count == 1) {
+            let favours = this.state.favours
+            delete (this.state.favours[id])
+            this.setState({ favours: favours })
+        }
+    }
+
+    addCount = (id, price) => {
+        console.log(price)
+        if (this.state.favours[id]) {
+            this.setState({
+                favours: update(this.state.favours, { [id]: { count: { $set: this.state.favours[id].count + 1 } } })
+            }, () => { console.log(this.state.favours) })
+        } else {
+            this.setState({
+                favours: update(this.state.favours, { $merge: { [id]: { count: 1, price: price } } })
+            }, () => { console.log(this.state.favours) })
+        }
+    }
     render() {
         let sf = this.state.storefavours;
         let imgs = this.state.imgs.map((item, index) => {
             return <div key={index} className="swiper-slide  banner-img"><img src={`http://www.freelycar.com/store/${item.url}`} alt="" /></div>
         })
+        let totalPrice = 0
+        for (let item of this.state.favours) {
+            if(item) {
+                totalPrice = totalPrice + item.price * item.count
+            }
+        }
         let couponList = sf.map((item, index) => {
             console.log(item)
             return <div key={index} className="swiper-slide cooperative-store-coupon">
@@ -155,15 +187,15 @@ class CooperativeStore extends React.Component {
                                 <div style={{ fontSize: '.24rem', lineHeight: '.4rem', marginLeft: '.2rem' }}>{item.favour.content}</div>
                             </Flex>
                             <Flex className="use-button">
-                                <div className="use-button-plus">-</div>
-                                <div className="number">1</div>
-                                <div className="use-button-add" onClick={() => {  }}>+</div>
+                                {this.state.favours[item.favour.id] && <div className="use-button-plus" onClick={() => { this.plusCount(item.favour.id, item.favour.set[0].buyPrice) }}>-</div>}
+                                <div className="number">{this.state.favours[item.favour.id] ? this.state.favours[item.favour.id].count : ''}</div>
+                                <div className="use-button-add" onClick={() => { this.addCount(item.favour.id, item.favour.set[0].buyPrice) }}>+</div>
                             </Flex>
                         </Flex>
                     </Flex>
                     <div className="coupon-info">
                         <span className="phone">限客户手机号：{window.localStorage.getItem('phone')}</span>
-                        <span className="time">活动截止日期：{item.favour.buyDeadline?item.favour.buyDeadline.slice(0,10):''}</span>
+                        <span className="time">活动截止日期：{item.favour.buyDeadline ? item.favour.buyDeadline.slice(0, 10) : ''}</span>
                     </div>
                 </Flex>
             </div>
@@ -268,7 +300,7 @@ class CooperativeStore extends React.Component {
             <div className='bottom-pay-button'>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='lable'>合计:</Flex.Item>
-                    <Flex.Item style={{ color: 'red' }}>￥999</Flex.Item>
+                    <Flex.Item style={{ color: 'red' }}>￥{totalPrice}</Flex.Item>
                     <div className='pay-button'>
                         <Flex style={{ height: '100%' }}>
                             <Flex.Item style={{ textAlign: 'center', color: '#fff' }}>立即支付</Flex.Item>
