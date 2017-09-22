@@ -265,7 +265,7 @@ class OrderTrack extends React.Component {
                         </div>
                         <div className="car-state">已下单
                         </div>
-                        <div>清理商品已经下单
+                        <div>
                         </div>
                     </div>
                 </Flex>

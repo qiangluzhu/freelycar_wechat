@@ -163,7 +163,7 @@ class CooperativeStore extends React.Component {
                     </Flex>
                     <div className="coupon-info">
                         <span className="phone">限客户手机号：{window.localStorage.getItem('phone')}</span>
-                        <span className="time">截止日期：{item.favour.buyDeadline}</span>
+                        <span className="time">活动截止日期：{item.favour.buyDeadline?item.favour.buyDeadline.slice(0,10):''}</span>
                     </div>
                 </Flex>
             </div>
@@ -265,7 +265,7 @@ class CooperativeStore extends React.Component {
                     {commentList}
                 </TabPane>
             </Tabs>
-            {/* <div className='bottom-pay-button'>
+            <div className='bottom-pay-button'>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='lable'>合计:</Flex.Item>
                     <Flex.Item style={{ color: 'red' }}>￥999</Flex.Item>
@@ -275,7 +275,7 @@ class CooperativeStore extends React.Component {
                         </Flex>
                     </div>
                 </Flex>
-            </div> */}
+            </div>
         </div>
     }
 
