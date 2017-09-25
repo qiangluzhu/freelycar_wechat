@@ -26,4 +26,9 @@ public class FavourOrderBean {
 	public void setFavours(Set<FavourToOrder> favours) {
 		this.favours = favours;
 	}
+	@Override
+	public String toString() {
+		return "FavourOrderBean [openId=" + openId + ", totalPrice=" + totalPrice + ", favours=" + favours + "]";
+	}
+	
 }

@@ -86,13 +86,22 @@ public class ConsumOrderService {
 	}
 
 	public String detailWXPayOrder(String wxPayOrderId) {
-		JsonConfig config = JsonResFactory.dateConfig();
-		JSONObject obj = JSONObject.fromObject(wxPayOrderDao.findById(wxPayOrderId), config);
-		return JsonResFactory.buildOrg(RESCODE.SUCCESS, Constants.RESPONSE_WXORDER_KEY, obj).toString();
+		WXPayOrder wxPayOrder = wxPayOrderDao.findById(wxPayOrderId);
+		if(wxPayOrder == null){
+			return JsonResFactory.buildOrg(RESCODE.NO_RECORD).toString();
+		}else{
+			WXUser wxUser = wxUserDao.findUserByOpenId(wxPayOrder.getOpenId());
+			net.sf.json.JSONObject obj = JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONObject.fromObject(wxPayOrder,JsonResFactory.dateConfig()));
+			obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser.getName()==null?wxUser.getNickName():wxUser.getName());
+			return obj.toString();
+		}
 	}
 
 	public String listWXPayOrder(int clientId, int page, int number) {
 		WXUser wxUser = wxUserDao.findUserByPhone(clientDao.findById(clientId).getPhone());
+		if(wxUser == null){
+			return JsonResFactory.buildOrg(RESCODE.NO_RECORD).toString();
+		}
 		String openId = wxUser.getOpenId();
 		int from = (page - 1) * number;
 		List<WXPayOrder> exist = wxPayOrderDao.listByOpenId(openId, from, number);

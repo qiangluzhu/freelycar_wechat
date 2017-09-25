@@ -25,7 +25,7 @@ import com.geariot.platform.freelycar_wechat.utils.JsonDateDeserialize;
 public class WXPayOrder {
 	private String id;
 	private String openId;		//微信openId
-	private double totalPrice;		//支付金额
+	private float totalPrice;		//支付金额
 	@JsonDeserialize(using=JsonDateDeserialize.class)
 	private Date createDate;	//订单产生时间
 	private Date finishDate;	//支付完时间
@@ -37,10 +37,10 @@ public class WXPayOrder {
 	public Date getFinishDate() {
 		return finishDate;
 	}
-	public double getTotalPrice() {
+	public float getTotalPrice() {
 		return totalPrice;
 	}
-	public void setTotalPrice(double totalPrice) {
+	public void setTotalPrice(float totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 	public void setFinishDate(Date finishDate) {

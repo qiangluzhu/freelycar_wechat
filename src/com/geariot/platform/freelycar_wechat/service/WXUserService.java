@@ -73,15 +73,12 @@ public class WXUserService {
 			wxUserNew.setPhone(phone);
 			wxUserNew.setHeadimgurl(headimgurl);
 			wxUserNew.setNickName(nickName);
-			wxUserNew.setName(nickName);
 			wxUserNew.setOpenId(openId);
 			wxUserDao.save(wxUserNew);
 		} else {
 			wxUser.setHeadimgurl(headimgurl);
 			wxUser.setNickName(nickName);
 			wxUser.setOpenId(openId);
-			if (wxUser.getName() == null)
-				wxUser.setName(nickName);
 			wxUserDao.updateUser(wxUser);
 		}
 		Client exist = clientDao.findByPhone(phone);
@@ -319,8 +316,12 @@ public class WXUserService {
 				Date date = sdf.parse(birthday);
 				wxUser.setBirthday(date);
 			}
-			if (gender != null)
+			if(gender.equals("undefined")){
+				wxUser.setGender("男");
+			}
+			else{
 				wxUser.setGender(gender);
+			}
 			if (name != null)
 				wxUser.setName(name);
 			return JsonResFactory.buildNet(RESCODE.SUCCESS).toString();

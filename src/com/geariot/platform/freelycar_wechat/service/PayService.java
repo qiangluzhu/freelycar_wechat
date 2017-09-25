@@ -49,7 +49,7 @@ public class PayService {
 	private static final Logger log = LogManager.getLogger(PayService.class);
 
 	// 创建card订单
-	public org.json.JSONObject createCardOrder(String openId, double totalPrice, int serviceId) {
+	public org.json.JSONObject createCardOrder(String openId, float totalPrice, int serviceId) {
 		log.debug("create new order");
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
 		log.debug("id" + wxPayOrder.getId() + "总金额" + wxPayOrder.getTotalPrice() + "openId" + wxPayOrder.getOpenId()
@@ -89,7 +89,7 @@ public class PayService {
 
 	}
 
-	private WXPayOrder buildBasivOrders(String openId, double totalPrice) {
+	private WXPayOrder buildBasivOrders(String openId, float totalPrice) {
 		WXPayOrder wxPayOrder = new WXPayOrder();
 		wxPayOrder.setId(IDGenerator.generate(IDGenerator.WX_CONSUM));
 		System.out.println(">>>>" + IDGenerator.generate(IDGenerator.WX_CONSUM));

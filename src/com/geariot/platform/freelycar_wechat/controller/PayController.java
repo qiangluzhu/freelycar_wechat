@@ -19,6 +19,7 @@ import org.apache.logging.log4j.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,10 +54,11 @@ public class PayController {
 	ConsumOrderDao consumOrderDao;
 
 	@RequestMapping(value="favour",method = RequestMethod.POST)
-	public String wechatFavour(FavourOrderBean favourOrderBean,HttpServletRequest request){
+	public String wechatFavour(@RequestBody FavourOrderBean favourOrderBean,HttpServletRequest request){
 			log.info("购买券");
 			float totalPrice = favourOrderBean.getTotalPrice();
 			String openId = favourOrderBean.getOpenId();
+			System.out.println("<<<<<<<<<<<<<<<<<<<<<<<"+favourOrderBean.toString());
 			org.json.JSONObject res=payService.createFavourOrder(favourOrderBean);
 			String orderId = res.getString(Constants.RESPONSE_DATA_KEY);
 			log.info(orderId);
