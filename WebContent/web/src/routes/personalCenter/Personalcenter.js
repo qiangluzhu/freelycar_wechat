@@ -24,6 +24,7 @@ class Personalcenter extends React.Component {
             card: [],
             cars: [],
             order: [],
+            projectInfos:[],
             modal1: false
         }
     }
@@ -51,7 +52,8 @@ class Personalcenter extends React.Component {
                         card: data.client.cards.length > 0 ? data.client.cards[0] : [],
                         cars: data.client.cars,
                         order: data.orders.length > 0 ? data.orders[0] : [],
-                        tickets: data.client.tickets
+                        tickets: data.client.tickets,
+                        projectInfos: data.client.cards.length > 0 ? data.client.cards[0].projectInfos.slice(0,3) : []
                     })
                 }
             }).catch((error) => {
@@ -95,8 +97,7 @@ class Personalcenter extends React.Component {
 
     render() {
 
-        let projectInfos = this.state.card.length > 0 ? this.state.card.projectInfos : []
-        let programs = projectInfos.map((item, index) => {
+        let programs = this.state.projectInfos.map((item, index) => {
             return <Flex.Item key={index}>
                 <Flex direction="column" justify="center">
                     <Flex.Item className="vip-card-program">{item.project.name}</Flex.Item>
@@ -140,7 +141,7 @@ class Personalcenter extends React.Component {
                     <Flex.Item className="vip-card-name">{this.state.card.service ? this.state.card.service.name : ''}</Flex.Item>
                     <Flex.Item className="vip-card-more" style={{ color: '#8e8e8e' }} >全部<img src={more_arrow} style={{ marginLeft: '.2rem' }} alt="" /></Flex.Item>
                 </Flex>
-                {projectInfos.length > 0 && <Flex>
+                {this.state.projectInfos.length > 0 && <Flex>
                     {programs}
                 </Flex>}
             </div>}
