@@ -246,7 +246,7 @@ class CooperativeStore extends React.Component {
         let couponList = sf.map((item, index) => {
             console.log(item)
             return <div key={index} className="swiper-slide cooperative-store-coupon">
-                <Flex className="coupon" direction="column" align="start">
+                <Flex className="coupon" direction="column" align="start" style={{width:sf.length==1?'7rem':'auto'}}>
                     <Flex style={{ height: '1.3rem', background: '#fff', width: '100%' }}>
                         <Flex className="money" direction="column" align="end">
                             <div style={{ fontSize: '.48rem' }}><span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set[0].buyPrice}</div>
