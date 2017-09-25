@@ -260,12 +260,12 @@ class CooperativeStore extends React.Component {
                         <Flex style={{ flex: 'auto' }}>
                             <Flex direction="column" align="start">
                                 <div style={{ fontSize: '.32rem', marginLeft: '.2rem', lineHeight: '.4rem' }}>{item.favour.name}</div>
-                                <div style={{ fontSize: '.24rem', lineHeight: '.4rem', marginLeft: '.2rem' }}>{item.favour.content}</div>
+                                <div style={{ fontSize: '.24rem', lineHeight: '.4rem', marginLeft: '.2rem' ,width:'2.8rem'}}>{item.favour.content}</div>
                             </Flex>
                             <Flex className="use-button">
                                 {this.state.favours[item.favour.id] && <div className="use-button-plus" onClick={() => { this.plusCount(item.favour.id, item.favour.set[0].buyPrice) }}>-</div>}
                                 <div className="number">{this.state.favours[item.favour.id] ? this.state.favours[item.favour.id].count : ''}</div>
-                                <div className="c" onClick={() => { this.addCount(item.favour.id, item.favour.set[0].buyPrice) }}>+</div>
+                                <div className="use-button-plus" onClick={() => { this.addCount(item.favour.id, item.favour.set[0].buyPrice) }}>+</div>
                             </Flex>
                         </Flex>
                     </Flex>
