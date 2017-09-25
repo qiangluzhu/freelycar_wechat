@@ -60,7 +60,10 @@ class AddCar extends React.Component {
         }).then((res) => {
             console.log(res)
             if (res.data.code == '0') {
+                window.localStorage.removeItem('province')
+                window.localStorage.removeItem('carPlate')
                 this.context.router.history.push('/carInfo')
+           
             }
         }).catch((Error) => {
             console.log(Error)
