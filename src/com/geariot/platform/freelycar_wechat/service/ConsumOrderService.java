@@ -1,6 +1,7 @@
 package com.geariot.platform.freelycar_wechat.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -113,7 +114,7 @@ public class ConsumOrderService {
 		// JsonConfig config = new JsonConfig();
 		// config.registerJsonValueProcessor(Date.class, new
 		// DateJsonValueProcessor());
-		JsonConfig config = JsonResFactory.dateConfig();
+		JsonConfig config = JsonResFactory.dateConfig(Collection.class);
 		JSONArray jsonArray = JSONArray.fromObject(exist, config);
 		net.sf.json.JSONObject obj = JsonResFactory.buildNetWithData(RESCODE.SUCCESS, jsonArray);
 		obj.put(Constants.RESPONSE_SIZE_KEY, size);
