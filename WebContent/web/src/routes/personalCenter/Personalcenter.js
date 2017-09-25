@@ -55,6 +55,7 @@ class Personalcenter extends React.Component {
                         tickets: data.client.tickets,
                         projectInfos: data.client.cards.length > 0 ? data.client.cards[0].projectInfos.slice(0,3) : []
                     })
+                    window.localStorage.setItem('isMember',data.client.isMember)
                 }
             }).catch((error) => {
                 console.log(error)
