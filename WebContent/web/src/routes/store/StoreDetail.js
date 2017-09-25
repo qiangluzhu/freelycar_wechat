@@ -46,7 +46,7 @@ class CooperativeStore extends React.Component {
                 timestamp: data.timestamp, // 必填，生成签名的时间戳
                 nonceStr: data.nonceStr, // 必填，生成签名的随机串
                 signature: data.signature,// 必填，签名，见附录1
-                jsApiList: ["getLocation", "openLocation",'checkJsApi'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                jsApiList: ["getLocation", "openLocation", 'checkJsApi'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
             });
 
             wx.ready(function () {
@@ -165,9 +165,9 @@ class CooperativeStore extends React.Component {
         }
 
         if (state) {
-            let favours =[]
-            for(let item of this.state.favours) {
-                if(item) {
+            let favours = []
+            for (let item of this.state.favours) {
+                if (item) {
                     favours.push(item)
                 }
             }
@@ -176,7 +176,7 @@ class CooperativeStore extends React.Component {
                 //"openId": 'oBaSqs4THtZ-QRs1IQk-b8YKxH28',
                 "openId": window.localStorage.getItem('openid'),
                 "favours": favours,
-                "totalPrice":price,
+                "totalPrice": price,
             }).then((res) => {
                 if (res.data.code == 0) {
                     let data = res.data.data;
@@ -246,7 +246,7 @@ class CooperativeStore extends React.Component {
         let couponList = sf.map((item, index) => {
             console.log(item)
             return <div key={index} className="swiper-slide cooperative-store-coupon">
-                <Flex className="coupon" direction="column" align="start" style={{width:sf.length==1?'7rem':'auto'}}>
+                <Flex className="coupon" direction="column" align="start" style={{ width: sf.length == 1 ? '7rem' : 'auto' }}>
                     <Flex style={{ height: '1.3rem', background: '#fff', width: '100%' }}>
                         <Flex className="money" direction="column" align="end">
                             <div style={{ fontSize: '.48rem' }}><span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set[0].buyPrice}</div>
@@ -260,7 +260,7 @@ class CooperativeStore extends React.Component {
                         <Flex style={{ flex: 'auto' }}>
                             <Flex direction="column" align="start">
                                 <div style={{ fontSize: '.32rem', marginLeft: '.2rem', lineHeight: '.4rem' }}>{item.favour.name}</div>
-                                <div style={{ fontSize: '.24rem', lineHeight: '.4rem', marginLeft: '.2rem' ,width:'2.8rem'}}>{item.favour.content}</div>
+                                <div style={{ fontSize: '.24rem', lineHeight: '.4rem', marginLeft: '.2rem', width: '2.8rem' }}>{item.favour.content}</div>
                             </Flex>
                             <Flex className="use-button">
                                 {this.state.favours[item.favour.id] && <div className="use-button-plus" onClick={() => { this.plusCount(item.favour.id, item.favour.set[0].buyPrice) }}>-</div>}
@@ -271,7 +271,7 @@ class CooperativeStore extends React.Component {
                     </Flex>
                     <div className="coupon-info">
                         <span className="phone">限客户手机号：{window.localStorage.getItem('phone')}</span>
-                        <span className="time">活动截止日期：{item.favour.buyDeadline ? item.favour.buyDeadline.slice(0, 10) : ''}</span>
+                        <span className="time">{item.favour.buyDeadline ? `活动截止日期：${item.favour.buyDeadline.slice(0, 10)}` : ''}</span>
                     </div>
                 </Flex>
             </div>
