@@ -79,7 +79,7 @@ class ServiceCard extends React.Component {
                     <Flex.Item className="total-price">￥{item.totalPrice}</Flex.Item >
                 </Flex>
 
-                {item.state == 3 ? <Flex style={{ width: '100%', fontSize: '.18rem', textAlign: 'right' }}>
+                {item.state == 3 && item.stars == 0 ? <Flex style={{ width: '100%', fontSize: '.18rem', textAlign: 'right' }}>
                     <Flex.Item className="comments-div">
                         <div className='comments' onClick={(e) => { e.stopPropagation(); this.context.router.history.push(`/store/comment/${item.id}`) }}>评价得{item.totalPrice}积分</div>
                     </Flex.Item >
