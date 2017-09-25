@@ -28,6 +28,7 @@ class ServiceCard extends React.Component {
             page: 1,
             number: 99
         }).then((res) => {
+            //console.log(res);
             if (res.data.code == '0') {
                 let data = res.data.data;
                 this.setState({

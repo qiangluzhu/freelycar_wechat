@@ -2,7 +2,7 @@ import React from 'react';
 import './orderDetail.less'
 import { Flex } from 'antd-mobile'
 import NavBar from '../../components/NavBar'
-import { orderDetail } from '../../services/orders.js'
+import { wxOrderDetail } from '../../services/orders.js'
 import PropTypes from 'prop-types';
 import { payment, getWXConfig, membershipCard } from '../../services/pay.js'
 class OrderDetail extends React.Component {
@@ -24,7 +24,6 @@ class OrderDetail extends React.Component {
     }
 
     componentDidMount() {
-
         //通过后台对微信签名的验证。
         getWXConfig({
             targetUrl: window.location.href,
@@ -50,14 +49,15 @@ class OrderDetail extends React.Component {
 
 
 
-        orderDetail({
-            consumOrderId: this.props.match.params.id,
+        wxOrderDetail({
+            wxPayOrderId: this.props.match.params.id,
         }).then((res) => {
             console.log(res);
             if (res.data.code == '0') {
-                let data = res.data.orders;
+                let data = res.data.data;
+                console.log(data.totalPrice);
                 this.setState({
-                    clientName: data.clientName,
+                    clientName: res.data.wxUser,
                     licensePlate: data.licensePlate,
                     state: data.state,
                     totalPrice: data.totalPrice,
@@ -65,7 +65,7 @@ class OrderDetail extends React.Component {
                     createDate: data.createDate,
                     payMethod: data.payMethod,
                     payState: data.payState,
-                    projects: data.projects,
+                    projects: data.service.projectInfos,
                 })
             }
         }).catch((error) => { console.log(error) });
@@ -175,7 +175,7 @@ class OrderDetail extends React.Component {
             <Flex className="order-track-baseinfo">
                 <Flex.Item className="Info">
                     <p>姓名：{this.state.clientName}</p>
-                    <div>牌照号：{this.state.licensePlate}</div>
+                    {/* <div>牌照号：{this.state.licensePlate}</div> */}
                 </Flex.Item>
                 <Flex.Item className="state">{this.state.state == 1 ? '已完工' : (this.state.state == 0 ? '已接车' : '已交车')}</Flex.Item>
             </Flex>
