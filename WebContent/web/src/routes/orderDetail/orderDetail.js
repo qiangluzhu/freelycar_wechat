@@ -174,8 +174,7 @@ class OrderDetail extends React.Component {
 
             <Flex className="order-track-baseinfo">
                 <Flex.Item className="Info">
-                    <p>姓名：{this.state.clientName}</p>
-                    {/* <div>牌照号：{this.state.licensePlate}</div> */}
+                    <p>姓名：{this.state.clientName}{window.localStorage.getItem('isMember')?'(会员)':''}</p>
                 </Flex.Item>
                 <Flex.Item className="state">{this.state.state == 1 ? '已完工' : (this.state.state == 0 ? '已接车' : '已交车')}</Flex.Item>
             </Flex>

@@ -66,6 +66,7 @@ class OrderTrack extends React.Component {
                     state: data.state,
                     projects: data.projects,
                     payState: data.payState,
+                    stars: data.stars,
                     totalPrice: data.totalPrice,
                 })
                 window.localStorage.setItem('storeName', data.store.name)
@@ -178,7 +179,7 @@ class OrderTrack extends React.Component {
             <NavBar title="订单跟踪" />
             <Flex className="order-track-baseinfo">
                 <Flex.Item className="Info">
-                    <p>{this.state.clientName}</p>
+                    <p>{this.state.clientName}{window.localStorage.getItem('isMember') ? '(会员)' : ''}</p>
                     <div>{this.state.licensePlate}</div>
                 </Flex.Item>
                 <Flex.Item className="state">{this.state.state == 1 ? '已接车' : (this.state.state == 2 ? '已完工' : '已交车')}</Flex.Item>
@@ -222,7 +223,7 @@ class OrderTrack extends React.Component {
                         </div>
                         <div>爱车已交回你的手中 快来评价获积分吧
                         </div>
-                        {this.state.state == 3 && <div className="evaluate" onClick={() => { this.context.router.history.push(`/store/comment/${this.props.match.params.id}`) }}>
+                        {this.state.state == 3 && this.state.payState > 0 && this.state.stars > 0 && <div className="evaluate" onClick={() => { this.context.router.history.push(`/store/comment/${this.props.match.params.id}`) }}>
                             评价得200积分
                         </div>}
                     </div>

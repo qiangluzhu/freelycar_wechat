@@ -39,7 +39,7 @@ class CommentStore extends React.Component {
             <NavBar title="评价" />
             <div className="comment-store">
                 <Flex className="comment-store-title">
-                    <div className="comment-store-avatar"><img src={window.localStorage.getItem('imgUrl')} alt="" /></div>
+                    {/* <div className="comment-store-avatar"><img src={window.localStorage.getItem('imgUrl')} alt="" /></div> */}
                     <span className="title">{window.localStorage.getItem('storeName')}</span>
                 </Flex>
                 <Flex className="comment" justify="center">
