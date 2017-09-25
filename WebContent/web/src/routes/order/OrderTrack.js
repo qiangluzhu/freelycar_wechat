@@ -152,9 +152,9 @@ class OrderTrack extends React.Component {
                             </i>
                         </p>
                     </Flex.Item> */}
-                {item.payMethod=='1'&&<Flex className="order-track-remain" style={{ width: '100%' }}>
+                {item.projectInfo.payMethod=='1'&&<Flex className="order-track-remain" style={{ width: '100%' }}>
                     <div>
-                        <p>已抵扣会员卡{item.cardNumber}，该项目还剩余{item.remaining}次</p>
+                        <p>已抵扣会员卡{item.projectInfo.cardNumber}，该项目还剩余{item.remaining}次</p>
                     </div>
                     <p style={{ marginLeft: 'auto', fontSize: '.22rem' }}>
                         <span style={{ fontSize: '.22rem' }}>￥</span>{item.projectInfo.presentPrice}
@@ -162,9 +162,9 @@ class OrderTrack extends React.Component {
                         </i>
                     </p>
                 </Flex>}
-                {item.payMethod=='2'&&<Flex className="order-track-remain" style={{ width: '100%' }}>
+                {item.projectInfo.payMethod=='2'&&<Flex className="order-track-remain" style={{ width: '100%' }}>
                     <div>
-                        <p>已抵扣{item.cardNumber}，该项目还剩余{item.remaining}次</p>
+                        <p>已抵扣{item.projectInfo.favourName}，该项目还剩余{item.remaining}次</p>
                     </div>
                     <p style={{ marginLeft: 'auto', fontSize: '.22rem' }}>
                         <span style={{ fontSize: '.22rem' }}>￥</span>{item.projectInfo.presentPrice}
@@ -190,7 +190,7 @@ class OrderTrack extends React.Component {
                 </div>
                 <div className="ordertrack-project">{projectItems}</div>
 
-                <div style={{ textAlign: 'right', width: '100%', marginBottom: '.1rem' }}><div style={{ marginRight: '.5rem', display: 'inline-block' }}>合计：<span style={{ fontSize: '.24rem', color: '#e42f2f' }}>￥</span><span style={{ color: '#e42f2f' }}>{this.state.totalPrice}</span></div>
+                <div style={{ textAlign: 'right', width: '100%', marginBottom: '.1rem' }}><div style={{ marginRight: '.42rem', display: 'inline-block' }}>合计：<span style={{ fontSize: '.24rem', color: '#e42f2f' }}>￥</span><span style={{ color: '#e42f2f' }}>{this.state.totalPrice}</span></div>
                     {this.state.payState == 0 && <div className="pay-btn" onClick={()=>{this.handlePay()}}>
                         <p>去付款</p>
                     </div>}
