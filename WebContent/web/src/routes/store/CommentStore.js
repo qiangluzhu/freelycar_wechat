@@ -36,7 +36,7 @@ class CommentStore extends React.Component {
     }
     render() {
         return <div className="body-bac">
-            <NavBar title="合作门店" />
+            <NavBar title="评价" />
             <div className="comment-store">
                 <Flex className="comment-store-title">
                     <div className="comment-store-avatar"><img src={window.localStorage.getItem('imgUrl')} alt="" /></div>
@@ -48,8 +48,7 @@ class CommentStore extends React.Component {
                 <textarea placeholder="亲，说出你的心里话，分享给大家吧(至少输入8个字)" className="comment-text" onChange={(e) => { this.setState({ comment: e.target.value }) }}>
                 </textarea>
             </div>
-            <div className="comment-commit-btn" onClick={() => { this.comment() }}>提交评价</div>
-
+            <div className="comment-commit-btn" style={{ background: this.state.nowStar == 0 ? 'rgba(153,153,153,0.5)' : '#5a88e5' }} onClick={() => { this.comment() }}>提交评价</div>
         </div>
     }
 

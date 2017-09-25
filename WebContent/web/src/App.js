@@ -51,7 +51,7 @@ import Result from './routes/weui/Result'
 const App = () => (
     <div style={{height:'100%'}}>
         <Switch>
-            <Route exact path="/" component={Activity}/>
+            <Route exact path="/" component={CooperativeStore}/>
             <Route path="/activity/:openid/:nickname/:headimgurl"  component={Activity} />
             <Route path="/receivecoupons" component={ReceiveCoupons}/>
             <Route path="/center/:openid/:nickname/:headimgurl"  component={Personalcenter} />

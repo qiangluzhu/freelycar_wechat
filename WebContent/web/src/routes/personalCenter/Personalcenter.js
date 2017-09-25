@@ -132,16 +132,7 @@ class Personalcenter extends React.Component {
                 </Flex>
             </Flex>
             {this.state.card.length == 0 && <div className="center-banner" onClick={() => { this.context.router.history.push('/addCard') }}><img src={banner} alt="" /></div>}
-            <Flex className="center-line-box" onClick={() => {
-                if (this.state.cars.length > 0) {
-                    this.context.router.history.push('/carInfo')
-                } else { this.context.router.history.push('/addcar/0') }
-            }}>
-                <div className="center-icon1"><img src={Vehiclemanagement_icon} alt="" /></div>
-                <p>爱车管理</p>
-                <Flex.Item className="vip-card-more"><img src={more_arrow} alt="" /></Flex.Item>
-            </Flex>
-            {this.state.card.length != 0 && <div className="vip-gold-card" onClick={() => {
+            {this.state.card.length != 0 && <div className="vip-gold-card" style={{marginTop:'.2rem'}} onClick={() => {
                 this.context.router.history.push('/membership/mycard')
             }}>
                 <Flex className="vip-card-line1">
@@ -153,6 +144,16 @@ class Personalcenter extends React.Component {
                     {programs}
                 </Flex>}
             </div>}
+            <Flex className="center-line-box"  onClick={() => {
+                if (this.state.cars.length > 0) {
+                    this.context.router.history.push('/carInfo')
+                } else { this.context.router.history.push('/addcar/0') }
+            }}>
+                <div className="center-icon1"><img src={Vehiclemanagement_icon} alt="" /></div>
+                <p>爱车管理</p>
+                <Flex.Item className="vip-card-more"><img src={more_arrow} alt="" /></Flex.Item>
+            </Flex>
+     
             <Flex className="center-line-box" style={{ marginBottom: '0' }} onClick={() => { this.context.router.history.push('/serviceCard') }}>
                 <div className="center-icon2"><img src={order_icon} alt="" /></div>
                 <p>订单</p>
