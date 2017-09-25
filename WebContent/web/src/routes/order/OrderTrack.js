@@ -24,8 +24,8 @@ class OrderTrack extends React.Component {
 
     componentDidMount() {
 
-         //通过后台对微信签名的验证。
-         getWXConfig({
+        //通过后台对微信签名的验证。
+        getWXConfig({
             targetUrl: window.location.href,
         }).then((res) => {
             let data = res.data;
@@ -75,7 +75,7 @@ class OrderTrack extends React.Component {
     }
 
 
-    handlePay = () => {
+    handlePay = (totalPrice) => {
         let state = this.checkPayState();
         if (!state) {
             alert("不能发起支付");
@@ -84,9 +84,9 @@ class OrderTrack extends React.Component {
         if (state) {
             membershipCard({//传递所需的参数
                 //"openId": 'oBaSqs4THtZ-QRs1IQk-b8YKxH28',
-                "openId":  window.localStorage.getItem('openid'),
+                "openId": window.localStorage.getItem('openid'),
                 "serviceId": 5,
-                "totalPrice": 0.01,
+                "totalPrice": totalPrice,
             }).then((res) => {
                 if (res.data.code == 0) {
                     let data = res.data.data;
@@ -97,10 +97,8 @@ class OrderTrack extends React.Component {
                 } else {
                     alert('支付失败');
                 }
-
             }).catch((error) => { console.log(error) });
         }
-
     }
 
 
@@ -139,11 +137,13 @@ class OrderTrack extends React.Component {
     }
 
     render() {
+        let totalPrice = 0
         let projectItems = this.state.projects.map((item, index) => {
+            totalPrice = item.projectInfo.presentPrice + totalPrice
             return <Flex direction="column" justify="center" style={{ width: '100%', borderTop: '1px dashed #f0f0f0', height: '0.85rem' }} key={index} align="end" >
                 <Flex style={{ width: '100%' }} >
                     <div>{item.projectInfo.name}</div>
-                    <div style={{ marginLeft: 'auto' }}><span style={{ fontSize: '.24rem' }}>￥</span>{item.projectInfo.price}</div>
+                    <div style={{ marginLeft: 'auto' }}><span style={{ fontSize: '.24rem' }}>￥</span>{item.projectInfo.presentPrice}</div>
                 </Flex>
                 {/* <Flex.Item className="total-money" >
                         <p className="primary-money">
@@ -152,22 +152,22 @@ class OrderTrack extends React.Component {
                             </i>
                         </p>
                     </Flex.Item> */}
-                {item.projectInfo.payMethod=='1'&&<Flex className="order-track-remain" style={{ width: '100%' }}>
+                {item.projectInfo.payMethod == '1' && <Flex className="order-track-remain" style={{ width: '100%' }}>
                     <div>
                         <p>已抵扣会员卡{item.projectInfo.cardNumber}，该项目还剩余{item.remaining}次</p>
                     </div>
                     <p style={{ marginLeft: 'auto', fontSize: '.22rem' }}>
-                        <span style={{ fontSize: '.22rem' }}>￥</span>{item.projectInfo.presentPrice}
+                        <span style={{ fontSize: '.22rem' }}>￥</span>{item.projectInfo.price}
                         <i>
                         </i>
                     </p>
                 </Flex>}
-                {item.projectInfo.payMethod=='2'&&<Flex className="order-track-remain" style={{ width: '100%' }}>
+                {item.projectInfo.payMethod == '2' && <Flex className="order-track-remain" style={{ width: '100%' }}>
                     <div>
                         <p>已抵扣{item.projectInfo.favourName}，该项目还剩余{item.remaining}次</p>
                     </div>
                     <p style={{ marginLeft: 'auto', fontSize: '.22rem' }}>
-                        <span style={{ fontSize: '.22rem' }}>￥</span>{item.projectInfo.presentPrice}
+                        <span style={{ fontSize: '.22rem' }}>￥</span>{item.projectInfo.price}
                         <i>
                         </i>
                     </p>
@@ -190,8 +190,8 @@ class OrderTrack extends React.Component {
                 </div>
                 <div className="ordertrack-project">{projectItems}</div>
 
-                <div style={{ textAlign: 'right', width: '100%', marginBottom: '.1rem' }}><div style={{ marginRight: '.42rem', display: 'inline-block' }}>合计：<span style={{ fontSize: '.24rem', color: '#e42f2f' }}>￥</span><span style={{ color: '#e42f2f' }}>{this.state.totalPrice}</span></div>
-                    {this.state.payState == 0 && <div className="pay-btn" onClick={()=>{this.handlePay()}}>
+                <div style={{ textAlign: 'right', width: '100%', marginBottom: '.1rem' }}><div style={{ marginRight: '.42rem', display: 'inline-block' }}>合计：<span style={{ fontSize: '.24rem', color: '#e42f2f' }}>￥</span><span style={{ color: '#e42f2f' }}>{totalPrice}</span></div>
+                    {this.state.payState == 0 && <div className="pay-btn" onClick={() => { this.handlePay(totalPrice) }}>
                         <p>去付款</p>
                     </div>}
                 </div>
