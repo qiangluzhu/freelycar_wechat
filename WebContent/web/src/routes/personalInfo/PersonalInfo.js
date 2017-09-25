@@ -31,7 +31,7 @@ class PersonalInfo extends React.Component {
                 this.setState({
                     point: data.point,
                     nickName: data.wxUser.nickName,
-                    name: data.wxUser.name ? data.wxUser.name : data.wxUser.nickName,
+                    name: data.wxUser.name,
                     headimgurl: data.wxUser.headimgurl,
                     birthday: data.wxUser.birthday,
                     gender: [data.wxUser.gender]
