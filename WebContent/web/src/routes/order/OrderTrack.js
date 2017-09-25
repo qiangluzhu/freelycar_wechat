@@ -83,10 +83,10 @@ class OrderTrack extends React.Component {
         }
 
         if (state) {
-            membershipCard({//传递所需的参数
+            payment({//传递所需的参数
                 //"openId": 'oBaSqs4THtZ-QRs1IQk-b8YKxH28',
                 "openId": window.localStorage.getItem('openid'),
-                "serviceId": 5,
+                "orderId": this.props.match.params.id,
                 "totalPrice": totalPrice,
             }).then((res) => {
                 if (res.data.code == 0) {
