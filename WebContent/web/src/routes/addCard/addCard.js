@@ -10,7 +10,9 @@ import times_card from '../../img/times_card.png'
 import { getCardList } from '../../services/service.js'
 import { payment, getWXConfig, membershipCard } from '../../services/pay.js'
 import PropTypes from 'prop-types';
-class OrderDetail extends React.Component {
+
+
+class AddCard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -24,6 +26,8 @@ class OrderDetail extends React.Component {
             arrowIndex: 0,
             arrowName: '次卡',
             services: [],
+            serviceId: -1,//选中的serviceId
+            totalPrice:0,//选中的卡的totalprice
         }
     }
     componentDidMount() {
@@ -55,8 +59,8 @@ class OrderDetail extends React.Component {
             slidesPerView: 4,
             slidesPerGroup: 1,
             centeredSlides: false,
-            prevButton:'.swiper-button-prev',
-            nextButton:'.swiper-button-next'
+            prevButton: '.swiper-button-prev',
+            nextButton: '.swiper-button-next'
             // 如果需要分页器
         });
 
@@ -64,10 +68,28 @@ class OrderDetail extends React.Component {
             page: 1,
             number: 22
         }).then((res) => {
+            //console.log(res);
             if (res.data.code == '0') {
+                //初始化得到次卡的id 因为页面上次卡是第一个
+                //如果不存在 id = -1
+
+                let serviceId = -1;
+                let totalPrice = 0;
+                let cards = res.data.data;
+                for (let card of cards) {
+                    if (card.name == '次卡') {
+                        serviceId = card.id;
+                        totalPrice = card.price;
+                        break;
+                    }
+                }
+
                 this.setState({
-                    services: res.data.data
+                    services: cards,
+                    serviceId: serviceId,
+                    totalPrice:totalPrice
                 })
+
             }
         }).catch((error) => { console.log(error) });
 
@@ -76,10 +98,27 @@ class OrderDetail extends React.Component {
     }
 
     onHanleArrowDisplay = (name, index) => {
+
+        let serviceId = -1;
+        let totalPrice = 0;
+        let cards = this.state.services;
+        for (let card of cards) {
+            if (card.name == name) {
+                serviceId = card.id;
+                totalPrice = card.price;
+                break;
+            }
+        }
+
         this.setState({
             arrowIndex: index,
             arrowName: name,
+            serviceId: serviceId,
+            totalPrice:totalPrice
         });
+
+
+
     }
 
 
@@ -93,8 +132,8 @@ class OrderDetail extends React.Component {
             membershipCard({//传递所需的参数
                 //"openId": 'oBaSqs4THtZ-QRs1IQk-b8YKxH28',
                 "openId": window.localStorage.getItem('openid'),
-                "serviceId": 5,
-                "totalPrice": 0.01,
+                "serviceId": this.state.serviceId,
+                "totalPrice": this.state.totalPrice,
             }).then((res) => {
                 if (res.data.code == 0) {
                     let data = res.data.data;
@@ -141,7 +180,7 @@ class OrderDetail extends React.Component {
             console.log("支付结果:");
             console.log(res);
             if (res.err_msg == "get_brand_wcpay_request:ok") {
-                window.location.href = "policy.html?type=" + type;
+                this.context.router.history.push('/result')
             }
         });
     }
@@ -158,11 +197,11 @@ class OrderDetail extends React.Component {
             </div>
 
         });
-        let price
+
         let serviceItem = this.state.services.map((item, index) => {
             let service = item
             if (item.name == this.state.arrowName) {
-                price = service.price
+
                 let proInfos = service.projectInfos;
                 let item = proInfos.map((item1, index1) => {
                     return <div key={index + '' + index1} className='vip-service-item'>
@@ -198,7 +237,7 @@ class OrderDetail extends React.Component {
             <div className='bottom-pay-button'>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='lable'>合计:</Flex.Item>
-                    <Flex.Item style={{ color: 'red' }}><span style={{ fontSize: '12px' }}>￥</span><span style={{ fontSize: '16px' }}>{price}</span></Flex.Item>
+                    <Flex.Item style={{ color: 'red' }}><span style={{ fontSize: '12px' }}>￥</span><span style={{ fontSize: '16px' }}>{this.state.totalPrice}</span></Flex.Item>
                     <div className='pay-button'>
                         <Flex style={{ height: '100%' }}>
                             <Flex.Item style={{ textAlign: 'center', color: '#fff' }} onClick={() => { this.handlePay() }}>立即支付</Flex.Item>
@@ -212,7 +251,7 @@ class OrderDetail extends React.Component {
     }
 }
 
-export default OrderDetail
-OrderDetail.contextTypes = {
+export default AddCard
+AddCard.contextTypes = {
     router: PropTypes.object.isRequired
 }

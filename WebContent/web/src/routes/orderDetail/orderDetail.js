@@ -2,7 +2,8 @@ import React from 'react';
 import './orderDetail.less'
 import { Flex } from 'antd-mobile'
 import NavBar from '../../components/NavBar'
-import { orderDetail } from '../../services/orders.js'
+import { wxOrderDetail } from '../../services/orders.js'
+import PropTypes from 'prop-types';
 import { payment, getWXConfig, membershipCard } from '../../services/pay.js'
 class OrderDetail extends React.Component {
 
@@ -23,7 +24,6 @@ class OrderDetail extends React.Component {
     }
 
     componentDidMount() {
-
         //通过后台对微信签名的验证。
         getWXConfig({
             targetUrl: window.location.href,
@@ -49,14 +49,14 @@ class OrderDetail extends React.Component {
 
 
 
-        orderDetail({
-            consumOrderId: this.props.match.params.id,
+        wxOrderDetail({
+            wxPayOrderId: this.props.match.params.id,
         }).then((res) => {
             console.log(res);
             if (res.data.code == '0') {
-                let data = res.data.orders;
+                let data = res.data.data;
                 this.setState({
-                    clientName: data.clientName,
+                    clientName: res.data.wxUser,
                     licensePlate: data.licensePlate,
                     state: data.state,
                     totalPrice: data.totalPrice,
@@ -64,7 +64,7 @@ class OrderDetail extends React.Component {
                     createDate: data.createDate,
                     payMethod: data.payMethod,
                     payState: data.payState,
-                    projects: data.projects,
+                    projects: data.service.projectInfos,
                 })
             }
         }).catch((error) => { console.log(error) });
@@ -79,14 +79,13 @@ class OrderDetail extends React.Component {
         }
 
         if (state) {
-            membershipCard({//传递所需的参数
+            payment({//传递所需的参数
                 "openId":  window.localStorage.getItem('openid'),
-                "serviceId": 5,
-                "totalPrice": 0.01,
+                "orderId": this.props.match.params.id,
+                "totalPrice": this.state.totalPrice,
             }).then((res) => {
                 if (res.data.code == 0) {
                     let data = res.data.data;
-                    console.log(data);
                     this.onBridgeReady(data.appId, data.timeStamp,
                         data.nonceStr, data.package,
                         data.signType, data.paySign);
@@ -129,7 +128,7 @@ class OrderDetail extends React.Component {
             console.log("支付结果:");
             console.log(res);
             if (res.err_msg == "get_brand_wcpay_request:ok") {
-                window.location.href = "policy.html?type=" + type;
+                this.context.router.history.push('/result');
             }
         });
     }
@@ -160,9 +159,10 @@ class OrderDetail extends React.Component {
 
         //服务项目
         const projects = this.state.projects.map((item, index) => {
+           // console.log(item);
             return <Flex key={index} className='order-list'>
-                <Flex.Item className='leftLable'>{item.name}</Flex.Item>
-                <Flex.Item className='rightText'>X {item.payCardTimes}</Flex.Item>
+                <Flex.Item className='leftLable'>{item.project.name}</Flex.Item>
+                <Flex.Item className='rightText'>X {item.times}</Flex.Item>
             </Flex>
         });
 
@@ -173,10 +173,9 @@ class OrderDetail extends React.Component {
 
             <Flex className="order-track-baseinfo">
                 <Flex.Item className="Info">
-                    <p>姓名：{this.state.clientName}</p>
-                    <div>牌照号：{this.state.licensePlate}</div>
+                    <p>姓名：{this.state.clientName}{window.localStorage.getItem('isMember')?'(会员)':''}</p>
                 </Flex.Item>
-                <Flex.Item className="state">{this.state.state == 1 ? '已完成' : (this.state.state == 0 ? '已接车' : '已交车')}</Flex.Item>
+                <Flex.Item className="state">{this.state.state == 1 ? '已完工' : (this.state.state == 0 ? '已接车' : '已交车')}</Flex.Item>
             </Flex>
             <div className="order-track-line"></div>
 
@@ -228,7 +227,7 @@ class OrderDetail extends React.Component {
                 </div>
             </div>
 
-            {/* {this.state.payState == 0 && <div className='bottom-pay-button'>
+            {this.state.payState == 0 && <div className='bottom-pay-button'>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='lable'>合计:</Flex.Item>
                     <Flex.Item style={{ color: 'red' }}>￥{this.state.totalPrice}</Flex.Item>
@@ -239,7 +238,7 @@ class OrderDetail extends React.Component {
                     </div>
 
                 </Flex>
-            </div>} */}
+            </div>}
 
 
         </div>
@@ -247,3 +246,6 @@ class OrderDetail extends React.Component {
 }
 
 export default OrderDetail
+OrderDetail.contextTypes = {
+    router: PropTypes.object.isRequired
+}

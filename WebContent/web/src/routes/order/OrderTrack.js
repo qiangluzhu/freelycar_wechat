@@ -24,8 +24,8 @@ class OrderTrack extends React.Component {
 
     componentDidMount() {
 
-         //通过后台对微信签名的验证。
-         getWXConfig({
+        //通过后台对微信签名的验证。
+        getWXConfig({
             targetUrl: window.location.href,
         }).then((res) => {
             let data = res.data;
@@ -66,6 +66,7 @@ class OrderTrack extends React.Component {
                     state: data.state,
                     projects: data.projects,
                     payState: data.payState,
+                    stars: data.stars,
                     totalPrice: data.totalPrice,
                 })
                 window.localStorage.setItem('storeName', data.store.name)
@@ -75,18 +76,18 @@ class OrderTrack extends React.Component {
     }
 
 
-    handlePay = () => {
+    handlePay = (totalPrice) => {
         let state = this.checkPayState();
         if (!state) {
             alert("不能发起支付");
         }
 
         if (state) {
-            membershipCard({//传递所需的参数
+            payment({//传递所需的参数
                 //"openId": 'oBaSqs4THtZ-QRs1IQk-b8YKxH28',
-                "openId":  window.localStorage.getItem('openid'),
-                "serviceId": 5,
-                "totalPrice": 0.01,
+                "openId": window.localStorage.getItem('openid'),
+                "orderId": this.props.match.params.id,
+                "totalPrice": totalPrice,
             }).then((res) => {
                 if (res.data.code == 0) {
                     let data = res.data.data;
@@ -97,10 +98,8 @@ class OrderTrack extends React.Component {
                 } else {
                     alert('支付失败');
                 }
-
             }).catch((error) => { console.log(error) });
         }
-
     }
 
 
@@ -139,11 +138,13 @@ class OrderTrack extends React.Component {
     }
 
     render() {
+        let totalPrice = 0
         let projectItems = this.state.projects.map((item, index) => {
+            totalPrice = item.projectInfo.presentPrice + totalPrice
             return <Flex direction="column" justify="center" style={{ width: '100%', borderTop: '1px dashed #f0f0f0', height: '0.85rem' }} key={index} align="end" >
                 <Flex style={{ width: '100%' }} >
                     <div>{item.projectInfo.name}</div>
-                    <div style={{ marginLeft: 'auto' }}><span style={{ fontSize: '.24rem' }}>￥</span>{item.projectInfo.price}</div>
+                    <div style={{ marginLeft: 'auto' }}><span style={{ fontSize: '.24rem' }}>￥</span>{item.projectInfo.presentPrice}</div>
                 </Flex>
                 {/* <Flex.Item className="total-money" >
                         <p className="primary-money">
@@ -152,22 +153,22 @@ class OrderTrack extends React.Component {
                             </i>
                         </p>
                     </Flex.Item> */}
-                {item.payMethod=='1'&&<Flex className="order-track-remain" style={{ width: '100%' }}>
+                {item.projectInfo.payMethod == '1' && <Flex className="order-track-remain" style={{ width: '100%' }}>
                     <div>
-                        <p>已抵扣会员卡{item.cardNumber}，该项目还剩余{item.remaining}次</p>
+                        <p>已抵扣会员卡{item.projectInfo.cardNumber}，该项目还剩余{item.remaining}次</p>
                     </div>
                     <p style={{ marginLeft: 'auto', fontSize: '.22rem' }}>
-                        <span style={{ fontSize: '.22rem' }}>￥</span>{item.projectInfo.presentPrice}
+                        <span style={{ fontSize: '.22rem' }}>￥</span>{item.projectInfo.price}
                         <i>
                         </i>
                     </p>
                 </Flex>}
-                {item.payMethod=='2'&&<Flex className="order-track-remain" style={{ width: '100%' }}>
+                {item.projectInfo.payMethod == '2' && <Flex className="order-track-remain" style={{ width: '100%' }}>
                     <div>
-                        <p>已抵扣{item.cardNumber}，该项目还剩余{item.remaining}次</p>
+                        <p>已抵扣{item.projectInfo.favourName}，该项目还剩余{item.remaining}次</p>
                     </div>
                     <p style={{ marginLeft: 'auto', fontSize: '.22rem' }}>
-                        <span style={{ fontSize: '.22rem' }}>￥</span>{item.projectInfo.presentPrice}
+                        <span style={{ fontSize: '.22rem' }}>￥</span>{item.projectInfo.price}
                         <i>
                         </i>
                     </p>
@@ -178,7 +179,7 @@ class OrderTrack extends React.Component {
             <NavBar title="订单跟踪" />
             <Flex className="order-track-baseinfo">
                 <Flex.Item className="Info">
-                    <p>{this.state.clientName}</p>
+                    <p>{this.state.clientName}{window.localStorage.getItem('isMember') ? '(会员)' : ''}</p>
                     <div>{this.state.licensePlate}</div>
                 </Flex.Item>
                 <Flex.Item className="state">{this.state.state == 1 ? '已接车' : (this.state.state == 2 ? '已完工' : '已交车')}</Flex.Item>
@@ -190,8 +191,8 @@ class OrderTrack extends React.Component {
                 </div>
                 <div className="ordertrack-project">{projectItems}</div>
 
-                <div style={{ textAlign: 'right', width: '100%', marginBottom: '.1rem' }}><div style={{ marginRight: '.5rem', display: 'inline-block' }}>合计：<span style={{ fontSize: '.24rem', color: '#e42f2f' }}>￥</span><span style={{ color: '#e42f2f' }}>{this.state.totalPrice}</span></div>
-                    {this.state.payState == 0 && <div className="pay-btn" onClick={()=>{this.handlePay()}}>
+                <div style={{ textAlign: 'right', width: '100%', marginBottom: '.1rem' }}><div style={{ marginRight: '.42rem', display: 'inline-block' }}>合计：<span style={{ fontSize: '.24rem', color: '#e42f2f' }}>￥</span><span style={{ color: '#e42f2f' }}>{totalPrice}</span></div>
+                    {this.state.payState == 0 && <div className="pay-btn" onClick={() => { this.handlePay(totalPrice) }}>
                         <p>去付款</p>
                     </div>}
                 </div>
@@ -222,7 +223,7 @@ class OrderTrack extends React.Component {
                         </div>
                         <div>爱车已交回你的手中 快来评价获积分吧
                         </div>
-                        {this.state.state == 3 && <div className="evaluate" onClick={() => { this.context.router.history.push(`/store/comment/${this.props.match.params.id}`) }}>
+                        {this.state.state == 3 && this.state.payState > 0 && this.state.stars > 0 && <div className="evaluate" onClick={() => { this.context.router.history.push(`/store/comment/${this.props.match.params.id}`) }}>
                             评价得200积分
                         </div>}
                     </div>
@@ -265,7 +266,7 @@ class OrderTrack extends React.Component {
                         </div>
                         <div className="car-state">已下单
                         </div>
-                        <div>清理商品已经下单
+                        <div>
                         </div>
                     </div>
                 </Flex>

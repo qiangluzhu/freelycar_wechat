@@ -28,6 +28,7 @@ class ServiceCard extends React.Component {
             page: 1,
             number: 99
         }).then((res) => {
+            //console.log(res);
             if (res.data.code == '0') {
                 let data = res.data.data;
                 this.setState({
@@ -71,7 +72,7 @@ class ServiceCard extends React.Component {
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.24rem', color: '#4b4b4b' }}>
                     <i className="circle"></i>
                     <p>{pName}</p>
-                    <Flex.Item className="finish-state">{item.state == 1 ? '已接车' : (item.state == 2 ? '已完成' : '已交车')}&nbsp;&nbsp;<img src={more_arrow} alt="" /></Flex.Item>
+                    <Flex.Item className="finish-state">{item.state == 1 ? '已接车' : (item.state == 2 ? '已完工' : '已交车')}&nbsp;&nbsp;<img src={more_arrow} alt="" /></Flex.Item>
                 </Flex>
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.18rem', color: '#8e8e8e' }}>
                     <i className="circle2"></i>
@@ -79,7 +80,7 @@ class ServiceCard extends React.Component {
                     <Flex.Item className="total-price">￥{item.totalPrice}</Flex.Item >
                 </Flex>
 
-                {item.state == 3 ? <Flex style={{ width: '100%', fontSize: '.18rem', textAlign: 'right' }}>
+                {item.state == 3 && item.stars == 0 ? <Flex style={{ width: '100%', fontSize: '.18rem', textAlign: 'right' }}>
                     <Flex.Item className="comments-div">
                         <div className='comments' onClick={(e) => { e.stopPropagation(); this.context.router.history.push(`/store/comment/${item.id}`) }}>评价得{item.totalPrice}积分</div>
                     </Flex.Item >

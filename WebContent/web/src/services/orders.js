@@ -18,5 +18,10 @@ export default {
     },
     orderDetail:(params)=>{
         return get('api/orders/detail',params)
-    }
+    },
+
+    wxOrderDetail:(params)=>{
+        return get('api/orders/detailWXPayOrder',params)
+    },
+
 }

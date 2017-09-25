@@ -31,7 +31,7 @@ class PersonalInfo extends React.Component {
                 this.setState({
                     point: data.point,
                     nickName: data.wxUser.nickName,
-                    name: data.wxUser.name ? data.wxUser.name : data.wxUser.nickName,
+                    name: data.wxUser.name,
                     headimgurl: data.wxUser.headimgurl,
                     birthday: data.wxUser.birthday,
                     gender: [data.wxUser.gender]
@@ -50,14 +50,12 @@ class PersonalInfo extends React.Component {
             mode: 'cors',
             cache: 'default'
         }, {
-
                 // openId: '1',
                 phone: window.localStorage.getItem('phone'),
                 // phone: '110',
                 birthday: this.state.birthday,
                 name: this.state.name,
                 gender: this.state.gender[0]
-
             }).then((res) => {
                 console.log(res)
                 this.context.router.history.push(`/center/${window.localStorage.getItem('openid')}/${window.localStorage.getItem('nickName')}/${window.localStorage.getItem('headimgurl')}`)
