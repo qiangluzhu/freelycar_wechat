@@ -55,7 +55,6 @@ class OrderDetail extends React.Component {
             console.log(res);
             if (res.data.code == '0') {
                 let data = res.data.data;
-                console.log(data.totalPrice);
                 this.setState({
                     clientName: res.data.wxUser,
                     licensePlate: data.licensePlate,
@@ -80,14 +79,13 @@ class OrderDetail extends React.Component {
         }
 
         if (state) {
-            membershipCard({//传递所需的参数
+            payment({//传递所需的参数
                 "openId":  window.localStorage.getItem('openid'),
-                "serviceId": 5,
-                "totalPrice": 0.01,
+                "orderId": this.props.match.params.id,
+                "totalPrice": this.state.totalPrice,
             }).then((res) => {
                 if (res.data.code == 0) {
                     let data = res.data.data;
-                    console.log(data);
                     this.onBridgeReady(data.appId, data.timeStamp,
                         data.nonceStr, data.package,
                         data.signType, data.paySign);
@@ -161,9 +159,10 @@ class OrderDetail extends React.Component {
 
         //服务项目
         const projects = this.state.projects.map((item, index) => {
+           // console.log(item);
             return <Flex key={index} className='order-list'>
-                <Flex.Item className='leftLable'>{item.name}</Flex.Item>
-                <Flex.Item className='rightText'>X {item.payCardTimes}</Flex.Item>
+                <Flex.Item className='leftLable'>{item.project.name}</Flex.Item>
+                <Flex.Item className='rightText'>X {item.times}</Flex.Item>
             </Flex>
         });
 
@@ -228,7 +227,7 @@ class OrderDetail extends React.Component {
                 </div>
             </div>
 
-            {/* {this.state.payState == 0 && <div className='bottom-pay-button'>
+            {this.state.payState == 0 && <div className='bottom-pay-button'>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='lable'>合计:</Flex.Item>
                     <Flex.Item style={{ color: 'red' }}>￥{this.state.totalPrice}</Flex.Item>
@@ -239,7 +238,7 @@ class OrderDetail extends React.Component {
                     </div>
 
                 </Flex>
-            </div>} */}
+            </div>}
 
 
         </div>
