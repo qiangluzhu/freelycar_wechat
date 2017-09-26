@@ -84,7 +84,7 @@ class Personalcenter extends React.Component {
                 text: '是', onPress: () => logout({
                     openId: this.props.match.params.openid
                 }).then((res) => {
-                    this.context.router.history.push(`/login/${window.localStorage.getItem('openid')}/${window.localStorage.getItem('nickName')}/${window.localStorage.getItem('headimgurl')}/${'http://www.freelycar.com/freelycar_wechat/index.html#/center'}`)
+                    this.context.router.history.push(`/login/${window.localStorage.getItem('openid')}/${window.localStorage.getItem('nickName')}/${window.localStorage.getItem('headimgurl')}/personalInfo`)
                 })
             },
             {
