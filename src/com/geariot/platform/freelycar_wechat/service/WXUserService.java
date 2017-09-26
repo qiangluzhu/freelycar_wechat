@@ -343,6 +343,22 @@ public class WXUserService {
 		return obj.toString();
 	}
 
+	public String quickOrder(int clientId){
+		ConsumOrder consumOrder = consumOrderDao.getRecentlyOrder(clientId);
+		if(consumOrder == null){
+			return JsonResFactory.buildOrg(RESCODE.NO_RECORD).toString();
+		}
+		else{
+			return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONObject.fromObject(consumOrder,JsonResFactory.dateConfig())).toString();
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
 	public static int daysbetween(Date now, Date licenseDate) {
 		Calendar afterTwoYears = Calendar.getInstance();
 		afterTwoYears.setTime(licenseDate);

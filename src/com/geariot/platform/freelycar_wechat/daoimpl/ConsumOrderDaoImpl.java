@@ -210,6 +210,12 @@ public class ConsumOrderDaoImpl implements ConsumOrderDao {
 		return res;
 	}
 
+	@Override
+	public ConsumOrder getRecentlyOrder(int clientId) {
+		String hql = "from ConsumOrder where clientId = :clientId order by createDate desc";
+		return (ConsumOrder) this.getSession().createQuery(hql).setInteger("clientId", clientId).setMaxResults(1).uniqueResult();
+	}
+
 
 }
 

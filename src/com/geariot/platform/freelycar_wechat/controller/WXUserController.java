@@ -210,4 +210,10 @@ public class WXUserController {
 	public String carDetail(int carId) { 
 		return wxUserService.carDetail(carId);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/quickOrder", method = RequestMethod.GET)
+	public String quickOrder(int clientId){
+		return wxUserService.quickOrder(clientId);
+	}
 }
