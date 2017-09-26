@@ -42,7 +42,7 @@ class MyCard extends React.Component {
             return <div key={index} className="membership-mycard" onClick={() => { this.context.router.history.push(`/membership/mycard/detail/${item.id}`) }} style={{ background: `url(${background})`, backgroundSize: '100% 100%' }}>
                 <div className="card-name">{item.service.name}</div>
                 <div className="card-number">{item.cardNumber}</div>
-                <div className="card-time">截止日期：{item.service.expirationDate.slice(0, 10)}</div>
+                <div className="card-time">截止日期：{item.expirationDate.slice(0, 10)}</div>
             </div>
         })
         return <div className="body-bac">

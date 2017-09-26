@@ -15,7 +15,8 @@ class MyCardDetail extends React.Component {
             card: {},
             projectInfos:[],
             name:'',
-            createDate:''
+            createDate:'',
+            expirationDate:''
         }
     }
 
@@ -30,7 +31,8 @@ class MyCardDetail extends React.Component {
                     card:res.data.data,
                     name:res.data.data.service.name,
                     projectInfos:res.data.data.projectInfos,
-                    createDate:res.data.data.service.createDate
+                    createDate:res.data.data.service.createDate,
+                    expirationDate:res.data.data.expirationDate
                 })
             }
         })
