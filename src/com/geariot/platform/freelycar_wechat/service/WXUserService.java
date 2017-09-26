@@ -385,6 +385,7 @@ public class WXUserService {
 	
 	
 	public String insuranceRemind(int carId, boolean check){
+		//
 		Car car = carDao.findById(carId);
 		if(car == null ){
 			return JsonResFactory.buildOrg(RESCODE.NO_RECORD).toString();
