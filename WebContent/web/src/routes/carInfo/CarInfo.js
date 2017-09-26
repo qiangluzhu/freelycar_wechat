@@ -7,7 +7,7 @@ import car_icon from '../../img/car_icon.jpg'
 import insurance from '../../img/insurance.png'
 import annualInspection from '../../img/annualInspection.png'
 import more_arrow from '../../img/more_arrow.png'
-import { myCar, defaultCar, annualCheck, delCar } from '../../services/user.js'
+import { myCar, defaultCar, annualCheck, delCar, annualSwitch, insuranceSwitch } from '../../services/user.js'
 import PropTypes from 'prop-types';
 let Item = List.Item
 class CarInfo extends React.Component {
@@ -22,7 +22,6 @@ class CarInfo extends React.Component {
             cars: [],
             inspectionTime: '',//年检提醒
             currentIndex: 0,//当前索引
-            defaultIndex: 0,//默认索引
             mode: '',
             visible: false
         }
@@ -34,25 +33,16 @@ class CarInfo extends React.Component {
         }).then((res) => {
             if (res.data.code == '0') {
                 let data = res.data.data;
-
-                //遍历找出默认的车辆
-                let defaultIndex = 0;
-                for (let d of data) {
-                    if (d.car.defaultCar) {
-                        defaultIndex++;
-                    }
-                }
-
+                console.log(data);
                 this.setState({
                     cars: data,
-                    defaultIndex: defaultIndex
                 })
                 //加载swiper
                 let mySwiper = new Swiper(this.swiperID, {
                     direction: 'horizontal',
                     loop: false,
                     slidesPerView: 1.2,
-                    initialSlide: this.state.defaultIndex,
+                    initialSlide: 0,
                     slideToClickedSlide: true,
                     grabCursor: true,
                     slidesPerGroup: 1,
@@ -71,14 +61,20 @@ class CarInfo extends React.Component {
 
 
     setDefaultIndex = (id, index) => {
-        this.setState({
-            defaultIndex: index
-        });
-
         defaultCar({
             carId: id
         }).then((res) => {
-            console.log(res);
+            let cars = this.state.cars;
+            for (let i = 0; i < cars.length; i++) {
+                if (i == index) {
+                    cars[index].car.defaultCar = true;
+                } else {
+                    cars[i].car.defaultCar = false;
+                }
+            }
+            this.setState({
+                cars: cars
+            });
 
         }).catch((error) => { console.log(error) });
     }
@@ -90,7 +86,7 @@ class CarInfo extends React.Component {
             console.log(res)
             if (res.data.code == '0') {
                 this.setState({
-                    mode:''
+                    mode: ''
                 })
             }
         })
@@ -98,36 +94,64 @@ class CarInfo extends React.Component {
 
     //处理保险提醒
     OnHanleinsurance = (checked) => {
+        console.log(checked);
+        insuranceSwitch({
+            carId: this.state.cars[this.state.currentIndex].car.id,
+            check: checked
+        }).then((res) => {
+            console.log(res);
+        }).catch((error) => { console.log(error) });
+
+
+
+        let cars = this.state.cars;
+        cars[this.state.currentIndex].car.needInsuranceRemind = checked;
+
         this.setState({
-            insuranceSwitch: checked,
-            insuranceTip: !this.state.insuranceTip
+            cars: cars
         });
     }
 
     //处理年检提醒
     OnHanleAnnualInspection = (checked) => {
+        annualSwitch({
+            carId: this.state.cars[this.state.currentIndex].car.id,
+            check: checked
+        }).then((res) => {
+            console.log(res);
+        }).catch((error) => { console.log(error) });
+
+        let cars = this.state.cars;
+        cars[this.state.currentIndex].car.needInspectionRemind = checked;
+
         this.setState({
-            annualInspection: checked,
-            inspectionTip: !this.state.inspectionTip
+            cars: cars
         });
     }
+
+
+
+
 
     render() {
         let offsetX = -10; // just for pc demo
         if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) {
             offsetX = -26;
         }
-        const carlist = this.state.cars.map((item, index) => {
+        let carlist = this.state.cars.map((item, index) => {
+
+            //console.log(item);
+
             return <Flex key={index} className="swiper-slide carItem">
                 {this.state.mode && <span style={{ width: '.6rem', margin: '0 .18rem', textAlign: 'center', height: '.42rem', fontSize: '.22rem', lineHeight: '.42rem', background: '#e42f2f', color: '#fff' }} onClick={() => { this.delCar(item.car.id) }}>删除</span>}
-                <img className='car_icon' style={{ marginLeft: this.state.mode ? '0' : '.54rem' }} src={car_icon} alt="" />
+                <img className='car_icon' style={{ marginLeft: this.state.mode ? '0' : '.54rem' }} src={require("../../carImgs/"+(item.car.carMark?item.car.carMark:'no')+".jpg")} alt="" />
                 <div>
                     <div className='licensePlate'>{item.car.licensePlate}</div>
                     <div className='type'>{item.car.carbrand}</div>
                 </div>
-                <div className={index == this.state.defaultIndex ? 'check' : 'no-check'} onClick={() => { this.setDefaultIndex(item.car.id, index) }}>
+                <div className={item.car.defaultCar ? 'check' : 'no-check'} onClick={() => { this.setDefaultIndex(item.car.id, index) }}>
                     <Icon type='check-circle-o' />
-                    <div className={index == this.state.defaultIndex ? '' : 'hidden'}>默认</div>
+                    <div className={item.car.defaultCar ? '' : 'hidden'}>默认</div>
                 </div>
 
             </Flex>
@@ -192,21 +216,21 @@ class CarInfo extends React.Component {
             </div>
 
             <List className='remind-item' style={{ margin: '10px' }}>
-                <List.Item extra={<Switch checked={this.state.insuranceSwitch}
+                <List.Item extra={<Switch checked={this.state.cars.length > 0 ? this.state.cars[this.state.currentIndex].car.needInsuranceRemind : false}
                     onClick={(checked) => { this.OnHanleinsurance(checked) }} />}>
                     <Flex>
                         <img className='icon' src={insurance} alt="" />
                         保险提醒
                     </Flex>
                 </List.Item>
-                <Flex className='remind-tip' style={{ display: this.state.insuranceTip ? '' : 'none' }} onClick={() => { this.context.router.history.push(`/insurance/${carId}`) }}>
+                <Flex className='remind-tip' style={{ display: (this.state.cars.length > 0 ? this.state.cars[this.state.currentIndex].car.needInsuranceRemind : false) ? '' : 'none' }} onClick={() => { this.context.router.history.push(`/insurance/${carId}`) }}>
                     <div>距离下次续保时间还有<span className='day'>{time}</span>天</div>
                     <img src={more_arrow} alt="" className='more' />
                 </Flex>
             </List>
 
             <List className='remind-item' style={{ margin: '10px' }}>
-                <List.Item extra={<Switch checked={this.state.annualInspection}
+                <List.Item extra={<Switch checked={this.state.cars.length > 0 ? this.state.cars[this.state.currentIndex].car.needInspectionRemind : false}
                     onClick={(checked) => { this.OnHanleAnnualInspection(checked) }} />}>
                     <Flex>
                         <img className='icon' src={annualInspection} alt="" />
@@ -214,7 +238,7 @@ class CarInfo extends React.Component {
                     </Flex>
                 </List.Item>
 
-                <div style={{display: this.state.inspectionTip ? '' : 'none' }}>
+                <div style={{ display: (this.state.cars.length > 0 ? this.state.cars[this.state.currentIndex].car.needInspectionRemind : false) ? '' : 'none' }}>
                     <DatePicker
                         mode="date"
                         title="选择日期"
@@ -240,8 +264,8 @@ class CarInfo extends React.Component {
                         }}
                     >
                         <List.Item arrow="horizontal">
-                            <span style={{ fontSize: '.8em', marginLeft: '.27rem', display: (this.state.inspectionTip && this.state.cars[this.state.currentIndex].day == -1) ? '' : 'none'}}>请选择车辆注册日期</span>
-                            <span style={{ fontSize: '.8em', marginLeft: '.27rem', display: (this.state.inspectionTip && this.state.cars[this.state.currentIndex].day >= 0) ? '' : 'none' }}>距离下次续保时间还有<span className='day'>{this.state.cars.length > 0 ? this.state.cars[this.state.currentIndex].day : 0}</span>天</span>
+                            <span style={{ fontSize: '.8em', marginLeft: '.27rem', display: ((this.state.cars.length > 0 ? this.state.cars[this.state.currentIndex].car.needInspectionRemind : false) && this.state.cars[this.state.currentIndex].day == -1) ? '' : 'none' }}>请选择车辆注册日期</span>
+                            <span style={{ fontSize: '.8em', marginLeft: '.27rem', display: ((this.state.cars.length > 0 ? this.state.cars[this.state.currentIndex].car.needInspectionRemind : false) && this.state.cars[this.state.currentIndex].day >= 0) ? '' : 'none' }}>距离下次续保时间还有<span className='day'>{this.state.cars.length > 0 ? this.state.cars[this.state.currentIndex].day : 0}</span>天</span>
                         </List.Item>
 
 
