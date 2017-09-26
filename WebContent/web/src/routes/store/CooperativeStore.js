@@ -28,6 +28,8 @@ class CooperativeStore extends React.Component {
     componentDidMount() {
 
         this.genData(1)
+        // set 
+        window.localStorage.setItem('openid',this.props.match.params.openid);
 
     }
 
@@ -93,7 +95,9 @@ class CooperativeStore extends React.Component {
             // const obj = this.state.data[index--];
             console.log(rowData)
             return (
-                <Flex className="cooperative-store-list" onClick={() => { this.context.router.history.push(`/store/detail/${rowData.store.id}`) }}>
+                <Flex className="cooperative-store-list" onClick={() => { history.pushState(null,null,`/store-detail?storeId=${rowData.store.id}`);
+                    {/* this.context.router.history.push(`/store-detail?storeId=${rowData.store.id}`)  */}
+                    }}>
                     <Flex className="picture">
                         <img src={rowData.store.imgUrls[0]?`http://www.freelycar.com/store/${rowData.store.imgUrls[0].url}`:''} alt="" />
                     </Flex>
