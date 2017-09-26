@@ -48,31 +48,34 @@ class OrderTrack extends React.Component {
         }).catch((error) => { console.log(error) });
 
         if (this.props.match.params.id == '$') {
-            quickOrder({
-                clientId: window.localStorage.getItem('openid')
-            }).then((res) => {
-                let data = res.data.orders
-                if (res.data.code == '0') {
-                    console.log(data)
-                    this.setState({
-                        clientName: data.clientName,
-                        licensePlate: data.licensePlate,
-                        createDate: data.createDate,
-                        deliverTime: data.deliverTime,
-                        finishTime: data.finishTime,
-                        programName: data.programName,
-                        // state: data.state == 0 ? '已接车' : (data.state == 1 ? '已完工' : '已交车'),
-                        state: data.state,
-                        projects: data.projects,
-                        payState: data.payState,
-                        stars: data.stars,
-                        totalPrice: data.totalPrice,
-                        id:data.id
-                    })
-                    window.localStorage.setItem('storeName', data.store.name)
-                    window.localStorage.setItem('imgUrl', data.store.imgUrls[0])
-                }
-            }).catch((error) => { console.log(error) })
+            if(window.localStorage.getItem('openid')) {
+                quickOrder({
+                    clientId: window.localStorage.getItem('openid')
+                }).then((res) => {
+                    let data = res.data.orders
+                    if (res.data.code == '0') {
+                        console.log(data)
+                        this.setState({
+                            clientName: data.clientName,
+                            licensePlate: data.licensePlate,
+                            createDate: data.createDate,
+                            deliverTime: data.deliverTime,
+                            finishTime: data.finishTime,
+                            programName: data.programName,
+                            // state: data.state == 0 ? '已接车' : (data.state == 1 ? '已完工' : '已交车'),
+                            state: data.state,
+                            projects: data.projects,
+                            payState: data.payState,
+                            stars: data.stars,
+                            totalPrice: data.totalPrice,
+                            id:data.id
+                        })
+                        window.localStorage.setItem('storeName', data.store.name)
+                        window.localStorage.setItem('imgUrl', data.store.imgUrls[0])
+                    }
+                }).catch((error) => { console.log(error) })
+            } 
+           
         } else {
             orderDetail({
                 consumOrderId: this.props.match.params.id

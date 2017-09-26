@@ -44,8 +44,7 @@ class Insurance extends React.Component {
                 peopleIdNumber:res.data.idNumber,
                 insuredCity:dt.insuranceCity?dt.insuranceCity.split(','):[],
                 insuredCompany:[dt.insuranceCompany],
-                //commercialInsurance:dt.insuranceEndtime,
-                commercialInsurance:moment(dt.insuranceEndtime, "YYYY-MM-DD"),
+                commercialInsurance:dt.insuranceEndtime?moment(dt.insuranceEndtime, "YYYY-MM-DD"):'',
 
             });
         }).catch((error) => { console.log(error) });
@@ -94,14 +93,13 @@ class Insurance extends React.Component {
                     placeholder="填写真实姓名"
                     autoFocus
                     value={this.state.carPeopleName}
-                    disabled
                 >真实姓名</InputItem>
 
                 <InputItem
                     clear
                     placeholder="填写身份证号"
                     autoFocus
-                    disabled
+                    type="number"
                     value={this.state.peopleIdNumber}
                 >身份证</InputItem>
 
