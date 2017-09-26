@@ -138,10 +138,10 @@ class OrderTrack extends React.Component {
     }
 
     render() {
-        let totalPrice = 0,commentPrice = 0
+        let totalPrice = 0, commentPrice = 0
         let projectItems = this.state.projects.map((item, index) => {
             totalPrice = item.projectInfo.presentPrice + totalPrice
-            commentPrice = item.projectInfo.price+commentPrice
+            commentPrice = item.projectInfo.price + commentPrice
             return <Flex direction="column" justify="center" style={{ width: '100%', borderTop: '1px dashed #f0f0f0', height: '0.85rem' }} key={index} align="end" >
                 <Flex style={{ width: '100%' }} >
                     <div>{item.projectInfo.name}</div>
@@ -177,7 +177,11 @@ class OrderTrack extends React.Component {
             </Flex>
         })
         return <div className="body-bac">
-            <NavBar title="订单跟踪" />
+            <div className="nav-bar-title">
+                <i className="back" onClick={() => { this.context.router.history.push(`/serviceCard`)}}></i>
+                订单跟踪
+            <i className="scan"></i>
+            </div>
             <Flex className="order-track-baseinfo">
                 <Flex.Item className="Info">
                     <p>{this.state.clientName}{window.localStorage.getItem('isMember') ? '(会员)' : ''}</p>

@@ -143,7 +143,7 @@ class CarInfo extends React.Component {
 
         return <div className="body-bac">
             <div className="nav-bar-title">
-                <i className="back" onClick={() => { history.back() }}></i>
+                <i className="back" onClick={() => { this.context.router.history.push(`/center/${window.localStorage.getItem('openid')}/${window.localStorage.getItem('nickName')}/${window.localStorage.getItem('headimgurl')}`) }}></i>
                 爱车信息
             <span className="scan" onClick={() => {
                     this.setState({
