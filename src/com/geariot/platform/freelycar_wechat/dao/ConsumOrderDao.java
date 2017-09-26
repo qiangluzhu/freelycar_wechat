@@ -45,6 +45,8 @@ public interface ConsumOrderDao {
 	void update(ConsumOrder consumOrder);
 
 	List<ConsumOrder> findCommentByStoreId(int storeId);
+	
+	ConsumOrder getRecentlyOrder(int clientId);
 
 }
 

@@ -205,9 +205,15 @@ public class ConsumOrderDaoImpl implements ConsumOrderDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ConsumOrder> findCommentByStoreId(int storeId) {
-		String hql = "from ConsumOrder where storeId = :storeId and comment != null order by commentDate desc";
+		String hql = "from ConsumOrder where storeId = :storeId and commentDate != null order by commentDate desc";
 		List<ConsumOrder> res = this.getSession().createQuery(hql).setInteger("storeId", storeId).list();
 		return res;
+	}
+
+	@Override
+	public ConsumOrder getRecentlyOrder(int clientId) {
+		String hql = "from ConsumOrder where clientId = :clientId order by createDate desc";
+		return (ConsumOrder) this.getSession().createQuery(hql).setInteger("clientId", clientId).setMaxResults(1).uniqueResult();
 	}
 
 
