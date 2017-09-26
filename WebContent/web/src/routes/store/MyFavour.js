@@ -47,7 +47,11 @@ class MyFavour extends React.Component {
                         <div style={{ fontSize: '.3rem',lineHeight:'.45rem', marginLeft: '.2rem' ,marginBottom:'.05rem'}}>{item.favour.name}</div>
                         <div style={{ fontSize: '.2rem', lineHeight: '.25rem', marginLeft: '.2rem' }}>{item.favour.content}</div>
                     </Flex>
-                    <div className="use-button" onClick={()=>{this.context.router.history.push('/store/detail/1')}} style={{width:'1rem',height:'.32rem',border:'1px  solid #ee5e5e',fontSize:'.22rem',lineHeight:'.32rem',borderRadius:'.05rem',color:'#ee5e5e',textAlign:'center'}}>
+                    <div className="use-button" onClick={()=>{
+                        //this.context.router.history.push('/store/detail/1')
+                        history.pushState(null,null,`/freelycar_wechat/index.html#/store-detail?storeId=1`);
+                        window.location.reload();
+                        }} style={{width:'1rem',height:'.32rem',border:'1px  solid #ee5e5e',fontSize:'.22rem',lineHeight:'.32rem',borderRadius:'.05rem',color:'#ee5e5e',textAlign:'center'}}>
                         到店使用 
                 </div>
                 </Flex>
