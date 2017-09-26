@@ -19,6 +19,7 @@ public class Car {
 	private int id;
 	private Client client;
 	//private CarType type;
+	private String carMark;
 	private String carbrand;
 	private String cartype;
 	private String licensePlate;
@@ -186,6 +187,12 @@ public class Car {
 	}
 	public void setNeedInsuranceRemind(boolean needInsuranceRemind) {
 		this.needInsuranceRemind = needInsuranceRemind;
+	}
+	public String getCarMark() {
+		return carMark;
+	}
+	public void setCarMark(String carMark) {
+		this.carMark = carMark;
 	}
     
 	
