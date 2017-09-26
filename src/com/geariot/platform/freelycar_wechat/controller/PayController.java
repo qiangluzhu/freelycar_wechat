@@ -46,12 +46,15 @@ import net.sf.json.JSONObject;
 @RequestMapping(value = "/pay")
 public class PayController {
 	private static Logger log = LogManager.getLogger();
+	
 	@Autowired
-	PayService payService;
+	private PayService payService;
+	
 	@Autowired
-	WXPayOrderDao wxPayOrderDao;
+	private WXPayOrderDao wxPayOrderDao;
+	
 	@Autowired
-	ConsumOrderDao consumOrderDao;
+	private ConsumOrderDao consumOrderDao;
 
 	@RequestMapping(value="favour",method = RequestMethod.POST)
 	public String wechatFavour(@RequestBody FavourOrderBean favourOrderBean,HttpServletRequest request){
