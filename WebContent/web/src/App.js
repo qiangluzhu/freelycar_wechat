@@ -55,7 +55,7 @@ const App = () => (
             <Route exact path="/" component={CooperativeStore}/>
             <Route path="/activity/:openid/:nickname/:headimgurl"  component={Activity} />
             <Route path="/receivecoupons" component={ReceiveCoupons}/>
-            <Route path="/center/:openid/:nickname/:headimgurl"  component={Personalcenter} />
+            <Route path="/center"  component={Personalcenter} />
             <Route path="/login/:openid/:nickname/:headimgurl/:directUrl"  component={Login} />
             
             <Route path="/addcar/:select" component={AddCar} />
@@ -75,7 +75,7 @@ const App = () => (
             <Route path="/membership/myfavour" exact component={MyFavour}/>
       
             <Route path="/carInfo" component={CarInfo}/>
-            <Route path="/store/cooperative-store/:openid/:nickname/:headimgurl" exact component={CooperativeStore}/>
+            <Route path="/store/cooperative-store" exact component={CooperativeStore}/>
             <Route path="/store/comment/:consumerOrderId" exact component={CommentStore}/>
             <Route path="/insurance/:carId" exact  component={Insurance}/>
             <Route path="/notFound" component={NotFound}/>
