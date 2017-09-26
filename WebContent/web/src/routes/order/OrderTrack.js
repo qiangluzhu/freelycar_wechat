@@ -153,7 +153,7 @@ class OrderTrack extends React.Component {
                             </i>
                         </p>
                     </Flex.Item> */}
-                {item.projectInfo.payMethod == '1' && <Flex className="order-track-remain" style={{ width: '100%' }}>
+                {item.projectInfo.payMethod == '0' && <Flex className="order-track-remain" style={{ width: '100%' }}>
                     <div>
                         <p>已抵扣会员卡{item.projectInfo.cardNumber}，该项目还剩余{item.remaining}次</p>
                     </div>
