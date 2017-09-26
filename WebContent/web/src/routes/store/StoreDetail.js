@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex, Tabs } from 'antd-mobile';
+import { Flex, Tabs,Toast } from 'antd-mobile';
 import NavBar from '../../components/NavBar'
 import Star from '../../components/Star'
 import './CooperativeStore.less'
@@ -160,6 +160,13 @@ class CooperativeStore extends React.Component {
 
 
     payFavour = (price) => {
+        if(price==0){
+            Toast.info('当前支付金额为0,不能支付', 2);
+            return false;
+        }
+
+
+
         let state = this.checkPayState();
         if (!state) {
             alert("不能发起支付");
@@ -179,12 +186,7 @@ class CooperativeStore extends React.Component {
                 "favours": favours,
                 "totalPrice": price,
             }).then((res) => {
-                console.log('-----^^^^^^---');
-                alert(window.location.href+"^^^+++++++++^^^^^^");
-                console.log(res)
-
                 let data = res.data.data;
-                console.log(data);
                 this.onBridgeReady(data.appId, data.timeStamp,
                     data.nonceStr, data.package,
                     data.signType, data.paySign);
@@ -225,6 +227,8 @@ class CooperativeStore extends React.Component {
             console.log(res);
             if (res.err_msg == "get_brand_wcpay_request:ok") {
                 this.context.router.history.push('/result')
+            }else{
+                
             }
         });
     }
@@ -352,7 +356,7 @@ class CooperativeStore extends React.Component {
                                 <p className="info-font" style={{ color: '#636363', width: '5rem' }} onClick={() => { this.openWXMap() }} >{this.state.address}(点我导航)</p>
 
                             </Flex>
-                            {this.props.match.params.storeId == 1 && <div className="info-identify">
+                            {this.getParameterByName('storeId') == 1 && <div className="info-identify">
                                 <span className="identification">免费安全检测</span>
                                 <span className="identification">下雨保</span>
                             </div>}
