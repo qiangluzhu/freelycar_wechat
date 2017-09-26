@@ -138,9 +138,10 @@ class OrderTrack extends React.Component {
     }
 
     render() {
-        let totalPrice = 0
+        let totalPrice = 0,commentPrice = 0
         let projectItems = this.state.projects.map((item, index) => {
             totalPrice = item.projectInfo.presentPrice + totalPrice
+            commentPrice = item.projectInfo.price+commentPrice
             return <Flex direction="column" justify="center" style={{ width: '100%', borderTop: '1px dashed #f0f0f0', height: '0.85rem' }} key={index} align="end" >
                 <Flex style={{ width: '100%' }} >
                     <div>{item.projectInfo.name}</div>
@@ -153,7 +154,7 @@ class OrderTrack extends React.Component {
                             </i>
                         </p>
                     </Flex.Item> */}
-                {item.projectInfo.payMethod == '1' && <Flex className="order-track-remain" style={{ width: '100%' }}>
+                {item.projectInfo.payMethod == '0' && <Flex className="order-track-remain" style={{ width: '100%' }}>
                     <div>
                         <p>已抵扣会员卡{item.projectInfo.cardNumber}，该项目还剩余{item.remaining}次</p>
                     </div>
@@ -223,8 +224,8 @@ class OrderTrack extends React.Component {
                         </div>
                         <div>爱车已交回你的手中 快来评价获积分吧
                         </div>
-                        {this.state.state == 3 && this.state.payState > 0 && this.state.stars > 0 && <div className="evaluate" onClick={() => { this.context.router.history.push(`/store/comment/${this.props.match.params.id}`) }}>
-                            评价得200积分
+                        {this.state.state == 3 && this.state.payState > 0 && this.state.stars == 0 && <div className="evaluate" onClick={() => { this.context.router.history.push(`/store/comment/${this.props.match.params.id}`) }}>
+                            评价得{commentPrice}积分
                         </div>}
                     </div>
                 </Flex>

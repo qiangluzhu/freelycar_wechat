@@ -57,11 +57,12 @@ class ServiceCard extends React.Component {
     render() {
         const services = this.state.services.map((item, index) => {
             let projects = item.projects;
-            let pName = '';
+            let pName = '', totalPrice = 0
             for (let i in projects) {
                 if (i < 2) {
                     pName += projects[i].name + '、';
                 }
+                totalPrice = totalPrice + projects[i].presentPrice + projects[i].pricePerUnit * projects[i].referWorkTime
             }
             pName = pName.slice(0, -1)
             if (projects.length > 2) {
@@ -77,7 +78,7 @@ class ServiceCard extends React.Component {
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.18rem', color: '#8e8e8e' }}>
                     <i className="circle2"></i>
                     <p>{item.createDate}</p>
-                    <Flex.Item className="total-price">￥{item.totalPrice}</Flex.Item >
+                    <Flex.Item className="total-price">￥{totalPrice}</Flex.Item >
                 </Flex>
 
                 {item.state == 3 && item.stars == 0 ? <Flex style={{ width: '100%', fontSize: '.18rem', textAlign: 'right' }}>

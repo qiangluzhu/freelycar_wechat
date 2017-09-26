@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex, Tabs } from 'antd-mobile';
+import { Flex, Tabs,Toast } from 'antd-mobile';
 import NavBar from '../../components/NavBar'
 import Star from '../../components/Star'
 import './CooperativeStore.less'
@@ -56,7 +56,7 @@ class CooperativeStore extends React.Component {
             console.log(error)
         })
 
-        storeDetail({ storeId: this.props.match.params.storeId }).then((res) => {
+        storeDetail({ storeId: this.getParameterByName('storeId') }).then((res) => {
             console.log(res)
             if (res.data.code == '0') {
                 let store = res.data.data.store
@@ -96,7 +96,8 @@ class CooperativeStore extends React.Component {
         })
 
         listComment({
-            storeId: this.props.match.params.storeId
+            //storeId: this.props.match.params.storeId,
+            storeId: this.getParameterByName('storeId')
         }).then((res) => {
             //console.log(res)
             if (res.data.code == '0') {
@@ -159,6 +160,13 @@ class CooperativeStore extends React.Component {
 
 
     payFavour = (price) => {
+        if(price==0){
+            Toast.info('当前支付金额为0,不能支付', 2);
+            return false;
+        }
+
+
+
         let state = this.checkPayState();
         if (!state) {
             alert("不能发起支付");
@@ -178,15 +186,10 @@ class CooperativeStore extends React.Component {
                 "favours": favours,
                 "totalPrice": price,
             }).then((res) => {
-                if (res.data.code == 0) {
-                    let data = res.data.data;
-                    console.log(data);
-                    this.onBridgeReady(data.appId, data.timeStamp,
-                        data.nonceStr, data.package,
-                        data.signType, data.paySign);
-                } else {
-                    alert('支付失败');
-                }
+                let data = res.data.data;
+                this.onBridgeReady(data.appId, data.timeStamp,
+                    data.nonceStr, data.package,
+                    data.signType, data.paySign);
 
             }).catch((error) => { console.log(error) });
         }
@@ -224,10 +227,22 @@ class CooperativeStore extends React.Component {
             console.log(res);
             if (res.err_msg == "get_brand_wcpay_request:ok") {
                 this.context.router.history.push('/result')
+            }else{
+                
             }
         });
     }
 
+
+     getParameterByName = (name, url)=> {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
 
 
 
@@ -245,13 +260,19 @@ class CooperativeStore extends React.Component {
         }
         let couponList = sf.map((item, index) => {
             console.log(item)
+            let buyPrice = 0,price = 0
+            for(let item of item.favour.set){
+                buyPrice = item.buyPrice+buyPrice
+                price = item.project.price + price
+            }
+
             return <div key={index} className="swiper-slide cooperative-store-coupon">
                 <Flex className="coupon" direction="column" align="start" style={{ width: sf.length == 1 ? '7rem' : 'auto' }}>
                     <Flex style={{ height: '1.3rem', background: '#fff', width: '100%' }}>
                         <Flex className="money" direction="column" align="end">
-                            <div style={{ fontSize: '.48rem' }}><span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set[0].buyPrice}</div>
+                            <div style={{ fontSize: '.48rem' }}><span style={{ fontSize: '.24rem' }}>￥</span>{buyPrice}</div>
                             <div style={{ color: '#8c8c8c', fontSize: '.22rem', marginTop: '.05rem' }} className="money-buyprice">
-                                <span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set[0].presentPrice}
+                                <span style={{ fontSize: '.24rem' }}>￥</span>{price}
                                 <i>
                                 </i>
                             </div>
@@ -263,9 +284,9 @@ class CooperativeStore extends React.Component {
                                 <div style={{ fontSize: '.24rem', lineHeight: '.4rem', marginLeft: '.2rem', width: '2.8rem' }}>{item.favour.content}</div>
                             </Flex>
                             <Flex className="use-button">
-                                {this.state.favours[item.favour.id] && <div className="use-button-plus" onClick={() => { this.plusCount(item.favour.id, item.favour.set[0].buyPrice) }}>-</div>}
+                                {this.state.favours[item.favour.id] && <Flex align="center" justify="center" className="use-button-plus" onClick={() => { this.plusCount(item.favour.id, buyPrice) }}>-</Flex>}
                                 <div className="number">{this.state.favours[item.favour.id] ? this.state.favours[item.favour.id].count : ''}</div>
-                                <div className="use-button-plus" onClick={() => { this.addCount(item.favour.id, item.favour.set[0].buyPrice) }}>+</div>
+                                <Flex className="use-button-plus" align="center" justify="center" onClick={() => { this.addCount(item.favour.id, buyPrice) }}>+</Flex>
                             </Flex>
                         </Flex>
                     </Flex>
@@ -335,7 +356,7 @@ class CooperativeStore extends React.Component {
                                 <p className="info-font" style={{ color: '#636363', width: '5rem' }} onClick={() => { this.openWXMap() }} >{this.state.address}(点我导航)</p>
 
                             </Flex>
-                            {this.props.match.params.storeId == 1 && <div className="info-identify">
+                            {this.getParameterByName('storeId') == 1 && <div className="info-identify">
                                 <span className="identification">免费安全检测</span>
                                 <span className="identification">下雨保</span>
                             </div>}

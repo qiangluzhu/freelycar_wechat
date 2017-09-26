@@ -44,12 +44,14 @@ class PersonalInfo extends React.Component {
         let myHeaders = new Headers({
             "Content-Type": "form-data",
         })
-        updateWXUser({
-            method: 'post',
-            headers: myHeaders,
-            mode: 'cors',
-            cache: 'default'
-        }, {
+        updateWXUser(
+        //     {
+        //     method: 'post',
+        //     headers: myHeaders,
+        //     mode: 'cors',
+        //     cache: 'default'
+        // }, 
+        {
                 // openId: '1',
                 phone: window.localStorage.getItem('phone'),
                 // phone: '110',
