@@ -73,7 +73,7 @@ class OrderTrack extends React.Component {
                         })
                         window.localStorage.setItem('storeName', data.store.name)
                         window.localStorage.setItem('imgUrl', data.store.imgUrls[0])
-                    } else if (res.data.code == '2') {
+                    } else if (res.data.code == '28') {
                         this.setState({
                             empty: true
                         })
