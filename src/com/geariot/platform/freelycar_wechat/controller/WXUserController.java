@@ -70,10 +70,15 @@ public class WXUserController {
 				if("center".equals(htmlPage) 
 						|| "serviceCard".equals(htmlPage) 
 						|| "inquiry".equals(htmlPage)
+						|| "personalInfo".equals(htmlPage)
 						|| "ordertrack".equals(htmlPage)){
 					boolean wxUser = wxUserService.isExistUserOpenId(openid);
 					if(!wxUser){
 						ret = BASEURL+"login/" + openid+"/"+nickname+"/"+headimgurl+"/"+htmlPage;
+					}else{
+						if("personalInfo".equals(htmlPage)){
+							ret = BASEURL+"center";
+						}
 					}
 				}
 				
