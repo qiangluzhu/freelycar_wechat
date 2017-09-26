@@ -51,6 +51,7 @@ import Result from './routes/weui/Result'
 const App = () => (
     <div style={{height:'100%'}}>
         <Switch>
+            
             <Route exact path="/" component={CooperativeStore}/>
             <Route path="/activity/:openid/:nickname/:headimgurl"  component={Activity} />
             <Route path="/receivecoupons" component={ReceiveCoupons}/>
@@ -59,12 +60,12 @@ const App = () => (
             
             <Route path="/addcar/:select" component={AddCar} />
             <Route path="/carbrand" component={CarBrand} />
-      
+            
             <Route path="/ordertrack/:id" component={OrderTrack} />
             <Route path="/personalInfo" component={PersonalInfo} />
             <Route path="/serviceCard" component={ServiceCard} />
       
-            <Route path="/orderDetail/:id" component={OrderDetail} />
+            <Route path="/orderDetail" component={OrderDetail} />
             <Route path="/orderDetail_nopay" component={OrderDetail_nopay} />
             <Route path="/orderDetail_vip" component={OrderDetail_vip} />
             <Route path="/addCard" component={AddCard} />

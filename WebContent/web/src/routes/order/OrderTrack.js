@@ -6,6 +6,7 @@ import { orderDetail } from '../../services/orders.js'
 import parseForm from '../../utils/parseToForm.js'
 import PropTypes from 'prop-types';
 import { payment, getWXConfig, membershipCard } from '../../services/pay.js'
+import { quickOrder } from '../../services/user.js'
 class OrderTrack extends React.Component {
     constructor(props) {
         super(props)
@@ -46,33 +47,61 @@ class OrderTrack extends React.Component {
 
         }).catch((error) => { console.log(error) });
 
+        if (this.props.match.params.id == '$') {
+            quickOrder({
+                clientId: window.localStorage.getItem('openid')
+            }).then((res) => {
+                let data = res.data.orders
+                if (res.data.code == '0') {
+                    console.log(data)
+                    this.setState({
+                        clientName: data.clientName,
+                        licensePlate: data.licensePlate,
+                        createDate: data.createDate,
+                        deliverTime: data.deliverTime,
+                        finishTime: data.finishTime,
+                        programName: data.programName,
+                        // state: data.state == 0 ? '已接车' : (data.state == 1 ? '已完工' : '已交车'),
+                        state: data.state,
+                        projects: data.projects,
+                        payState: data.payState,
+                        stars: data.stars,
+                        totalPrice: data.totalPrice,
+                        id:data.id
+                    })
+                    window.localStorage.setItem('storeName', data.store.name)
+                    window.localStorage.setItem('imgUrl', data.store.imgUrls[0])
+                }
+            }).catch((error) => { console.log(error) })
+        } else {
+            orderDetail({
+                consumOrderId: this.props.match.params.id
+            }).then((res) => {
+                let data = res.data.orders
+                console.log(res)
+                if (res.data.code == '0') {
+                    console.log(data)
+                    this.setState({
+                        clientName: data.clientName,
+                        licensePlate: data.licensePlate,
+                        createDate: data.createDate,
+                        deliverTime: data.deliverTime,
+                        finishTime: data.finishTime,
+                        programName: data.programName,
+                        // state: data.state == 0 ? '已接车' : (data.state == 1 ? '已完工' : '已交车'),
+                        state: data.state,
+                        projects: data.projects,
+                        payState: data.payState,
+                        stars: data.stars,
+                        id:data.id,
+                        totalPrice: data.totalPrice
+                    })
+                    window.localStorage.setItem('storeName', data.store.name)
+                    window.localStorage.setItem('imgUrl', data.store.imgUrls[0])
+                }
+            }).catch((error) => { console.log(error) })
+        }
 
-
-        orderDetail({
-            consumOrderId: this.props.match.params.id
-        }).then((res) => {
-            let data = res.data.orders
-            console.log(res)
-            if (res.data.code == '0') {
-                console.log(data)
-                this.setState({
-                    clientName: data.clientName,
-                    licensePlate: data.licensePlate,
-                    createDate: data.createDate,
-                    deliverTime: data.deliverTime,
-                    finishTime: data.finishTime,
-                    programName: data.programName,
-                    // state: data.state == 0 ? '已接车' : (data.state == 1 ? '已完工' : '已交车'),
-                    state: data.state,
-                    projects: data.projects,
-                    payState: data.payState,
-                    stars: data.stars,
-                    totalPrice: data.totalPrice,
-                })
-                window.localStorage.setItem('storeName', data.store.name)
-                window.localStorage.setItem('imgUrl', data.store.imgUrls[0])
-            }
-        }).catch((error) => { console.log(error) })
     }
 
 
@@ -178,7 +207,7 @@ class OrderTrack extends React.Component {
         })
         return <div className="body-bac">
             <div className="nav-bar-title">
-                <i className="back" onClick={() => { this.context.router.history.push(`/serviceCard`)}}></i>
+                <i className="back" onClick={() => { this.context.router.history.push(`/serviceCard`) }}></i>
                 订单跟踪
             <i className="scan"></i>
             </div>
@@ -206,7 +235,7 @@ class OrderTrack extends React.Component {
             <div className='order-list order-tarck-info'>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='leftLable'>订单编号</Flex.Item>
-                    <Flex.Item className='rightText'>{this.props.match.params.id}</Flex.Item>
+                    <Flex.Item className='rightText'>{this.state.id}</Flex.Item>
                 </Flex>
             </div>
             <div className='order-list order-tarck-info' style={{ marginTop: '0', borderTop: '1px dashed #f0f0f0' }}>
