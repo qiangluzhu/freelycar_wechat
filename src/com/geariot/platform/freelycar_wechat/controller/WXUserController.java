@@ -65,26 +65,17 @@ public class WXUserController {
 				nickname = URLEncoder.encode(nickname,"utf-8");
 				headimgurl = URLEncoder.encode(headimgurl,"utf-8");
 				
-				String ret = "";
-				if("center".equals(htmlPage)){
+				String ret = BASEURL+htmlPage;
+				
+				if("center".equals(htmlPage) 
+						|| "serviceCard".equals(htmlPage) 
+						|| "inquiry".equals(htmlPage)
+						|| "ordertrack".equals(htmlPage)){
 					boolean wxUser = wxUserService.isExistUserOpenId(openid);
 					if(!wxUser){
-						htmlPage = "login";
+						ret = BASEURL+"login/" + openid+"/"+nickname+"/"+headimgurl+"/"+htmlPage;
 					}
 				}
-				if("serviceCard".equals(htmlPage)){
-					boolean wxUser = wxUserService.isExistUserOpenId(openid);
-					if(!wxUser){
-						htmlPage = "login";
-					}
-				}
-				if("inquiry".equals(htmlPage)){
-					boolean wxUser = wxUserService.isExistUserOpenId(openid);
-					if(!wxUser){
-						htmlPage = "login";
-					}
-				}
-				ret = BASEURL+htmlPage+"/" + openid+"/"+nickname+"/"+headimgurl;
 				
 				return "redirect:"+ret;
 			}
