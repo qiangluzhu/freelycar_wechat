@@ -6,7 +6,7 @@ export default {
         return post('api/user/addWxUser', params)
     },
     updateWXUser: (options, params) => {
-        return request('api/user/updateWXUser', options, params)
+        return post('api/user/updateWXUser', options, params)
     },
 
     logout: (params) => {
