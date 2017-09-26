@@ -251,7 +251,7 @@ class CooperativeStore extends React.Component {
                         <Flex className="money" direction="column" align="end">
                             <div style={{ fontSize: '.48rem' }}><span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set[0].buyPrice}</div>
                             <div style={{ color: '#8c8c8c', fontSize: '.22rem', marginTop: '.05rem' }} className="money-buyprice">
-                                <span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set[0].presentPrice}
+                                <span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set[0].project.price}
                                 <i>
                                 </i>
                             </div>
@@ -263,9 +263,9 @@ class CooperativeStore extends React.Component {
                                 <div style={{ fontSize: '.24rem', lineHeight: '.4rem', marginLeft: '.2rem', width: '2.8rem' }}>{item.favour.content}</div>
                             </Flex>
                             <Flex className="use-button">
-                                {this.state.favours[item.favour.id] && <div className="use-button-plus" onClick={() => { this.plusCount(item.favour.id, item.favour.set[0].buyPrice) }}>-</div>}
+                                {this.state.favours[item.favour.id] && <Flex align="center" justify="center" className="use-button-plus" onClick={() => { this.plusCount(item.favour.id, item.favour.set[0].buyPrice) }}>-</Flex>}
                                 <div className="number">{this.state.favours[item.favour.id] ? this.state.favours[item.favour.id].count : ''}</div>
-                                <div className="use-button-plus" onClick={() => { this.addCount(item.favour.id, item.favour.set[0].buyPrice) }}>+</div>
+                                <Flex className="use-button-plus" align="center" justify="center" onClick={() => { this.addCount(item.favour.id, item.favour.set[0].buyPrice) }}>+</Flex>
                             </Flex>
                         </Flex>
                     </Flex>
