@@ -284,7 +284,7 @@ class CooperativeStore extends React.Component {
                             <Flex className="use-button">
                                 {this.state.favours[item.favour.id] && <Flex align="center" justify="center" className="use-button-plus" onClick={() => { this.plusCount(item.favour.id, buyPrice) }}>-</Flex>}
                                 <div className="number">{this.state.favours[item.favour.id] ? this.state.favours[item.favour.id].count : ''}</div>
-                                <Flex className="use-button-plus" align="center" justify="center" onClick={() => { this.addCount(item.favour.id, buyPrice) }}>+</Flex>
+                                {/* <Flex className="use-button-plus" align="center" justify="center" onClick={() => { this.addCount(item.favour.id, buyPrice) }}>+</Flex> */}
                             </Flex>
                         </Flex>
                     </Flex>
