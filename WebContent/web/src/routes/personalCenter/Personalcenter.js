@@ -106,7 +106,7 @@ class Personalcenter extends React.Component {
             return <Flex.Item key={index}>
                 <Flex direction="column" justify="center">
                     <Flex.Item className="vip-card-program">{item.project.name}</Flex.Item>
-                    <Flex.Item className="program-time">{item.project.price}</Flex.Item>
+                    <Flex.Item className="program-time">{item.times}</Flex.Item>
                 </Flex>
             </Flex.Item>
         });
