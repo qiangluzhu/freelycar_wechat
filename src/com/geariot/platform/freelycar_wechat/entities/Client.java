@@ -52,6 +52,7 @@ public class Client {
 	}
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	@JoinColumn(name="clientId", foreignKey=@ForeignKey(name="none"))
+	@Where(clause="failed=false")
 	@OrderBy("payDate asc")
 	public Set<Card> getCards() {
 		return cards;
@@ -161,7 +162,7 @@ public class Client {
 	}
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	@JoinColumn(name="clientId", foreignKey=@ForeignKey(name="none"))
-	@Where(clause="failed=0")
+	@Where(clause="failed=false")
 	public List<Ticket> getTickets() {
 		return tickets;
 	}

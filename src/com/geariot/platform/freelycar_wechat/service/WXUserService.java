@@ -306,24 +306,22 @@ public class WXUserService {
 		}
 	}
 
-	public String addWXUser(String phone, String name, String birthday, String gender) throws ParseException {
+	public String addWXUser(String phone, String name, Date birthday, String gender) throws ParseException {
 		WXUser wxUser = wxUserDao.findUserByPhone(phone);
 		if (wxUser == null)
 			return JsonResFactory.buildNet(RESCODE.NOT_FOUND_WXUSER).toString();
 		else {
-			if (birthday != null) {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				Date date = sdf.parse(birthday);
-				wxUser.setBirthday(date);
+			if(birthday == null){
+				wxUser.setBirthday(null);
+			}else{
+				wxUser.setBirthday(birthday);
 			}
-			if(gender.equals("undefined")){
-				wxUser.setGender("男");
-			}
-			else{
-				wxUser.setGender(gender);
-			}
-			if (name != null)
+			if(name == null){
+				wxUser.setName(wxUser.getNickName());
+			}else{
 				wxUser.setName(name);
+			}
+			wxUser.setGender(gender);
 			return JsonResFactory.buildNet(RESCODE.SUCCESS).toString();
 		}
 	}

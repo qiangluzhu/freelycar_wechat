@@ -29,6 +29,7 @@ public class Card {
 	private Set<CardProjectRemainingInfo> projectInfos;
 	private Admin orderMaker;
 	private String cardNumber;
+	private boolean failed;
 	
 	public Date getExpirationDate() {
 		return expirationDate;
@@ -91,6 +92,12 @@ public class Card {
 	}
 	public void setCardNumber(String cardNumber) {
 		this.cardNumber = cardNumber;
+	}
+	public boolean isFailed() {
+		return failed;
+	}
+	public void setFailed(boolean failed) {
+		this.failed = failed;
 	}
 	
 }
