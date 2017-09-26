@@ -261,6 +261,7 @@ public class WXUserService {
 
 	public String listCard(int clientId) {
 		List<Card> Cards = cardDao.listCardByClientId(clientId);
+		System.out.println(Cards.size());
 		JsonConfig config = JsonResFactory.dateConfig();
 		JSONArray array = JSONArray.fromObject(Cards, config);
 		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, array).toString();

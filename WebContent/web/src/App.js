@@ -56,7 +56,7 @@ const App = () => (
             <Route path="/activity/:openid/:nickname/:headimgurl"  component={Activity} />
             <Route path="/receivecoupons" component={ReceiveCoupons}/>
             <Route path="/center/:openid/:nickname/:headimgurl"  component={Personalcenter} />
-            <Route path="/login/:openid/:nickname/:headimgurl"  component={Login} />
+            <Route path="/login/:openid/:nickname/:headimgurl/:directUrl"  component={Login} />
             
             <Route path="/addcar/:select" component={AddCar} />
             <Route path="/carbrand" component={CarBrand} />
@@ -77,14 +77,10 @@ const App = () => (
             <Route path="/carInfo" component={CarInfo}/>
             <Route path="/store/cooperative-store/:openid/:nickname/:headimgurl" exact component={CooperativeStore}/>
             <Route path="/store/comment/:consumerOrderId" exact component={CommentStore}/>
-           
             <Route path="/insurance/:carId" exact  component={Insurance}/>
-           
             <Route path="/notFound" component={NotFound}/>
             <Route path="/inquiry" exact component={Inquiry}/>
-            <Route path="/store-detail" exact component={StoreDetail}/>
-
-
+            <Route path="/store-detail"  component={StoreDetail}/>
             <Route path="/result" exact component={Result}/>
             <Route component={NotFound}/>
         </Switch>
