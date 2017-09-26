@@ -29,6 +29,10 @@ export default {
         return get('api/user/detail', params)
     },
 
+    quickOrder: (params) => {
+        return get('api/user/quickOrder', params)
+    },
+
     delCar: (params) => {
         return get('api/user/delCar', params)
     },
