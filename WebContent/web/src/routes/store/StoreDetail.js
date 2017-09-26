@@ -256,13 +256,19 @@ class CooperativeStore extends React.Component {
         }
         let couponList = sf.map((item, index) => {
             console.log(item)
+            let buyPrice = 0,price = 0
+            for(let item of item.favour.set){
+                buyPrice = item.buyPrice+buyPrice
+                price = item.project.price + price
+            }
+
             return <div key={index} className="swiper-slide cooperative-store-coupon">
                 <Flex className="coupon" direction="column" align="start" style={{ width: sf.length == 1 ? '7rem' : 'auto' }}>
                     <Flex style={{ height: '1.3rem', background: '#fff', width: '100%' }}>
                         <Flex className="money" direction="column" align="end">
-                            <div style={{ fontSize: '.48rem' }}><span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set[0].buyPrice}</div>
+                            <div style={{ fontSize: '.48rem' }}><span style={{ fontSize: '.24rem' }}>￥</span>{buyPrice}</div>
                             <div style={{ color: '#8c8c8c', fontSize: '.22rem', marginTop: '.05rem' }} className="money-buyprice">
-                                <span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set[0].presentPrice}
+                                <span style={{ fontSize: '.24rem' }}>￥</span>{price}
                                 <i>
                                 </i>
                             </div>
@@ -274,9 +280,9 @@ class CooperativeStore extends React.Component {
                                 <div style={{ fontSize: '.24rem', lineHeight: '.4rem', marginLeft: '.2rem', width: '2.8rem' }}>{item.favour.content}</div>
                             </Flex>
                             <Flex className="use-button">
-                                {this.state.favours[item.favour.id] && <div className="use-button-plus" onClick={() => { this.plusCount(item.favour.id, item.favour.set[0].buyPrice) }}>-</div>}
+                                {this.state.favours[item.favour.id] && <Flex align="center" justify="center" className="use-button-plus" onClick={() => { this.plusCount(item.favour.id, buyPrice) }}>-</Flex>}
                                 <div className="number">{this.state.favours[item.favour.id] ? this.state.favours[item.favour.id].count : ''}</div>
-                                <div className="use-button-plus" onClick={() => { this.addCount(item.favour.id, item.favour.set[0].buyPrice) }}>+</div>
+                                <Flex className="use-button-plus" align="center" justify="center" onClick={() => { this.addCount(item.favour.id, buyPrice) }}>+</Flex>
                             </Flex>
                         </Flex>
                     </Flex>
