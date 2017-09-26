@@ -77,14 +77,10 @@ const App = () => (
             <Route path="/carInfo" component={CarInfo}/>
             <Route path="/store/cooperative-store/:openid/:nickname/:headimgurl" exact component={CooperativeStore}/>
             <Route path="/store/comment/:consumerOrderId" exact component={CommentStore}/>
-           
             <Route path="/insurance/:carId" exact  component={Insurance}/>
-           
             <Route path="/notFound" component={NotFound}/>
             <Route path="/inquiry" exact component={Inquiry}/>
-            <Route path="/store-detail" exact component={StoreDetail}/>
-
-
+            <Route path="/store-detail"  component={StoreDetail}/>
             <Route path="/result" exact component={Result}/>
             <Route component={NotFound}/>
         </Switch>
