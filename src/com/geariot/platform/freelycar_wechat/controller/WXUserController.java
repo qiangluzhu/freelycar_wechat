@@ -44,7 +44,7 @@ public class WXUserController {
 	
 	//直接内部跳转
 	@RequestMapping(value = "/menuRedirect")
-	public String menuRedirect(String htmlPage, String code) {
+	public String menuRedirect(String htmlPage) {
 		String ret = BASEURL+htmlPage;
 		return "redirect:"+ret;
 	}
