@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -24,8 +25,10 @@ import com.geariot.platform.freelycar_wechat.dao.PointDao;
 import com.geariot.platform.freelycar_wechat.dao.WXUserDao;
 import com.geariot.platform.freelycar_wechat.entities.Car;
 import com.geariot.platform.freelycar_wechat.entities.Card;
+import com.geariot.platform.freelycar_wechat.entities.CardProjectRemainingInfo;
 import com.geariot.platform.freelycar_wechat.entities.Client;
 import com.geariot.platform.freelycar_wechat.entities.ConsumOrder;
+import com.geariot.platform.freelycar_wechat.entities.ProjectInfo;
 import com.geariot.platform.freelycar_wechat.entities.WXUser;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
 import com.geariot.platform.freelycar_wechat.utils.Constants;
@@ -33,6 +36,7 @@ import com.geariot.platform.freelycar_wechat.utils.DateHandler;
 import com.geariot.platform.freelycar_wechat.utils.JsonPropertyFilter;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
 import com.geariot.platform.freelycar_wechat.utils.NicknameFilter;
+import com.geariot.platform.freelycar_wechat.utils.query.OrderBean;
 import com.geariot.platform.freelycar_wechat.utils.query.PointBean;
 
 @Service
@@ -349,7 +353,27 @@ public class WXUserService {
 			return JsonResFactory.buildOrg(RESCODE.NO_RECORD).toString();
 		}
 		else{
-			return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONObject.fromObject(consumOrder,JsonResFactory.dateConfig())).toString();
+			Set<ProjectInfo> projects = consumOrder.getProjects();
+			List<OrderBean> projectsForRemaining = new ArrayList<OrderBean>();
+			if (projects != null && !projects.isEmpty()) {
+				for (ProjectInfo project : projects) {
+					CardProjectRemainingInfo cardProjectRemainingInfo = cardDao
+							.getProjectRemainingInfo(Integer.parseInt(project.getCardId()), project.getProjectId());
+					int remaining = 0;
+					if (cardProjectRemainingInfo != null) {
+						remaining = cardProjectRemainingInfo.getRemaining();
+					}
+					OrderBean orderBean = new OrderBean();
+					orderBean.setRemaining(remaining);
+					orderBean.setProjectInfo(project);
+					projectsForRemaining.add(orderBean);
+				}
+			}
+			JsonConfig config = JsonResFactory.dateConfig();
+			config.registerPropertyExclusions(ConsumOrder.class, new String[] { "projects" });
+			JSONObject obj = JSONObject.fromObject(consumOrder, config);
+			obj.put("projects", projectsForRemaining);
+			return JsonResFactory.buildOrg(RESCODE.SUCCESS, Constants.RESPONSE_CONSUMORDER_KEY, obj).toString();
 		}
 	}
 	
