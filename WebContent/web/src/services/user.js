@@ -68,4 +68,15 @@ export default {
     },
 
 
+    //保险开关
+    insuranceSwitch: (params) => {
+        return get('api/user/insurance', params)
+    },
+
+    //年检开关
+    annualSwitch: (params) => {
+        return get('api/user/annual', params)
+    },
+
+
 }

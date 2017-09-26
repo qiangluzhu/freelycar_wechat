@@ -30,7 +30,7 @@ class CommentStore extends React.Component {
         }).then((res) => {
             console.log(res)
             if (res.data.code == '0') {
-                this.context.router.history.push(`/center/${window.localStorage.getItem('openid')}/${window.localStorage.getItem('nickName')}/${window.localStorage.getItem('headimgurl')}`)
+                this.context.router.history.push(`/center`)
             }
         })
     }

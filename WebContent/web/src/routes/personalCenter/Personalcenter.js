@@ -19,7 +19,7 @@ class Personalcenter extends React.Component {
         this.state = {
             point: 0,
             name: '',
-            headimgurl: this.props.match.params.headimgurl,
+            headimgurl: window.localStorage.getItem('headimgurl'),
             tickets: [],
             card: [],
             cars: [],
@@ -31,7 +31,7 @@ class Personalcenter extends React.Component {
 
     componentDidMount() {
         wxInfo({
-            openId: this.props.match.params.openid
+            openId: window.localStorage.setItem('openid')
         }).then((res) => {
             console.log(res)
             if (res.data.code == '0') {
@@ -56,10 +56,6 @@ class Personalcenter extends React.Component {
                         projectInfos: data.client.cards.length > 0 ? data.client.cards[0].projectInfos.slice(0, 3) : []
                     })
                     window.localStorage.setItem('isMember', data.client.isMember)
-                    window.localStorage.setItem('headimgurl', this.props.match.params.headimgurl)
-                    window.localStorage.setItem('nickName', this.props.match.params.nickname)
-                    window.localStorage.setItem('phone', data.client.phone)
-                    window.localStorage.setItem('openid', this.props.match.params.openid)
                     window.localStorage.setItem('clientId', data.client.id)
                 }
             }).catch((error) => {
@@ -88,7 +84,7 @@ class Personalcenter extends React.Component {
                 text: '是', onPress: () => logout({
                     openId: this.props.match.params.openid
                 }).then((res) => {
-                    this.context.router.history.push(`/login/${window.localStorage.getItem('openid')}/${window.localStorage.getItem('nickName')}/${window.localStorage.getItem('headimgurl')}`)
+                    this.context.router.history.push(`/login/${window.localStorage.getItem('openid')}/${window.localStorage.getItem('nickName')}/${window.localStorage.getItem('headimgurl')}/personalInfo`)
                 })
             },
             {

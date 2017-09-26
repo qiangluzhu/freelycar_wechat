@@ -91,7 +91,8 @@ class Login extends React.Component {
                     window.localStorage.setItem('phone', res.data.client.phone)
                     window.localStorage.setItem('openid', this.props.match.params.openid)
                     window.localStorage.setItem('clientId', res.data.client.id)
-                    this.context.router.history.push(this.props.match.params.directUrl)
+                    
+                    this.context.router.history.push(`/${this.props.match.params.directUrl}`)
                 }
             })
     }
