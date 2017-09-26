@@ -56,6 +56,11 @@ class Personalcenter extends React.Component {
                         projectInfos: data.client.cards.length > 0 ? data.client.cards[0].projectInfos.slice(0,3) : []
                     })
                     window.localStorage.setItem('isMember',data.client.isMember)
+                    window.localStorage.setItem('headimgurl', this.props.match.params.headimgurl)
+                    window.localStorage.setItem('nickName', this.props.match.params.nickname)
+                    window.localStorage.setItem('phone', data.client.phone)
+                    window.localStorage.setItem('openid', this.props.match.params.openid)
+                    window.localStorage.setItem('clientId', data.client.id)
                 }
             }).catch((error) => {
                 console.log(error)
