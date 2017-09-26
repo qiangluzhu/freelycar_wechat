@@ -62,6 +62,7 @@ class SelectCarBrand extends React.Component {
             }
             window.localStorage.setItem("models", JSON.stringify(i.models))
             window.localStorage.setItem("brandType", this.state.carBrand + newType)
+            window.localStorage.setItem("carMark", this.state.carBrand)
             this.context.router.history.push('/addCar/1')
         }
         this.setState(obj);

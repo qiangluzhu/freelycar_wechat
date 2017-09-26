@@ -52,6 +52,7 @@ class AddCar extends React.Component {
     addCarInfos() {
         addCar({
             carbrand: window.localStorage.getItem('brandType'),
+            carMark:window.localStorage.getItem('carMark'),
             cartype: this.state.carModel[0],
             licensePlate: this.state.province + this.state.carPlate,
             client: {
@@ -62,6 +63,7 @@ class AddCar extends React.Component {
             if (res.data.code == '0') {
                 window.localStorage.removeItem('province')
                 window.localStorage.removeItem('carPlate')
+                
                 this.context.router.history.push('/carInfo')
            
             }
