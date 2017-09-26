@@ -392,7 +392,7 @@ class CooperativeStore extends React.Component {
                     {commentList}
                 </TabPane>
             </Tabs>
-            {totalPrice > 0 && <div className='bottom-pay-button'>
+            {/* {totalPrice > 0 && <div className='bottom-pay-button'>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='lable'>合计:</Flex.Item>
                     <Flex.Item style={{ color: 'red' }}>￥{totalPrice}</Flex.Item>
@@ -402,7 +402,7 @@ class CooperativeStore extends React.Component {
                         </Flex>
                     </div>
                 </Flex>
-            </div>}
+            </div>} */}
         </div>
     }
 
