@@ -60,7 +60,7 @@ class MyCardDetail extends React.Component {
             <div className="membership-mycard" style={{backgroundImage:`url(${background}) `,backgroundSize:'100% 100%' }}>
                 <div className="card-name">{this.state.name}</div>
                 <div className="card-number">{this.state.card.cardNumber}</div>
-                <div className="card-time">截止日期：{this.state.createDate.slice(0,10)}</div>
+                <div className="card-time">截止日期：{this.state.expirationDate.slice(0,10)}</div>
             </div>
             <div className="card-detail-times" >
                 <div className="title" >剩余次数</div>
