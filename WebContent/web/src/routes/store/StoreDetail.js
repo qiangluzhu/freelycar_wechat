@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex, Tabs,Toast } from 'antd-mobile';
+import { Flex, Tabs, Toast } from 'antd-mobile';
 import NavBar from '../../components/NavBar'
 import Star from '../../components/Star'
 import './CooperativeStore.less'
@@ -160,12 +160,10 @@ class CooperativeStore extends React.Component {
 
 
     payFavour = (price) => {
-        if(price==0){
+        if (price == 0) {
             Toast.info('当前支付金额为0,不能支付', 2);
             return false;
         }
-
-
 
         let state = this.checkPayState();
         if (!state) {
@@ -227,14 +225,14 @@ class CooperativeStore extends React.Component {
             console.log(res);
             if (res.err_msg == "get_brand_wcpay_request:ok") {
                 this.context.router.history.push('/result')
-            }else{
-                
+            } else {
+
             }
         });
     }
 
 
-     getParameterByName = (name, url)=> {
+    getParameterByName = (name, url) => {
         if (!url) url = window.location.href;
         name = name.replace(/[\[\]]/g, "\\$&");
         var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
@@ -260,9 +258,9 @@ class CooperativeStore extends React.Component {
         }
         let couponList = sf.map((item, index) => {
             console.log(item)
-            let buyPrice = 0,price = 0
-            for(let item of item.favour.set){
-                buyPrice = item.buyPrice+buyPrice
+            let buyPrice = 0, price = 0
+            for (let item of item.favour.set) {
+                buyPrice = item.buyPrice + buyPrice
                 price = item.project.price + price
             }
 
@@ -304,9 +302,9 @@ class CooperativeStore extends React.Component {
                         <div className="beauty-aim">{item.comment}</div>
                     </Flex>
                 </div>
-                <div className="money">
+                {this.getParameterByName('storeId') == 1 && <div className="money">
                     <span style={{ fontSize: '.24rem' }}>￥</span>{item.price + item.pricePerUnit * item.referWorkTime}
-                </div>
+                </div>}
             </Flex>
         }), beautyList = this.state.beauty.map((item, index) => {
             return <Flex key={index} style={{ width: '100%', borderBottom: '1px solid #dfdfe1' }} >
@@ -316,9 +314,9 @@ class CooperativeStore extends React.Component {
                         <div className="beauty-aim">{item.comment}</div>
                     </Flex>
                 </div>
-                <div className="money">
+                {this.getParameterByName('storeId') == 1 && <div className="money">
                     <span style={{ fontSize: '.24rem' }}>￥</span>{item.price + item.pricePerUnit * item.referWorkTime}
-                </div>
+                </div>}
             </Flex>
         }), commentList = this.state.comments.map((item, index) => {
             return <Flex className="comment" align="start" key={index}>
@@ -394,7 +392,7 @@ class CooperativeStore extends React.Component {
                     {commentList}
                 </TabPane>
             </Tabs>
-            <div className='bottom-pay-button'>
+            {/* {totalPrice > 0 && <div className='bottom-pay-button'>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='lable'>合计:</Flex.Item>
                     <Flex.Item style={{ color: 'red' }}>￥{totalPrice}</Flex.Item>
@@ -404,7 +402,7 @@ class CooperativeStore extends React.Component {
                         </Flex>
                     </div>
                 </Flex>
-            </div>
+            </div>} */}
         </div>
     }
 
