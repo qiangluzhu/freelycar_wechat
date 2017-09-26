@@ -66,12 +66,14 @@ public class WXUserController {
 				headimgurl = URLEncoder.encode(headimgurl,"utf-8");
 				
 				String ret = BASEURL+htmlPage;
+				log.error("-------------------");
+				log.error(htmlPage);
 				
 				if("center".equals(htmlPage) 
 						|| "serviceCard".equals(htmlPage) 
 						|| "inquiry".equals(htmlPage)
 						|| "personalInfo".equals(htmlPage)
-						|| "ordertrack".equals(htmlPage)){
+						|| "ordertrack$".equals(htmlPage)){
 					boolean wxUser = wxUserService.isExistUserOpenId(openid);
 					if(!wxUser){
 						ret = BASEURL+"login/" + openid+"/"+nickname+"/"+headimgurl+"/"+htmlPage;
