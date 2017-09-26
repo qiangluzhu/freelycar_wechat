@@ -60,7 +60,7 @@ class PersonalInfo extends React.Component {
                 gender: this.state.gender[0]
             }).then((res) => {
                 console.log(res)
-                this.context.router.history.push(`/center/${window.localStorage.getItem('openid')}/${window.localStorage.getItem('nickName')}/${window.localStorage.getItem('headimgurl')}`)
+                this.context.router.history.push(`/center`)
             })
     }
 
