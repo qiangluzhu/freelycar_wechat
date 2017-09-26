@@ -50,7 +50,7 @@ class OrderTrack extends React.Component {
         if (this.props.match.params.id == '$') {
             if(window.localStorage.getItem('openid')) {
                 quickOrder({
-                    clientId: window.localStorage.getItem('openid')
+                    clientId: window.localStorage.getItem('clientId')
                 }).then((res) => {
                     let data = res.data.orders
                     if (res.data.code == '0') {

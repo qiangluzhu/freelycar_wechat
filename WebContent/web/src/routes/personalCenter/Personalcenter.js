@@ -31,15 +31,14 @@ class Personalcenter extends React.Component {
 
     componentDidMount() {
         wxInfo({
-            openId: window.localStorage.setItem('openid')
+            openId: window.localStorage.getItem('openid')
         }).then((res) => {
             console.log(res)
             if (res.data.code == '0') {
                 let data = res.data.data
                 this.setState({
                     point: data.point,
-                    name: data.name ? data.name : data.nickName,
-                    headimgurl: data.headimgurl
+                    name: data.name ? data.name : data.nickName
                 })
             }
             userDetail({
@@ -82,7 +81,7 @@ class Personalcenter extends React.Component {
         const alertInstance = alert('', '确定退出登录吗?', [
             {
                 text: '是', onPress: () => logout({
-                    openId: this.props.match.params.openid
+                    openId: window.localStorage.getItem('openid')
                 }).then((res) => {
                     this.context.router.history.push(`/login/${window.localStorage.getItem('openid')}/${window.localStorage.getItem('nickName')}/${window.localStorage.getItem('headimgurl')}/personalInfo`)
                 })
@@ -123,7 +122,7 @@ class Personalcenter extends React.Component {
             }}></div><a href="tel:18512391863" className="center-line-phone"></a></div>
             <Flex justify="between" align='start' direction="column" className="person-info">
                 <Flex justify="between" align='start' style={{ height: '1.2rem' }} >
-                    <div className="avatar"><img src={decodeURIComponent(this.props.match.params.headimgurl)} alt="" /></div>
+                    <div className="avatar"><img src={decodeURIComponent(this.state.headimgurl)} alt="" /></div>
                     <Flex.Item style={{ marginLeft: '.3rem' }} direction="column">
                         <div className="info-name">{this.state.name}</div>
                         <Flex justify="between" onClick={() => { this.context.router.history.push('/personalInfo') }}>
