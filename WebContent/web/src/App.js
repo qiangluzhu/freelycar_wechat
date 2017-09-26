@@ -64,7 +64,7 @@ const App = () => (
             <Route path="/personalInfo" component={PersonalInfo} />
             <Route path="/serviceCard" component={ServiceCard} />
       
-            <Route path="/orderDetail/:id" component={OrderDetail} />
+            <Route path="/orderDetail" component={OrderDetail} />
             <Route path="/orderDetail_nopay" component={OrderDetail_nopay} />
             <Route path="/orderDetail_vip" component={OrderDetail_vip} />
             <Route path="/addCard" component={AddCard} />

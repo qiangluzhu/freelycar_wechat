@@ -50,7 +50,8 @@ class OrderDetail extends React.Component {
 
 
         wxOrderDetail({
-            wxPayOrderId: this.props.match.params.id,
+            //wxPayOrderId: this.props.match.params.id,
+            wxPayOrderId: this.getParameterByName('orderId')
         }).then((res) => {
             console.log(res);
             if (res.data.code == '0') {
@@ -81,7 +82,8 @@ class OrderDetail extends React.Component {
         if (state) {
             payment({//传递所需的参数
                 "openId":  window.localStorage.getItem('openid'),
-                "orderId": this.props.match.params.id,
+                //"orderId": this.props.match.params.id,
+                "orderId": this.getParameterByName('orderId'),
                 "totalPrice": this.state.totalPrice,
             }).then((res) => {
                 if (res.data.code == 0) {
@@ -132,6 +134,19 @@ class OrderDetail extends React.Component {
             }
         });
     }
+
+
+
+    getParameterByName = (name, url)=> {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
 
     render() {
         //支付方式
