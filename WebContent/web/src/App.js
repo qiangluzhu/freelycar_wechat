@@ -74,14 +74,14 @@ const App = () => (
             <Route path="/membership/myfavour" exact component={MyFavour}/>
       
             <Route path="/carInfo" component={CarInfo}/>
-            <Route path="/store/cooperative-store" exact component={CooperativeStore}/>
+            <Route path="/store/cooperative-store/:openid/:nickname/:headimgurl" exact component={CooperativeStore}/>
             <Route path="/store/comment/:consumerOrderId" exact component={CommentStore}/>
            
             <Route path="/insurance/:carId" exact  component={Insurance}/>
            
             <Route path="/notFound" component={NotFound}/>
             <Route path="/inquiry" exact component={Inquiry}/>
-            <Route path="/store/detail/:storeId" exact component={StoreDetail}/>
+            <Route path="/store-detail" exact component={StoreDetail}/>
 
 
             <Route path="/result" exact component={Result}/>

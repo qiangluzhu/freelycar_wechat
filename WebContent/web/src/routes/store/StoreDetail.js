@@ -56,7 +56,7 @@ class CooperativeStore extends React.Component {
             console.log(error)
         })
 
-        storeDetail({ storeId: this.props.match.params.storeId }).then((res) => {
+        storeDetail({ storeId: this.getParameterByName('storeId') }).then((res) => {
             console.log(res)
             if (res.data.code == '0') {
                 let store = res.data.data.store
@@ -96,7 +96,8 @@ class CooperativeStore extends React.Component {
         })
 
         listComment({
-            storeId: this.props.match.params.storeId
+            //storeId: this.props.match.params.storeId,
+            storeId: this.getParameterByName('storeId')
         }).then((res) => {
             //console.log(res)
             if (res.data.code == '0') {
@@ -178,15 +179,15 @@ class CooperativeStore extends React.Component {
                 "favours": favours,
                 "totalPrice": price,
             }).then((res) => {
-                if (res.data.code == 0) {
-                    let data = res.data.data;
-                    console.log(data);
-                    this.onBridgeReady(data.appId, data.timeStamp,
-                        data.nonceStr, data.package,
-                        data.signType, data.paySign);
-                } else {
-                    alert('支付失败');
-                }
+                console.log('-----^^^^^^---');
+                alert(window.location.href+"^^^+++++++++^^^^^^");
+                console.log(res)
+
+                let data = res.data.data;
+                console.log(data);
+                this.onBridgeReady(data.appId, data.timeStamp,
+                    data.nonceStr, data.package,
+                    data.signType, data.paySign);
 
             }).catch((error) => { console.log(error) });
         }
@@ -228,6 +229,16 @@ class CooperativeStore extends React.Component {
         });
     }
 
+
+     getParameterByName = (name, url)=> {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
 
 
 
