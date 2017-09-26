@@ -29,7 +29,6 @@ class CooperativeStore extends React.Component {
 
         this.genData(1)
         // set 
-        window.localStorage.setItem('openid',this.props.match.params.openid);
 
     }
 
