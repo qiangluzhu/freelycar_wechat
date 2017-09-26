@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
@@ -148,7 +149,12 @@ public class WXUserService {
 			return JsonResFactory.buildOrg(RESCODE.CAR_LICENSE_EXIST).toString();
 		}
 		car.setCreateDate(new Date());
-		client.getCars().add(car);
+		if(client.getCars() == null){
+			car.setDefaultCar(true);
+			client.getCars().add(car);
+		}else{
+			client.getCars().add(car);
+		}
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
 
@@ -378,8 +384,25 @@ public class WXUserService {
 	}
 	
 	
+	public String insuranceRemind(int carId, boolean check){
+		Car car = carDao.findById(carId);
+		if(car == null ){
+			return JsonResFactory.buildOrg(RESCODE.NO_RECORD).toString();
+		}else{
+			car.setNeedInsuranceRemind(check);
+			return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
+		}
+	}
 	
-	
+	public String annualRemind(int carId, boolean check){
+		Car car = carDao.findById(carId);
+		if(car == null ){
+			return JsonResFactory.buildOrg(RESCODE.NO_RECORD).toString();
+		}else{
+			car.setNeedInspectionRemind(check);
+			return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
+		}
+	}
 	
 	
 	

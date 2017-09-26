@@ -216,4 +216,17 @@ public class WXUserController {
 	public String quickOrder(int clientId){
 		return wxUserService.quickOrder(clientId);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/insurance", method = RequestMethod.GET)
+	public String insuranceRemind(int carId, boolean check){
+		return wxUserService.insuranceRemind(carId, check);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/annual", method = RequestMethod.GET)
+	public String annualRemind(int carId, boolean check){
+		return wxUserService.annualRemind(carId, check);
+	}
+	
 }
