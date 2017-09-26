@@ -75,7 +75,7 @@ public class CardDaoImpl implements CardDao {
 		String sql = "from Card where clientId = :clientId and expirationDate > :now";
 		Date now = new Date(System.currentTimeMillis());
 		return this.getSession().createQuery(sql).setInteger("clientId", clientId)
-				.setTime("now", now).setCacheable(Constants.SELECT_CACHE).list();
+				.setTimestamp("now", now).setCacheable(Constants.SELECT_CACHE).list();
 	}
 
 	@Override
