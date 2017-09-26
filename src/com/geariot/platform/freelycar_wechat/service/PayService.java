@@ -49,7 +49,7 @@ public class PayService {
 	private static final Logger log = LogManager.getLogger(PayService.class);
 
 	// 创建card订单
-	public org.json.JSONObject createCardOrder(String openId, double totalPrice, int serviceId) {
+	public org.json.JSONObject createCardOrder(String openId, float totalPrice, int serviceId) {
 		log.debug("create new order");
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
 		log.debug("id" + wxPayOrder.getId() + "总金额" + wxPayOrder.getTotalPrice() + "openId" + wxPayOrder.getOpenId()
@@ -70,7 +70,7 @@ public class PayService {
 	// create favour order
 	public org.json.JSONObject createFavourOrder(FavourOrderBean favourOrderBean) {
 		String openId = favourOrderBean.getOpenId();
-		double totalPrice = favourOrderBean.getTotalPrice();
+		float totalPrice = favourOrderBean.getTotalPrice();
 		Set<FavourToOrder> favours = favourOrderBean.getFavours();
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
 
@@ -80,7 +80,6 @@ public class PayService {
 		wxPayOrder.setProductName(productName);
 		wxPayOrder.setFavours(favours);
 		wxPayOrderDao.saveWXPayOrder(wxPayOrder);
-
 		org.json.JSONObject order = new org.json.JSONObject();
 		order.put(Constants.RESPONSE_DATA_KEY, wxPayOrder.getId());
 		return order;
@@ -90,7 +89,7 @@ public class PayService {
 
 	}
 
-	private WXPayOrder buildBasivOrders(String openId, double totalPrice) {
+	private WXPayOrder buildBasivOrders(String openId, float totalPrice) {
 		WXPayOrder wxPayOrder = new WXPayOrder();
 		wxPayOrder.setId(IDGenerator.generate(IDGenerator.WX_CONSUM));
 		System.out.println(">>>>" + IDGenerator.generate(IDGenerator.WX_CONSUM));

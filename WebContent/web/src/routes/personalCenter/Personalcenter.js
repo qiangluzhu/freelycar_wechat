@@ -24,6 +24,7 @@ class Personalcenter extends React.Component {
             card: [],
             cars: [],
             order: [],
+            projectInfos: [],
             modal1: false
         }
     }
@@ -51,8 +52,15 @@ class Personalcenter extends React.Component {
                         card: data.client.cards.length > 0 ? data.client.cards[0] : [],
                         cars: data.client.cars,
                         order: data.orders.length > 0 ? data.orders[0] : [],
-                        tickets: data.client.tickets
+                        tickets: data.client.tickets,
+                        projectInfos: data.client.cards.length > 0 ? data.client.cards[0].projectInfos.slice(0, 3) : []
                     })
+                    window.localStorage.setItem('isMember', data.client.isMember)
+                    window.localStorage.setItem('headimgurl', this.props.match.params.headimgurl)
+                    window.localStorage.setItem('nickName', this.props.match.params.nickname)
+                    window.localStorage.setItem('phone', data.client.phone)
+                    window.localStorage.setItem('openid', this.props.match.params.openid)
+                    window.localStorage.setItem('clientId', data.client.id)
                 }
             }).catch((error) => {
                 console.log(error)
@@ -94,16 +102,23 @@ class Personalcenter extends React.Component {
     }
 
     render() {
-
-        let projectInfos = this.state.card.length > 0 ? this.state.card.projectInfos : []
-        let programs = projectInfos.map((item, index) => {
+        let programs = this.state.projectInfos.map((item, index) => {
             return <Flex.Item key={index}>
                 <Flex direction="column" justify="center">
                     <Flex.Item className="vip-card-program">{item.project.name}</Flex.Item>
-                    <Flex.Item className="program-time">{item.project.price}</Flex.Item>
+                    <Flex.Item className="program-time">{item.remaining}</Flex.Item>
                 </Flex>
             </Flex.Item>
-        })
+        });
+        let totalPrice = 0;
+        // console.log(this.state.order.projects)
+        if (this.state.order.projects) {
+            for (let item of this.state.order.projects) {
+                totalPrice = totalPrice + item.presentPrice + item.pricePerUnit * item.referWorkTime
+            }
+        }
+
+
         return <div className="body-bac" style={{ paddingTop: '0' }}>
             <div className="top-gradient">
             </div>
@@ -131,7 +146,23 @@ class Personalcenter extends React.Component {
                     </Flex>
                 </Flex>
             </Flex>
-            {this.state.card.length == 0 && <div className="center-banner" onClick={() => { this.context.router.history.push('/addCard') }}><img src={banner} alt="" /></div>}
+            {this.state.card.length == 0 && <div className="center-banner" onClick={() => { 
+                //this.context.router.history.push('/addCard')
+                history.pushState(null,null,`/freelycar_wechat/index.html#/addCard`);
+                window.location.reload();
+                }}><img src={banner} alt="" /></div>}
+            {this.state.card.length != 0 && <div className="vip-gold-card" style={{ marginTop: '.2rem' }} onClick={() => {
+                this.context.router.history.push('/membership/mycard')
+            }}>
+                <Flex className="vip-card-line1">
+                    <div className="icon-close"><img src={membershipcard} alt="" /></div>
+                    <Flex.Item className="vip-card-name">{this.state.card.service ? this.state.card.service.name : ''}</Flex.Item>
+                    <Flex.Item className="vip-card-more" style={{ color: '#8e8e8e' }} >全部<img src={more_arrow} style={{ marginLeft: '.2rem' }} alt="" /></Flex.Item>
+                </Flex>
+                {this.state.projectInfos.length > 0 && <Flex>
+                    {programs}
+                </Flex>}
+            </div>}
             <Flex className="center-line-box" onClick={() => {
                 if (this.state.cars.length > 0) {
                     this.context.router.history.push('/carInfo')
@@ -141,18 +172,7 @@ class Personalcenter extends React.Component {
                 <p>爱车管理</p>
                 <Flex.Item className="vip-card-more"><img src={more_arrow} alt="" /></Flex.Item>
             </Flex>
-            {this.state.card.length != 0 && <div className="vip-gold-card" onClick={() => {
-                this.context.router.history.push('/membership/mycard')
-            }}>
-                <Flex className="vip-card-line1">
-                    <div className="icon-close"><img src={membershipcard} alt="" /></div>
-                    <Flex.Item className="vip-card-name">{this.state.card.service ? this.state.card.service.name : ''}</Flex.Item>
-                    <Flex.Item className="vip-card-more" style={{ color: '#8e8e8e' }} >全部<img src={more_arrow} style={{ marginLeft: '.2rem' }} alt="" /></Flex.Item>
-                </Flex>
-                {projectInfos.length > 0 && <Flex>
-                    {programs}
-                </Flex>}
-            </div>}
+
             <Flex className="center-line-box" style={{ marginBottom: '0' }} onClick={() => { this.context.router.history.push('/serviceCard') }}>
                 <div className="center-icon2"><img src={order_icon} alt="" /></div>
                 <p>订单</p>
@@ -162,12 +182,12 @@ class Personalcenter extends React.Component {
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.24rem', color: '#4b4b4b' }}>
                     <i className="circle"></i>
                     <p>{this.state.order.projects[0] ? (this.state.order.projects[0].name) : ''} {this.state.order.projects.length > 1 ? <span style={{ color: '#1e1e1e', opacity: '0.5' }}>...</span> : ''}</p>
-                    <Flex.Item className="finish-state">{this.state.order.state == 1 ? '已接车' : (this.state.order.state == 2 ? '已完成' : '已交车')}</Flex.Item>
+                    <Flex.Item className="finish-state">{this.state.order.state == 1 ? '已接车' : (this.state.order.state == 2 ? '已完工' : '已交车')}</Flex.Item>
                 </Flex>
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.18rem', color: '#8e8e8e' }}>
                     <i className="circle2"></i>
                     <p>{this.state.order.createDate}</p>
-                    <Flex.Item className="total-price">￥{this.state.order.totalPrice}</Flex.Item >
+                    <Flex.Item className="total-price">￥{totalPrice}</Flex.Item >
                 </Flex>
             </Flex>}
         </div>

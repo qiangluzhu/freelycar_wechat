@@ -22,8 +22,8 @@ public class FavourProjectInfos {
 	private int id;
 	private Project project;
 	private int times;
-	private double buyPrice;
-	private double presentPrice;
+	private float buyPrice;
+	private float presentPrice;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
@@ -46,16 +46,16 @@ public class FavourProjectInfos {
 	public void setTimes(int times) {
 		this.times = times;
 	}
-	public double getBuyPrice() {
+	public float getBuyPrice() {
 		return buyPrice;
 	}
-	public void setBuyPrice(double buyPrice) {
+	public void setBuyPrice(float buyPrice) {
 		this.buyPrice = buyPrice;
 	}
-	public double getPresentPrice() {
+	public float getPresentPrice() {
 		return presentPrice;
 	}
-	public void setPresentPrice(double presentPrice) {
+	public void setPresentPrice(float presentPrice) {
 		this.presentPrice = presentPrice;
 	}
 	@Override

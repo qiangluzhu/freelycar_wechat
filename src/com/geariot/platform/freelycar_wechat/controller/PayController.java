@@ -19,6 +19,7 @@ import org.apache.logging.log4j.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,10 +54,11 @@ public class PayController {
 	ConsumOrderDao consumOrderDao;
 
 	@RequestMapping(value="favour",method = RequestMethod.POST)
-	public String wechatFavour(FavourOrderBean favourOrderBean,HttpServletRequest request){
+	public String wechatFavour(@RequestBody FavourOrderBean favourOrderBean,HttpServletRequest request){
 			log.info("购买券");
-			double totalPrice = favourOrderBean.getTotalPrice();
+			float totalPrice = favourOrderBean.getTotalPrice();
 			String openId = favourOrderBean.getOpenId();
+			System.out.println("<<<<<<<<<<<<<<<<<<<<<<<"+favourOrderBean.toString());
 			org.json.JSONObject res=payService.createFavourOrder(favourOrderBean);
 			String orderId = res.getString(Constants.RESPONSE_DATA_KEY);
 			log.info(orderId);
@@ -74,7 +76,7 @@ public class PayController {
 		
 	}
 	@RequestMapping(value="payment",method = RequestMethod.GET)
-	public String wechatPay(String openId,String orderId,double totalPrice,HttpServletRequest request){
+	public String wechatPay(String openId,String orderId,float totalPrice,HttpServletRequest request){
 
 		//微信支付
 		log.debug("微信支付");
@@ -89,15 +91,17 @@ public class PayController {
 			String productName = null;
 			for(ProjectInfo project:consumOrder.getProjects())
 				productName += project.getName()+" ";
-			map.put("body", productName);
+			//map.put("body", productName);
+			map.put("body", "productName");
 			map.put("out_trade_no", consumOrder.getId());
 		}
 		else{
 			WXPayOrder wxPayOrder = wxPayOrderDao.findById(orderId);
-			map.put("body", wxPayOrder.getProductName());
+			//map.put("body", wxPayOrder.getProductName());
+			map.put("body", "productName");
 			map.put("out_trade_no", wxPayOrder.getId());
 		}
-		log.debug("APP和网页支付提交用户端ip:" + ip);
+
 		map.put("appid", WechatConfig.APP_ID);
 
 		map.put("device_info", "WEB");
@@ -128,8 +132,8 @@ public class PayController {
 		
 		
 		
-		log.debug("请求微信支付结果：" + result);
-
+		log.error("请求微信支付结果：" + result);
+		
 		Map<String, Object> resultMap = XMLParser.getMapFromXML(result);
 		if (!resultMap.isEmpty()) {
 			if (resultMap.get("return_code").toString().equals("SUCCESS")) {
@@ -143,10 +147,10 @@ public class PayController {
 				payMap.put("signType", "MD5");
 				String pagSign = WeChatSignatureUtil.getSig(payMap); // 签名
 				payMap.put("paySign", pagSign);
-				jsonObject.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS);
+				jsonObject.put(Constants.RESPONSE_CODE_KEY, RESCODE.SUCCESS.getValue());
 				jsonObject.put(Constants.RESPONSE_MSG_KEY,
 						RESCODE.SUCCESS.getMsg());
-				jsonObject.put(Constants.RESPONSE_DATA_KEY, new org.json.JSONObject(payMap));
+				jsonObject.put(Constants.RESPONSE_DATA_KEY, payMap);
 			}else {
 				jsonObject
 					.put(Constants.RESPONSE_CODE_KEY, RESCODE.ORDER_ERROR);
@@ -159,6 +163,7 @@ public class PayController {
 			jsonObject.put(Constants.RESPONSE_MSG_KEY,
 					RESCODE.CALL_PORT_ERROR.getMsg());
 		}
+		log.error("结果：return_code: " + jsonObject.toString());
 		return jsonObject.toString();
 			
 	}

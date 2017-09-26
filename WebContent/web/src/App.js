@@ -41,10 +41,18 @@ import NotFound from './routes/NotFound'
 //活动
 import ReceiveCoupons from './routes/activity/ReceiveCoupons'
 import Activity from './routes/activity/Activity.js'
+
+//weui page
+
+
+//结果页面
+import Result from './routes/weui/Result'
+
 const App = () => (
     <div style={{height:'100%'}}>
         <Switch>
-            <Route exact path="/" component={Activity}/>
+            
+            <Route exact path="/" component={CooperativeStore}/>
             <Route path="/activity/:openid/:nickname/:headimgurl"  component={Activity} />
             <Route path="/receivecoupons" component={ReceiveCoupons}/>
             <Route path="/center/:openid/:nickname/:headimgurl"  component={Personalcenter} />
@@ -52,29 +60,32 @@ const App = () => (
             
             <Route path="/addcar/:select" component={AddCar} />
             <Route path="/carbrand" component={CarBrand} />
-      
+            
             <Route path="/ordertrack/:id" component={OrderTrack} />
             <Route path="/personalInfo" component={PersonalInfo} />
             <Route path="/serviceCard" component={ServiceCard} />
       
-            <Route path="/orderDetail/:id" component={OrderDetail} />
+            <Route path="/orderDetail" component={OrderDetail} />
             <Route path="/orderDetail_nopay" component={OrderDetail_nopay} />
             <Route path="/orderDetail_vip" component={OrderDetail_vip} />
-            <Route path="/addCard/:openid/:nickname/:headimgurl" component={AddCard} />
+            <Route path="/addCard" component={AddCard} />
             <Route path="/membership/mycard" exact component={MyCard} />
             <Route path="/membership/mycard/detail/:id" exact component={MyCardDetail}/>
             <Route path="/membership/mypoints" exact component={MyPoints}/>
             <Route path="/membership/myfavour" exact component={MyFavour}/>
       
             <Route path="/carInfo" component={CarInfo}/>
-            <Route path="/store/cooperative-store" exact component={CooperativeStore}/>
+            <Route path="/store/cooperative-store/:openid/:nickname/:headimgurl" exact component={CooperativeStore}/>
             <Route path="/store/comment/:consumerOrderId" exact component={CommentStore}/>
            
             <Route path="/insurance/:carId" exact  component={Insurance}/>
            
             <Route path="/notFound" component={NotFound}/>
             <Route path="/inquiry" exact component={Inquiry}/>
-            <Route path="/store/detail/:storeId" exact component={StoreDetail}/>
+            <Route path="/store-detail" exact component={StoreDetail}/>
+
+
+            <Route path="/result" exact component={Result}/>
             <Route component={NotFound}/>
         </Switch>
     </div>

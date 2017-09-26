@@ -31,7 +31,7 @@ class PersonalInfo extends React.Component {
                 this.setState({
                     point: data.point,
                     nickName: data.wxUser.nickName,
-                    name: data.wxUser.name ? data.wxUser.name : data.wxUser.nickName,
+                    name: data.wxUser.name,
                     headimgurl: data.wxUser.headimgurl,
                     birthday: data.wxUser.birthday,
                     gender: [data.wxUser.gender]
@@ -44,20 +44,20 @@ class PersonalInfo extends React.Component {
         let myHeaders = new Headers({
             "Content-Type": "form-data",
         })
-        updateWXUser({
-            method: 'post',
-            headers: myHeaders,
-            mode: 'cors',
-            cache: 'default'
-        }, {
-
+        updateWXUser(
+        //     {
+        //     method: 'post',
+        //     headers: myHeaders,
+        //     mode: 'cors',
+        //     cache: 'default'
+        // }, 
+        {
                 // openId: '1',
                 phone: window.localStorage.getItem('phone'),
                 // phone: '110',
                 birthday: this.state.birthday,
                 name: this.state.name,
                 gender: this.state.gender[0]
-
             }).then((res) => {
                 console.log(res)
                 this.context.router.history.push(`/center/${window.localStorage.getItem('openid')}/${window.localStorage.getItem('nickName')}/${window.localStorage.getItem('headimgurl')}`)
@@ -70,7 +70,7 @@ class PersonalInfo extends React.Component {
             <NavBar title="个人信息" />
             <List className="add-car-info personal-info">
                 <Flex justify='center' style={{ height: '1.6rem' }}>
-                    <img className='logo' src={window.localStorage.getItem('headimgurl')} style={{ width: '1.16rem' }} />
+                    <img className='logo' src={decodeURIComponent(window.localStorage.getItem('headimgurl'))} style={{ width: '1.16rem' }} />
                 </Flex>
 
                 <List.Item
@@ -132,6 +132,7 @@ class PersonalInfo extends React.Component {
             </List>
 
             <div className="addCar-btn" onClick={() => { this.updateInfo() }}>保存</div>
+            <div style={{ color: '#5a5a5a', marginTop: '.25rem', textAlign: 'right', paddingRight: '.22rem' }} onClick={() => { this.context.router.history.push(`/center/${window.localStorage.getItem('openid')}/${window.localStorage.getItem('nickName')}/${window.localStorage.getItem('headimgurl')}`) }}>跳过</div>
         </div>
     }
 

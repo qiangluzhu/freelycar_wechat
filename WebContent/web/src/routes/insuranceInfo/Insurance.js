@@ -24,7 +24,7 @@ class Insurance extends React.Component {
         super(props)
         this.state = {
             insuredCompany: '',
-            insuredCity: '',
+            insuredCity: [],
             //compulsoryInsurance: '',//强制险
             commercialInsurance:'',//商业险
             carPeopleName:'',
@@ -33,20 +33,18 @@ class Insurance extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props.match.params.carId)
         carDetail({
             carId: this.props.match.params.carId,
         }).then((res) => {
             console.log(res);
             let  dt = res.data.data;
-            let insuranceCity = dt.insuranceCity.split(',');
+
             this.setState({
                 carPeopleName:res.data.clientName,
                 peopleIdNumber:res.data.idNumber,
-                insuredCity:insuranceCity,
+                insuredCity:dt.insuranceCity?dt.insuranceCity.split(','):[],
                 insuredCompany:[dt.insuranceCompany],
-                //commercialInsurance:dt.insuranceEndtime,
-                commercialInsurance:moment(dt.insuranceEndtime, "YYYY-MM-DD"),
+                commercialInsurance:dt.insuranceEndtime?moment(dt.insuranceEndtime, "YYYY-MM-DD"):'',
 
             });
         }).catch((error) => { console.log(error) });
@@ -56,7 +54,7 @@ class Insurance extends React.Component {
 
     modifyCarInfo=()=>{
         modifyCarInfo({
-            clientId: window.localStorage.getItem(clientId),
+            clientId: window.localStorage.getItem('clientId'),
             id:this.props.match.params.carId,
             insuranceCompany:this.state.insuredCompany[0],
             insuranceCity:this.state.insuredCity[0]+','+this.state.insuredCity[1],
@@ -87,7 +85,7 @@ class Insurance extends React.Component {
         const insuredCity = cityJson;
 
         return <div className="body-bac">
-            <NavBar title="爱车信息" />
+            <NavBar title="保险信息" />
 
             <List style={{ backgroundColor: 'white' }} className="picker-list container">
                 <InputItem
@@ -95,14 +93,13 @@ class Insurance extends React.Component {
                     placeholder="填写真实姓名"
                     autoFocus
                     value={this.state.carPeopleName}
-                    disabled
                 >真实姓名</InputItem>
 
                 <InputItem
                     clear
                     placeholder="填写身份证号"
                     autoFocus
-                    disabled
+                    type="number"
                     value={this.state.peopleIdNumber}
                 >身份证</InputItem>
 
@@ -118,7 +115,7 @@ class Insurance extends React.Component {
                 <Picker extra="填写投保城市"
                     data={insuredCity}
                     cols={2}
-                    onOk={e => this.setState({ insuredCity: e })}
+                    onOk={e => {this.setState({ insuredCity: e })}}
                     onDismiss={e => console.log('dismiss', e)}
                     value={this.state.insuredCity}
                 >

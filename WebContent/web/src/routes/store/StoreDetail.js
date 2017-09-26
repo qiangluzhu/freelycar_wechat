@@ -1,11 +1,12 @@
 import React from 'react';
-import { Flex, Tabs } from 'antd-mobile';
+import { Flex, Tabs,Toast } from 'antd-mobile';
 import NavBar from '../../components/NavBar'
 import Star from '../../components/Star'
 import './CooperativeStore.less'
 import '../autoInsurance/Inquiry.less'
 import { storeDetail, listComment } from '../../services/store.js'
-import { getWXConfig } from '../../services/pay.js'
+import { getWXConfig, favour } from '../../services/pay.js'
+import update from 'immutability-helper'
 const TabPane = Tabs.TabPane
 class CooperativeStore extends React.Component {
 
@@ -21,6 +22,7 @@ class CooperativeStore extends React.Component {
             fix: [],
             beauty: [],
             storefavours: [],
+            favours: [],
             comments: [],
             imgs: [],
             latitude: 0, // 纬度，浮点数，范围为90 ~ -90
@@ -44,7 +46,7 @@ class CooperativeStore extends React.Component {
                 timestamp: data.timestamp, // 必填，生成签名的时间戳
                 nonceStr: data.nonceStr, // 必填，生成签名的随机串
                 signature: data.signature,// 必填，签名，见附录1
-                jsApiList: ["getLocation", "openLocation"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                jsApiList: ["getLocation", "openLocation", 'checkJsApi'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
             });
 
             wx.ready(function () {
@@ -54,7 +56,7 @@ class CooperativeStore extends React.Component {
             console.log(error)
         })
 
-        storeDetail({ storeId: this.props.match.params.storeId }).then((res) => {
+        storeDetail({ storeId: this.getParameterByName('storeId') }).then((res) => {
             console.log(res)
             if (res.data.code == '0') {
                 let store = res.data.data.store
@@ -82,22 +84,20 @@ class CooperativeStore extends React.Component {
                     slidesOffsetAfter: 10,
                 })
 
-
-
                 let mySwiper1 = new Swiper(this.swiperID, {
                     direction: 'horizontal',
                     loop: true,
                     // 如果需要分页器
                     pagination: '.swiper-pagination',
                 });
-
             }
         }).catch((error) => {
             console.log(error)
         })
 
         listComment({
-            storeId: this.props.match.params.storeId
+            //storeId: this.props.match.params.storeId,
+            storeId: this.getParameterByName('storeId')
         }).then((res) => {
             //console.log(res)
             if (res.data.code == '0') {
@@ -118,9 +118,6 @@ class CooperativeStore extends React.Component {
         }).catch((error) => { console.log(error) })
     }
 
-
-
-
     //打开微信内置地图
     openWXMap = () => {
         wx.openLocation({
@@ -136,6 +133,118 @@ class CooperativeStore extends React.Component {
 
     }
 
+    plusCount = (id, price) => {
+        if (this.state.favours[id].count > 1) {
+            this.setState({
+                favours: update(this.state.favours, { [id]: { count: { $set: this.state.favours[id].count - 1 } } })
+            })
+        } else if (this.state.favours[id].count == 1) {
+            let favours = this.state.favours
+            delete (this.state.favours[id])
+            this.setState({ favours: favours })
+        }
+    }
+
+    addCount = (id, price) => {
+        console.log(price)
+        if (this.state.favours[id]) {
+            this.setState({
+                favours: update(this.state.favours, { [id]: { count: { $set: this.state.favours[id].count + 1 } } })
+            }, () => { console.log(this.state.favours) })
+        } else {
+            this.setState({
+                favours: update(this.state.favours, { $merge: { [id]: { count: 1, price: price, favour: { id: id } } } })
+            }, () => { console.log(this.state.favours) })
+        }
+    }
+
+
+    payFavour = (price) => {
+        if(price==0){
+            Toast.info('当前支付金额为0,不能支付', 2);
+            return false;
+        }
+
+
+
+        let state = this.checkPayState();
+        if (!state) {
+            alert("不能发起支付");
+        }
+
+        if (state) {
+            let favours = []
+            for (let item of this.state.favours) {
+                if (item) {
+                    favours.push(item)
+                }
+            }
+
+            favour({//传递所需的参数
+                //"openId": 'oBaSqs4THtZ-QRs1IQk-b8YKxH28',
+                "openId": window.localStorage.getItem('openid'),
+                "favours": favours,
+                "totalPrice": price,
+            }).then((res) => {
+                let data = res.data.data;
+                this.onBridgeReady(data.appId, data.timeStamp,
+                    data.nonceStr, data.package,
+                    data.signType, data.paySign);
+
+            }).catch((error) => { console.log(error) });
+        }
+
+    }
+
+
+    checkPayState = () => {
+        if (typeof WeixinJSBridge == "undefined") {
+            if (document.addEventListener) {
+                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+            } else if (document.attachEvent) {
+                document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+            }
+            return true;
+        } else {
+            return true;
+        }
+    }
+
+
+    onBridgeReady = (appId, timeStamp, nonceStr, prepay_id, signType,
+        paySign, type) => {
+        WeixinJSBridge.invoke('getBrandWCPayRequest', {
+            "appId": appId, // 公众号名称，由商户传入
+            "timeStamp": timeStamp, // 时间戳，自1970年以来的秒数
+            "nonceStr": nonceStr, // 随机串
+            "package": prepay_id,
+            "signType": signType, // 微信签名方式：
+            "paySign": paySign
+            // 微信签名
+        }, function (res) {
+            console.log("支付结果:");
+            console.log(res);
+            if (res.err_msg == "get_brand_wcpay_request:ok") {
+                this.context.router.history.push('/result')
+            }else{
+                
+            }
+        });
+    }
+
+
+     getParameterByName = (name, url)=> {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+
 
 
     render() {
@@ -143,14 +252,27 @@ class CooperativeStore extends React.Component {
         let imgs = this.state.imgs.map((item, index) => {
             return <div key={index} className="swiper-slide  banner-img"><img src={`http://www.freelycar.com/store/${item.url}`} alt="" /></div>
         })
+        let totalPrice = 0
+        for (let item of this.state.favours) {
+            if (item) {
+                totalPrice = totalPrice + item.price * item.count
+            }
+        }
         let couponList = sf.map((item, index) => {
+            console.log(item)
+            let buyPrice = 0,price = 0
+            for(let item of item.favour.set){
+                buyPrice = item.buyPrice+buyPrice
+                price = item.project.price + price
+            }
+
             return <div key={index} className="swiper-slide cooperative-store-coupon">
-                <Flex className="coupon" direction="column" align="start">
+                <Flex className="coupon" direction="column" align="start" style={{ width: sf.length == 1 ? '7rem' : 'auto' }}>
                     <Flex style={{ height: '1.3rem', background: '#fff', width: '100%' }}>
                         <Flex className="money" direction="column" align="end">
-                            <div style={{ fontSize: '.48rem' }}><span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set.buyPrice}</div>
+                            <div style={{ fontSize: '.48rem' }}><span style={{ fontSize: '.24rem' }}>￥</span>{buyPrice}</div>
                             <div style={{ color: '#8c8c8c', fontSize: '.22rem', marginTop: '.05rem' }} className="money-buyprice">
-                                <span style={{ fontSize: '.24rem' }}>￥</span>{item.favour.set.presentPrice}
+                                <span style={{ fontSize: '.24rem' }}>￥</span>{price}
                                 <i>
                                 </i>
                             </div>
@@ -159,23 +281,23 @@ class CooperativeStore extends React.Component {
                         <Flex style={{ flex: 'auto' }}>
                             <Flex direction="column" align="start">
                                 <div style={{ fontSize: '.32rem', marginLeft: '.2rem', lineHeight: '.4rem' }}>{item.favour.name}</div>
-                                <div style={{ fontSize: '.24rem', lineHeight: '.4rem', marginLeft: '.2rem' }}>{item.favour.content}</div>
+                                <div style={{ fontSize: '.24rem', lineHeight: '.4rem', marginLeft: '.2rem', width: '2.8rem' }}>{item.favour.content}</div>
                             </Flex>
                             <Flex className="use-button">
-                                <div className="use-button-plus">-</div>
-                                <div className="number">1</div>
-                                <div className="use-button-add" onClick={() => { this.setState() }}>+</div>
+                                {this.state.favours[item.favour.id] && <Flex align="center" justify="center" className="use-button-plus" onClick={() => { this.plusCount(item.favour.id, buyPrice) }}>-</Flex>}
+                                <div className="number">{this.state.favours[item.favour.id] ? this.state.favours[item.favour.id].count : ''}</div>
+                                <Flex className="use-button-plus" align="center" justify="center" onClick={() => { this.addCount(item.favour.id, buyPrice) }}>+</Flex>
                             </Flex>
                         </Flex>
                     </Flex>
                     <div className="coupon-info">
                         <span className="phone">限客户手机号：{window.localStorage.getItem('phone')}</span>
-                        <span className="time">截止日期：{item.favour.buyDeadline}</span>
+                        <span className="time">{item.favour.buyDeadline ? `活动截止日期：${item.favour.buyDeadline.slice(0, 10)}` : ''}</span>
                     </div>
                 </Flex>
             </div>
         }), fixList = this.state.fix.map((item, index) => {
-            return <Flex index={index} style={{ width: '100%', borderBottom: '1px solid #dfdfe1' }} >
+            return <Flex key={index} style={{ width: '100%', borderBottom: '1px solid #dfdfe1' }} >
                 <div >
                     <Flex direction="column" align="start" justify="center" style={{ height: '1.3rem' }}>
                         <div className="beauty-title">{item.name}</div>
@@ -187,7 +309,7 @@ class CooperativeStore extends React.Component {
                 </div>
             </Flex>
         }), beautyList = this.state.beauty.map((item, index) => {
-            return <Flex index={index} style={{ width: '100%', borderBottom: '1px solid #dfdfe1' }} >
+            return <Flex key={index} style={{ width: '100%', borderBottom: '1px solid #dfdfe1' }} >
                 <div>
                     <Flex direction="column" align="start" justify="center" style={{ height: '1.3rem' }}>
                         <div className="beauty-title">{item.name}</div>
@@ -234,10 +356,10 @@ class CooperativeStore extends React.Component {
                                 <p className="info-font" style={{ color: '#636363', width: '5rem' }} onClick={() => { this.openWXMap() }} >{this.state.address}(点我导航)</p>
 
                             </Flex>
-                            <div className="info-identify">
-                                <span className="identification">免费安全监测</span>
+                            {this.getParameterByName('storeId') == 1 && <div className="info-identify">
+                                <span className="identification">免费安全检测</span>
                                 <span className="identification">下雨保</span>
-                            </div>
+                            </div>}
                         </div>
                     </Flex>
                 </Flex>
@@ -272,17 +394,17 @@ class CooperativeStore extends React.Component {
                     {commentList}
                 </TabPane>
             </Tabs>
-            {/* <div className='bottom-pay-button'>
+            <div className='bottom-pay-button'>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='lable'>合计:</Flex.Item>
-                    <Flex.Item style={{ color: 'red' }}>￥999</Flex.Item>
+                    <Flex.Item style={{ color: 'red' }}>￥{totalPrice}</Flex.Item>
                     <div className='pay-button'>
                         <Flex style={{ height: '100%' }}>
-                            <Flex.Item style={{ textAlign: 'center', color: '#fff' }}>立即支付</Flex.Item>
+                            <Flex.Item style={{ textAlign: 'center', color: '#fff' }} onClick={() => { this.payFavour(totalPrice) }}>立即支付</Flex.Item>
                         </Flex>
                     </div>
                 </Flex>
-            </div> */}
+            </div>
         </div>
     }
 

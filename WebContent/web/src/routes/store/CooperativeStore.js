@@ -28,6 +28,8 @@ class CooperativeStore extends React.Component {
     componentDidMount() {
 
         this.genData(1)
+        // set 
+        window.localStorage.setItem('openid',this.props.match.params.openid);
 
     }
 
@@ -93,9 +95,13 @@ class CooperativeStore extends React.Component {
             // const obj = this.state.data[index--];
             console.log(rowData)
             return (
-                <Flex className="cooperative-store-list" onClick={() => { this.context.router.history.push(`/store/detail/${rowData.store.id}`) }}>
+                <Flex className="cooperative-store-list" onClick={() => { 
+                    //this.context.router.history.push(`/store-detail?storeId=${rowData.store.id}`)
+                    history.pushState(null,null,`/freelycar_wechat/index.html#/store-detail?storeId=${rowData.store.id}`);
+                    window.location.reload();
+                    }}>
                     <Flex className="picture">
-                        <img src="" alt="" />
+                        <img src={rowData.store.imgUrls[0]?`http://www.freelycar.com/store/${rowData.store.imgUrls[0].url}`:''} alt="" />
                     </Flex>
                     <Flex direction="column" align="start" justify="between" style={{ height: '1.6rem', width: '5.24rem' }}>
                         <div className="store-name">
@@ -106,17 +112,17 @@ class CooperativeStore extends React.Component {
                             <div className="address-icon"></div>
                             <p className="info-font" style={{ width: '4.5rem' }}>{rowData.store.address}</p>
                         </Flex>
-                        <Flex className="time" align="end" style={{ width: "100%" }}>
-                            <div>
+                        <Flex className="time" align="start" style={{ width: "100%" }} direction="column">
+                         
                                 <Flex className="info-font">
                                     <div className="time-icon"></div>
                                     营业时间：{rowData.store.openingTime}-{rowData.store.closingTime}
                                 </Flex>
                                 {rowData.store.id == 1 && <div className="info-identify">
-                                    <span className="identification">免费安全监测</span>
+                                    <span className="identification">免费安全检测</span>
                                     <span className="identification">下雨保</span>
                                 </div>}
-                            </div>
+                        
                         </Flex>
                     </Flex>
                 </Flex>

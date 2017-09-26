@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.geariot.platform.freelycar_wechat.entities.Car;
+import com.geariot.platform.freelycar_wechat.model.InfoBean;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
 import com.geariot.platform.freelycar_wechat.service.WXUserService;
 import com.geariot.platform.freelycar_wechat.utils.Constants;
@@ -44,7 +45,7 @@ public class WXUserController {
 	
 	//直接内部跳转
 	@RequestMapping(value = "/menuRedirect")
-	public String menuRedirect(String htmlPage) {
+	public String menuRedirect(String htmlPage, String code) {
 		String ret = BASEURL+htmlPage;
 		return "redirect:"+ret;
 	}
@@ -71,6 +72,18 @@ public class WXUserController {
 						htmlPage = "login";
 					}
 				}
+				if("serviceCard".equals(htmlPage)){
+					boolean wxUser = wxUserService.isExistUserOpenId(openid);
+					if(!wxUser){
+						htmlPage = "login";
+					}
+				}
+				if("inquiry".equals(htmlPage)){
+					boolean wxUser = wxUserService.isExistUserOpenId(openid);
+					if(!wxUser){
+						htmlPage = "login";
+					}
+				}
 				ret = BASEURL+htmlPage+"/" + openid+"/"+nickname+"/"+headimgurl;
 				
 				return "redirect:"+ret;
@@ -86,8 +99,12 @@ public class WXUserController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/updateWXUser",method = RequestMethod.POST)
-	public String addWxUser(String phone,String name,String birthday,String gender) throws ParseException{
-		return wxUserService.addWXUser(phone,name,birthday,gender);
+	public String addWxUser(@RequestBody InfoBean infoBean){
+		try{
+			return wxUserService.addWXUser(infoBean.getPhone(),infoBean.getName(),infoBean.getBirthday(),infoBean.getGender());
+		}catch(ParseException e){
+			return JsonResFactory.buildOrg(RESCODE.DATE_FORMAT_ERROR).toString();
+		}
 	}
 
 	// @RequestMapping(value = "/login",method = RequestMethod.GET)
@@ -132,7 +149,11 @@ public class WXUserController {
 				insuranceCompany, insuranceEndtime);
 	}
 
-	
+	@ResponseBody
+	@RequestMapping(value = "/annualCheck", method = RequestMethod.GET)
+	public String annualCheck(int clientId, int id, String licenseDate)throws ParseException{
+		return wxUserService.annualCheck(clientId, id, licenseDate);
+	}
 	/*@ResponseBody
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public String test(String phone,String openId,String headimgurl,String nickName) {
@@ -164,7 +185,7 @@ public class WXUserController {
 
 	
 	@ResponseBody
-	@RequestMapping(value = "/delCar", method = RequestMethod.POST)
+	@RequestMapping(value = "/delCar", method = RequestMethod.GET)
 	public String delCar(int carId) {
 		return wxUserService.deleteCar(carId);
 	}
@@ -189,4 +210,23 @@ public class WXUserController {
 	public String carDetail(int carId) { 
 		return wxUserService.carDetail(carId);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/quickOrder", method = RequestMethod.GET)
+	public String quickOrder(int clientId){
+		return wxUserService.quickOrder(clientId);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/insurance", method = RequestMethod.GET)
+	public String insuranceRemind(int carId, boolean check){
+		return wxUserService.insuranceRemind(carId, check);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/annual", method = RequestMethod.GET)
+	public String annualRemind(int carId, boolean check){
+		return wxUserService.annualRemind(carId, check);
+	}
+	
 }

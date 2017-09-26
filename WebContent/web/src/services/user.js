@@ -5,12 +5,12 @@ export default {
     addWxUser: (params) => {
         return post('api/user/addWxUser', params)
     },
-    updateWXUser:(options,params)=>{
-        return request('api/user/updateWXUser',options,params)
+    updateWXUser: (options, params) => {
+        return post('api/user/updateWXUser', options, params)
     },
 
     logout: (params) => {
-        return post('api/user/logout', params)
+        return get('api/user/logout', params)
     },
 
     myDiscount: (params) => {
@@ -25,38 +25,47 @@ export default {
         return post('api/user/addCar', params)
     },
 
-    userDetail:(params)=>{
-        return get('api/user/detail',params)
+    userDetail: (params) => {
+        return get('api/user/detail', params)
     },
 
-    delCar:(params)=>{
-        return post('api/user/delCar',params)
+    quickOrder: (params) => {
+        return get('api/user/quickOrder', params)
     },
 
-    defaultCar:(params)=>{
-        return get('api/user/defaultCar',params)
+    delCar: (params) => {
+        return get('api/user/delCar', params)
     },
 
-    modifyCarInfo:(params)=>{
-        return get('api/user/carInfo',params)
+    defaultCar: (params) => {
+        return get('api/user/defaultCar', params)
     },
 
-    wxInfo:(params)=>{
-        return get('api/user/wxInfo',params)
+    modifyCarInfo: (params) => {
+        return get('api/user/carInfo', params)
     },
 
-    myCard:(params)=>{
-        return get('api/user/listCard',params)
+    wxInfo: (params) => {
+        return get('api/user/wxInfo', params)
     },
 
-    myCar:(params)=>{
-        return get('api/user/listCar',params)
+    myCard: (params) => {
+        return get('api/user/listCard', params)
     },
-    detailInfo:(params)=>{
-        return get('api/user/detailInfo',params)
+
+    myCar: (params) => {
+        return get('api/user/listCar', params)
     },
-    carDetail:(params)=>{
-        return get('api/user/carDetail',params)
+    detailInfo: (params) => {
+        return get('api/user/detailInfo', params)
     },
+    carDetail: (params) => {
+        return get('api/user/carDetail', params)
+    },
+
+    annualCheck: (params) => {
+        return get('api/user/annualCheck', params)
+    },
+
 
 }

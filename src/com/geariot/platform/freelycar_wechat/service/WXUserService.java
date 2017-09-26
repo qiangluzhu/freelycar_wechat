@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -24,14 +25,18 @@ import com.geariot.platform.freelycar_wechat.dao.PointDao;
 import com.geariot.platform.freelycar_wechat.dao.WXUserDao;
 import com.geariot.platform.freelycar_wechat.entities.Car;
 import com.geariot.platform.freelycar_wechat.entities.Card;
+import com.geariot.platform.freelycar_wechat.entities.CardProjectRemainingInfo;
 import com.geariot.platform.freelycar_wechat.entities.Client;
 import com.geariot.platform.freelycar_wechat.entities.ConsumOrder;
+import com.geariot.platform.freelycar_wechat.entities.ProjectInfo;
 import com.geariot.platform.freelycar_wechat.entities.WXUser;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
 import com.geariot.platform.freelycar_wechat.utils.Constants;
+import com.geariot.platform.freelycar_wechat.utils.DateHandler;
 import com.geariot.platform.freelycar_wechat.utils.JsonPropertyFilter;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
 import com.geariot.platform.freelycar_wechat.utils.NicknameFilter;
+import com.geariot.platform.freelycar_wechat.utils.query.OrderBean;
 import com.geariot.platform.freelycar_wechat.utils.query.PointBean;
 
 @Service
@@ -58,33 +63,26 @@ public class WXUserService {
 		wxUserDao.deleteUser(openId);
 		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
-	
-	
-	public boolean isExistUserOpenId (String openId){
+
+	public boolean isExistUserOpenId(String openId) {
 		WXUser wxUser = wxUserDao.findUserByOpenId(openId);
-		return wxUser!=null;
+		return wxUser != null;
 	}
-	
 
-
-	public JSONObject login(String phone,String openId,String headimgurl,String nickName) {
-		nickName=NicknameFilter.filter4BytesUTF8(nickName);
+	public JSONObject login(String phone, String openId, String headimgurl, String nickName) {
+		nickName = NicknameFilter.filter4BytesUTF8(nickName);
 		WXUser wxUser = wxUserDao.findUserByPhone(phone);
-		if(wxUser==null){
+		if (wxUser == null) {
 			WXUser wxUserNew = new WXUser();
 			wxUserNew.setPhone(phone);
 			wxUserNew.setHeadimgurl(headimgurl);
 			wxUserNew.setNickName(nickName);
-			wxUserNew.setName(nickName);
-			wxUserNew.setOpenId(openId);		
+			wxUserNew.setOpenId(openId);
 			wxUserDao.save(wxUserNew);
-		}
-		else{
+		} else {
 			wxUser.setHeadimgurl(headimgurl);
 			wxUser.setNickName(nickName);
 			wxUser.setOpenId(openId);
-			if (wxUser.getName() == null)
-				wxUser.setName(nickName);
 			wxUserDao.updateUser(wxUser);
 		}
 		Client exist = clientDao.findByPhone(phone);
@@ -102,13 +100,14 @@ public class WXUserService {
 			client.setIsMember(false);
 			client.setState(0);
 			client.setPoints(0);
-			System.out.print(">>>"+client);
+			System.out.print(">>>" + client);
 			clientDao.save(client);
-			obj.put(Constants.RESPONSE_CLIENT_KEY, JSONObject.fromObject(client,JsonResFactory.dateConfig(Collection.class)));
-			System.out.print(">>>"+obj); 
-		}
-		else
-			obj.put(Constants.RESPONSE_CLIENT_KEY, JSONObject.fromObject(exist,JsonResFactory.dateConfig(Collection.class)));
+			obj.put(Constants.RESPONSE_CLIENT_KEY,
+					JSONObject.fromObject(client, JsonResFactory.dateConfig(Collection.class)));
+			System.out.print(">>>" + obj);
+		} else
+			obj.put(Constants.RESPONSE_CLIENT_KEY,
+					JSONObject.fromObject(exist, JsonResFactory.dateConfig(Collection.class)));
 		return obj;
 		// return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
 	}
@@ -121,8 +120,7 @@ public class WXUserService {
 		JsonConfig config = JsonResFactory.dateConfig();
 		JsonPropertyFilter filter = new JsonPropertyFilter(Client.class);
 		config.setJsonPropertyFilter(filter);
-		JSONObject obj = JsonResFactory.buildNet(RESCODE.SUCCESS,
-				Constants.RESPONSE_CLIENT_KEY,
+		JSONObject obj = JsonResFactory.buildNet(RESCODE.SUCCESS, Constants.RESPONSE_CLIENT_KEY,
 				JSONObject.fromObject(client, config));
 		return obj.toString();
 	}
@@ -147,8 +145,7 @@ public class WXUserService {
 		}
 		Car exist = carDao.findByLicense(car.getLicensePlate());
 		if (exist != null) {
-			return JsonResFactory.buildOrg(RESCODE.CAR_LICENSE_EXIST)
-					.toString();
+			return JsonResFactory.buildOrg(RESCODE.CAR_LICENSE_EXIST).toString();
 		}
 		car.setCreateDate(new Date());
 		client.getCars().add(car);
@@ -156,9 +153,13 @@ public class WXUserService {
 	}
 
 	public String deleteCar(int carId) {
-		carDao.deleteById(carId);
-		;
-		return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
+		Car car = carDao.findById(carId);
+		if (car == null) {
+			return JsonResFactory.buildOrg(RESCODE.NO_RECORD).toString();
+		} else {
+			carDao.deleteById(carId);
+			return JsonResFactory.buildOrg(RESCODE.SUCCESS).toString();
+		}
 	}
 
 	// 返回微信用户信息,client card
@@ -170,19 +171,17 @@ public class WXUserService {
 		JsonConfig config = JsonResFactory.dateConfig();
 		JsonPropertyFilter filter = new JsonPropertyFilter(Client.class);
 		config.setJsonPropertyFilter(filter);
-		JSONObject obj = JsonResFactory.buildNet(RESCODE.SUCCESS,
-				Constants.RESPONSE_CLIENT_KEY,
+		JSONObject obj = JsonResFactory.buildNet(RESCODE.SUCCESS, Constants.RESPONSE_CLIENT_KEY,
 				JSONObject.fromObject(client, config));
-		List<ConsumOrder> consumOrders = this.consumOrderDao
-				.findWithClientId(clientId);
+		List<ConsumOrder> consumOrders = this.consumOrderDao.findWithClientId(clientId);
 		if (consumOrders != null) {
-			obj.put(Constants.RESPONSE_CONSUMORDER_KEY,
-					JSONArray.fromObject(consumOrders, config));
+			obj.put(Constants.RESPONSE_CONSUMORDER_KEY, JSONArray.fromObject(consumOrders, config));
 		}
 		return obj.toString();
 	}
 
-	public String modifyCar(int clientId, int id, String insuranceCity, String insuranceCompany, String insuranceEndtime) throws ParseException {
+	public String modifyCar(int clientId, int id, String insuranceCity, String insuranceCompany,
+			String insuranceEndtime) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Client client = clientDao.findById(clientId);
 		if (client == null) {
@@ -199,9 +198,9 @@ public class WXUserService {
 		carDao.update(modify);
 		JsonConfig config = JsonResFactory.dateConfig();
 		config.registerPropertyExclusions(Car.class, new String[] { "client" });
-		JSONObject obj = JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONObject.fromObject(modify,config));
-		obj.put("clientName",client.getName());
-		obj.put("idNumber",client.getIdNumber());
+		JSONObject obj = JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONObject.fromObject(modify, config));
+		obj.put("clientName", client.getName());
+		obj.put("idNumber", client.getIdNumber());
 		return obj.toString();
 	}
 
@@ -217,12 +216,11 @@ public class WXUserService {
 		} else {
 			List<PointBean> pointBeans = new ArrayList<>();
 			for (Object[] exist : exists) {
-				pointBeans.add(new PointBean(
-						(int) Math.rint((Double) exist[1]), (Date) exist[0]));
+				pointBeans.add(new PointBean((int) Math.rint((Double) exist[1]), (Date) exist[0]));
 			}
-			return JsonResFactory.buildOrg(RESCODE.SUCCESS,
-					Constants.RESPONSE_POINT_KEY,
-					JSONArray.fromObject(pointBeans, config)).toString();
+			return JsonResFactory
+					.buildOrg(RESCODE.SUCCESS, Constants.RESPONSE_POINT_KEY, JSONArray.fromObject(pointBeans, config))
+					.toString();
 		}
 	}
 
@@ -259,8 +257,7 @@ public class WXUserService {
 		List<Card> Cards = cardDao.listCardByClientId(clientId);
 		JsonConfig config = JsonResFactory.dateConfig();
 		JSONArray array = JSONArray.fromObject(Cards, config);
-		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, array)
-				.toString();
+		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, array).toString();
 	}
 
 	public String listCar(int clientId) {
@@ -279,51 +276,178 @@ public class WXUserService {
 			if (car.getInsuranceStarttime() == null) {
 				result = 365;
 			} else {
-				long intervalMilli = today.getTime()
-						- car.getInsuranceStarttime().getTime();
+				long intervalMilli = today.getTime() - car.getInsuranceStarttime().getTime();
 				result = 365 - (intervalMilli / (24 * 60 * 60 * 1000));
 				System.out.println(">>>>>" + result);
 			}
 			obj.put("car", JSONObject.fromObject(car, config));
+			int day = -1;
+			if (car.getLicenseDate() == null) {
+				day = -1;
+			} else {
+				day = daysbetween(today, car.getLicenseDate());
+			}
 			obj.put("time", result);
+			obj.put("day", day);
 			list.add(obj);
 		}
 		JSONArray.fromObject(list, config);
-		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, list)
-				.toString();
+		return JsonResFactory.buildNetWithData(RESCODE.SUCCESS, list).toString();
 	}
-	
-	public String carDetail(int carId){
+
+	public String carDetail(int carId) {
 		Car exist = carDao.findById(carId);
-		if(exist == null){
+		if (exist == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
-		}
-		else{
+		} else {
 			Client client = exist.getClient();
 			JsonConfig config = JsonResFactory.dateConfig();
 			config.registerPropertyExclusions(Car.class, new String[] { "client" });
-			JSONObject obj = JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONObject.fromObject(exist,config));
-			obj.put("clientName",client.getName());
-			obj.put("idNumber",client.getIdNumber());
+			JSONObject obj = JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONObject.fromObject(exist, config));
+			obj.put("clientName", client.getName());
+			obj.put("idNumber", client.getIdNumber());
 			return obj.toString();
 		}
 	}
 
-	public String addWXUser(String phone,String name,String birthday,String gender) throws ParseException {
+	public String addWXUser(String phone, String name, Date birthday, String gender) throws ParseException {
 		WXUser wxUser = wxUserDao.findUserByPhone(phone);
-		if(wxUser == null)
+		if (wxUser == null)
 			return JsonResFactory.buildNet(RESCODE.NOT_FOUND_WXUSER).toString();
-		else{
-			if(birthday!=null){
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
-				Date date = sdf.parse(birthday);
-				wxUser.setBirthday(date);
+		else {
+			if(birthday == null){
+				wxUser.setBirthday(null);
+			}else{
+				wxUser.setBirthday(birthday);
 			}
-			if(gender!=null)
-				wxUser.setGender(gender);
-			if(name!=null)
+			if(name == null){
+				wxUser.setName(wxUser.getNickName());
+			}else{
 				wxUser.setName(name);
+			}
+			wxUser.setGender(gender);
 			return JsonResFactory.buildNet(RESCODE.SUCCESS).toString();
+		}
+	}
+
+	public String annualCheck(int clientId, int id, String licenseDate) throws ParseException {
+		Date now = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Client client = clientDao.findById(clientId);
+		if (client == null) {
+			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
+		}
+		Car modify = this.carDao.findById(id);
+		modify.setLicenseDate(sdf.parse(licenseDate));
+		carDao.update(modify);
+		JsonConfig config = JsonResFactory.dateConfig();
+		config.registerPropertyExclusions(Car.class, new String[] { "client" });
+		JSONObject obj = JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONObject.fromObject(modify, config));
+		obj.put("day", daysbetween(now, sdf.parse(licenseDate)));
+		return obj.toString();
+	}
+
+	public String quickOrder(int clientId){
+		ConsumOrder consumOrder = consumOrderDao.getRecentlyOrder(clientId);
+		if(consumOrder == null){
+			return JsonResFactory.buildOrg(RESCODE.NO_RECORD).toString();
+		}
+		else{
+			Set<ProjectInfo> projects = consumOrder.getProjects();
+			List<OrderBean> projectsForRemaining = new ArrayList<OrderBean>();
+			if (projects != null && !projects.isEmpty()) {
+				for (ProjectInfo project : projects) {
+					CardProjectRemainingInfo cardProjectRemainingInfo = cardDao
+							.getProjectRemainingInfo(Integer.parseInt(project.getCardId()), project.getProjectId());
+					int remaining = 0;
+					if (cardProjectRemainingInfo != null) {
+						remaining = cardProjectRemainingInfo.getRemaining();
+					}
+					OrderBean orderBean = new OrderBean();
+					orderBean.setRemaining(remaining);
+					orderBean.setProjectInfo(project);
+					projectsForRemaining.add(orderBean);
+				}
+			}
+			JsonConfig config = JsonResFactory.dateConfig();
+			config.registerPropertyExclusions(ConsumOrder.class, new String[] { "projects" });
+			JSONObject obj = JSONObject.fromObject(consumOrder, config);
+			obj.put("projects", projectsForRemaining);
+			return JsonResFactory.buildOrg(RESCODE.SUCCESS, Constants.RESPONSE_CONSUMORDER_KEY, obj).toString();
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	public static int daysbetween(Date now, Date licenseDate) {
+		Calendar afterTwoYears = Calendar.getInstance();
+		afterTwoYears.setTime(licenseDate);
+		afterTwoYears.add(Calendar.YEAR, 2);
+		Calendar afterFourYears = Calendar.getInstance();
+		afterFourYears.setTime(licenseDate);
+		afterFourYears.add(Calendar.YEAR, 4);
+		Calendar afterSixYears = Calendar.getInstance();
+		afterSixYears.setTime(licenseDate);
+		afterSixYears.add(Calendar.YEAR, 6);
+		Calendar afterSevenYears = Calendar.getInstance();
+		afterSevenYears.setTime(licenseDate);
+		afterSevenYears.add(Calendar.YEAR, 7);
+		Calendar afterEightYears = Calendar.getInstance();
+		afterEightYears.setTime(licenseDate);
+		afterEightYears.add(Calendar.YEAR, 8);
+		Calendar afterNineYears = Calendar.getInstance();
+		afterNineYears.setTime(licenseDate);
+		afterNineYears.add(Calendar.YEAR, 9);
+		Calendar afterTenYears = Calendar.getInstance();
+		afterTenYears.setTime(licenseDate);
+		afterTenYears.add(Calendar.YEAR, 10);
+		if (now.before(licenseDate)) {
+			int days = (int) ((licenseDate.getTime() - now.getTime()) / (1000 * 3600 * 24));
+			return days;
+		} else {
+			if (now.before(afterTwoYears.getTime())) {
+				int days = (int) ((afterTwoYears.getTimeInMillis() - now.getTime()) / (1000 * 3600 * 24));
+				return days;
+			} else {
+				if (now.before(afterFourYears.getTime())) {
+					int days = (int) ((afterFourYears.getTimeInMillis() - now.getTime()) / (1000 * 3600 * 24));
+					return days;
+				} else {
+					if (now.before(afterSixYears.getTime())) {
+						int days = (int) ((afterSixYears.getTimeInMillis() - now.getTime()) / (1000 * 3600 * 24));
+						return days;
+					} else {
+						if (now.before(afterSevenYears.getTime())) {
+							int days = (int) ((afterSevenYears.getTimeInMillis() - now.getTime()) / (1000 * 3600 * 24));
+							return days;
+						} else {
+							if (now.before(afterEightYears.getTime())) {
+								int days = (int) ((afterEightYears.getTimeInMillis() - now.getTime())
+										/ (1000 * 3600 * 24));
+								return days;
+							} else {
+								if (now.before(afterNineYears.getTime())) {
+									int days = (int) ((afterNineYears.getTimeInMillis() - now.getTime())
+											/ (1000 * 3600 * 24));
+									return days;
+								} else {
+									if (now.before(afterTenYears.getTime())) {
+										int days = (int) ((afterTenYears.getTimeInMillis() - now.getTime())
+												/ (1000 * 3600 * 24));
+										return days;
+									} else {
+										return 365;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }
