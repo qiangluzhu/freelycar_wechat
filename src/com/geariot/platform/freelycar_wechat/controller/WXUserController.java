@@ -67,7 +67,7 @@ public class WXUserController {
 				
 				String ret = BASEURL+htmlPage;
 				log.error("-------------------");
-				log.error(htmlPage);
+				log.error("ordertrack/$".equals(htmlPage));
 				
 				
 				
@@ -84,8 +84,10 @@ public class WXUserController {
 							ret = BASEURL+"center";
 						}
 					}
+				}else if("authorization".equals(htmlPage)){//重新授权
+					ret = BASEURL+"login/" + openid+"/"+nickname+"/"+headimgurl+"/personalInfo";
 				}
-				
+				log.error(ret);
 				return "redirect:"+ret;
 			}
 		} catch (JSONException e) {
