@@ -30,37 +30,42 @@ class Personalcenter extends React.Component {
     }
 
     componentDidMount() {
-        wxInfo({
-            openId: window.localStorage.getItem('openid')
-        }).then((res) => {
-            console.log(res)
-            if (res.data.code == '0') {
-                let data = res.data.data
-                this.setState({
-                    point: data.point,
-                    name: data.name ? data.name : data.nickName
-                })
-            }
-            userDetail({
-                clientId: window.localStorage.getItem('clientId')
+        if(!window.localStorage.getItem('openid')) {
+            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd188f8284ee297b&redirect_uri=http%3a%2f%2fwww.freelycar.com%2ffreelycar_wechat%2fapi%2fuser%2fwechatlogin%3FhtmlPage%3Dlogin&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+        } else {
+            wxInfo({
+                openId: window.localStorage.getItem('openid')
             }).then((res) => {
                 console.log(res)
                 if (res.data.code == '0') {
-                    let data = res.data
+                    let data = res.data.data
                     this.setState({
-                        card: data.client.cards.length > 0 ? data.client.cards[0] : [],
-                        cars: data.client.cars,
-                        order: data.orders.length > 0 ? data.orders[0] : [],
-                        tickets: data.client.tickets,
-                        projectInfos: data.client.cards.length > 0 ? data.client.cards[0].projectInfos.slice(0, 3) : []
+                        point: data.point,
+                        name: data.name ? data.name : data.nickName
                     })
-                    window.localStorage.setItem('isMember', data.client.isMember)
-                    window.localStorage.setItem('clientId', data.client.id)
                 }
-            }).catch((error) => {
-                console.log(error)
-            })
-        }).catch((error) => { console.log(error) })
+                userDetail({
+                    clientId: window.localStorage.getItem('clientId')
+                }).then((res) => {
+                    console.log(res)
+                    if (res.data.code == '0') {
+                        let data = res.data
+                        this.setState({
+                            card: data.client.cards.length > 0 ? data.client.cards[0] : [],
+                            cars: data.client.cars,
+                            order: data.orders.length > 0 ? data.orders[0] : [],
+                            tickets: data.client.tickets,
+                            projectInfos: data.client.cards.length > 0 ? data.client.cards[0].projectInfos.slice(0, 3) : []
+                        })
+                        window.localStorage.setItem('isMember', data.client.isMember)
+                        window.localStorage.setItem('clientId', data.client.id)
+                    }
+                }).catch((error) => {
+                    console.log(error)
+                })
+            }).catch((error) => { console.log(error) })
+        }
+       
         // modifyCarInfo({
         //     carId: '8',
         //     car: {

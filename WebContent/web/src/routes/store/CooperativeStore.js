@@ -26,10 +26,13 @@ class CooperativeStore extends React.Component {
     }
 
     componentDidMount() {
-
-        this.genData(1)
+        if(!window.localStorage.getItem('openid')) {
+            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd188f8284ee297b&redirect_uri=http%3a%2f%2fwww.freelycar.com%2ffreelycar_wechat%2fapi%2fuser%2fwechatlogin%3FhtmlPage%3Dlogin&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+        }  else {
+            
+            this.genData(1)
+        }
         // set 
-
     }
 
     getData = (dataBlob) => {
@@ -82,7 +85,7 @@ class CooperativeStore extends React.Component {
         console.log('reach end', event);
         this.setState({ isLoading: true });
         setTimeout(() => {
-            this.genData(++this.state.pageIndex);
+            this.genData(this.state.pageIndex);
         }, 1000);
     }
 
