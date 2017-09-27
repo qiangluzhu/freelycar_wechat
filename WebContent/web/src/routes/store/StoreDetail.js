@@ -320,7 +320,7 @@ class CooperativeStore extends React.Component {
             </Flex>
         }), commentList = this.state.comments.map((item, index) => {
             return <Flex className="comment" align="start" key={index}>
-                <div className="avatar"><img /></div>
+                <div className="avatar"><img src={item.headimgurl} alt=""/></div>
                 <Flex.Item>
                     <div style={{ width: '100%' }}><span className="phone">{item.phone}</span><span className="time">{item.commentDate}</span></div>
                     <Star number={item.star}> </Star>
