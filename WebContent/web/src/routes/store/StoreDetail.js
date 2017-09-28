@@ -107,7 +107,8 @@ class CooperativeStore extends React.Component {
                         commentDate: item.commentDate,
                         phone: item.phone.substring(0, 3) + '****' + item.phone.substring(7),
                         star: item.stars,
-                        comment: item.comment
+                        comment: item.comment,
+                        headimgurl:item.headimgurl
                     }
                     comments.push(comment)
                 }
@@ -319,6 +320,7 @@ class CooperativeStore extends React.Component {
                 </div>}
             </Flex>
         }), commentList = this.state.comments.map((item, index) => {
+      
             return <Flex className="comment" align="start" key={index}>
                 <div className="avatar"><img src={item.headimgurl} alt=""/></div>
                 <Flex.Item>

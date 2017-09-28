@@ -31,7 +31,7 @@ class Personalcenter extends React.Component {
 
     componentDidMount() {
         if(!window.localStorage.getItem('openid')) {
-            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd188f8284ee297b&redirect_uri=http%3a%2f%2fwww.freelycar.com%2ffreelycar_wechat%2fapi%2fuser%2fwechatlogin%3FhtmlPage%3Dauthorization&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd188f8284ee297b&redirect_uri=http%3a%2f%2fwww.freelycar.com%2ffreelycar_wechat%2fapi%2fuser%2fwechatlogin%3FhtmlPage%3DpersonalInfo%26isAuth%3dtrue&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
         }   else {
             wxInfo({
                 openId: window.localStorage.getItem('openid')
