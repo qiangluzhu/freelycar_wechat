@@ -47,6 +47,7 @@ public class ConsumOrder {
 	private String repairAdvice;
 	private Staff pickCarStaff;
 	private Store store;			//门店Id
+	private String headimgurl;	    //头像地址
 	
 	public double getTotalPrice() {
 		return totalPrice;
@@ -269,6 +270,12 @@ public class ConsumOrder {
 	}
 	public void setCommentDate(Date commentDate) {
 		this.commentDate = commentDate;
+	}
+	public String getHeadimgurl() {
+		return headimgurl;
+	}
+	public void setHeadimgurl(String headimgurl) {
+		this.headimgurl = headimgurl;
 	}
 	
 	

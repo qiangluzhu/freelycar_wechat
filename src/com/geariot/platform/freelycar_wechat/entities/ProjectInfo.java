@@ -29,6 +29,7 @@ public class ProjectInfo {
 	private String cardName;
 	private String ticketId;
 	private String favourName;
+	private String cardNumber;
 	private int payCardTimes;
 	private float referWorkTime;
 	private float pricePerUnit;
@@ -166,6 +167,12 @@ public class ProjectInfo {
 	}
 	public void setClientId(int clientId) {
 		this.clientId = clientId;
+	}
+	public String getCardNumber() {
+		return cardNumber;
+	}
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
 	}
 	
 }

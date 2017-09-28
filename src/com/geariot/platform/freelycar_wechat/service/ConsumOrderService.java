@@ -127,7 +127,9 @@ public class ConsumOrderService {
 		consumOrder.setComment(comment);
 		consumOrder.setStars(stars);
 		consumOrder.setCommentDate(new Date());
-		consumOrderDao.update(consumOrder);
+		Client client = clientDao.findById(consumOrder.getClientId());
+		WXUser wxUser = wxUserDao.findUserByPhone(client.getPhone());
+		consumOrder.setHeadimgurl(wxUser.getHeadimgurl());
 		return JsonResFactory.buildNet(RESCODE.SUCCESS).toString();
 
 	}
