@@ -19,7 +19,6 @@ import com.geariot.platform.freelycar_wechat.entities.Car;
 import com.geariot.platform.freelycar_wechat.model.InfoBean;
 import com.geariot.platform.freelycar_wechat.model.RESCODE;
 import com.geariot.platform.freelycar_wechat.service.WXUserService;
-import com.geariot.platform.freelycar_wechat.utils.Constants;
 import com.geariot.platform.freelycar_wechat.utils.JsonResFactory;
 import com.geariot.platform.freelycar_wechat.wxutils.WechatLoginUse;
 
@@ -39,8 +38,8 @@ public class WXUserController {
 	
 	//个人中心
 	@RequestMapping(value = "/wechatlogin")
-	public String wechatLogin(String htmlPage, String code) {
-			return getWechatInfo(htmlPage, code);
+	public String wechatLogin(String htmlPage, String code,boolean isAuth) {
+			return getWechatInfo(htmlPage, code, isAuth);
 	}
 	
 	//直接内部跳转
@@ -53,7 +52,7 @@ public class WXUserController {
 	
 	
 	
-	public String getWechatInfo(String htmlPage, String code) {
+	public String getWechatInfo(String htmlPage, String code, boolean isAuth) {
 		String wechatInfo = WechatLoginUse.wechatInfo(code);
 		JSONObject resultJson;
 		try {
@@ -69,9 +68,10 @@ public class WXUserController {
 				log.error("-------------------");
 				log.error("ordertrack/$".equals(htmlPage));
 				
-				
-				
-				if("center".equals(htmlPage) 
+				//是否重新授权
+				if(isAuth){
+					ret = BASEURL+"login/" + openid+"/"+nickname+"/"+headimgurl+"/"+htmlPage;
+				}else if("center".equals(htmlPage) 
 						|| "serviceCard".equals(htmlPage) 
 						|| "inquiry".equals(htmlPage)
 						|| "personalInfo".equals(htmlPage)
@@ -84,8 +84,6 @@ public class WXUserController {
 							ret = BASEURL+"center";
 						}
 					}
-				}else if("authorization".equals(htmlPage)){//重新授权
-					ret = BASEURL+"login/" + openid+"/"+nickname+"/"+headimgurl+"/personalInfo";
 				}
 				log.error(ret);
 				return "redirect:"+ret;
