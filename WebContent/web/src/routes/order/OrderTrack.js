@@ -25,6 +25,10 @@ class OrderTrack extends React.Component {
     }
 
     componentDidMount() {
+        if(this.props.match.params.id == '$') {
+            dplus.track('订单跟踪');
+        }
+        
         if(!window.localStorage.getItem('openid')) {
             window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd188f8284ee297b&redirect_uri=http%3a%2f%2fwww.freelycar.com%2ffreelycar_wechat%2fapi%2fuser%2fwechatlogin%3FhtmlPage%3Dordertrack%2f%24%26isAuth%3dtrue&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
         }  

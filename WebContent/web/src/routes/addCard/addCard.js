@@ -141,6 +141,7 @@ class AddCard extends React.Component {
                     this.onBridgeReady(data.appId, data.timeStamp,
                         data.nonceStr, data.package,
                         data.signType, data.paySign);
+                        dplus.track('买卡');
                 } else {
                     alert('支付失败');
                 }

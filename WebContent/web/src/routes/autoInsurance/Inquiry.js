@@ -31,6 +31,7 @@ class Inquiry extends React.Component {
         }
     }
     componentDidMount() {
+        dplus.track('车险询价');
         if(!window.localStorage.getItem('openid')) {
             window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd188f8284ee297b&redirect_uri=http%3a%2f%2fwww.freelycar.com%2ffreelycar_wechat%2fapi%2fuser%2fwechatlogin%3FhtmlPage%3Dinquiry%26isAuth%3dtrue&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
         }   
@@ -44,6 +45,7 @@ class Inquiry extends React.Component {
     }
 
     inquiry = () => {
+        dplus.track('询价');
         let myHeaders = new Headers({
             "Content-Type": "form-data",
         })
@@ -59,7 +61,6 @@ class Inquiry extends React.Component {
                 insuranceCompany: this.state.insuredCompany[0],
                 intent: ''
             }).then((req) => {
-                console.log(req)
                 if (req.data.code == '0') {
                     Toast.success('我们将尽快联系您，为您提供专业车险报价！', 5);
                 } else {

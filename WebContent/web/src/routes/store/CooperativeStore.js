@@ -32,6 +32,7 @@ class CooperativeStore extends React.Component {
 
             this.genData(1)
         }
+        dplus.track('合作门店');
         // set 
     }
 

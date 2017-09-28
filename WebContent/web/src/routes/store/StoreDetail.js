@@ -108,7 +108,7 @@ class CooperativeStore extends React.Component {
                         phone: item.phone.substring(0, 3) + '****' + item.phone.substring(7),
                         star: item.stars,
                         comment: item.comment,
-                        headimgurl:item.headimgurl
+                        headimgurl: item.headimgurl
                     }
                     comments.push(comment)
                 }
@@ -161,6 +161,7 @@ class CooperativeStore extends React.Component {
 
 
     payFavour = (price) => {
+
         if (price == 0) {
             Toast.info('当前支付金额为0,不能支付', 2);
             return false;
@@ -178,6 +179,7 @@ class CooperativeStore extends React.Component {
                     favours.push(item)
                 }
             }
+            dplus.track('买优惠券');
 
             favour({//传递所需的参数
                 //"openId": 'oBaSqs4THtZ-QRs1IQk-b8YKxH28',
@@ -186,10 +188,10 @@ class CooperativeStore extends React.Component {
                 "totalPrice": price,
             }).then((res) => {
                 let data = res.data.data;
+
                 this.onBridgeReady(data.appId, data.timeStamp,
                     data.nonceStr, data.package,
                     data.signType, data.paySign);
-
             }).catch((error) => { console.log(error) });
         }
 
@@ -320,9 +322,9 @@ class CooperativeStore extends React.Component {
                 </div>}
             </Flex>
         }), commentList = this.state.comments.map((item, index) => {
-      
+
             return <Flex className="comment" align="start" key={index}>
-                <div className="avatar"><img src={item.headimgurl} alt=""/></div>
+                <div className="avatar"><img src={item.headimgurl} alt="" /></div>
                 <Flex.Item>
                     <div style={{ width: '100%' }}><span className="phone">{item.phone}</span><span className="time">{item.commentDate}</span></div>
                     <Star number={item.star}> </Star>
