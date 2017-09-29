@@ -66,7 +66,7 @@ public class WXUserController {
 				
 				String ret = BASEURL+htmlPage;
 				log.error("-------------------");
-				log.error("ordertrack/$".equals(htmlPage));
+				log.error("ordertrack".equals(htmlPage));
 				
 				//是否重新授权
 				if(isAuth){
@@ -75,7 +75,7 @@ public class WXUserController {
 						|| "serviceCard".equals(htmlPage) 
 						|| "inquiry".equals(htmlPage)
 						|| "personalInfo".equals(htmlPage)
-						|| "ordertrack/$".equals(htmlPage)){
+						|| "ordertrack".equals(htmlPage)){
 					boolean wxUser = wxUserService.isExistUserOpenId(openid);
 					if(!wxUser){
 						ret = BASEURL+"login/" + openid+"/"+nickname+"/"+headimgurl+"/"+htmlPage;
