@@ -92,7 +92,7 @@ public class ConsumOrderService {
 			return JsonResFactory.buildOrg(RESCODE.NO_RECORD).toString();
 		}else{
 			WXUser wxUser = wxUserDao.findUserByOpenId(wxPayOrder.getOpenId());
-			net.sf.json.JSONObject obj = JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONObject.fromObject(wxPayOrder,JsonResFactory.dateConfig()));
+			net.sf.json.JSONObject obj = JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONObject.fromObject(wxPayOrder,JsonResFactory.dateConfig(WXPayOrder.class)));
 			obj.put(Constants.RESPONSE_WXUSER_KEY, wxUser.getName()==null?wxUser.getNickName():wxUser.getName());
 			return obj.toString();
 		}

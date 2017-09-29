@@ -33,18 +33,27 @@ public class PayService {
 
 	@Autowired
 	private WXUserDao wxUserDao;
+	
 	@Autowired
 	private ServiceDao serviceDao;
+	
 	@Autowired
 	private WXPayOrderDao wxPayOrderDao;
+	
 	@Autowired
 	private ConsumOrderDao consumOrderDao;
+	
 	@Autowired
 	private ClientDao clientDao;
+	
 	@Autowired
 	private IncomeOrderDao incomeOrderDao;
+	
 	@Autowired
 	private CardDao cardDao;
+	
+	@Autowired
+	private FavourDao favourDao;
 
 	private static final Logger log = LogManager.getLogger(PayService.class);
 
@@ -74,9 +83,12 @@ public class PayService {
 		Set<FavourToOrder> favours = favourOrderBean.getFavours();
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
 
-		String productName = null;
-		for (FavourToOrder favour : favours)
-			productName += favour.getFavour().getName() + "*" + favour.getCount() + ",";
+		String productName = "";
+		for (FavourToOrder favour : favours){
+			Favour obj = favourDao.findById(favour.getFavour().getId());
+			log.error(obj.getName());
+			productName += obj.getName() + "*" + favour.getCount() + ",";
+		}
 		wxPayOrder.setProductName(productName);
 		wxPayOrder.setFavours(favours);
 		wxPayOrderDao.saveWXPayOrder(wxPayOrder);
@@ -147,7 +159,7 @@ public class PayService {
 				// 更新card表和favour表
 				org.json.JSONObject result;
 				Service service = order.getService();
-				List<FavourToOrder> favourToOrders = new ArrayList<FavourToOrder>(order.getFavours());
+				//List<FavourToOrder> favourToOrders = new ArrayList<FavourToOrder>(order.getFavours());
 				if (service != null) {
 					Card card = new Card();
 					card.setPayDate(payDate);
@@ -166,29 +178,36 @@ public class PayService {
 				} else {
 					// buy tickets
 					List<Ticket> tickets = new ArrayList<Ticket>();
-					for (FavourToOrder favourToOrder : favourToOrders) {
+					for (FavourToOrder favourToOrder : order.getFavours()) {
 						Favour favour = favourToOrder.getFavour();
 						int count = favourToOrder.getCount();
-						// ticket created
-						Ticket ticket = new Ticket();
-						ticket.setExpirationDate(getExpiration(favour, payDate));
-						ticket.setFailed(false);
-						ticket.setFavour(favour);
-						Set<FavourProjectRemainingInfo> listRemainingInfos = new HashSet<FavourProjectRemainingInfo>();
-						for (FavourProjectInfos favourProjectInfos : favour.getSet()) {
-							FavourProjectRemainingInfo remainingInfos = new FavourProjectRemainingInfo();
-							remainingInfos.setProject(favourProjectInfos.getProject());
-							remainingInfos.setRemaining(favourProjectInfos.getTimes());
-							listRemainingInfos.add(remainingInfos);
-						}
-						ticket.setRemainingInfos(listRemainingInfos);
-						// register number of tickets
-						for (int i = 0; i < count; i++) {
+						for(int i=0;i<count;i++){
+							// ticket created
+							Ticket ticket = new Ticket();
+							ticket.setExpirationDate(getExpiration(favour, payDate));
+							ticket.setFailed(false);
+							ticket.setFavour(favour);
+							Set<FavourProjectRemainingInfo> listRemainingInfos = new HashSet<FavourProjectRemainingInfo>();
+							for (FavourProjectInfos favourProjectInfos : favour.getSet()) {
+								FavourProjectRemainingInfo remainingInfos = new FavourProjectRemainingInfo();
+								remainingInfos.setProject(favourProjectInfos.getProject());
+								remainingInfos.setRemaining(favourProjectInfos.getTimes());
+								listRemainingInfos.add(remainingInfos);
+							}
+							ticket.setRemainingInfos(listRemainingInfos);
 							tickets.add(ticket);
 						}
 					}
 					Client client = clientDao.findById(clientId);
-					client.setTickets(tickets);
+					
+					List<Ticket> list = client.getTickets();
+					if (list == null) {
+						list = new ArrayList<>();
+						client.setTickets(tickets);
+					}
+					for (Ticket add : tickets) {
+						list.add(add);
+					}
 					client.setConsumTimes(client.getConsumTimes() + 1);
 					client.setConsumAmout(client.getConsumAmout() + order.getTotalPrice());
 					client.setLastVisit(new Date());
@@ -216,9 +235,9 @@ public class PayService {
 		Calendar curr = Calendar.getInstance();
 		curr.setTime(payDate);
 		if (object instanceof Service)
-			curr.set(Calendar.YEAR, curr.get(Calendar.YEAR) + ((Service) object).getValidTime());
+			curr.set(Calendar.MONTH, curr.get(Calendar.MONTH) + ((Service) object).getValidTime());
 		if (object instanceof Favour)
-			curr.set(Calendar.YEAR, curr.get(Calendar.YEAR) + ((Favour) object).getValidTime());
+			curr.set(Calendar.MONTH, curr.get(Calendar.MONTH) + ((Favour) object).getValidTime());
 		Date date = curr.getTime();
 		return date;
 	}
