@@ -7,6 +7,7 @@ import parseForm from '../../utils/parseToForm.js'
 import PropTypes from 'prop-types';
 import { payment, getWXConfig, membershipCard } from '../../services/pay.js'
 import { quickOrder } from '../../services/user.js'
+import getParameterByName from '../../utils/getParam.js'
 class OrderTrack extends React.Component {
     constructor(props) {
         super(props)
@@ -26,7 +27,7 @@ class OrderTrack extends React.Component {
     }
 
     componentDidMount() {
-        if(this.props.match.params.id == '$') {
+        if(getParameterByName('orderId') == '$') {
             dplus.track('订单跟踪');
         }
         
@@ -55,7 +56,7 @@ class OrderTrack extends React.Component {
 
         }).catch((error) => { console.log(error) });
 
-        if (this.props.match.params.id == '$') {
+        if (getParameterByName('orderId') == '$') {
             if (window.localStorage.getItem('openid')) {
                 quickOrder({
                     clientId: window.localStorage.getItem('clientId')
@@ -90,7 +91,7 @@ class OrderTrack extends React.Component {
 
         } else {
             orderDetail({
-                consumOrderId: this.props.match.params.id
+                consumOrderId: getParameterByName('orderId')
             }).then((res) => {
                 let data = res.data.orders
                 console.log(res)
@@ -273,7 +274,7 @@ class OrderTrack extends React.Component {
                         </div>
                             <div>爱车已交回你的手中 快来评价获积分吧
                         </div>
-                            {this.state.state == 3 && this.state.payState > 0 && this.state.stars == 0 && <div className="evaluate" onClick={() => { this.context.router.history.push(`/store/comment/${this.props.match.params.id}`) }}>
+                            {this.state.state == 3 && this.state.payState > 0 && this.state.stars == 0 && <div className="evaluate" onClick={() => { this.context.router.history.push(`/store/comment/${getParameterByName('orderId')}`) }}>
                                 评价得{commentPrice}积分
                         </div>}
                         </div>

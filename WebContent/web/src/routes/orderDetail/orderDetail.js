@@ -5,6 +5,7 @@ import NavBar from '../../components/NavBar'
 import { wxOrderDetail } from '../../services/orders.js'
 import PropTypes from 'prop-types';
 import { payment, getWXConfig, membershipCard } from '../../services/pay.js'
+import getParameterByName from '../../utils/getParam.js'
 class OrderDetail extends React.Component {
 
     constructor(props) {
@@ -51,7 +52,7 @@ class OrderDetail extends React.Component {
 
         wxOrderDetail({
             //wxPayOrderId: this.props.match.params.id,
-            wxPayOrderId: this.getParameterByName('orderId')
+            wxPayOrderId: getParameterByName('orderId')
         }).then((res) => {
             console.log(res);
             if (res.data.code == '0') {
@@ -83,7 +84,7 @@ class OrderDetail extends React.Component {
             payment({//传递所需的参数
                 "openId":  window.localStorage.getItem('openid'),
                 //"orderId": this.props.match.params.id,
-                "orderId": this.getParameterByName('orderId'),
+                "orderId": getParameterByName('orderId'),
                 "totalPrice": this.state.totalPrice,
             }).then((res) => {
                 if (res.data.code == 0) {
@@ -135,17 +136,6 @@ class OrderDetail extends React.Component {
         });
     }
 
-
-
-    getParameterByName = (name, url)=> {
-        if (!url) url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
 
 
     render() {

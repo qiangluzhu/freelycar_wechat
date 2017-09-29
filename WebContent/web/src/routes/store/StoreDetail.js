@@ -6,6 +6,7 @@ import './CooperativeStore.less'
 import '../autoInsurance/Inquiry.less'
 import { storeDetail, listComment } from '../../services/store.js'
 import { getWXConfig, favour } from '../../services/pay.js'
+import getParameterByName from '../../utils/getParam.js'
 import update from 'immutability-helper'
 const TabPane = Tabs.TabPane
 class CooperativeStore extends React.Component {
@@ -56,7 +57,7 @@ class CooperativeStore extends React.Component {
             console.log(error)
         })
 
-        storeDetail({ storeId: this.getParameterByName('storeId') }).then((res) => {
+        storeDetail({ storeId: getParameterByName('storeId') }).then((res) => {
             console.log(res)
             if (res.data.code == '0') {
                 let store = res.data.data.store
@@ -97,7 +98,7 @@ class CooperativeStore extends React.Component {
 
         listComment({
             //storeId: this.props.match.params.storeId,
-            storeId: this.getParameterByName('storeId')
+            storeId: getParameterByName('storeId')
         }).then((res) => {
             //console.log(res)
             if (res.data.code == '0') {
@@ -235,19 +236,6 @@ class CooperativeStore extends React.Component {
     }
 
 
-    getParameterByName = (name, url) => {
-        if (!url) url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
-
-
-
-
     render() {
         let sf = this.state.storefavours;
         let imgs = this.state.imgs.map((item, index) => {
@@ -305,7 +293,7 @@ class CooperativeStore extends React.Component {
                         <div className="beauty-aim">{item.comment}</div>
                     </Flex>
                 </div>
-                {this.getParameterByName('storeId') == 1 && <div className="money">
+                {getParameterByName('storeId') == 1 && <div className="money">
                     <span style={{ fontSize: '.24rem' }}>￥</span>{item.price + item.pricePerUnit * item.referWorkTime}
                 </div>}
             </Flex>
@@ -317,7 +305,7 @@ class CooperativeStore extends React.Component {
                         <div className="beauty-aim">{item.comment}</div>
                     </Flex>
                 </div>
-                {this.getParameterByName('storeId') == 1 && <div className="money">
+                {getParameterByName('storeId') == 1 && <div className="money">
                     <span style={{ fontSize: '.24rem' }}>￥</span>{item.price + item.pricePerUnit * item.referWorkTime}
                 </div>}
             </Flex>
@@ -358,7 +346,7 @@ class CooperativeStore extends React.Component {
                                 <p className="info-font" style={{ color: '#636363', width: '5rem' }} onClick={() => { this.openWXMap() }} >{this.state.address}(点我导航)</p>
 
                             </Flex>
-                            {this.getParameterByName('storeId') == 1 && <div className="info-identify">
+                            {getParameterByName('storeId') == 1 && <div className="info-identify">
                                 <span className="identification">免费安全检测</span>
                                 <span className="identification">下雨保</span>
                             </div>}
