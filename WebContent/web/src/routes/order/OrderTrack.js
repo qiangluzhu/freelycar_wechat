@@ -20,7 +20,8 @@ class OrderTrack extends React.Component {
             deliverTime: '',
             finishTime: '',
             createDate: '',
-            empty: false
+            empty: false,
+            id:''
         }
     }
 
@@ -129,7 +130,7 @@ class OrderTrack extends React.Component {
             payment({//传递所需的参数
                 //"openId": 'oBaSqs4THtZ-QRs1IQk-b8YKxH28',
                 "openId": window.localStorage.getItem('openid'),
-                "orderId": this.props.match.params.id,
+                "orderId": this.state.id,
                 "totalPrice": totalPrice,
             }).then((res) => {
                 if (res.data.code == 0) {
