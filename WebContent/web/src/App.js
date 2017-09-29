@@ -61,7 +61,7 @@ const App = () => (
             <Route path="/addcar/:select" component={AddCar} />
             <Route path="/carbrand" component={CarBrand} />
             
-            <Route path="/ordertrack/:id" component={OrderTrack} />
+            <Route path="/ordertrack" component={OrderTrack} />
             <Route path="/personalInfo" component={PersonalInfo} />
             <Route path="/serviceCard" component={ServiceCard} />
       

@@ -33,7 +33,7 @@ class MyCard extends React.Component {
         let card = this.state.cards.map((item, index) => {
             let background
             switch (item.service.name) {
-                case '洗车次卡': background = cika; break;
+                case '次卡': background = cika; break;
                 case '至尊卡': background = zhizun; break;
                 case '金卡': background = jinka; break;
                 case '白金卡': background = baijin; break;
@@ -46,7 +46,7 @@ class MyCard extends React.Component {
             </div>
         })
         return <div className="body-bac">
-            <div className="nav-bar-title" style={{ marginBottom: '.3rem' }}>
+             <div className="nav-bar-title" style={{ marginBottom: '.3rem' }}>
                 <i className="back" onClick={() => { history.back() }}></i>
                 我的会员卡
                 <span className="scan" onClick={() => { this.context.router.history.push('/addCard') }}>添加</span>

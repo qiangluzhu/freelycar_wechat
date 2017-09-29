@@ -41,7 +41,7 @@ class MyCardDetail extends React.Component {
     render() {
         let background
         switch (this.state.name) {
-            case '洗车次卡': background = cika; break;
+            case '次卡': background = cika; break;
             case '至尊卡': background = zhizun; break;
             case '金卡': background = jinka; break;
             case '白金卡': background = baijin; break;
