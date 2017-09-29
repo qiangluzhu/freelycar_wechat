@@ -27,7 +27,7 @@ class OrderTrack extends React.Component {
     }
 
     componentDidMount() {
-        if(getParameterByName('orderId') == '$') {
+        if(getParameterByName('orderId') == null) {
             dplus.track('订单跟踪');
         }
         
@@ -56,7 +56,7 @@ class OrderTrack extends React.Component {
 
         }).catch((error) => { console.log(error) });
 
-        if (getParameterByName('orderId') == '$') {
+        if (getParameterByName('orderId') == null) {
             if (window.localStorage.getItem('openid')) {
                 quickOrder({
                     clientId: window.localStorage.getItem('clientId')
