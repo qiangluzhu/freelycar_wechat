@@ -6,6 +6,7 @@ import './CooperativeStore.less'
 import '../autoInsurance/Inquiry.less'
 import { storeDetail, listComment } from '../../services/store.js'
 import { getWXConfig, favour } from '../../services/pay.js'
+import getParameterByName from '../../utils/getParam.js'
 import update from 'immutability-helper'
 const TabPane = Tabs.TabPane
 class CooperativeStore extends React.Component {
@@ -56,7 +57,7 @@ class CooperativeStore extends React.Component {
             console.log(error)
         })
 
-        storeDetail({ storeId: this.getParameterByName('storeId') }).then((res) => {
+        storeDetail({ storeId: getParameterByName('storeId') }).then((res) => {
             console.log(res)
             if (res.data.code == '0') {
                 let store = res.data.data.store
@@ -97,7 +98,7 @@ class CooperativeStore extends React.Component {
 
         listComment({
             //storeId: this.props.match.params.storeId,
-            storeId: this.getParameterByName('storeId')
+            storeId: getParameterByName('storeId')
         }).then((res) => {
             //console.log(res)
             if (res.data.code == '0') {
@@ -107,7 +108,8 @@ class CooperativeStore extends React.Component {
                         commentDate: item.commentDate,
                         phone: item.phone.substring(0, 3) + '****' + item.phone.substring(7),
                         star: item.stars,
-                        comment: item.comment
+                        comment: item.comment,
+                        headimgurl: item.headimgurl
                     }
                     comments.push(comment)
                 }
@@ -160,6 +162,7 @@ class CooperativeStore extends React.Component {
 
 
     payFavour = (price) => {
+
         if (price == 0) {
             Toast.info('当前支付金额为0,不能支付', 2);
             return false;
@@ -177,6 +180,7 @@ class CooperativeStore extends React.Component {
                     favours.push(item)
                 }
             }
+            dplus.track('买优惠券');
 
             favour({//传递所需的参数
                 //"openId": 'oBaSqs4THtZ-QRs1IQk-b8YKxH28',
@@ -185,10 +189,10 @@ class CooperativeStore extends React.Component {
                 "totalPrice": price,
             }).then((res) => {
                 let data = res.data.data;
+
                 this.onBridgeReady(data.appId, data.timeStamp,
                     data.nonceStr, data.package,
                     data.signType, data.paySign);
-
             }).catch((error) => { console.log(error) });
         }
 
@@ -232,19 +236,6 @@ class CooperativeStore extends React.Component {
     }
 
 
-    getParameterByName = (name, url) => {
-        if (!url) url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
-
-
-
-
     render() {
         let sf = this.state.storefavours;
         let imgs = this.state.imgs.map((item, index) => {
@@ -284,7 +275,7 @@ class CooperativeStore extends React.Component {
                             <Flex className="use-button">
                                 {this.state.favours[item.favour.id] && <Flex align="center" justify="center" className="use-button-plus" onClick={() => { this.plusCount(item.favour.id, buyPrice) }}>-</Flex>}
                                 <div className="number">{this.state.favours[item.favour.id] ? this.state.favours[item.favour.id].count : ''}</div>
-                                {/* <Flex className="use-button-plus" align="center" justify="center" onClick={() => { this.addCount(item.favour.id, buyPrice) }}>+</Flex> */}
+                                <Flex className="use-button-plus" align="center" justify="center" onClick={() => { this.addCount(item.favour.id, buyPrice) }}>+</Flex>
                             </Flex>
                         </Flex>
                     </Flex>
@@ -302,7 +293,7 @@ class CooperativeStore extends React.Component {
                         <div className="beauty-aim">{item.comment}</div>
                     </Flex>
                 </div>
-                {this.getParameterByName('storeId') == 1 && <div className="money">
+                {getParameterByName('storeId') == 1 && <div className="money">
                     <span style={{ fontSize: '.24rem' }}>￥</span>{item.price + item.pricePerUnit * item.referWorkTime}
                 </div>}
             </Flex>
@@ -314,13 +305,14 @@ class CooperativeStore extends React.Component {
                         <div className="beauty-aim">{item.comment}</div>
                     </Flex>
                 </div>
-                {this.getParameterByName('storeId') == 1 && <div className="money">
+                {getParameterByName('storeId') == 1 && <div className="money">
                     <span style={{ fontSize: '.24rem' }}>￥</span>{item.price + item.pricePerUnit * item.referWorkTime}
                 </div>}
             </Flex>
         }), commentList = this.state.comments.map((item, index) => {
+
             return <Flex className="comment" align="start" key={index}>
-                <div className="avatar"><img src={item.headimgurl} alt=""/></div>
+                <div className="avatar"><img src={item.headimgurl} alt="" /></div>
                 <Flex.Item>
                     <div style={{ width: '100%' }}><span className="phone">{item.phone}</span><span className="time">{item.commentDate}</span></div>
                     <Star number={item.star}> </Star>
@@ -354,7 +346,7 @@ class CooperativeStore extends React.Component {
                                 <p className="info-font" style={{ color: '#636363', width: '5rem' }} onClick={() => { this.openWXMap() }} >{this.state.address}(点我导航)</p>
 
                             </Flex>
-                            {this.getParameterByName('storeId') == 1 && <div className="info-identify">
+                            {getParameterByName('storeId') == 1 && <div className="info-identify">
                                 <span className="identification">免费安全检测</span>
                                 <span className="identification">下雨保</span>
                             </div>}
@@ -392,7 +384,10 @@ class CooperativeStore extends React.Component {
                     {commentList}
                 </TabPane>
             </Tabs>
-            {/* {totalPrice > 0 && <div className='bottom-pay-button'>
+
+
+
+            {totalPrice > 0 && <div className='bottom-pay-button'>
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='lable'>合计:</Flex.Item>
                     <Flex.Item style={{ color: 'red' }}>￥{totalPrice}</Flex.Item>
@@ -402,7 +397,7 @@ class CooperativeStore extends React.Component {
                         </Flex>
                     </div>
                 </Flex>
-            </div>} */}
+            </div>}
         </div>
     }
 

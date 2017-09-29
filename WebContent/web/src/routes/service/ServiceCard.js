@@ -69,7 +69,11 @@ class ServiceCard extends React.Component {
                 pName = pName + '...'
             }
 
-            return <Flex key={index} className="center-listItem" direction="column" onClick={() => { this.context.router.history.push(`/ordertrack/${item.id}`) }}>
+            return <Flex key={index} className="center-listItem" direction="column" onClick={() => { 
+                //this.context.router.history.push(`/ordertrack/${item.id}`) 
+                        history.pushState(null,null,`/freelycar_wechat/index.html#/ordertrack?orderId=${item.id}`);
+                        window.location.reload();
+                }}>
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.24rem', color: '#4b4b4b' }}>
                     <i className="circle"></i>
                     <p>{pName}</p>

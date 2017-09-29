@@ -7,6 +7,7 @@ import parseForm from '../../utils/parseToForm.js'
 import PropTypes from 'prop-types';
 import { payment, getWXConfig, membershipCard } from '../../services/pay.js'
 import { quickOrder } from '../../services/user.js'
+import getParameterByName from '../../utils/getParam.js'
 class OrderTrack extends React.Component {
     constructor(props) {
         super(props)
@@ -20,13 +21,18 @@ class OrderTrack extends React.Component {
             deliverTime: '',
             finishTime: '',
             createDate: '',
-            empty: false
+            empty: false,
+            id:''
         }
     }
 
     componentDidMount() {
+        if(getParameterByName('orderId') == null) {
+            dplus.track('订单跟踪');
+        }
+        
         if(!window.localStorage.getItem('openid')) {
-            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd188f8284ee297b&redirect_uri=http%3a%2f%2fwww.freelycar.com%2ffreelycar_wechat%2fapi%2fuser%2fwechatlogin%3FhtmlPage%3Dauthorization&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd188f8284ee297b&redirect_uri=http%3a%2f%2fwww.freelycar.com%2ffreelycar_wechat%2fapi%2fuser%2fwechatlogin%3FhtmlPage%3Dordertrack%2f%24%26isAuth%3dtrue&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
         }  
         //通过后台对微信签名的验证。
         getWXConfig({
@@ -50,7 +56,7 @@ class OrderTrack extends React.Component {
 
         }).catch((error) => { console.log(error) });
 
-        if (this.props.match.params.id == '$') {
+        if (getParameterByName('orderId') == null) {
             if (window.localStorage.getItem('openid')) {
                 quickOrder({
                     clientId: window.localStorage.getItem('clientId')
@@ -85,7 +91,7 @@ class OrderTrack extends React.Component {
 
         } else {
             orderDetail({
-                consumOrderId: this.props.match.params.id
+                consumOrderId: getParameterByName('orderId')
             }).then((res) => {
                 let data = res.data.orders
                 console.log(res)
@@ -125,7 +131,7 @@ class OrderTrack extends React.Component {
             payment({//传递所需的参数
                 //"openId": 'oBaSqs4THtZ-QRs1IQk-b8YKxH28',
                 "openId": window.localStorage.getItem('openid'),
-                "orderId": this.props.match.params.id,
+                "orderId": this.state.id,
                 "totalPrice": totalPrice,
             }).then((res) => {
                 if (res.data.code == 0) {
@@ -268,7 +274,7 @@ class OrderTrack extends React.Component {
                         </div>
                             <div>爱车已交回你的手中 快来评价获积分吧
                         </div>
-                            {this.state.state == 3 && this.state.payState > 0 && this.state.stars == 0 && <div className="evaluate" onClick={() => { this.context.router.history.push(`/store/comment/${this.props.match.params.id}`) }}>
+                            {this.state.state == 3 && this.state.payState > 0 && this.state.stars == 0 && <div className="evaluate" onClick={() => { this.context.router.history.push(`/store/comment/${getParameterByName('orderId')}`) }}>
                                 评价得{commentPrice}积分
                         </div>}
                         </div>
