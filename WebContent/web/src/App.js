@@ -75,7 +75,7 @@ const App = () => (
             <Route path="/membership/myfavour" exact component={MyFavour}/>
       
             <Route path="/carInfo" component={CarInfo}/>
-            <Route path="/store/cooperative-store" exact component={CooperativeStore}/>
+            <Route path="/store" exact component={CooperativeStore}/>
             <Route path="/store/comment/:consumerOrderId" exact component={CommentStore}/>
             <Route path="/insurance/:carId" exact  component={Insurance}/>
             <Route path="/notFound" component={NotFound}/>

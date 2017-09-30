@@ -57,16 +57,28 @@ class OrderDetail extends React.Component {
             console.log(res);
             if (res.data.code == '0') {
                 let data = res.data.data;
+                let projects = []
+                if (data.favours) {
+
+                    for (let item of data.favours) {
+                        for(let setItem of item.favour.set) {
+                            setItem.times = setItem.times*item.count
+                        }
+                        item.count*item.favour.set
+                        projects = [...projects, ...item.favour.set]
+                    }
+                } else if (data.service) {
+                    projects = [...projects, ...data.service.projectInfos]
+                }
                 this.setState({
                     clientName: res.data.wxUser,
                     licensePlate: data.licensePlate,
-                    state: data.state,
                     totalPrice: data.totalPrice,
                     id: data.id,
                     createDate: data.createDate,
                     payMethod: data.payMethod,
                     payState: data.payState,
-                    projects: data.service.projectInfos,
+                    projects: projects,
                 })
             }
         }).catch((error) => { console.log(error) });
@@ -82,7 +94,7 @@ class OrderDetail extends React.Component {
 
         if (state) {
             payment({//传递所需的参数
-                "openId":  window.localStorage.getItem('openid'),
+                "openId": window.localStorage.getItem('openid'),
                 //"orderId": this.props.match.params.id,
                 "orderId": getParameterByName('orderId'),
                 "totalPrice": this.state.totalPrice,
@@ -164,7 +176,7 @@ class OrderDetail extends React.Component {
 
         //服务项目
         const projects = this.state.projects.map((item, index) => {
-           // console.log(item);
+            // console.log(item);
             return <Flex key={index} className='order-list'>
                 <Flex.Item className='leftLable'>{item.project.name}</Flex.Item>
                 <Flex.Item className='rightText'>X {item.times}</Flex.Item>
@@ -178,7 +190,7 @@ class OrderDetail extends React.Component {
 
             <Flex className="order-track-baseinfo">
                 <Flex.Item className="Info">
-                    <p>姓名：{this.state.clientName}{window.localStorage.getItem('isMember')?'(会员)':''}</p>
+                    <p>姓名：{this.state.clientName}{window.localStorage.getItem('isMember') ? '(会员)' : ''}</p>
                 </Flex.Item>
             </Flex>
             <div className="order-track-line"></div>
@@ -235,7 +247,7 @@ class OrderDetail extends React.Component {
                 <Flex style={{ height: '100%' }}>
                     <Flex.Item className='lable'>合计:</Flex.Item>
                     <Flex.Item style={{ color: 'red' }}>￥{this.state.totalPrice}</Flex.Item>
-                    <div className='pay-button' onClick={()=>{this.handlePay()}}>
+                    <div className='pay-button' onClick={() => { this.handlePay() }}>
                         <Flex style={{ height: '100%' }}>
                             <Flex.Item style={{ textAlign: 'center', color: '#fff' }}>立即支付</Flex.Item>
                         </Flex>
