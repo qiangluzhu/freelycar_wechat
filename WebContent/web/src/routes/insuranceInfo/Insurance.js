@@ -46,15 +46,13 @@ class Insurance extends React.Component {
     }
 
     componentDidMount() {
-        console.log(district)
         carDetail({
             carId: this.props.match.params.carId,
         }).then((res) => {
-            console.log(res);
+
             let  dt = res.data.data;
-            console.log(dt.insuranceCompany)
             this.setState({
-                carPeopleName:res.data.clientName,
+                carPeopleName:res.data.name,
                 peopleIdNumber:res.data.idNumber,
                 insuredCity:dt.insuranceCity?dt.insuranceCity.split(','):[],
                 insuredCompany:dt.insuranceCompany?[dt.insuranceCompany]:[],
@@ -71,6 +69,7 @@ class Insurance extends React.Component {
             clientId: window.localStorage.getItem('clientId'),
             id:this.props.match.params.carId,
             idNumber:this.state.peopleIdNumber,
+            name:this.state.carPeopleName,
             insuranceCompany:this.state.insuredCompany[0],
             insuranceCity:this.state.insuredCity[0]+','+this.state.insuredCity[1],
             insuranceEndtime:this.state.insuranceEndtime.format('YYYY-MM-DD')
@@ -117,16 +116,6 @@ class Insurance extends React.Component {
                     <List.Item arrow="horizontal">投保公司</List.Item>
                 </Picker>
 
-
-                {/* <Picker
-                    data={insuredCompany}
-                    cols={1}
-                    extra="填写投保公司"
-                    onOk={v => { this.setState({ insuredCompany: v }) }}
-                    value={this.state.insuredCompany}
-                >
-                    <Item arrow="horizontal">投保公司</Item>
-                </Picker> */}
 
                 <Picker extra="填写投保城市"
                     data={insuredCity}
