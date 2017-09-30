@@ -58,7 +58,7 @@ class OrderDetail extends React.Component {
             if (res.data.code == '0') {
                 let data = res.data.data;
                 let projects = []
-                if (data.favours) {
+                if (data.favours.length>0) {
 
                     for (let item of data.favours) {
                         for(let setItem of item.favour.set) {
