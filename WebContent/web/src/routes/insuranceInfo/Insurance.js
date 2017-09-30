@@ -52,12 +52,12 @@ class Insurance extends React.Component {
         }).then((res) => {
             console.log(res);
             let  dt = res.data.data;
-
+            console.log(dt.insuranceCompany)
             this.setState({
                 carPeopleName:res.data.clientName,
                 peopleIdNumber:res.data.idNumber,
                 insuredCity:dt.insuranceCity?dt.insuranceCity.split(','):[],
-                insuredCompany:[dt.insuranceCompany],
+                insuredCompany:dt.insuranceCompany?[dt.insuranceCompany]:[],
                 insuranceEndtime:dt.insuranceEndtime?moment(dt.insuranceEndtime, "YYYY-MM-DD"):'',
 
             });
