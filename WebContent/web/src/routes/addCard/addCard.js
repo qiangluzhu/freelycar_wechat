@@ -200,8 +200,10 @@ class AddCard extends React.Component {
         });
 
         let serviceItem = this.state.services.map((item, index) => {
-            let service = item
+            let service = item;
             if (item.name == this.state.arrowName) {
+                console.log(service);
+
 
                 let proInfos = service.projectInfos;
                 let item = proInfos.map((item1, index1) => {
@@ -213,7 +215,19 @@ class AddCard extends React.Component {
                         </div>
                     </div>
                 });
-                return item;
+
+                //代金券
+                let favInfos = service.favourInfos;
+                let item_ticket = favInfos.map((item1, index1) => {
+                    return <div key={index + 'ticket' + index1} className='vip-service-item'>
+                        <div className='label-left'>{item1.favour.name}</div>
+                        <div className='label-right'>
+                            <span className='count'>{item1.count}</span>
+                            <span className='unit'>次</span>
+                        </div>
+                    </div>
+                });
+                return item+item_ticket;
             }
         });
 
