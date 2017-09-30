@@ -11,13 +11,25 @@ import more_arrow from '../../img/more_arrow.png'
 import { carDetail,modifyCarInfo} from '../../services/user.js'
 import PropTypes from 'prop-types';
 import cityJson from '../../data/city.json';
+import { district} from 'antd-mobile-demo-data';
 const Item = List.Item;
 const Brief = Item.Brief;
 
 const minDate = moment('2015-08-06 +0800', 'YYYY-MM-DD Z').utcOffset(8);
 const today = moment();
 const maxDate = moment('2016-12-03 +0800', 'YYYY-MM-DD Z').utcOffset(8);
-
+const insuredCompany = [{ label: "中国人保车险", value: "中国人保车险" },
+{ label: "平安车险", value: "平安车险" },
+{ label: "太平洋车险", value: "太平洋车险" },
+{ label: "中华联合车险", value: "中华联合车险" },
+{ label: "大地车险", value: "大地车险" },
+{ label: "天安车险", value: "天安车险" },
+{ label: "永安车险", value: "永安车险" },
+{ label: "阳光车险", value: "阳光车险" },
+{ label: "安邦车险", value: "安邦车险" },
+{ label: "太平车险", value: "太平车险" },
+{ label: "其他", value: "其他" }
+];
 class Insurance extends React.Component {
 
     constructor(props) {
@@ -34,6 +46,7 @@ class Insurance extends React.Component {
     }
 
     componentDidMount() {
+        console.log(district)
         carDetail({
             carId: this.props.match.params.carId,
         }).then((res) => {
@@ -69,18 +82,7 @@ class Insurance extends React.Component {
 
     render() {
 
-        const insuredCompany = [{ label: "中国人保车险", value: "中国人保车险" },
-            { label: "平安车险", value: "平安车险" },
-            { label: "太平洋车险", value: "太平洋车险" },
-            { label: "中华联合车险", value: "中华联合车险" },
-            { label: "大地车险", value: "大地车险" },
-            { label: "天安车险", value: "天安车险" },
-            { label: "永安车险", value: "永安车险" },
-            { label: "阳光车险", value: "阳光车险" },
-            { label: "安邦车险", value: "安邦车险" },
-            { label: "太平车险", value: "太平车险" },
-            { label: "其他", value: "其他" }
-        ];
+  
 
         const insuredCity = cityJson;
 
@@ -105,17 +107,17 @@ class Insurance extends React.Component {
                     onChange={(e)=>{this.setState({peopleIdNumber:e})}}
                 >身份证</InputItem>
 
-                {/* <Picker extra="填写投保公司"
+                <Picker extra="填写投保公司"
                     data={insuredCompany}
                     cols={1}
                     value={this.state.insuredCompany}
                     onOk={e => {console.log(e); this.setState({ insuredCompany: e })}}
                 >
                     <List.Item arrow="horizontal">投保公司</List.Item>
-                </Picker> */}
+                </Picker>
 
 
-                <Picker
+                {/* <Picker
                     data={insuredCompany}
                     cols={1}
                     extra="填写投保公司"
@@ -123,7 +125,7 @@ class Insurance extends React.Component {
                     value={this.state.insuredCompany}
                 >
                     <Item arrow="horizontal">投保公司</Item>
-                </Picker>
+                </Picker> */}
 
                 <Picker extra="填写投保城市"
                     data={insuredCity}
