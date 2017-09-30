@@ -199,7 +199,10 @@ class AddCard extends React.Component {
 
         });
 
-        let serviceItem = this.state.services.map((item, index) => {
+
+
+        let serviceItem = [];
+        this.state.services.map((item, index) => {
             let service = item;
             if (item.name == this.state.arrowName) {
                 console.log(service);
@@ -207,6 +210,7 @@ class AddCard extends React.Component {
 
                 let proInfos = service.projectInfos;
                 let item = proInfos.map((item1, index1) => {
+                    
                     return <div key={index + '' + index1} className='vip-service-item'>
                         <div className='label-left'>{item1.project.name}</div>
                         <div className='label-right'>
@@ -215,6 +219,8 @@ class AddCard extends React.Component {
                         </div>
                     </div>
                 });
+                serviceItem.push(item);
+
 
                 //代金券
                 let favInfos = service.favourInfos;
@@ -227,7 +233,7 @@ class AddCard extends React.Component {
                         </div>
                     </div>
                 });
-                return item+item_ticket;
+                serviceItem.push(item_ticket);
             }
         });
 
@@ -243,7 +249,7 @@ class AddCard extends React.Component {
 
             <div className='vip-service'>
                 <div className='vip-service-div'>
-                    <div className='vip-service-header'>会员专项</div>
+                    <div className={`vip-service-header${this.state.arrowIndex}`}>会员专项</div>
                     {serviceItem}
                 </div>
             </div>
