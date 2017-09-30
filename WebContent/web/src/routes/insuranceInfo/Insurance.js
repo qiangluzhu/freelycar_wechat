@@ -70,6 +70,7 @@ class Insurance extends React.Component {
         modifyCarInfo({
             clientId: window.localStorage.getItem('clientId'),
             id:this.props.match.params.carId,
+            idNumber:this.state.peopleIdNumber,
             insuranceCompany:this.state.insuredCompany[0],
             insuranceCity:this.state.insuredCity[0]+','+this.state.insuredCity[1],
             insuranceEndtime:this.state.insuranceEndtime.format('YYYY-MM-DD')
