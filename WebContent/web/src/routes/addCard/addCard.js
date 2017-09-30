@@ -205,8 +205,6 @@ class AddCard extends React.Component {
         this.state.services.map((item, index) => {
             let service = item;
             if (item.name == this.state.arrowName) {
-                console.log(service);
-
 
                 let proInfos = service.projectInfos;
                 let item = proInfos.map((item1, index1) => {
