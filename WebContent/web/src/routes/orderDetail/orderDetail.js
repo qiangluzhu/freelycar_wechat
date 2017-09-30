@@ -164,7 +164,7 @@ class OrderDetail extends React.Component {
 
         //服务项目
         const projects = this.state.projects.map((item, index) => {
-           // console.log(item);
+           console.log(item);
             return <Flex key={index} className='order-list'>
                 <Flex.Item className='leftLable'>{item.project.name}</Flex.Item>
                 <Flex.Item className='rightText'>X {item.times}</Flex.Item>
