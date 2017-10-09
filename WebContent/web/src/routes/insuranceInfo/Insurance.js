@@ -11,7 +11,6 @@ import more_arrow from '../../img/more_arrow.png'
 import { carDetail,modifyCarInfo} from '../../services/user.js'
 import PropTypes from 'prop-types';
 import cityJson from '../../data/city.json';
-import { district} from 'antd-mobile-demo-data';
 const Item = List.Item;
 const Brief = Item.Brief;
 

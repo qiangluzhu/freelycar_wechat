@@ -1,4 +1,4 @@
-import { province } from 'antd-mobile-demo-data';
+
 import { ListView, List } from 'antd-mobile';
 
 const { Item } = List;
