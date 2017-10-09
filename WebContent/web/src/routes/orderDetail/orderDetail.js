@@ -229,7 +229,7 @@ class OrderDetail extends React.Component {
             </div>
 
 
-            <div style={{ margin: '.21rem .22rem 0 .22rem', backgroundColor: '#fff' }}>
+            <div style={{ margin: '.21rem .22rem 0.98rem .22rem', backgroundColor: '#fff'}}>
                 <div className='order-list'>
                     <Flex style={{ height: '100%' }}>
                         <Flex.Item className='leftLable' style={{ color: '#4b4b4b' }}>服务项目</Flex.Item>
