@@ -64,7 +64,7 @@
 		<Logger name="org.hibernate" level="error">
 			<AppenderRef ref="async3" />
 		</Logger>
-		<Root level="error">
+		<Root level="info">
 			<AppenderRef ref="console" />
 		</Root>
 	</Loggers>
