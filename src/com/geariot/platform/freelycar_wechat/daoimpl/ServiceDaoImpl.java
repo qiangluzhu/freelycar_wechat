@@ -56,7 +56,7 @@ public class ServiceDaoImpl implements ServiceDao{
 	@Override
 	public List<Service> queryByName(String name) {
 		String hql = "from Service where name like :name and deleted = 0 order by createDate desc";
-		return this.getSession().createQuery(hql).setString("name", "%"+name+"%").list();
+		return this.getSession().createQuery(hql).setString("name", "%"+name+"%").setCacheable(Constants.SELECT_CACHE).list();
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class ServiceDaoImpl implements ServiceDao{
 	@Override
 	public List<Object> listName() {
 		String sql = "select id , name from Service where deleted = 0";
-		return this.getSession().createSQLQuery(sql).list(); 
+		return this.getSession().createSQLQuery(sql).setCacheable(Constants.SELECT_CACHE).list(); 
 		
 	}
 

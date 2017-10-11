@@ -14,6 +14,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,6 +57,9 @@ public class WXUserService {
 	@Autowired
 	private CardDao cardDao;
 
+	
+	
+	private static Logger log = Logger.getLogger(WXUserService.class);
 	public double test() {
 		return 0;
 	}
@@ -187,11 +191,17 @@ public class WXUserService {
 	}
 
 	public String modifyCar(int clientId, int id, String insuranceCity, String insuranceCompany,
-			String insuranceEndtime) throws ParseException {
+			String insuranceEndtime, String name, String idNumber) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Client client = clientDao.findById(clientId);
 		if (client == null) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
+		}
+		if(name != null && !name.isEmpty() && !name.trim().isEmpty()){
+			client.setName(name);
+		}
+		if(idNumber != null && !idNumber.isEmpty() && !idNumber.trim().isEmpty()){
+			client.setIdNumber(idNumber);
 		}
 		Car modify = this.carDao.findById(id);
 		modify.setInsuranceCity(insuranceCity);
@@ -205,8 +215,9 @@ public class WXUserService {
 		JsonConfig config = JsonResFactory.dateConfig();
 		config.registerPropertyExclusions(Car.class, new String[] { "client" });
 		JSONObject obj = JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONObject.fromObject(modify, config));
-		obj.put("clientName", client.getName());
+		obj.put("name", client.getName());
 		obj.put("idNumber", client.getIdNumber());
+		log.error(obj.toString());
 		return obj.toString();
 	}
 
@@ -311,7 +322,7 @@ public class WXUserService {
 			JsonConfig config = JsonResFactory.dateConfig();
 			config.registerPropertyExclusions(Car.class, new String[] { "client" });
 			JSONObject obj = JsonResFactory.buildNetWithData(RESCODE.SUCCESS, JSONObject.fromObject(exist, config));
-			obj.put("clientName", client.getName());
+			obj.put("name", client.getName());
 			obj.put("idNumber", client.getIdNumber());
 			return obj.toString();
 		}

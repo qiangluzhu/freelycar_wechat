@@ -17,6 +17,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.geariot.platform.freelycar_wechat.utils.JsonDateDeserialize;
+
 /**
  * @author mxy940127
  *
@@ -26,6 +29,7 @@ public class Ticket {
 	private int id;
 	private Favour favour;
 	private Set<FavourProjectRemainingInfo> remainingInfos;
+	@JsonDeserialize(using=JsonDateDeserialize.class)
 	private Date expirationDate;
 	private boolean failed;
 	@Id

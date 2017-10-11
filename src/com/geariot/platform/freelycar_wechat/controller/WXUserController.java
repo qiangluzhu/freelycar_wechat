@@ -143,10 +143,10 @@ public class WXUserController {
 	@ResponseBody
 	@RequestMapping(value = "/carInfo", method = RequestMethod.GET)
 	public String carInfo(int clientId, int id, String insuranceCity,
-			String insuranceCompany, String insuranceEndtime)
+			String insuranceCompany, String insuranceEndtime, String name, String idNumber)
 			throws ParseException {
 		return wxUserService.modifyCar(clientId, id, insuranceCity,
-				insuranceCompany, insuranceEndtime);
+				insuranceCompany, insuranceEndtime, name, idNumber);
 	}
 
 	@ResponseBody

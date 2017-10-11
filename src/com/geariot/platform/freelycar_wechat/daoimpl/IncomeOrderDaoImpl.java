@@ -29,7 +29,7 @@ public class IncomeOrderDaoImpl implements IncomeOrderDao {
 	@Override
 	public List<IncomeOrder> findByClientId(int clientId) {
 		String hql = "from IncomeOrder where clientId = :clientId order by payDate desc";
-		return this.getSession().createQuery(hql).setInteger("clientId", clientId).list();
+		return this.getSession().createQuery(hql).setInteger("clientId", clientId).setCacheable(Constants.SELECT_CACHE).list();
 	}
 
 	@Override
