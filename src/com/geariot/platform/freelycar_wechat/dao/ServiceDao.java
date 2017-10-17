@@ -1,8 +1,10 @@
 package com.geariot.platform.freelycar_wechat.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import com.geariot.platform.freelycar_wechat.entities.Service;
+import com.geariot.platform.freelycar_wechat.entities.ServiceProjectInfo;
 
 public interface ServiceDao {
 
@@ -28,4 +30,5 @@ public interface ServiceDao {
 	
 	List<Service> listOnWX(int from, int pageSize);
 
+	List<ServiceProjectInfo> getListByServiceId(int serviceId);
 }

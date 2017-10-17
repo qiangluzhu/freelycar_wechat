@@ -33,18 +33,27 @@ public class PayService {
 
 	@Autowired
 	private WXUserDao wxUserDao;
+	
 	@Autowired
 	private ServiceDao serviceDao;
+	
 	@Autowired
 	private WXPayOrderDao wxPayOrderDao;
+	
 	@Autowired
 	private ConsumOrderDao consumOrderDao;
+	
 	@Autowired
 	private ClientDao clientDao;
+	
 	@Autowired
 	private IncomeOrderDao incomeOrderDao;
+	
 	@Autowired
 	private CardDao cardDao;
+	
+	@Autowired
+	private FavourDao favourDao;
 
 	private static final Logger log = LogManager.getLogger(PayService.class);
 
@@ -74,9 +83,12 @@ public class PayService {
 		Set<FavourToOrder> favours = favourOrderBean.getFavours();
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
 
-		String productName = null;
-		for (FavourToOrder favour : favours)
-			productName += favour.getFavour().getName() + "*" + favour.getCount() + ",";
+		String productName = "";
+		for (FavourToOrder favour : favours){
+			Favour obj = favourDao.findById(favour.getFavour().getId());
+			log.error(obj.getName());
+			productName += obj.getName() + "*" + favour.getCount() + ",";
+		}
 		wxPayOrder.setProductName(productName);
 		wxPayOrder.setFavours(favours);
 		wxPayOrderDao.saveWXPayOrder(wxPayOrder);
@@ -140,20 +152,25 @@ public class PayService {
 					return res;
 				}
 				order.setPayState(1); // 支付状态
+				order.setFinishDate(new Date());
 				amount = (float) order.getTotalPrice();
 				clientId = clientDao.findByPhone(wxUserDao.findUserByOpenId(order.getOpenId()).getPhone()).getId();
 				programName = Constants.WX_CARDANDFAVOUR;
 				// 更新card表和favour表
 				org.json.JSONObject result;
 				Service service = order.getService();
-				List<FavourToOrder> favourToOrders = new ArrayList<FavourToOrder>(order.getFavours());
+				//List<FavourToOrder> favourToOrders = new ArrayList<FavourToOrder>(order.getFavours());
 				if (service != null) {
 					Card card = new Card();
 					card.setPayDate(payDate);
 					card.setService(service);
 					card.setExpirationDate(getExpiration(service, payDate));
 					card.setPayMethod(payMethod);
-					card.setCardNumber(IDGenerator.generate(IDGenerator.WX_CARD));
+					String cardNumber = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
+					while (cardDao.findByCardNumber(cardNumber) != null) {
+						cardNumber = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
+					}
+					card.setCardNumber("e"+cardNumber);
 					result = buyCard(clientId, card);
 					if ((RESCODE) result.get(Constants.RESPONSE_CODE_KEY) != RESCODE.SUCCESS) {
 						// WechatTemplateMessage.
@@ -161,29 +178,36 @@ public class PayService {
 				} else {
 					// buy tickets
 					List<Ticket> tickets = new ArrayList<Ticket>();
-					for (FavourToOrder favourToOrder : favourToOrders) {
+					for (FavourToOrder favourToOrder : order.getFavours()) {
 						Favour favour = favourToOrder.getFavour();
 						int count = favourToOrder.getCount();
-						// ticket created
-						Ticket ticket = new Ticket();
-						ticket.setExpirationDate(getExpiration(favour, payDate));
-						ticket.setFailed(false);
-						ticket.setFavour(favour);
-						Set<FavourProjectRemainingInfo> listRemainingInfos = new HashSet<FavourProjectRemainingInfo>();
-						for (FavourProjectInfos favourProjectInfos : favour.getSet()) {
-							FavourProjectRemainingInfo remainingInfos = new FavourProjectRemainingInfo();
-							remainingInfos.setProject(favourProjectInfos.getProject());
-							remainingInfos.setRemaining(favourProjectInfos.getTimes());
-							listRemainingInfos.add(remainingInfos);
-						}
-						ticket.setRemainingInfos(listRemainingInfos);
-						// register number of tickets
-						for (int i = 0; i < count; i++) {
+						for(int i=0;i<count;i++){
+							// ticket created
+							Ticket ticket = new Ticket();
+							ticket.setExpirationDate(getExpiration(favour, payDate));
+							ticket.setFailed(false);
+							ticket.setFavour(favour);
+							Set<FavourProjectRemainingInfo> listRemainingInfos = new HashSet<FavourProjectRemainingInfo>();
+							for (FavourProjectInfos favourProjectInfos : favour.getSet()) {
+								FavourProjectRemainingInfo remainingInfos = new FavourProjectRemainingInfo();
+								remainingInfos.setProject(favourProjectInfos.getProject());
+								remainingInfos.setRemaining(favourProjectInfos.getTimes());
+								listRemainingInfos.add(remainingInfos);
+							}
+							ticket.setRemainingInfos(listRemainingInfos);
 							tickets.add(ticket);
 						}
 					}
 					Client client = clientDao.findById(clientId);
-					client.setTickets(tickets);
+					
+					List<Ticket> list = client.getTickets();
+					if (list == null) {
+						list = new ArrayList<>();
+						client.setTickets(tickets);
+					}
+					for (Ticket add : tickets) {
+						list.add(add);
+					}
 					client.setConsumTimes(client.getConsumTimes() + 1);
 					client.setConsumAmout(client.getConsumAmout() + order.getTotalPrice());
 					client.setLastVisit(new Date());
@@ -211,23 +235,14 @@ public class PayService {
 		Calendar curr = Calendar.getInstance();
 		curr.setTime(payDate);
 		if (object instanceof Service)
-			curr.set(Calendar.YEAR, curr.get(Calendar.YEAR) + ((Service) object).getValidTime());
+			curr.set(Calendar.MONTH, curr.get(Calendar.MONTH) + ((Service) object).getValidTime());
 		if (object instanceof Favour)
-			curr.set(Calendar.YEAR, curr.get(Calendar.YEAR) + ((Favour) object).getValidTime());
+			curr.set(Calendar.MONTH, curr.get(Calendar.MONTH) + ((Favour) object).getValidTime());
 		Date date = curr.getTime();
 		return date;
 	}
 
 	public org.json.JSONObject buyCard(int clientId, Card card) {
-		if (card.getCardNumber() == null || card.getCardNumber().isEmpty() || card.getCardNumber().trim().isEmpty()) {
-			String cardNumber = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
-			while (cardDao.findByCardNumber(cardNumber) != null) {
-				cardNumber = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
-			}
-			card.setCardNumber(cardNumber);
-		} else if (cardDao.findByCardNumber(card.getCardNumber()) != null) {
-			return JsonResFactory.buildOrg(RESCODE.CARDNUMBER_EXIST);
-		}
 		Client client = clientDao.findById(clientId);
 		Service service = this.serviceDao.findServiceById(card.getService().getId());
 		if (client == null || service == null) {
@@ -242,7 +257,6 @@ public class PayService {
 			ticket.setExpirationDate(DateHandler
 					.addValidMonth(DateHandler.toCalendar(new Date()), favourInfos.getFavour().getValidTime())
 					.getTime());
-			;
 			FavourProjectRemainingInfo projectRemainingInfo = new FavourProjectRemainingInfo();
 			for (FavourProjectInfos projectInfos : favourInfos.getFavour().getSet()) {
 				projectRemainingInfo.setProject(projectInfos.getProject());
@@ -257,22 +271,21 @@ public class PayService {
 		if (list == null) {
 			list = new ArrayList<>();
 			client.setTickets(tickets);
-			;
 		}
 		for (Ticket add : tickets) {
 			list.add(add);
 		}
 		// 将服务信息次数复制到卡中
 		Set<CardProjectRemainingInfo> cardInfos = new HashSet<>();
-		for (ServiceProjectInfo info : service.getProjectInfos()) {
+		List<ServiceProjectInfo> spi = serviceDao.getListByServiceId(service.getId());
+		log.error(spi.size()+"............................."+"spi");
+		for (ServiceProjectInfo info : spi) {
 			CardProjectRemainingInfo cardInfo = new CardProjectRemainingInfo();
 			cardInfo.setProject(info.getProject());
 			cardInfo.setRemaining(info.getTimes());
 			cardInfos.add(cardInfo);
-			log.debug("***************************" + cardInfo.toString());
 		}
 		card.setProjectInfos(cardInfos);
-		log.debug("***************************" + card.toString());
 		// 将新增卡增加到客户卡列表中
 		Set<Card> cards = client.getCards();
 		if (cards == null) {

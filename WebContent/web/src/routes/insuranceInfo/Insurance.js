@@ -17,18 +17,30 @@ const Brief = Item.Brief;
 const minDate = moment('2015-08-06 +0800', 'YYYY-MM-DD Z').utcOffset(8);
 const today = moment();
 const maxDate = moment('2016-12-03 +0800', 'YYYY-MM-DD Z').utcOffset(8);
-
+const insuredCompany = [{ label: "中国人保车险", value: "中国人保车险" },
+{ label: "平安车险", value: "平安车险" },
+{ label: "太平洋车险", value: "太平洋车险" },
+{ label: "中华联合车险", value: "中华联合车险" },
+{ label: "大地车险", value: "大地车险" },
+{ label: "天安车险", value: "天安车险" },
+{ label: "永安车险", value: "永安车险" },
+{ label: "阳光车险", value: "阳光车险" },
+{ label: "安邦车险", value: "安邦车险" },
+{ label: "太平车险", value: "太平车险" },
+{ label: "其他", value: "其他" }
+];
 class Insurance extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            insuredCompany: '',
+            insuredCompany: [],
             insuredCity: [],
             //compulsoryInsurance: '',//强制险
             commercialInsurance:'',//商业险
             carPeopleName:'',
-            peopleIdNumber:'',//身份证
+            peopleIdNumber:'',//身份证,
+            insuranceEndtime:''
         }
     }
 
@@ -36,15 +48,14 @@ class Insurance extends React.Component {
         carDetail({
             carId: this.props.match.params.carId,
         }).then((res) => {
-            console.log(res);
-            let  dt = res.data.data;
 
+            let  dt = res.data.data;
             this.setState({
-                carPeopleName:res.data.clientName,
+                carPeopleName:res.data.name,
                 peopleIdNumber:res.data.idNumber,
                 insuredCity:dt.insuranceCity?dt.insuranceCity.split(','):[],
-                insuredCompany:[dt.insuranceCompany],
-                commercialInsurance:dt.insuranceEndtime?moment(dt.insuranceEndtime, "YYYY-MM-DD"):'',
+                insuredCompany:dt.insuranceCompany?[dt.insuranceCompany]:[],
+                insuranceEndtime:dt.insuranceEndtime?moment(dt.insuranceEndtime, "YYYY-MM-DD"):'',
 
             });
         }).catch((error) => { console.log(error) });
@@ -56,9 +67,11 @@ class Insurance extends React.Component {
         modifyCarInfo({
             clientId: window.localStorage.getItem('clientId'),
             id:this.props.match.params.carId,
+            idNumber:this.state.peopleIdNumber,
+            name:this.state.carPeopleName,
             insuranceCompany:this.state.insuredCompany[0],
             insuranceCity:this.state.insuredCity[0]+','+this.state.insuredCity[1],
-            insuranceEndtime:this.state.commercialInsurance.format('YYYY-MM-DD')
+            insuranceEndtime:this.state.insuranceEndtime.format('YYYY-MM-DD')
         }).then((res) => {
             if(res.data.code=='0'){
                 this.context.router.history.push('/carInfo')
@@ -68,19 +81,7 @@ class Insurance extends React.Component {
 
     render() {
 
-        const insuredCompany = [
-            { label: "中国人保车险", value: "中国人保车险" },
-            { label: "平安车险", value: "平安车险" },
-            { label: "太平洋车险", value: "太平洋车险" },
-            { label: "中华联合车险", value: "中华联合车险" },
-            { label: "大地车险", value: "大地车险" },
-            { label: "天安车险", value: "天安车险" },
-            { label: "永安车险", value: "永安车险" },
-            { label: "阳光车险", value: "阳光车险" },
-            { label: "安邦车险", value: "安邦车险" },
-            { label: "太平车险", value: "太平车险" },
-            { label: "其他", value: "其他" },
-        ];
+  
 
         const insuredCity = cityJson;
 
@@ -93,6 +94,7 @@ class Insurance extends React.Component {
                     placeholder="填写真实姓名"
                     autoFocus
                     value={this.state.carPeopleName}
+                    onChange={(e)=>{this.setState({carPeopleName:e})}}
                 >真实姓名</InputItem>
 
                 <InputItem
@@ -101,17 +103,19 @@ class Insurance extends React.Component {
                     autoFocus
                     type="number"
                     value={this.state.peopleIdNumber}
+                    onChange={(e)=>{this.setState({peopleIdNumber:e})}}
                 >身份证</InputItem>
 
                 <Picker extra="填写投保公司"
                     data={insuredCompany}
-                    onOk={e => this.setState({ insuredCompany: e })}
                     cols={1}
-                    onDismiss={e => console.log('dismiss', e)}
                     value={this.state.insuredCompany}
+                    onOk={e => {console.log(e); this.setState({ insuredCompany: e })}}
                 >
                     <List.Item arrow="horizontal">投保公司</List.Item>
                 </Picker>
+
+
                 <Picker extra="填写投保城市"
                     data={insuredCity}
                     cols={2}
@@ -125,8 +129,8 @@ class Insurance extends React.Component {
                 <DatePicker
                     mode="date"
                     title="选择日期"
-                    value = {this.state.commercialInsurance}        
-                    onChange={(e)=>{this.setState({commercialInsurance:e})}}
+                    value = {this.state.insuranceEndtime}        
+                    onChange={(e)=>{this.setState({insuranceEndtime:e})}}
                 >
                     <List.Item arrow="horizontal">保险到期时间</List.Item>
                 </DatePicker>

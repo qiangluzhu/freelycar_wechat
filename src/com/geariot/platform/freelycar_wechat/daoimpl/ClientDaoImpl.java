@@ -40,13 +40,13 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public Client findByPhone(String phone) {
 		String hql = "from Client where phone = :phone";
-		return (Client) this.getSession().createQuery(hql).setString("phone", phone).uniqueResult();
+		return (Client) this.getSession().createQuery(hql).setString("phone", phone).setCacheable(Constants.SELECT_CACHE).uniqueResult();
 	}
 	
 	@Override
 	public Client findById(int clientId) {
 		String hql = "from Client where id = :id";
-		return (Client) this.getSession().createQuery(hql).setInteger("id", clientId).uniqueResult();
+		return (Client) this.getSession().createQuery(hql).setInteger("id", clientId).setCacheable(Constants.SELECT_CACHE).uniqueResult();
 	}
 
 	@Override

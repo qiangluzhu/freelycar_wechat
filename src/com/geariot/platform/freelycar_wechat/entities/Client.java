@@ -35,7 +35,10 @@ public class Client {
 	private int state;
 	private int points;
 	private String recommendName;
+	
+	@JsonDeserialize(using=JsonDateDeserialize.class)
 	private Date createDate;
+	
 	private Set<Car> cars;
 	private Set<Card> cards;
 	private List<Ticket> tickets;

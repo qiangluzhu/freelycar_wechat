@@ -1,4 +1,4 @@
-import { province } from 'antd-mobile-demo-data';
+
 import { ListView, List, Flex, Drawer } from 'antd-mobile';
 import NavBar from '../../components/NavBar'
 import DasAuto from '../../img/das_auto.jpg'

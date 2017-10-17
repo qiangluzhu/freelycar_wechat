@@ -199,12 +199,16 @@ class AddCard extends React.Component {
 
         });
 
-        let serviceItem = this.state.services.map((item, index) => {
-            let service = item
+
+
+        let serviceItem = [];
+        this.state.services.map((item, index) => {
+            let service = item;
             if (item.name == this.state.arrowName) {
 
                 let proInfos = service.projectInfos;
                 let item = proInfos.map((item1, index1) => {
+                    
                     return <div key={index + '' + index1} className='vip-service-item'>
                         <div className='label-left'>{item1.project.name}</div>
                         <div className='label-right'>
@@ -213,7 +217,21 @@ class AddCard extends React.Component {
                         </div>
                     </div>
                 });
-                return item;
+                serviceItem.push(item);
+
+
+                //代金券
+                let favInfos = service.favourInfos;
+                let item_ticket = favInfos.map((item1, index1) => {
+                    return <div key={index + 'ticket' + index1} className='vip-service-item'>
+                        <div className='label-left'>{item1.favour.name}</div>
+                        <div className='label-right'>
+                            <span className='count'>{item1.count}</span>
+                            <span className='unit'>次</span>
+                        </div>
+                    </div>
+                });
+                serviceItem.push(item_ticket);
             }
         });
 
@@ -229,7 +247,7 @@ class AddCard extends React.Component {
 
             <div className='vip-service'>
                 <div className='vip-service-div'>
-                    <div className='vip-service-header'>会员专项</div>
+                    <div className={`vip-service-header${this.state.arrowIndex}`}>会员专项</div>
                     {serviceItem}
                 </div>
             </div>

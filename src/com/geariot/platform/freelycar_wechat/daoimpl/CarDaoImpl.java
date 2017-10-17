@@ -64,7 +64,7 @@ public class CarDaoImpl implements CarDao {
 	@Override
 	public List<Car> findByClientId(int clientId) {
 		String hql = "from Car where clientId = :clientId";
-		return this.getSession().createQuery(hql).setInteger("clientId", clientId).list();
+		return this.getSession().createQuery(hql).setInteger("clientId", clientId).setCacheable(Constants.SELECT_CACHE).list();
 	}
 
 }

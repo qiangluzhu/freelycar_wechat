@@ -124,7 +124,7 @@ class Personalcenter extends React.Component {
             </div>
             <div className="clear"><div className="center-login-out" onClick={() => {
                 this.logout()
-            }}></div><a href="tel:18512391863" className="center-line-phone"></a></div>
+            }}></div><a href="tel:18512591863" className="center-line-phone"></a></div>
             <Flex justify="between" align='start' direction="column" className="person-info">
                 <Flex justify="between" align='start' style={{ height: '1.2rem' }} >
                     <div className="avatar"><img src={decodeURIComponent(this.state.headimgurl)} alt="" /></div>

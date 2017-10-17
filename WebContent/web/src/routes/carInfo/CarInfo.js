@@ -140,11 +140,11 @@ class CarInfo extends React.Component {
         }
         let carlist = this.state.cars.map((item, index) => {
 
-            //console.log(item);
+            console.log(item);
 
             return <Flex key={index} className="swiper-slide carItem">
                 {this.state.mode && <span style={{ width: '.6rem', margin: '0 .18rem', textAlign: 'center', height: '.42rem', fontSize: '.22rem', lineHeight: '.42rem', background: '#e42f2f', color: '#fff' }} onClick={() => { this.delCar(item.car.id) }}>删除</span>}
-                <img className='car_icon' style={{ marginLeft: this.state.mode ? '0' : '.54rem' }} src={require("../../carImgs/"+(item.car.carMark?item.car.carMark:'no')+".jpg")} alt="" />
+                <img className='car_icon' style={{ marginLeft: this.state.mode ? '0' : '.54rem' }} src={require("../../"+(item.car.carMark?"carImgs/"+item.car.carMark:'img/car_icon')+".jpg")}  alt="" />
                 <div>
                     <div className='licensePlate'>{item.car.licensePlate}</div>
                     <div className='type'>{item.car.carbrand}</div>

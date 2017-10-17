@@ -113,9 +113,9 @@ public class PayController {
 		map.put("nonce_str", RandomStringGenerator.getRandomStringByLength(32));
 		
 //返回结果	自己掉自己的接口		
-		map.put("notify_url", "http://" + WechatConfig.APP_DOMAIN + "/api/pay/wechatresult");
+		map.put("notify_url", "http://www.freelycar.com/freelycar_wechat/api/pay/wechatresult");
+		log.error("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!准备回调!!!!!!!!!");
 		map.put("openid", openId);
-
 		map.put("spbill_create_ip", ip);
 		map.put("total_fee", (int) (totalPrice * 100));
 		map.put("trade_type", "JSAPI");
@@ -208,6 +208,7 @@ public class PayController {
 	@RequestMapping(value="wechatresult")
 	public void wechatResult(HttpServletRequest request,
 	HttpServletResponse response){
+		log.error("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!准备回调!!!!!!!!!");
 		log.info("callback wechatPay");
 		//Map
 		Map<String, Object> map = XMLParser.requestToXml(request);

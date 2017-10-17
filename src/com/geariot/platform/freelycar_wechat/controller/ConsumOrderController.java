@@ -9,21 +9,24 @@ import com.geariot.platform.freelycar_wechat.service.ConsumOrderService;
 @RestController
 @RequestMapping(value = "/orders")
 public class ConsumOrderController {
+	
 	@Autowired
 	private ConsumOrderService consumOrderService;
+	
 	@RequestMapping(value = "/detail",method = RequestMethod.GET)
 	public String detail(String consumOrderId){
 		return consumOrderService.detail(consumOrderId);
 	}
+	
 	@RequestMapping(value = "/listConsumOrder",method = RequestMethod.GET)
 	public String listConsumOrder(int clientId , int page , int number){
 		return consumOrderService.listConsumOrder(clientId,page,number);
 	}
+	
 	@RequestMapping(value = "/detailWXPayOrder",method = RequestMethod.GET)
 	public String detailWXPayOrder(String wxPayOrderId){
 		return consumOrderService.detailWXPayOrder(wxPayOrderId);
 	}
-	
 	
 	@RequestMapping(value = "/listWXPayOrder",method = RequestMethod.GET)
 	public String listWXPayOrder(int clientId , int page , int number){

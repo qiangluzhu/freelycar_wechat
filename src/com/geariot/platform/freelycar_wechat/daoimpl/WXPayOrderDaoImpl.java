@@ -29,7 +29,7 @@ public class WXPayOrderDaoImpl implements WXPayOrderDao{
 	@Override
 	public WXPayOrder findById(String wxPayOrderId) {
 		String hql = "from WXPayOrder where id = :wxPayOrderId";
-		return (WXPayOrder) this.getSession().createQuery(hql).setString("wxPayOrderId", wxPayOrderId).uniqueResult();
+		return (WXPayOrder) this.getSession().createQuery(hql).setString("wxPayOrderId", wxPayOrderId).setCacheable(Constants.SELECT_CACHE).uniqueResult();
 	}
 
 	@SuppressWarnings("unchecked")

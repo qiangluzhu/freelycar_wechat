@@ -1,6 +1,7 @@
 package com.geariot.platform.freelycar_wechat.daoimpl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.geariot.platform.freelycar_wechat.dao.ServiceDao;
 import com.geariot.platform.freelycar_wechat.entities.Service;
+import com.geariot.platform.freelycar_wechat.entities.ServiceProjectInfo;
 import com.geariot.platform.freelycar_wechat.model.ORDER_CON;
 import com.geariot.platform.freelycar_wechat.utils.Constants;
 import com.geariot.platform.freelycar_wechat.utils.query.QueryUtils;
@@ -54,7 +56,7 @@ public class ServiceDaoImpl implements ServiceDao{
 	@Override
 	public List<Service> queryByName(String name) {
 		String hql = "from Service where name like :name and deleted = 0 order by createDate desc";
-		return this.getSession().createQuery(hql).setString("name", "%"+name+"%").list();
+		return this.getSession().createQuery(hql).setString("name", "%"+name+"%").setCacheable(Constants.SELECT_CACHE).list();
 	}
 
 	@Override
@@ -83,7 +85,7 @@ public class ServiceDaoImpl implements ServiceDao{
 	@Override
 	public List<Object> listName() {
 		String sql = "select id , name from Service where deleted = 0";
-		return this.getSession().createSQLQuery(sql).list(); 
+		return this.getSession().createSQLQuery(sql).setCacheable(Constants.SELECT_CACHE).list(); 
 		
 	}
 
@@ -99,5 +101,12 @@ public class ServiceDaoImpl implements ServiceDao{
 	public List<Service> listOnWX(int from, int pageSize) {
 		String hql = "from Service where deleted = 0 order by price ASC";
 		return this.getSession().createQuery(hql).setFirstResult(from).setMaxResults(pageSize).setCacheable(Constants.SELECT_CACHE).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ServiceProjectInfo> getListByServiceId(int serviceId) {
+		String hql = "from ServiceProjectInfo where serviceId = :serviceId";
+		return this.getSession().createQuery(hql).setInteger("serviceId", serviceId).setCacheable(Constants.SELECT_CACHE).list();
 	}
 }

@@ -193,7 +193,7 @@ public class ConsumOrderDaoImpl implements ConsumOrderDao {
 	public List<ConsumOrder> findByPickCarStaffId(int staffId) {
 		String hql = "from ConsumOrder where pickCarStaff.id = :id";
 		@SuppressWarnings("unchecked")
-		List<ConsumOrder> res = this.getSession().createQuery(hql).setInteger("id", staffId).list();
+		List<ConsumOrder> res = this.getSession().createQuery(hql).setInteger("id", staffId).setCacheable(Constants.SELECT_CACHE).list();
 		return res;
 	}
 
@@ -206,14 +206,14 @@ public class ConsumOrderDaoImpl implements ConsumOrderDao {
 	@Override
 	public List<ConsumOrder> findCommentByStoreId(int storeId) {
 		String hql = "from ConsumOrder where storeId = :storeId and commentDate != null order by commentDate desc";
-		List<ConsumOrder> res = this.getSession().createQuery(hql).setInteger("storeId", storeId).list();
+		List<ConsumOrder> res = this.getSession().createQuery(hql).setInteger("storeId", storeId).setCacheable(Constants.SELECT_CACHE).list();
 		return res;
 	}
 
 	@Override
 	public ConsumOrder getRecentlyOrder(int clientId) {
 		String hql = "from ConsumOrder where clientId = :clientId order by createDate desc";
-		return (ConsumOrder) this.getSession().createQuery(hql).setInteger("clientId", clientId).setMaxResults(1).uniqueResult();
+		return (ConsumOrder) this.getSession().createQuery(hql).setInteger("clientId", clientId).setMaxResults(1).setCacheable(Constants.SELECT_CACHE).uniqueResult();
 	}
 
 
