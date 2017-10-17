@@ -48,6 +48,8 @@ public class ConsumOrder {
 	private Staff pickCarStaff;
 	private Store store;			//门店Id
 	private String headimgurl;	    //头像地址
+	private float actualPrice;			// 订单实付金额
+	
 	
 	public double getTotalPrice() {
 		return totalPrice;
@@ -276,6 +278,12 @@ public class ConsumOrder {
 	}
 	public void setHeadimgurl(String headimgurl) {
 		this.headimgurl = headimgurl;
+	}
+	public float getActualPrice() {
+		return actualPrice;
+	}
+	public void setActualPrice(float actualPrice) {
+		this.actualPrice = actualPrice;
 	}
 	
 	
