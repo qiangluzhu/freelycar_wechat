@@ -57,7 +57,6 @@ class SelectCarBrand extends React.Component {
             }
             let newType = i.type
             if (i.type.indexOf(this.state.carBrand) != -1) {
-                console.log(this.state.carBrand.length)
                 newType = i.type.slice(this.state.carBrand.length)
             }
             window.localStorage.setItem("models", JSON.stringify(i.models))

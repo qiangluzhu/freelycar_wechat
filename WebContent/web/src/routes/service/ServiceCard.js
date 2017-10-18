@@ -62,18 +62,19 @@ class ServiceCard extends React.Component {
                 if (i < 2) {
                     pName += projects[i].name + '、';
                 }
-                totalPrice = totalPrice + projects[i].presentPrice + projects[i].pricePerUnit * projects[i].referWorkTime
+                // totalPrice = totalPrice + projects[i].presentPrice + projects[i].pricePerUnit * projects[i].referWorkTime
+                totalPrice = item.payState == 1 ? item.actualPrice : item.totalPrice
             }
             pName = pName.slice(0, -1)
             if (projects.length > 2) {
                 pName = pName + '...'
             }
 
-            return <Flex key={index} className="center-listItem" direction="column" onClick={() => { 
+            return <Flex key={index} className="center-listItem" direction="column" onClick={() => {
                 //this.context.router.history.push(`/ordertrack/${item.id}`) 
-                        history.pushState(null,null,`/freelycar_wechat/index.html#/ordertrack?orderId=${item.id}`);
-                        window.location.reload();
-                }}>
+                history.pushState(null, null, `/freelycar_wechat/index.html#/ordertrack?orderId=${item.id}`);
+                window.location.reload();
+            }}>
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.24rem', color: '#4b4b4b' }}>
                     <i className="circle"></i>
                     <p>{pName}</p>
@@ -92,11 +93,11 @@ class ServiceCard extends React.Component {
                 </Flex> : ''}
             </Flex>;
         }), cards = this.state.cards.map((item, index) => {
-            return <Flex className="center-listItem" key={index} direction="column" onClick={() => { 
-                        //this.context.router.history.push(`/orderDetail/${item.id}`);
-                        history.pushState(null,null,`/freelycar_wechat/index.html#/orderDetail?orderId=${item.id}`);
-                        window.location.reload();
-                     }}>
+            return <Flex className="center-listItem" key={index} direction="column" onClick={() => {
+                //this.context.router.history.push(`/orderDetail/${item.id}`);
+                history.pushState(null, null, `/freelycar_wechat/index.html#/orderDetail?orderId=${item.id}`);
+                window.location.reload();
+            }}>
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.24rem', color: '#4b4b4b' }}>
                     <i className="circle"></i>
                     <p>{item.productName}</p>

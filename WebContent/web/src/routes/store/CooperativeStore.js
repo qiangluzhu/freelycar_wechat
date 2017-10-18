@@ -53,7 +53,6 @@ class CooperativeStore extends React.Component {
             number: 10
         }).then((res) => {
             if (res.data.code == "0") {
-                console.log(res)
                 for (let i = 0; i < res.data.data.length; i++) {
                     const ii = ((pIndex - 1) * NUM_ROWS) + i;
                     dataBlob[`${ii}`] = res.data.data[i];
@@ -75,15 +74,14 @@ class CooperativeStore extends React.Component {
     }
 
     onEndReached = (event) => {
-        console.log(this.state.isLoading, this.state.hasMore)
-        console.log('到底部啦')
+        // console.log('到底部啦')
         // load new data
         // hasMore: from backend data, indicates whether it is the last page, here is false
         if ((!this.state.isLoading) && (!this.state.hasMore)) {
-            console.log('没有数据啦')
+            // console.log('没有数据啦')
             return;
         }
-        console.log('reach end', event);
+        // console.log('reach end', event);
         this.setState({ isLoading: true });
         setTimeout(() => {
             this.genData(this.state.pageIndex);
@@ -96,7 +94,7 @@ class CooperativeStore extends React.Component {
             //     index = this.state.data.length - 1;
             // }
             // const obj = this.state.data[index--];
-            console.log(rowData)
+ 
             return (
                 <Flex className="cooperative-store-list" onClick={() => { 
                     //this.context.router.history.push(`/store-detail?storeId=${rowData.store.id}`)

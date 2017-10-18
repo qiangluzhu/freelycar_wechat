@@ -137,7 +137,6 @@ class AddCard extends React.Component {
             }).then((res) => {
                 if (res.data.code == 0) {
                     let data = res.data.data;
-                    console.log(data);
                     this.onBridgeReady(data.appId, data.timeStamp,
                         data.nonceStr, data.package,
                         data.signType, data.paySign);
@@ -178,8 +177,6 @@ class AddCard extends React.Component {
             "paySign": paySign
             // 微信签名
         }, function (res) {
-            console.log("支付结果:");
-            console.log(res);
             if (res.err_msg == "get_brand_wcpay_request:ok") {
                 this.context.router.history.push('/result')
             }

@@ -59,7 +59,6 @@ class AddCar extends React.Component {
                 id: window.localStorage.getItem('clientId')
             }
         }).then((res) => {
-            console.log(res)
             if (res.data.code == '0') {
                 window.localStorage.removeItem('province')
                 window.localStorage.removeItem('carPlate')

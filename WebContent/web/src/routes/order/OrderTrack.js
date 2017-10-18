@@ -21,19 +21,20 @@ class OrderTrack extends React.Component {
             deliverTime: '',
             finishTime: '',
             createDate: '',
+            inventoryInfos: [],
             empty: false,
-            id:''
+            id: ''
         }
     }
 
     componentDidMount() {
-        if(getParameterByName('orderId') == null) {
+        if (getParameterByName('orderId') == null) {
             dplus.track('订单跟踪');
         }
-        
-        if(!window.localStorage.getItem('openid')) {
+
+        if (!window.localStorage.getItem('openid')) {
             window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd188f8284ee297b&redirect_uri=http%3a%2f%2fwww.freelycar.com%2ffreelycar_wechat%2fapi%2fuser%2fwechatlogin%3FhtmlPage%3Dordertrack%2f%24%26isAuth%3dtrue&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-        }  
+        }
         //通过后台对微信签名的验证。
         getWXConfig({
             targetUrl: window.location.href,
@@ -61,6 +62,7 @@ class OrderTrack extends React.Component {
                 quickOrder({
                     clientId: window.localStorage.getItem('clientId')
                 }).then((res) => {
+                    console.log(res)
                     let data = res.data.orders
                     if (res.data.code == '0') {
                         console.log(data)
@@ -76,7 +78,9 @@ class OrderTrack extends React.Component {
                             projects: data.projects,
                             payState: data.payState,
                             stars: data.stars,
+                            inventoryInfos: data.inventoryInfos,
                             totalPrice: data.totalPrice,
+                            actualPrice: data.actualPrice,
                             id: data.id
                         })
                         window.localStorage.setItem('storeName', data.store.name)
@@ -88,7 +92,6 @@ class OrderTrack extends React.Component {
                     }
                 }).catch((error) => { console.log(error) })
             }
-
         } else {
             orderDetail({
                 consumOrderId: getParameterByName('orderId')
@@ -109,6 +112,8 @@ class OrderTrack extends React.Component {
                         projects: data.projects,
                         payState: data.payState,
                         stars: data.stars,
+                        inventoryInfos: data.inventoryInfos,
+                        actualPrice: data.actualPrice,
                         id: data.id,
                         totalPrice: data.totalPrice
                     })
@@ -183,14 +188,28 @@ class OrderTrack extends React.Component {
     }
 
     render() {
-        let totalPrice = 0, commentPrice = 0
+        let totalPrice = 0 //总金额
+
+        for (let item of this.state.inventoryInfos) {
+            totalPrice = totalPrice + item.number * item.inventory.price
+        }
+
         let projectItems = this.state.projects.map((item, index) => {
+            let price = item.projectInfo.price + item.projectInfo.pricePerUnit * item.projectInfo.referWorkTime
+            let projectPrice = item.projectInfo + item.projectInfo.pricePerUnit * item.projectInfo.referWorkTime
             totalPrice = item.projectInfo.presentPrice + totalPrice
-            commentPrice = item.projectInfo.price + commentPrice
+            for (let inventoryItem of this.state.inventoryInfos) {
+                if (inventoryItem.projectId === item.projectInfo.projectId) {
+                    projectPrice = projectPrice + inventoryItem.number * inventoryItem.inventory.price
+                    price = price + inventoryItem.number * inventoryItem.inventory.price
+                    console.log(projectPrice)
+                }
+            }
+
             return <Flex direction="column" justify="center" style={{ width: '100%', borderTop: '1px dashed #f0f0f0', height: '0.85rem' }} key={index} align="end" >
                 <Flex style={{ width: '100%' }} >
                     <div>{item.projectInfo.name}</div>
-                    <div style={{ marginLeft: 'auto' }}><span style={{ fontSize: '.24rem' }}>￥</span>{item.projectInfo.presentPrice}</div>
+                    <div style={{ marginLeft: 'auto' }}><span style={{ fontSize: '.24rem' }}>￥</span>{price}</div>
                 </Flex>
                 {/* <Flex.Item className="total-money" >
                         <p className="primary-money">
@@ -204,7 +223,7 @@ class OrderTrack extends React.Component {
                         <p>已抵扣会员卡{item.projectInfo.cardNumber}，该项目还剩余{item.remaining}次</p>
                     </div>
                     <p style={{ marginLeft: 'auto', fontSize: '.22rem' }}>
-                        <span style={{ fontSize: '.22rem' }}>￥</span>{item.projectInfo.price}
+                        <span style={{ fontSize: '.22rem' }}>￥</span>{projectPrice}
                         <i>
                         </i>
                     </p>
@@ -214,13 +233,15 @@ class OrderTrack extends React.Component {
                         <p>已抵扣{item.projectInfo.favourName}，该项目还剩余{item.remaining}次</p>
                     </div>
                     <p style={{ marginLeft: 'auto', fontSize: '.22rem' }}>
-                        <span style={{ fontSize: '.22rem' }}>￥</span>{item.projectInfo.price}
+                        <span style={{ fontSize: '.22rem' }}>￥</span>{projectPrice}
                         <i>
                         </i>
                     </p>
                 </Flex>}
             </Flex>
         })
+
+
         return <div className="body-bac">
             <div className="nav-bar-title">
                 <i className="back" onClick={() => { this.context.router.history.push(`/serviceCard`) }}></i>
@@ -242,8 +263,8 @@ class OrderTrack extends React.Component {
                     </div>
                     <div className="ordertrack-project">{projectItems}</div>
 
-                    <div style={{ textAlign: 'right', width: '100%', marginBottom: '.1rem' }}><div style={{ marginRight: '.42rem', display: 'inline-block' }}>合计：<span style={{ fontSize: '.24rem', color: '#e42f2f' }}>￥</span><span style={{ color: '#e42f2f' }}>{totalPrice}</span></div>
-                        {this.state.payState == 0 && <div className="pay-btn" onClick={() => { this.handlePay(totalPrice) }}>
+                    <div style={{ textAlign: 'right', width: '100%', marginBottom: '.1rem' }}><div style={{ marginRight: '.42rem', display: 'inline-block' }}>{this.state.payState == 1?'实付':'合计'}：<span style={{ fontSize: '.24rem', color: '#e42f2f' }}>￥</span><span style={{ color: '#e42f2f' }}>{this.state.payState == 1 ? this.state.actualPrice : this.state.totalPrice}</span></div>
+                        {this.state.payState == 0 && <div className="pay-btn" onClick={() => { this.handlePay(this.state.totalPrice) }}>
                             <p>去付款</p>
                         </div>}
                     </div>
@@ -275,7 +296,7 @@ class OrderTrack extends React.Component {
                             <div>爱车已交回你的手中 快来评价获积分吧
                         </div>
                             {this.state.state == 3 && this.state.payState > 0 && this.state.stars == 0 && <div className="evaluate" onClick={() => { this.context.router.history.push(`/store/comment/${getParameterByName('orderId')}`) }}>
-                                评价得{commentPrice}积分
+                                评价得{totalPrice}积分
                         </div>}
                         </div>
                     </Flex>
@@ -323,7 +344,7 @@ class OrderTrack extends React.Component {
                     </Flex>
                 </div>
             </div>}
-            {this.state.empty&&<div className="empty-bac" ></div>}
+            {this.state.empty && <div className="empty-bac" ></div>}
         </div>
     }
 }

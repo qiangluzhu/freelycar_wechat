@@ -30,9 +30,9 @@ class Personalcenter extends React.Component {
     }
 
     componentDidMount() {
-        if(!window.localStorage.getItem('openid')) {
+        if (!window.localStorage.getItem('openid')) {
             window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd188f8284ee297b&redirect_uri=http%3a%2f%2fwww.freelycar.com%2ffreelycar_wechat%2fapi%2fuser%2fwechatlogin%3FhtmlPage%3DpersonalInfo%26isAuth%3dtrue&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-        }   else {
+        } else {
             wxInfo({
                 openId: window.localStorage.getItem('openid')
             }).then((res) => {
@@ -65,7 +65,7 @@ class Personalcenter extends React.Component {
                 })
             }).catch((error) => { console.log(error) })
         }
-       
+
         // modifyCarInfo({
         //     carId: '8',
         //     car: {
@@ -111,13 +111,18 @@ class Personalcenter extends React.Component {
             </Flex.Item>
         });
         let totalPrice = 0;
-        // console.log(this.state.order.projects)
+
         if (this.state.order.projects) {
             for (let item of this.state.order.projects) {
                 totalPrice = totalPrice + item.presentPrice + item.pricePerUnit * item.referWorkTime
             }
         }
-
+        if (this.state.order.inventoryInfos) {
+            for (let item of this.state.order.inventoryInfos) {
+                totalPrice = totalPrice + item.inventory.price * item.number
+            }
+        }
+        console.log(totalPrice)
 
         return <div className="body-bac" style={{ paddingTop: '0' }}>
             <div className="top-gradient">
@@ -146,11 +151,11 @@ class Personalcenter extends React.Component {
                     </Flex>
                 </Flex>
             </Flex>
-            {this.state.card.length == 0 && <div className="center-banner" onClick={() => { 
+            {this.state.card.length == 0 && <div className="center-banner" onClick={() => {
                 //this.context.router.history.push('/addCard')
-                history.pushState(null,null,`/freelycar_wechat/index.html#/addCard`);
+                history.pushState(null, null, `/freelycar_wechat/index.html#/addCard`);
                 window.location.reload();
-                }}><img src={banner} alt="" /></div>}
+            }}><img src={banner} alt="" /></div>}
             {this.state.card.length != 0 && <div className="vip-gold-card" style={{ marginTop: '.2rem' }} onClick={() => {
                 this.context.router.history.push('/membership/mycard')
             }}>
@@ -187,7 +192,7 @@ class Personalcenter extends React.Component {
                 <Flex style={{ width: '100%', height: '.4rem', fontSize: '.18rem', color: '#8e8e8e' }}>
                     <i className="circle2"></i>
                     <p>{this.state.order.createDate}</p>
-                    <Flex.Item className="total-price">￥{totalPrice}</Flex.Item >
+                    <Flex.Item className="total-price">￥{this.state.order.payState == 1 ? this.state.order.actualPrice : totalPrice}</Flex.Item >
                 </Flex>
             </Flex>}
         </div>

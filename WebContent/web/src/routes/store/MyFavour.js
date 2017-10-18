@@ -17,7 +17,6 @@ class MyFavour extends React.Component {
         userDetail({
             clientId: window.localStorage.getItem('clientId')
         }).then((res) => {
-            console.log(res)
             if (res.data.code == '0') {
                 let data = res.data
                 this.setState({

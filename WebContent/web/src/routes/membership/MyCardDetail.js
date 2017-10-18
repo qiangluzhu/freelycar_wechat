@@ -21,7 +21,6 @@ class MyCardDetail extends React.Component {
     }
 
     componentDidMount(){
-        console.log(this.props.match.params.id)
         cardDetail({
             cardId:this.props.match.params.id
         }).then((res)=>{

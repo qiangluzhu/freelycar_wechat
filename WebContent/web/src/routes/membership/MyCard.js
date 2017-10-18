@@ -20,7 +20,6 @@ class MyCard extends React.Component {
         myCard({
             clientId:  window.localStorage.getItem('clientId')
         }).then((res) => {
-            console.log(res)
             this.setState({
                 cards: res.data.data
             })

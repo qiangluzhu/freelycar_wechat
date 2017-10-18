@@ -34,10 +34,7 @@ class SelectCarBrand extends React.Component {
     };
   }
 
-  componentDidMount(){
-    console.log(province)
-    console.log(this.state.dataSource)
-  }
+
 
   render() {
     return (

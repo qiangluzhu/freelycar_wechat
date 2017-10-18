@@ -20,10 +20,7 @@ class Login extends React.Component {
         }
     }
 
-    componentDidMount() {
-        console.log(this.props.match.params.openid)
-        console.log(window.document.body.clientHeight)
-    }
+
 
     sendCode() {
         let myHeaders = new Headers({
@@ -84,7 +81,6 @@ class Login extends React.Component {
                 headimgurl: this.props.match.params.headimgurl,
                 nickName: this.props.match.params.nickname
             }).then((res) => {
-                console.log(res)
                 if (res.data.client.phone) {
                     window.localStorage.setItem('headimgurl', this.props.match.params.headimgurl)
                     window.localStorage.setItem('nickName', this.props.match.params.nickname)
