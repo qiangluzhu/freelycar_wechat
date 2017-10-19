@@ -296,7 +296,7 @@ class OrderTrack extends React.Component {
                             <div>爱车已交回你的手中 快来评价获积分吧
                         </div>
                             {this.state.state == 3 && this.state.payState > 0 && this.state.stars == 0 && <div className="evaluate" onClick={() => { this.context.router.history.push(`/store/comment/${getParameterByName('orderId')}`) }}>
-                                评价得{totalPrice}积分
+                                评价得{this.state.totalPrice}积分
                         </div>}
                         </div>
                     </Flex>
