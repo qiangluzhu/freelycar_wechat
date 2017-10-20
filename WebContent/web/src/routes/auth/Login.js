@@ -95,11 +95,11 @@ class Login extends React.Component {
     }
     render() {
         return <div className='loginbg' style={{ height: window.document.body.clientHeight }} >
-            <div className='panel' >
+            <div className='panel'  style={{height:'7.6rem'}}>
                 <Flex justify='center'>
                     <img className='logo' src={login} />
                 </Flex>
-                <Flex justify='center'  >
+                <Flex justify='center' >
                     <div className='input-up'>
                         <img src={phone} style={{ width: '.3rem', marginLeft: '.18rem', marginRight: '0.5rem', verticalAlign: 'middle' }} />
                         <input className='no-border' style={{ width: '4.3rem' }} onChange={(e) => {
