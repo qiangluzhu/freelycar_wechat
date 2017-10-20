@@ -132,7 +132,7 @@ class PersonalInfo extends React.Component {
             </List>
 
             <div className="addCar-btn" onClick={() => { this.updateInfo() }}>保存</div>
-            <div style={{ color: '#5a5a5a', marginTop: '.25rem', textAlign: 'right', paddingRight: '.22rem' }} onClick={() => { this.context.router.history.push(`/center`) }}>跳过</div>
+            <div style={{ color: '#5a5a5a', marginTop: '.25rem', textAlign: 'right', paddingRight: '.22rem' }} onClick={() => { window.localStorage.setItem('isInfoSaved', true); this.context.router.history.push(`/center`) }}>跳过</div>
         </div>
     }
 
