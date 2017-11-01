@@ -103,13 +103,13 @@ public class ConsumOrderService {
 		if(wxUser == null){
 			return JsonResFactory.buildOrg(RESCODE.NO_RECORD).toString();
 		}
-		String openId = wxUser.getOpenId();
+		//String openId = wxUser.getOpenId();
 		int from = (page - 1) * number;
-		List<WXPayOrder> exist = wxPayOrderDao.listByOpenId(openId, from, number);
+		List<WXPayOrder> exist = wxPayOrderDao.listByClientId(clientId, from, number);
 		if (exist == null || exist.isEmpty()) {
 			return JsonResFactory.buildOrg(RESCODE.NOT_FOUND).toString();
 		}
-		long realSize = wxPayOrderDao.getCountByOpenId(openId);
+		long realSize = wxPayOrderDao.getCountByClientId(clientId);
 		int size = (int) Math.ceil(realSize / number);
 		// JsonConfig config = new JsonConfig();
 		// config.registerJsonValueProcessor(Date.class, new

@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,6 +23,7 @@ import com.geariot.platform.freelycar_wechat.utils.JsonDateDeserialize;
 public class WXPayOrder {
 	private String id;
 	private String openId;		//微信openId
+	private int clientId;				//微信卡券订单对应clientId
 	private float totalPrice;		//支付金额
 	@JsonDeserialize(using=JsonDateDeserialize.class)
 	private Date createDate;	//订单产生时间
@@ -99,6 +98,12 @@ public class WXPayOrder {
 	}
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+	public int getClientId() {
+		return clientId;
+	}
+	public void setClientId(int clientId) {
+		this.clientId = clientId;
 	}
 	
 }

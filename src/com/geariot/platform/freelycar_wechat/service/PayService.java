@@ -63,11 +63,9 @@ public class PayService {
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
 		log.debug("id" + wxPayOrder.getId() + "总金额" + wxPayOrder.getTotalPrice() + "openId" + wxPayOrder.getOpenId()
 				+ "Date" + wxPayOrder.getCreateDate());
-
 		Service service = serviceDao.findServiceById(serviceId);
 		wxPayOrder.setService(service);
 		wxPayOrder.setProductName(service.getName());
-
 		wxPayOrderDao.saveWXPayOrder(wxPayOrder);
 
 		org.json.JSONObject order = new org.json.JSONObject();
@@ -82,7 +80,6 @@ public class PayService {
 		float totalPrice = favourOrderBean.getTotalPrice();
 		Set<FavourToOrder> favours = favourOrderBean.getFavours();
 		WXPayOrder wxPayOrder = buildBasivOrders(openId, totalPrice);
-
 		String productName = "";
 		for (FavourToOrder favour : favours){
 			Favour obj = favourDao.findById(favour.getFavour().getId());
@@ -103,6 +100,8 @@ public class PayService {
 
 	private WXPayOrder buildBasivOrders(String openId, float totalPrice) {
 		WXPayOrder wxPayOrder = new WXPayOrder();
+		WXUser wxUser = wxUserDao.findUserByOpenId(openId);
+		Client client = clientDao.findByPhone(wxUser.getPhone());
 		wxPayOrder.setId(IDGenerator.generate(IDGenerator.WX_CONSUM));
 		System.out.println(">>>>" + IDGenerator.generate(IDGenerator.WX_CONSUM));
 		wxPayOrder.setCreateDate(new Date());
@@ -110,6 +109,8 @@ public class PayService {
 		wxPayOrder.setPayMethod(Constants.PAY_BY_WX);
 		wxPayOrder.setPayState(Constants.PAY_UNPAY);
 		wxPayOrder.setTotalPrice(totalPrice);
+		wxPayOrder.setClientId(client.getId());
+		wxPayOrderDao.saveWXPayOrder(wxPayOrder);
 		return wxPayOrder;
 	}
 

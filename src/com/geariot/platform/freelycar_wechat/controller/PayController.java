@@ -61,7 +61,6 @@ public class PayController {
 			log.info("购买券");
 			float totalPrice = favourOrderBean.getTotalPrice();
 			String openId = favourOrderBean.getOpenId();
-			System.out.println("<<<<<<<<<<<<<<<<<<<<<<<"+favourOrderBean.toString());
 			org.json.JSONObject res=payService.createFavourOrder(favourOrderBean);
 			String orderId = res.getString(Constants.RESPONSE_DATA_KEY);
 			log.info(orderId);
@@ -75,8 +74,6 @@ public class PayController {
 			String orderId = res.getString(Constants.RESPONSE_DATA_KEY);
 			log.info(orderId);
 			return wechatPay(openId,orderId,totalPrice,request);
-			//return payService.createCardOrder(openId,totalPrice,serviceId);
-		
 	}
 	@RequestMapping(value="payment",method = RequestMethod.GET)
 	public String wechatPay(String openId,String orderId,float totalPrice,HttpServletRequest request){

@@ -34,16 +34,16 @@ public class WXPayOrderDaoImpl implements WXPayOrderDao{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<WXPayOrder> listByOpenId(String openId, int from, int number) {
-		String hql = "from WXPayOrder where openId = :openId order by createDate desc";
-		return this.getSession().createQuery(hql).setString("openId", openId)
+	public List<WXPayOrder> listByClientId(int clientId, int from, int number) {
+		String hql = "from WXPayOrder where clientId = :clientId order by createDate desc";
+		return this.getSession().createQuery(hql).setInteger("clientId", clientId)
 				.setCacheable(Constants.SELECT_CACHE).list();
 	}
 
 	@Override
-	public long getCountByOpenId(String openId) {
-		String hql = "select count(*) from WXPayOrder where openId = :openId";
-		return (long) this.getSession().createQuery(hql).setString("openId", openId).setCacheable(Constants.SELECT_CACHE).uniqueResult();
+	public long getCountByClientId(int clientId) {
+		String hql = "select count(*) from WXPayOrder where clientId = :clientId";
+		return (long) this.getSession().createQuery(hql).setInteger("clientId", clientId).setCacheable(Constants.SELECT_CACHE).uniqueResult();
 	}
 
 }
