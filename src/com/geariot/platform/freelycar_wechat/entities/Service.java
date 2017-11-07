@@ -25,6 +25,10 @@ public class Service {
 	private float price;
 	private int validTime;
 	private String comment;
+	
+	private int discount;
+	private float actualPrice;//卡面金额
+	
 	private List<ServiceProjectInfo> projectInfos;
 	@JsonDeserialize(using=JsonDateDeserialize.class)
 	private Date createDate;
@@ -96,6 +100,18 @@ public class Service {
 	}
 	public void setFavourInfos(Set<FavourInfos> favourInfos) {
 		this.favourInfos = favourInfos;
+	}
+	public int getDiscount() {
+		return discount;
+	}
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
+	public float getActualPrice() {
+		return actualPrice;
+	}
+	public void setActualPrice(float actualPrice) {
+		this.actualPrice = actualPrice;
 	}
 	
 }

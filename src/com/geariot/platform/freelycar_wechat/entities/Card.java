@@ -31,6 +31,8 @@ public class Card {
 	private String cardNumber;
 	private boolean failed;
 	
+	private float balance;// 卡内的余额
+	
 	public Date getExpirationDate() {
 		return expirationDate;
 	}
@@ -99,5 +101,12 @@ public class Card {
 	public void setFailed(boolean failed) {
 		this.failed = failed;
 	}
+	public float getBalance() {
+		return balance;
+	}
+	public void setBalance(float balance) {
+		this.balance = balance;
+	}
+	
 	
 }
