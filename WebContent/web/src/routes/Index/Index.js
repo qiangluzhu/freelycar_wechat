@@ -2,6 +2,7 @@ import React from 'react';
 import {Flex} from 'antd-mobile'
 import './index.less'
 import TabBar from '../../components/TabBar.js'
+import PropTypes from 'prop-types';
 class Index extends React.Component {
 
     constructor(props) {
@@ -34,7 +35,7 @@ class Index extends React.Component {
                 <div className="index-addcar-font">添 加 爱 车 <img src={require('../../img/discount.png')}/> 不 停</div>
             </Flex>
 
-            <Flex className="index-block-box">
+            <Flex className="index-block-box" onClick={()=>{ this.context.router.history.push('/addCard')}}>
                 <div className="icon-sale"><img src={require('../../img/icon_sale.png')}/></div>
                 <div className="index-block-icon"><img src={require('../../img/icon_card.png')}/></div>
                 <div>
@@ -43,7 +44,7 @@ class Index extends React.Component {
                 </div>
             </Flex>
 
-            <Flex className="index-block-box">
+            <Flex className="index-block-box" onClick={()=>{ this.context.router.history.push(`/store-detail?id=1`)}}>
                 <div className="index-block-icon"><img src={require('../../img/icon_shop.png')}/></div>
                 <div>
                     <div style={{fontSize:'.32rem',marginBottom:'.2rem'}}>门店优惠</div>
@@ -52,7 +53,7 @@ class Index extends React.Component {
             </Flex>
 
             <Flex>
-                <Flex style={{marginRight:'.2rem',flex:1}} className="index-row-block-box">
+                <Flex style={{marginRight:'.2rem',flex:1}} className="index-row-block-box"  onClick={()=>{ this.context.router.history.push(`/inquiry`)}}>
                     <div className="index-block-icon">
                         <img src={require('../../img/icon_chexian.png')}/>
                     </div>
@@ -60,7 +61,7 @@ class Index extends React.Component {
                         车险询价
                     </div>
                 </Flex>
-                <Flex style={{flex:1}}  className="index-row-block-box">          
+                <Flex style={{flex:1}}  className="index-row-block-box" onClick={()=>{ window.open(`https://m.che300.com/freelycar`)}}>          
                     <div className="index-block-icon">
                         <img src={require('../../img/icon_guzhi.png')}/>
                     </div>
@@ -76,3 +77,7 @@ class Index extends React.Component {
 }
 
 export default Index
+
+Index.contextTypes = {
+    router: PropTypes.object.isRequired
+}
