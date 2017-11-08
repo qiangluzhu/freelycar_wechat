@@ -3,6 +3,7 @@ import { Tabs, WhiteSpace, Badge, Flex } from 'antd-mobile';
 import more_arrow from '../../img/more_arrow.png'
 import { listConsumOrder, listWXPayOrder } from '../../services/orders.js'
 import PropTypes from 'prop-types';
+import TabBar from '../../components/TabBar.js'
 const TabPane = Tabs.TabPane;
 
 function callback(key) {
@@ -124,6 +125,7 @@ class ServiceCard extends React.Component {
                 </TabPane>
             </Tabs>
             <WhiteSpace />
+            <TabBar nowTab={2}/> 
         </div>
     }
 
