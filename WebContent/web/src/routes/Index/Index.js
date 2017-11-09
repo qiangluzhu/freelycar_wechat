@@ -9,7 +9,7 @@ class Index extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-
+            car:{}
         }
     }
 
@@ -21,9 +21,15 @@ class Index extends React.Component {
             if (res.data.code == '0') {
                 let data = res.data.data;
                 console.log(data);
-                this.setState({
-                    cars: data,
-                })
+            
+                for(let item of data) {
+                    if(item.car.defaultCar) {
+                        this.setState({
+                            car: item.car,
+                        })
+                    } 
+                }
+        
                 //加载swiper
                 let mySwiper4 = new Swiper(this.swiperID, {
                     direction: 'horizontal',
@@ -46,9 +52,11 @@ class Index extends React.Component {
                 <div className="swiper-pagination circle-color"></div>
             </div>
 
-            <Flex direction="row" justify="center" className="index-addcar-btn" >
-                <div className="index-addcar-icon"><img src={require('../../img/icon_car.png')}/></div>
-                <div className="index-addcar-font">添 加 爱 车 <img src={require('../../img/discount.png')}/> 不 停</div>
+            <Flex direction="row" justify="center" className="index-addcar-btn" onClick={()=>{if(!this.state.car){this.context.router.history.push(`/addcar/2`)}else{this.context.router.history.push('/carInfo')}}}>
+                {!this.state.car&&<div className="index-addcar-icon"><img src={require('../../img/icon_car.png')}/></div>}
+                {!this.state.car&&<div className="index-addcar-font">添 加 爱 车 <img src={require('../../img/discount.png')}/> 不 停</div>}
+                {this.state.car&&<div  className="index-addcar-caricon"><img src={require("../../"+(this.state.car.carMark?"carImgs/"+this.state.car.carMark:'img/car_icon')+".jpg")}/></div>}
+                {this.state.car&&<div className="index-addcar-font">{this.state.car.licensePlate}&nbsp;&nbsp;<span style={{fontSize:'.18rem'}}>{this.state.car.carbrand}</span></div>}
             </Flex>
 
             <Flex className="index-block-box" onClick={()=>{ this.context.router.history.push('/addCard')}}>
