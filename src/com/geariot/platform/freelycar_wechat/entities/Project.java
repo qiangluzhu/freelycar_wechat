@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.geariot.platform.freelycar_wechat.utils.JsonDateDeserialize;
 
@@ -25,6 +24,7 @@ public class Project {
 	private int referWorkTime;
 	private float pricePerUnit;
 	private String comment;
+	private int useTimes;
 	private List<ProjectInventoriesInfo> inventoryInfos;
 	@JsonDeserialize(using=JsonDateDeserialize.class)
 	private Date createDate;
@@ -38,6 +38,7 @@ public class Project {
 	public String getComment() {
 		return comment;
 	}
+	
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -94,5 +95,11 @@ public class Project {
 	}
 	public void setReferWorkTime(int referWorkTime) {
 		this.referWorkTime = referWorkTime;
+	}
+	public int getUseTimes() {
+		return useTimes;
+	}
+	public void setUseTimes(int useTimes) {
+		this.useTimes = useTimes;
 	}
 }
