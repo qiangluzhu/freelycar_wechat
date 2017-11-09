@@ -9,14 +9,14 @@ class Index extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            car:{}
+            car:''
         }
     }
 
     componentDidMount() {
         myCar({
-            // clientId: window.localStorage.getItem('clientId'),
-            clientId: 268
+            clientId: window.localStorage.getItem('clientId'),
+            // clientId: 268
         }).then((res) => {
             if (res.data.code == '0') {
                 let data = res.data.data;
