@@ -41,7 +41,6 @@ class Inquiry extends React.Component {
             // 如果需要分页器
             pagination: '.swiper-pagination',
         });
-
     }
 
     inquiry = () => {

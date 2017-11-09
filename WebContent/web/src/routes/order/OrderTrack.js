@@ -264,9 +264,9 @@ class OrderTrack extends React.Component {
                     <div className="ordertrack-project">{projectItems}</div>
 
                     <div style={{ textAlign: 'right', width: '100%', marginBottom: '.1rem' }}><div style={{ marginRight: '.42rem', display: 'inline-block' }}>{this.state.payState == 1?'实付':'合计'}：<span style={{ fontSize: '.24rem', color: '#e42f2f' }}>￥</span><span style={{ color: '#e42f2f' }}>{this.state.payState == 1 ? this.state.actualPrice : this.state.totalPrice}</span></div>
-                        {this.state.payState == 0 && <div className="pay-btn" onClick={() => { this.handlePay(this.state.totalPrice) }}>
+                        {/* {this.state.payState == 0 && <div className="pay-btn" onClick={() => { this.handlePay(this.state.totalPrice) }}>
                             <p>去付款</p>
-                        </div>}
+                        </div>} */}
                     </div>
                 </Flex>
 

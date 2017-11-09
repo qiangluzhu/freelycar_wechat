@@ -60,7 +60,7 @@ class PersonalInfo extends React.Component {
                 gender: this.state.gender[0]
             }).then((res) => {
                 console.log(res)
-                this.context.router.history.push(`/center`)
+                this.context.router.history.push(`/indexPage`)
             })
     }
 

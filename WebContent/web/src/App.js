@@ -3,7 +3,8 @@ const React = require('react');
 const Router = require('react-router-dom');
 const Route = Router.Route;
 const Switch = Router.Switch;
-import IndexPage from './routes/IndexPage';
+import IndexPage from './routes/IndexPage'
+import Index from './routes/Index/Index'
 import Personalcenter from './routes/personalCenter/Personalcenter'
 import PersonalInfo from './routes/personalInfo/PersonalInfo'
 import Login from './routes/auth/Login'
@@ -16,7 +17,6 @@ import ServiceCard from './routes/service/ServiceCard'
 import OrderDetail from './routes/orderDetail/orderDetail'
 import OrderDetail_nopay from './routes/orderDetail/orderDetail_nopay'
 import OrderDetail_vip from './routes/orderDetail/orderDetail_vip'
-
 import AddCard from './routes/addCard/addCard'
 
 import MyCardDetail from './routes/membership/MyCardDetail'
@@ -57,7 +57,7 @@ const App = () => (
             <Route path="/receivecoupons" component={ReceiveCoupons}/>
             <Route path="/center"  component={Personalcenter} />
             <Route path="/login/:openid/:nickname/:headimgurl/:directUrl"  component={Login} />
-            
+            <Route path="/indexPage" component={Index} />
             <Route path="/addcar/:select" component={AddCar} />
             <Route path="/carbrand" component={CarBrand} />
             
