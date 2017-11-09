@@ -3,6 +3,7 @@ import {Flex} from 'antd-mobile'
 import './index.less'
 import TabBar from '../../components/TabBar.js'
 import PropTypes from 'prop-types';
+import { myCar } from '../../services/user.js'
 class Index extends React.Component {
 
     constructor(props) {
@@ -13,13 +14,28 @@ class Index extends React.Component {
     }
 
     componentDidMount() {
-        let mySwiper4 = new Swiper(this.swiperID, {
-            direction: 'horizontal',
-            loop: true,
-            // 如果需要分页器
-            pagination: '.swiper-pagination',
-        });
+        myCar({
+            // clientId: window.localStorage.getItem('clientId'),
+            clientId: 268
+        }).then((res) => {
+            if (res.data.code == '0') {
+                let data = res.data.data;
+                console.log(data);
+                this.setState({
+                    cars: data,
+                })
+                //加载swiper
+                let mySwiper4 = new Swiper(this.swiperID, {
+                    direction: 'horizontal',
+                    loop: true,
+                    // 如果需要分页器
+                    pagination: '.swiper-pagination',
+                });
+            }
+        }).catch((error) => { console.log(error) });
     }
+
+    
 
     render() {
         return <div>
@@ -61,7 +77,7 @@ class Index extends React.Component {
                         车险询价
                     </div>
                 </Flex>
-                <Flex style={{flex:1}}  className="index-row-block-box" onClick={()=>{ window.open(`https://m.che300.com/freelycar`)}}>          
+                <Flex style={{flex:1}}  className="index-row-block-box" onClick={()=>{ window.location.href=`https://m.che300.com/freelycar`}}>          
                     <div className="index-block-icon">
                         <img src={require('../../img/icon_guzhi.png')}/>
                     </div>
